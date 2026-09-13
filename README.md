@@ -20,7 +20,8 @@ ssh -i <clé> opc@<ip>
 cd /tmp && git clone https://github.com/upscaylman/moodle_skin.git
 sudo cp -r /tmp/moodle_skin/theme/alphatrade /var/www/moodle/theme/
 sudo cp -r /tmp/moodle_skin/local/alphatrade /var/www/moodle/local/
-sudo chown -R apache:apache /var/www/moodle/theme/alphatrade /var/www/moodle/local/alphatrade
+# Le code Moodle appartient à root et reste en lecture seule pour Apache.
+sudo chown -R root:root /var/www/moodle/theme/alphatrade /var/www/moodle/local/alphatrade
 sudo -u apache php /var/www/moodle/admin/cli/upgrade.php --non-interactive
 sudo -u apache php /var/www/moodle/admin/cli/purge_caches.php
 ```

@@ -1,0 +1,94 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/journalentry
+
+    Trade sheet: the trade, before the trade, after the trade.
+
+    Example context (json):
+    {
+        "backurl": "#", "owner": "", "asset": "EURUSD", "assetclass": "Forex", "direction": "Achat", "islong": true,
+        "date": "12 septembre 2026, 10:30", "setup": "Sweep + BOS",
+        "entry": "1,0842", "stoploss": "1,0821", "takeprofit": "1,0884", "riskpct": "1 %", "result": "+2R", "resultclass": "alpha-value-positive",
+        "reason": "Sweep des equal lows", "marketcontext": "Tendance H4 haussière", "review": "Plan respecté",
+        "hasfollowedplan": true, "followedplan": true, "hasemotion": true, "emotion": "Calme", "emotionicon": "ph-smiley",
+        "screenshots": [], "canedit": true, "editurl": "#", "deleteurl": "#"
+    }
+}}
+<div class="alpha-trade">
+    <a href="{{backurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}journal, local_alphatrade{{/str}}</span>
+    </a>
+
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{date}}{{#owner}} · {{owner}}{{/owner}}</p>
+            <h1 class="alpha-title">{{asset}} - {{direction}}</h1>
+            <p class="alpha-lead">{{assetclass}}{{#setup}} · {{setup}}{{/setup}}</p>
+        </div>
+        {{#canedit}}
+            <div class="alpha-pagehead-actions">
+                <a class="btn btn-ghost" href="{{deleteurl}}"><i class="ph ph-trash" aria-hidden="true"></i>{{#str}}delete{{/str}}</a>
+                <a class="btn btn-secondary" href="{{editurl}}"><i class="ph ph-pencil-simple" aria-hidden="true"></i>{{#str}}edit{{/str}}</a>
+            </div>
+        {{/canedit}}
+    </header>
+
+    <div class="alpha-card">
+        <dl class="alpha-kv">
+            <div><dt>{{#str}}entry, local_alphatrade{{/str}}</dt><dd>{{entry}}</dd></div>
+            <div><dt>{{#str}}stoploss, local_alphatrade{{/str}}</dt><dd>{{stoploss}}</dd></div>
+            <div><dt>{{#str}}takeprofit, local_alphatrade{{/str}}</dt><dd>{{takeprofit}}</dd></div>
+            <div><dt>{{#str}}riskpct, local_alphatrade{{/str}}</dt><dd>{{riskpct}}</dd></div>
+            <div><dt>{{#str}}result, local_alphatrade{{/str}}</dt><dd class="{{resultclass}}">{{result}}</dd></div>
+        </dl>
+    </div>
+
+    <div class="alpha-grid alpha-grid-2 alpha-trade-blocks">
+        <section class="alpha-card">
+            <p class="alpha-eyebrow">{{#str}}journal_before, local_alphatrade{{/str}}</p>
+            <h2 class="alpha-card-title">{{#str}}journal_reason, local_alphatrade{{/str}}</h2>
+            <p class="alpha-card-text">{{{reason}}}</p>
+            <h2 class="alpha-card-title alpha-mt">{{#str}}journal_context, local_alphatrade{{/str}}</h2>
+            <p class="alpha-card-text">{{{marketcontext}}}</p>
+        </section>
+        <section class="alpha-card">
+            <p class="alpha-eyebrow">{{#str}}journal_after, local_alphatrade{{/str}}</p>
+            <div class="alpha-row">
+                {{#hasfollowedplan}}
+                    {{#followedplan}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}planfollowed, local_alphatrade{{/str}}</span>{{/followedplan}}
+                    {{^followedplan}}<span class="alpha-status alpha-status-warning"><i class="ph ph-warning-circle" aria-hidden="true"></i>{{#str}}plannotfollowed, local_alphatrade{{/str}}</span>{{/followedplan}}
+                {{/hasfollowedplan}}
+                {{#hasemotion}}<span class="alpha-status alpha-status-neutral"><i class="ph {{emotionicon}}" aria-hidden="true"></i>{{emotion}}</span>{{/hasemotion}}
+            </div>
+            <h2 class="alpha-card-title alpha-mt">{{#str}}journal_review, local_alphatrade{{/str}}</h2>
+            <p class="alpha-card-text">{{{review}}}</p>
+        </section>
+    </div>
+
+    {{#hasscreenshots}}
+        <h2 class="alpha-section-title"><span>{{#str}}screenshot, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-grid alpha-grid-2">
+            {{#screenshots}}
+                <a class="alpha-screenshot" href="{{url}}" target="_blank" rel="noopener">
+                    <img src="{{url}}" alt="{{name}}" loading="lazy">
+                </a>
+            {{/screenshots}}
+        </div>
+    {{/hasscreenshots}}
+</div>

@@ -1,0 +1,50 @@
+<?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Alpha Trade theme settings.
+ *
+ * @package   theme_alphatrade
+ * @copyright 2026 Alpha Trade
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+if ($ADMIN->fulltree) {
+    $settings = new theme_boost_admin_settingspage_tabs('themesettingalphatrade', get_string('configtitle', 'theme_alphatrade'));
+    $page = new admin_settingpage('theme_alphatrade_general', get_string('generalsettings', 'theme_alphatrade'));
+
+    $setting = new admin_setting_configcolourpicker('theme_alphatrade/accentcolor',
+        get_string('accentcolor', 'theme_alphatrade'), get_string('accentcolor_desc', 'theme_alphatrade'),
+        '#C99A3E');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
+
+    $setting = new admin_setting_configcheckbox('theme_alphatrade/publichome',
+        get_string('publichome', 'theme_alphatrade'), get_string('publichome_desc', 'theme_alphatrade'), 1);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/applyurl',
+        get_string('applyurl', 'theme_alphatrade'), get_string('applyurl_desc', 'theme_alphatrade'), '', PARAM_URL);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/contactemail',
+        get_string('contactemail', 'theme_alphatrade'), '', '', PARAM_EMAIL);
+    $page->add($setting);
+
+    $settings->add($page);
+}

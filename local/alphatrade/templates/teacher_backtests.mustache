@@ -1,0 +1,81 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/teacher_backtests
+
+    Trainer view: all students' strategies with their key statistics.
+
+    Example context (json):
+    {
+        "backurl": "#", "minimum": "Minimum 100 trades",
+        "hasrows": true,
+        "rows": [{"student": "Sami B.", "name": "Alpha Setup #01", "market": "FX:EURUSD", "timeframe": "H1", "url": "#", "journalurl": "#", "trades": 120, "enough": true,
+            "stats": {"trades": 120, "winrate": "44 %", "expectancy": "+0,28R", "expectancyclass": "alpha-value-positive", "maxdrawdown": "-7R", "profitfactor": "1,5"}}]
+    }
+}}
+<div class="alpha-teacher-backtests">
+    <a href="{{backurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}teacherdashboard, local_alphatrade{{/str}}</span>
+    </a>
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{#str}}teacherspace, local_alphatrade{{/str}}</p>
+            <h1 class="alpha-title">{{#str}}nav_studentbacktests, theme_alphatrade{{/str}}</h1>
+            <p class="alpha-lead">{{minimum}}</p>
+        </div>
+    </header>
+
+    {{#hasrows}}
+        <div class="alpha-table-wrap">
+            <table class="alpha-table">
+                <thead>
+                    <tr>
+                        <th scope="col">{{#str}}student, local_alphatrade{{/str}}</th>
+                        <th scope="col">{{#str}}strategy, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}trades, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}winrate, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}expectancy, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}profitfactor, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}maxdrawdown, local_alphatrade{{/str}}</th>
+                        <th scope="col">{{#str}}status, local_alphatrade{{/str}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#rows}}
+                        <tr>
+                            <td>{{student}}<br><a class="alpha-subtle" href="{{journalurl}}">{{#str}}journal, local_alphatrade{{/str}}</a></td>
+                            <td><a href="{{url}}"><strong>{{name}}</strong></a><br><span class="alpha-subtle">{{market}} · {{timeframe}}</span></td>
+                            <td class="alpha-num">{{stats.trades}}</td>
+                            <td class="alpha-num">{{stats.winrate}}</td>
+                            <td class="alpha-num {{stats.expectancyclass}}">{{stats.expectancy}}</td>
+                            <td class="alpha-num">{{stats.profitfactor}}</td>
+                            <td class="alpha-num">{{stats.maxdrawdown}}</td>
+                            <td>
+                                {{#enough}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}sampleok, local_alphatrade{{/str}}</span>{{/enough}}
+                                {{^enough}}<span class="alpha-status alpha-status-warning"><i class="ph ph-hourglass-medium" aria-hidden="true"></i>{{#str}}samplesmall, local_alphatrade{{/str}}</span>{{/enough}}
+                            </td>
+                        </tr>
+                    {{/rows}}
+                </tbody>
+            </table>
+        </div>
+    {{/hasrows}}
+    {{^hasrows}}
+        <div class="alpha-empty"><i class="ph ph-chart-bar" aria-hidden="true"></i><p>{{#str}}nostrategiesstudents, local_alphatrade{{/str}}</p></div>
+    {{/hasrows}}
+</div>

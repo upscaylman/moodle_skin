@@ -1,0 +1,48 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/tools
+
+    Tools: 2x2 grid of shortcut cards.
+
+    Example context (json):
+    {
+        "cards": [{"icon": "ph-scales", "title": "Calculateur de risque", "text": "Montant risqué par trade", "url": "#"}]
+    }
+}}
+<div class="alpha-tools">
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{#str}}tools, local_alphatrade{{/str}}</p>
+            <h1 class="alpha-title">{{#str}}tools_title, local_alphatrade{{/str}}</h1>
+            <p class="alpha-lead">{{#str}}tools_lead, local_alphatrade{{/str}}</p>
+        </div>
+    </header>
+    <div class="alpha-grid alpha-grid-2">
+        {{#cards}}
+            <a class="alpha-card alpha-card-link" href="{{url}}">
+                <span class="alpha-card-icon"><i class="ph {{icon}}" aria-hidden="true"></i></span>
+                <p class="alpha-card-caps">{{title}}</p>
+                <p class="alpha-card-text">{{text}}</p>
+                <span class="alpha-card-footer">
+                    <span></span>
+                    <span class="alpha-link-cta">{{#str}}open, local_alphatrade{{/str}} <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+                </span>
+            </a>
+        {{/cards}}
+    </div>
+</div>

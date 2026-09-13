@@ -1,0 +1,113 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/profile
+
+    Profile & progress.
+
+    Example context (json):
+    {
+        "fullname": "Sami Ben Ali", "avatar": "", "email": "sami@example.com",
+        "hasprogramme": true, "percent": 34,
+        "figures": [{"icon": "ph-stack", "label": "Modules", "value": "3 / 12"}],
+        "hasbadges": true,
+        "badges": [{"name": "Fondamentaux", "image": "#", "earned": true}],
+        "certificateurl": "#", "projecturl": "#",
+        "links": [{"icon": "ph-key", "label": "Changer le mot de passe", "url": "#"}]
+    }
+}}
+<div class="alpha-profile">
+    <header class="alpha-card alpha-profile-head">
+        <div class="alpha-row">
+            {{{avatar}}}
+            <div class="alpha-list-body">
+                <p class="alpha-eyebrow">{{#str}}profile, local_alphatrade{{/str}}</p>
+                <h1 class="alpha-title">{{fullname}}</h1>
+                <p class="alpha-muted">{{email}}</p>
+            </div>
+        </div>
+        {{#hasprogramme}}
+            <div class="alpha-profile-progress">
+                <div class="alpha-dash-progress-value">
+                    <span class="alpha-muted">{{#str}}training, local_alphatrade{{/str}}</span>
+                    <span class="alpha-percent">{{percent}}&nbsp;%</span>
+                </div>
+                <div class="alpha-progress" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" aria-label="{{#str}}training, local_alphatrade{{/str}}">
+                    <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
+                </div>
+            </div>
+        {{/hasprogramme}}
+    </header>
+
+    {{#hasprogramme}}
+        <h2 class="alpha-section-title"><span>{{#str}}yourprogress, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-grid alpha-grid-3">
+            {{#figures}}
+                <div class="alpha-card alpha-card-sm alpha-stat">
+                    <span class="alpha-stat-head"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</span>
+                    <span class="alpha-stat-value">{{value}}</span>
+                </div>
+            {{/figures}}
+        </div>
+
+        <h2 class="alpha-section-title"><span>{{#str}}badges, local_alphatrade{{/str}}</span></h2>
+        {{#hasbadges}}
+            <div class="alpha-badges">
+                {{#badges}}
+                    <div class="alpha-badge{{^earned}} is-locked{{/earned}}">
+                        <img src="{{image}}" alt="" loading="lazy">
+                        <span class="alpha-badge-name">{{name}}</span>
+                        {{#earned}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}status_done, local_alphatrade{{/str}}</span>{{/earned}}
+                        {{^earned}}<span class="alpha-status alpha-status-locked"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{#str}}status_locked, local_alphatrade{{/str}}</span>{{/earned}}
+                    </div>
+                {{/badges}}
+            </div>
+        {{/hasbadges}}
+        {{^hasbadges}}
+            <div class="alpha-empty">
+                <i class="ph ph-trophy" aria-hidden="true"></i>
+                <p>{{#str}}nobadges, local_alphatrade{{/str}}</p>
+            </div>
+        {{/hasbadges}}
+
+        <div class="alpha-grid alpha-grid-2 alpha-profile-links">
+            <a class="alpha-card alpha-card-link" href="{{projecturl}}">
+                <span class="alpha-card-icon"><i class="ph ph-trophy" aria-hidden="true"></i></span>
+                <p class="alpha-card-caps">{{#str}}finalproject, local_alphatrade{{/str}}</p>
+                <p class="alpha-card-text">{{#str}}finalproject_lead, local_alphatrade{{/str}}</p>
+            </a>
+            <a class="alpha-card alpha-card-link" href="{{certificateurl}}">
+                <span class="alpha-card-icon"><i class="ph ph-certificate" aria-hidden="true"></i></span>
+                <p class="alpha-card-caps">{{#str}}certification, local_alphatrade{{/str}}</p>
+                <p class="alpha-card-text">{{#str}}certification_lead, local_alphatrade{{/str}}</p>
+            </a>
+        </div>
+    {{/hasprogramme}}
+
+    <h2 class="alpha-section-title"><span>{{#str}}settings, local_alphatrade{{/str}}</span></h2>
+    <ul class="alpha-list">
+        {{#links}}
+            <li>
+                <a class="alpha-list-item" href="{{url}}">
+                    <span class="alpha-state-icon is-todo"><i class="ph {{icon}}" aria-hidden="true"></i></span>
+                    <span class="alpha-list-body"><span class="alpha-list-title">{{label}}</span></span>
+                    <i class="ph ph-caret-right alpha-subtle" aria-hidden="true"></i>
+                </a>
+            </li>
+        {{/links}}
+    </ul>
+</div>

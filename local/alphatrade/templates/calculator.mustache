@@ -1,0 +1,82 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/calculator
+
+    One calculator: inputs on the left, results on the right.
+
+    Example context (json):
+    {
+        "backurl": "#", "title": "Risk / Reward", "lead": "", "action": "#", "tool": "rr",
+        "inputs": [{"name": "entry", "label": "Entrée", "value": "1,0842", "help": ""}],
+        "hasresults": true,
+        "results": [{"label": "Ratio", "value": "1 : 2", "main": true}],
+        "warning": ""
+    }
+}}
+<div class="alpha-calculator">
+    <a href="{{backurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}tools, local_alphatrade{{/str}}</span>
+    </a>
+    <header class="alpha-pagehead">
+        <div>
+            <h1 class="alpha-title">{{title}}</h1>
+            <p class="alpha-lead">{{lead}}</p>
+        </div>
+    </header>
+
+    <div class="alpha-grid alpha-grid-2">
+        <form class="alpha-card alpha-form" method="get" action="{{action}}">
+            <input type="hidden" name="tool" value="{{tool}}">
+            {{#inputs}}
+                <div class="alpha-field">
+                    <label for="alpha-{{name}}">{{label}}</label>
+                    <input class="form-control" id="alpha-{{name}}" name="{{name}}" type="text" inputmode="decimal" value="{{value}}" required>
+                    {{#help}}<span class="alpha-help">{{help}}</span>{{/help}}
+                </div>
+            {{/inputs}}
+            <button type="submit" class="btn btn-primary alpha-btn-lg alpha-btn-block">
+                <i class="ph ph-calculator" aria-hidden="true"></i>
+                <span>{{#str}}calculate, local_alphatrade{{/str}}</span>
+            </button>
+        </form>
+
+        <section class="alpha-card alpha-calculator-results" aria-live="polite">
+            <p class="alpha-eyebrow">{{#str}}results, local_alphatrade{{/str}}</p>
+            {{#hasresults}}
+                <dl class="alpha-results">
+                    {{#results}}
+                        <div class="{{#main}}is-main{{/main}}">
+                            <dt>{{label}}</dt>
+                            <dd>{{value}}</dd>
+                        </div>
+                    {{/results}}
+                </dl>
+            {{/hasresults}}
+            {{^hasresults}}
+                <p class="alpha-muted">{{#str}}calculator_empty, local_alphatrade{{/str}}</p>
+            {{/hasresults}}
+            {{#warning}}
+                <div class="alpha-banner alpha-banner-warning">
+                    <i class="ph ph-warning" aria-hidden="true"></i>
+                    <div>{{warning}}</div>
+                </div>
+            {{/warning}}
+        </section>
+    </div>
+</div>

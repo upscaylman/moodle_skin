@@ -1,0 +1,79 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/charts
+
+    List of chart analysis exercises with the student's status.
+
+    Example context (json):
+    {
+        "backurl": "#",
+        "hasitems": true,
+        "items": [{"number": "#012", "title": "Range asiatique", "meta": "FX:EURUSD · H1", "url": "#", "editurl": "", "hidden": false,
+            "status": {"label": "A faire", "class": "neutral", "icon": "ph-circle"}}],
+        "canmanage": false,
+        "newurl": "#",
+        "reviewsurl": ""
+    }
+}}
+<div class="alpha-charts">
+    <a href="{{backurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}practicelab, local_alphatrade{{/str}}</span>
+    </a>
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{#str}}practicelab, local_alphatrade{{/str}}</p>
+            <h1 class="alpha-title">{{#str}}practice_charts, local_alphatrade{{/str}}</h1>
+            <p class="alpha-lead">{{#str}}charts_lead, local_alphatrade{{/str}}</p>
+        </div>
+        <div class="alpha-pagehead-actions">
+            {{#reviewsurl}}
+                <a class="btn btn-secondary" href="{{reviewsurl}}"><i class="ph ph-check-square-offset" aria-hidden="true"></i>{{#str}}reviews, local_alphatrade{{/str}}</a>
+            {{/reviewsurl}}
+            {{#canmanage}}
+                <a class="btn btn-primary" href="{{newurl}}"><i class="ph ph-plus" aria-hidden="true"></i>{{#str}}newchart, local_alphatrade{{/str}}</a>
+            {{/canmanage}}
+        </div>
+    </header>
+
+    {{#hasitems}}
+        <ul class="alpha-list">
+            {{#items}}
+                <li class="alpha-row-with-action">
+                    <a class="alpha-list-item" href="{{url}}">
+                        <span class="alpha-card-icon alpha-card-icon-sm"><i class="ph ph-chart-line-up" aria-hidden="true"></i></span>
+                        <span class="alpha-list-body">
+                            <span class="alpha-list-title">{{#str}}analysisnumber, local_alphatrade, {{number}}{{/str}} - {{title}}</span>
+                            <span class="alpha-list-meta">{{meta}}{{#hidden}} · {{#str}}hidden, local_alphatrade{{/str}}{{/hidden}}</span>
+                        </span>
+                        <span class="alpha-status alpha-status-{{status.class}}"><i class="ph {{status.icon}}" aria-hidden="true"></i>{{status.label}}</span>
+                    </a>
+                    {{#editurl}}
+                        <a class="btn btn-ghost alpha-icon-btn" href="{{editurl}}" aria-label="{{#str}}edit{{/str}}"><i class="ph ph-pencil-simple" aria-hidden="true"></i></a>
+                    {{/editurl}}
+                </li>
+            {{/items}}
+        </ul>
+    {{/hasitems}}
+    {{^hasitems}}
+        <div class="alpha-empty">
+            <i class="ph ph-chart-line-up" aria-hidden="true"></i>
+            <p>{{#str}}nocharts, local_alphatrade{{/str}}</p>
+        </div>
+    {{/hasitems}}
+</div>

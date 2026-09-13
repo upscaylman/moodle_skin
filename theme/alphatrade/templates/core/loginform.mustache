@@ -1,0 +1,213 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core/loginform
+
+    Alpha Trade login form: tagline, e-mail, password, "Se connecter", forgotten password.
+    Keeps every core feature (errors, maintenance, identity providers, sign-up, guest,
+    recaptcha, cookies notice) but only shows them when the site enables them.
+
+    Example context (json):
+    {
+        "autofocusform": false,
+        "canloginasguest": false,
+        "canloginbyemail": true,
+        "cansignup": false,
+        "showloginform": true,
+        "error": "",
+        "info": "",
+        "forgotpasswordurl": "#",
+        "hasidentityproviders": false,
+        "hasinstructions": false,
+        "identityproviders": [],
+        "loginurl": "#",
+        "signupurl": "#",
+        "sitename": "Alpha Trade",
+        "logintoken": "randomstring",
+        "maintenance": "",
+        "languagemenu": "",
+        "togglepassword": true,
+        "smallscreensonly": true
+    }
+}}
+<div class="loginform alpha-loginform">
+    <h1 class="login-heading sr-only">{{#str}} loginto, core, {{sitename}} {{/str}}</h1>
+    <p class="alpha-login-tagline">{{#str}}logintagline, theme_alphatrade{{/str}}</p>
+
+    {{#maintenance}}
+        <div class="alert alert-danger login-maintenance">
+            {{{maintenance}}}
+        </div>
+    {{/maintenance}}
+    {{#error}}
+        <div class="alert alert-danger" id="loginerrormessage" role="alert">
+            <i class="ph ph-warning-circle" aria-hidden="true"></i> {{error}}
+        </div>
+    {{/error}}
+    {{#info}}
+        <div class="alert alert-info" id="logininfomessage" role="status">{{info}}</div>
+    {{/info}}
+
+    {{#showloginform}}
+        <form class="login-form" action="{{loginurl}}" method="post" id="login">
+            <input id="anchor" type="hidden" name="anchor" value="">
+            <script>document.getElementById('anchor').value = location.hash;</script>
+            <input type="hidden" name="logintoken" value="{{logintoken}}">
+            <div class="login-form-username alpha-field">
+                <label for="username">
+                    {{#canloginbyemail}}{{#str}}loginemail, theme_alphatrade{{/str}}{{/canloginbyemail}}
+                    {{^canloginbyemail}}{{#str}}loginusername, theme_alphatrade{{/str}}{{/canloginbyemail}}
+                </label>
+                <div class="alpha-input-icon">
+                    <i class="ph ph-envelope-simple" aria-hidden="true"></i>
+                    <input type="text" name="username" id="username" {{!
+                        !}}class="form-control" {{!
+                        !}}value="{{username}}" {{!
+                        !}}placeholder="{{#canloginbyemail}}{{#cleanstr}}loginemailplaceholder, theme_alphatrade{{/cleanstr}}{{/canloginbyemail}}{{!
+                        !}}{{^canloginbyemail}}{{#cleanstr}}username{{/cleanstr}}{{/canloginbyemail}}" {{!
+                        !}}autocomplete="username">
+                </div>
+            </div>
+            <div class="login-form-password alpha-field">
+                <label for="password">{{#str}}password{{/str}}</label>
+                <div class="alpha-input-icon">
+                    <i class="ph ph-lock-simple" aria-hidden="true"></i>
+                    <input type="password" name="password" id="password" value="" {{!
+                        !}}class="form-control" {{!
+                        !}}placeholder="{{#cleanstr}}password{{/cleanstr}}" {{!
+                        !}}autocomplete="current-password">
+                </div>
+            </div>
+            {{#recaptcha}}
+                <div class="login-form-recaptcha mb-3">
+                    {{{recaptcha}}}
+                </div>
+            {{/recaptcha}}
+            <div class="login-form-submit">
+                <button class="btn btn-primary alpha-btn-block alpha-btn-lg" type="submit" id="loginbtn">
+                    <span>{{#str}}loginsubmit, theme_alphatrade{{/str}}</span>
+                    <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="login-form-forgotpassword">
+                <a href="{{forgotpasswordurl}}">{{#str}}forgotpassword, theme_alphatrade{{/str}}</a>
+            </div>
+        </form>
+    {{/showloginform}}
+
+    {{#hasidentityproviders}}
+        <div class="alpha-divider"><span>{{#str}}or, theme_alphatrade{{/str}}</span></div>
+        <div class="login-identityproviders">
+            {{#identityproviders}}
+                <a class="btn btn-secondary alpha-btn-block login-identityprovider-btn" href="{{url}}">
+                    {{#iconurl}}
+                        <img src="{{iconurl}}" alt="" width="20" height="20"/>
+                    {{/iconurl}}
+                    {{name}}
+                </a>
+            {{/identityproviders}}
+        </div>
+    {{/hasidentityproviders}}
+
+    {{#hasinstructions}}
+        <div class="alpha-divider"></div>
+        <div class="login-instructions">
+            {{{instructions}}}
+        </div>
+    {{/hasinstructions}}
+    {{#cansignup}}
+        <div class="login-signup">
+            <a class="btn btn-secondary alpha-btn-block" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a>
+        </div>
+    {{/cansignup}}
+
+    {{#canloginasguest}}
+        <div class="alpha-divider"></div>
+        <form action="{{loginurl}}" method="post" id="guestlogin">
+            <input type="hidden" name="logintoken" value="{{logintoken}}">
+            <input type="hidden" name="username" value="guest" />
+            <input type="hidden" name="password" value="guest" />
+            <button class="btn btn-secondary alpha-btn-block" type="submit" id="loginguestbtn">{{#str}}loginguest{{/str}}</button>
+        </form>
+    {{/canloginasguest}}
+
+    <div class="alpha-login-meta">
+        {{#languagemenu}}
+            <div class="login-languagemenu">
+                {{>core/action_menu}}
+            </div>
+        {{/languagemenu}}
+        <button type="button" class="btn btn-link alpha-link-muted" {{!
+        }} data-modal="alert"{{!
+        }} data-modal-title-str='["cookiesenabled", "core"]' {{!
+        }} data-modal-content-str='["cookiesenabled_help_html", "core"]'{{!
+        }}>{{#str}}cookiesnotice{{/str}}</button>
+    </div>
+</div>
+
+{{#js}}
+    {{^error}}
+        {{#autofocusform}}
+            require(['core_form/events'], function(FormEvent) {
+                function autoFocus() {
+                    const userNameField = document.getElementById('username');
+                    const passwordField = document.getElementById('password');
+                    if (userNameField && userNameField.value.length == 0) {
+                        userNameField.focus();
+                    } else if (passwordField) {
+                        passwordField.focus();
+                    }
+                }
+                autoFocus();
+                window.addEventListener(FormEvent.eventTypes.fieldStructureChanged, autoFocus);
+            });
+        {{/autofocusform}}
+    {{/error}}
+    require(['core/pending'], function(Pending) {
+        const errorMessageDiv = document.getElementById('loginerrormessage');
+        const infoMessageDiv = document.getElementById('logininfomessage');
+        const errorMessage = errorMessageDiv?.textContent.trim();
+        const infoMessage = infoMessageDiv?.textContent.trim();
+        if (errorMessage || infoMessage) {
+            const pendingJS = new Pending('login-move-focus');
+            const usernameField = document.getElementById('username');
+            setTimeout(function() {
+                if (errorMessage && usernameField) {
+                    usernameField.focus();
+                }
+                if (errorMessage) {
+                    errorMessageDiv.innerHTML += "&nbsp;";
+                }
+                if (infoMessage) {
+                    infoMessageDiv.innerHTML += "&nbsp;";
+                }
+                pendingJS.resolve();
+            }, 500);
+        }
+    });
+    {{#togglepassword}}
+        require(['core/togglesensitive'], function(ToggleSensitive) {
+            ToggleSensitive.init("password", {{smallscreensonly}});
+        });
+    {{/togglepassword}}
+    require(['core_form/submit'], function(Submit) {
+        Submit.init("loginbtn");
+        {{#canloginasguest}}
+            Submit.init("loginguestbtn");
+        {{/canloginasguest}}
+    });
+{{/js}}

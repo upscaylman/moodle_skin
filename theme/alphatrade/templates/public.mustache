@@ -1,0 +1,226 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_alphatrade/public
+
+    Public site for visitors. Moodle's own site home content is rendered but hidden
+    (the layout must print main_content).
+
+    Example context (json):
+    {
+        "sitename": "Alpha Trade",
+        "output": {"doctype": "<!DOCTYPE html>", "page_title": "Alpha Trade", "favicon": "favicon.ico", "main_content": ""},
+        "bodyattributes": "",
+        "markurl": "mark.png", "logourl": "logo.png", "heroimageurl": "hero.jpg", "loginurl": "#",
+        "links": [{"label": "Le programme", "anchor": "#programme"}],
+        "facts": [{"value": "12", "label": "semaines"}],
+        "pillars": [{"icon": "ph-bank", "title": "Théorie des marchés", "text": "Comprendre la mécanique des marchés"}],
+        "months": [{"label": "Mois 1", "theme": "Comprendre", "weeks": [{"week": "S1-2", "label": "Marchés financiers"}]}],
+        "method": [{"title": "Comprendre", "text": "Les marchés et leurs acteurs"}],
+        "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "", "quote": ""}],
+        "faq": [{"question": "Pour qui ?", "answer": "..."}],
+        "applyurl": "#", "hasapply": true, "contactemail": "", "year": "2026"
+    }
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper">
+    {{{ output.standard_top_of_body_html }}}
+    <div class="alpha-public-blob" aria-hidden="true"></div>
+
+    <header class="alpha-public-nav">
+        <a class="alpha-public-brand" href="#top">
+            <img src="{{markurl}}" alt="" width="32" height="32">
+            <span>ALPHA TRADE</span>
+        </a>
+        <ul class="alpha-public-links">
+            {{#links}}<li><a href="{{anchor}}">{{label}}</a></li>{{/links}}
+        </ul>
+        <div class="alpha-public-actions">
+            <a class="btn btn-ghost" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
+            {{#hasapply}}<a class="btn btn-primary" href="{{applyurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>{{/hasapply}}
+        </div>
+    </header>
+
+    <main id="page">
+        <section class="alpha-hero" id="top" style="background-image: url('{{heroimageurl}}');">
+            <div class="alpha-container">
+                <p class="alpha-eyebrow">{{#str}}pub_hero_eyebrow, theme_alphatrade{{/str}}</p>
+                <h1>{{#str}}pub_hero_title, theme_alphatrade{{/str}}</h1>
+                <p class="alpha-lead">{{#str}}pub_hero_lead, theme_alphatrade{{/str}}</p>
+                <div class="alpha-hero-actions">
+                    {{#hasapply}}
+                        <a class="btn btn-primary alpha-btn-lg" href="{{applyurl}}">
+                            <span>{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    {{/hasapply}}
+                    <a class="btn btn-secondary alpha-btn-lg" href="#programme">{{#str}}pub_discover_programme, theme_alphatrade{{/str}}</a>
+                </div>
+                <ul class="alpha-hero-facts">
+                    {{#facts}}<li><strong>{{value}}</strong><span>{{label}}</span></li>{{/facts}}
+                </ul>
+            </div>
+        </section>
+
+        <section class="alpha-section" aria-labelledby="alpha-pillars-title">
+            <div class="alpha-container">
+                <div class="alpha-section-head">
+                    <p class="alpha-eyebrow">{{#str}}pub_positioning, theme_alphatrade{{/str}}</p>
+                    <h2 id="alpha-pillars-title">{{#str}}pub_pillars_title, theme_alphatrade{{/str}}</h2>
+                    <p>{{#str}}pub_pillars_lead, theme_alphatrade{{/str}}</p>
+                </div>
+                <div class="alpha-grid alpha-grid-3">
+                    {{#pillars}}
+                        <div class="alpha-card">
+                            <span class="alpha-card-icon"><i class="ph {{icon}}" aria-hidden="true"></i></span>
+                            <h3 class="alpha-card-title">{{title}}</h3>
+                            <p class="alpha-card-text">{{text}}</p>
+                        </div>
+                    {{/pillars}}
+                </div>
+            </div>
+        </section>
+
+        <section class="alpha-section" id="programme" aria-labelledby="alpha-programme-title">
+            <div class="alpha-container">
+                <div class="alpha-section-head">
+                    <p class="alpha-eyebrow">{{#str}}pub_nav_programme, theme_alphatrade{{/str}}</p>
+                    <h2 id="alpha-programme-title">{{#str}}pub_programme_title, theme_alphatrade{{/str}}</h2>
+                    <p>{{#str}}pub_programme_lead, theme_alphatrade{{/str}}</p>
+                </div>
+                <div class="alpha-months">
+                    {{#months}}
+                        <div class="alpha-card alpha-month">
+                            <p class="alpha-eyebrow">{{label}}</p>
+                            <h3 class="alpha-card-title">{{theme}}</h3>
+                            <ol>
+                                {{#weeks}}<li><span class="alpha-week">{{week}}</span><span>{{label}}</span></li>{{/weeks}}
+                            </ol>
+                        </div>
+                    {{/months}}
+                </div>
+            </div>
+        </section>
+
+        <section class="alpha-section" id="method" aria-labelledby="alpha-method-title">
+            <div class="alpha-container">
+                <div class="alpha-section-head">
+                    <p class="alpha-eyebrow">{{#str}}pub_nav_method, theme_alphatrade{{/str}}</p>
+                    <h2 id="alpha-method-title">{{#str}}pub_method_title, theme_alphatrade{{/str}}</h2>
+                    <p>{{#str}}pub_method_lead, theme_alphatrade{{/str}}</p>
+                </div>
+                <ol class="alpha-method">
+                    {{#method}}<li><h3>{{title}}</h3><p>{{text}}</p></li>{{/method}}
+                </ol>
+                <div class="alpha-banner alpha-banner-warning alpha-public-notice">
+                    <i class="ph ph-shield-check" aria-hidden="true"></i>
+                    <div><strong>{{#str}}nosignals, theme_alphatrade{{/str}}</strong> {{#str}}pub_nosignals_detail, theme_alphatrade{{/str}}</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="alpha-section" id="team" aria-labelledby="alpha-team-title">
+            <div class="alpha-container">
+                <div class="alpha-section-head">
+                    <p class="alpha-eyebrow">{{#str}}pub_nav_team, theme_alphatrade{{/str}}</p>
+                    <h2 id="alpha-team-title">{{#str}}pub_team_title, theme_alphatrade{{/str}}</h2>
+                    <p>{{#str}}pub_team_lead, theme_alphatrade{{/str}}</p>
+                </div>
+                <div class="alpha-team">
+                    {{#team}}
+                        <article class="alpha-card alpha-person">
+                            <div class="alpha-person-head">
+                                <span class="alpha-initials" aria-hidden="true">{{initials}}</span>
+                                <div>
+                                    <h3>{{name}}</h3>
+                                    <span class="alpha-person-role">{{role}}</span>
+                                </div>
+                            </div>
+                            <p class="alpha-card-text">{{bio}}</p>
+                            <blockquote>{{quote}}</blockquote>
+                        </article>
+                    {{/team}}
+                </div>
+            </div>
+        </section>
+
+        <section class="alpha-section" id="faq" aria-labelledby="alpha-faq-title">
+            <div class="alpha-container">
+                <div class="alpha-section-head">
+                    <p class="alpha-eyebrow">{{#str}}pub_nav_faq, theme_alphatrade{{/str}}</p>
+                    <h2 id="alpha-faq-title">{{#str}}pub_faq_title, theme_alphatrade{{/str}}</h2>
+                </div>
+                <div class="alpha-faq">
+                    {{#faq}}
+                        <details>
+                            <summary>{{question}}<i class="ph ph-plus" aria-hidden="true"></i></summary>
+                            <div class="alpha-faq-answer">{{answer}}</div>
+                        </details>
+                    {{/faq}}
+                </div>
+            </div>
+        </section>
+
+        <section class="alpha-section" id="apply" aria-labelledby="alpha-apply-title">
+            <div class="alpha-container">
+                <div class="alpha-card alpha-card-accent alpha-apply">
+                    <div>
+                        <p class="alpha-eyebrow">{{#str}}pub_apply, theme_alphatrade{{/str}}</p>
+                        <h2 id="alpha-apply-title">{{#str}}pub_apply_title, theme_alphatrade{{/str}}</h2>
+                        <p class="alpha-lead">{{#str}}pub_apply_lead, theme_alphatrade{{/str}}</p>
+                    </div>
+                    <div class="alpha-stack">
+                        {{#hasapply}}
+                            <a class="btn btn-primary alpha-btn-lg alpha-btn-block" href="{{applyurl}}">
+                                <span>{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
+                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        {{/hasapply}}
+                        <a class="btn btn-secondary alpha-btn-lg alpha-btn-block" href="{{loginurl}}">{{#str}}pub_alreadymember, theme_alphatrade{{/str}}</a>
+                        {{#contactemail}}<a class="alpha-link-muted" href="mailto:{{contactemail}}"><i class="ph ph-envelope-simple" aria-hidden="true"></i> {{contactemail}}</a>{{/contactemail}}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="d-none" aria-hidden="true">{{{ output.main_content }}}</div>
+    </main>
+
+    <footer id="page-footer" class="alpha-public-footer">
+        <div class="alpha-container">
+            <img src="{{logourl}}" alt="{{sitename}}" height="28">
+            <span>{{#str}}nosignals, theme_alphatrade{{/str}}</span>
+            <span class="alpha-spacer"></span>
+            <span>&copy; {{year}} Alpha Trade</span>
+        </div>
+        <div class="alpha-container alpha-footer-standard">
+            {{{ output.standard_footer_html }}}
+            {{{ output.standard_end_of_body_html }}}
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

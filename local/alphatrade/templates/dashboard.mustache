@@ -1,0 +1,142 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/dashboard
+
+    Student dashboard. Priority: Continue > Progress > Programme > stats.
+
+    Example context (json):
+    {
+        "greeting": "Bonjour Sami",
+        "hasprogramme": true,
+        "progress": {"percent": 34, "week": "Semaine 5 / 12", "modules": "Module 3 / 12", "lessons": "31 / 94 leçons"},
+        "continue": {"modulelabel": "Module 04", "modulename": "Structure de marché", "itemname": "BOS, CHoCH et MSS", "icon": "ph-article", "url": "#", "isquiz": false, "modulepercent": 40},
+        "modules": [{"number": "01", "name": "Fondamentaux", "url": "#", "percent": 100, "isdone": true, "iscurrent": false, "islocked": false, "statusicon": "ph-fill ph-check-circle", "statuslabel": "Terminé"}],
+        "parcoursurl": "#",
+        "stats": {"streak": 6, "trades": 48, "badges": 2, "backtestingurl": "#", "profileurl": "#"}
+    }
+}}
+<div class="alpha-dashboard">
+    <header class="alpha-pagehead">
+        <div>
+            <h1 class="alpha-title">{{greeting}}</h1>
+            <p class="alpha-lead">{{#str}}welcome, local_alphatrade{{/str}}</p>
+        </div>
+    </header>
+
+    {{^hasprogramme}}
+        <div class="alpha-empty">
+            <i class="ph ph-path" aria-hidden="true"></i>
+            <p>{{#str}}noprogramme, local_alphatrade{{/str}}</p>
+            {{#isadmin}}
+                <a class="btn btn-secondary" href="{{settingsurl}}">{{#str}}configureprogramme, local_alphatrade{{/str}}</a>
+            {{/isadmin}}
+        </div>
+    {{/hasprogramme}}
+
+    {{#hasprogramme}}
+        <div class="alpha-grid alpha-grid-main alpha-dash-top">
+            {{#continue}}
+                <section class="alpha-card alpha-card-accent alpha-dash-continue" aria-labelledby="alpha-continue-title">
+                    <p class="alpha-eyebrow"><i class="ph-fill ph-play-circle" aria-hidden="true"></i> {{#str}}continue, local_alphatrade{{/str}}</p>
+                    <p class="alpha-dash-continue-module">{{modulelabel}} - {{modulename}}</p>
+                    <h2 class="alpha-dash-continue-title" id="alpha-continue-title">
+                        <i class="ph {{icon}}" aria-hidden="true"></i>
+                        <span>{{itemname}}</span>
+                    </h2>
+                    <div class="alpha-card-footer">
+                        <div class="alpha-dash-continue-module-progress">
+                            <div class="alpha-progress alpha-progress-sm" aria-hidden="true">
+                                <div class="alpha-progress-bar" style="width: {{modulepercent}}%"></div>
+                            </div>
+                            <span class="alpha-subtle">{{#str}}modulepercent, local_alphatrade, {{modulepercent}}{{/str}}</span>
+                        </div>
+                        <a class="btn btn-primary alpha-btn-lg" href="{{url}}">
+                            <span>{{#isquiz}}{{#str}}startevaluation, local_alphatrade{{/str}}{{/isquiz}}{{^isquiz}}{{#str}}continuelesson, local_alphatrade{{/str}}{{/isquiz}}</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </section>
+            {{/continue}}
+            {{#finished}}
+                <section class="alpha-card alpha-card-accent alpha-dash-continue">
+                    <p class="alpha-eyebrow"><i class="ph-fill ph-trophy" aria-hidden="true"></i> {{#str}}programmedone, local_alphatrade{{/str}}</p>
+                    <h2 class="alpha-dash-continue-title">{{#str}}programmedone_title, local_alphatrade{{/str}}</h2>
+                    <div class="alpha-card-footer">
+                        <a class="btn btn-secondary" href="{{certificateurl}}">{{#str}}certification, local_alphatrade{{/str}}</a>
+                        <a class="btn btn-primary alpha-btn-lg" href="{{projecturl}}">
+                            <span>{{#str}}finalproject, local_alphatrade{{/str}}</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </section>
+            {{/finished}}
+
+            <section class="alpha-card alpha-dash-progress" aria-labelledby="alpha-progress-title">
+                <p class="alpha-eyebrow" id="alpha-progress-title">{{#str}}yourprogress, local_alphatrade{{/str}}</p>
+                <div class="alpha-dash-progress-value">
+                    <span class="alpha-percent">{{progress.percent}}&nbsp;%</span>
+                    <span class="alpha-status alpha-status-accent"><i class="ph ph-calendar-blank" aria-hidden="true"></i>{{progress.week}}</span>
+                </div>
+                <div class="alpha-progress" role="progressbar" aria-valuenow="{{progress.percent}}" aria-valuemin="0" aria-valuemax="100" aria-labelledby="alpha-progress-title">
+                    <div class="alpha-progress-bar" style="width: {{progress.percent}}%"></div>
+                </div>
+                <div class="alpha-progress-meta">
+                    <span>{{progress.modules}}</span>
+                    <span>{{progress.lessons}}</span>
+                </div>
+            </section>
+        </div>
+
+        <h2 class="alpha-section-title">
+            <span>{{#str}}yourparcours, local_alphatrade{{/str}}</span>
+            <a href="{{parcoursurl}}">{{#str}}seeparcours, local_alphatrade{{/str}}</a>
+        </h2>
+        <div class="alpha-tiles">
+            {{#modules}}
+                <a href="{{url}}" class="alpha-tile{{#isdone}} is-done{{/isdone}}{{#iscurrent}} is-current{{/iscurrent}}{{#islocked}} is-locked{{/islocked}}">
+                    <span class="alpha-tile-top">
+                        <span class="alpha-list-num">{{number}}</span>
+                        <span class="alpha-state-icon{{#isdone}} is-done{{/isdone}}{{#iscurrent}} is-current{{/iscurrent}}{{#islocked}} is-locked{{/islocked}}{{^isdone}}{{^iscurrent}}{{^islocked}} is-todo{{/islocked}}{{/iscurrent}}{{/isdone}}">
+                            <i class="{{statusicon}}" aria-hidden="true"></i>
+                            <span class="sr-only">{{statuslabel}}</span>
+                        </span>
+                    </span>
+                    <span class="alpha-tile-name">{{name}}</span>
+                </a>
+            {{/modules}}
+        </div>
+    {{/hasprogramme}}
+
+    <div class="alpha-grid alpha-grid-3 alpha-dash-stats">
+        <div class="alpha-card alpha-card-sm alpha-stat">
+            <span class="alpha-stat-head"><i class="ph ph-fire" aria-hidden="true"></i>{{#str}}streak, local_alphatrade{{/str}}</span>
+            <span class="alpha-stat-value">{{stats.streak}}</span>
+            <span class="alpha-stat-sub">{{#str}}streak_sub, local_alphatrade{{/str}}</span>
+        </div>
+        <a class="alpha-card alpha-card-sm alpha-card-link alpha-stat" href="{{stats.backtestingurl}}">
+            <span class="alpha-stat-head"><i class="ph ph-flask" aria-hidden="true"></i>{{#str}}backtestedtrades, local_alphatrade{{/str}}</span>
+            <span class="alpha-stat-value">{{stats.trades}}</span>
+            <span class="alpha-stat-sub">{{#str}}backtestedtrades_sub, local_alphatrade{{/str}}</span>
+        </a>
+        <a class="alpha-card alpha-card-sm alpha-card-link alpha-stat" href="{{stats.profileurl}}">
+            <span class="alpha-stat-head"><i class="ph ph-trophy" aria-hidden="true"></i>{{#str}}badges, local_alphatrade{{/str}}</span>
+            <span class="alpha-stat-value">{{stats.badges}}</span>
+            <span class="alpha-stat-sub">{{#str}}badges_sub, local_alphatrade{{/str}}</span>
+        </a>
+    </div>
+</div>

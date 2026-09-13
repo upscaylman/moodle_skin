@@ -1,0 +1,523 @@
+// App shell: header, decorative blob, sidebar, mobile menu, tab bar, content area, footer.
+
+// The page ground is painted on <html> so the fixed decorative blob (z-index -1)
+// can sit between the ground and every piece of content.
+html {
+    background-color: $alpha-bg;
+}
+
+body.alpha-app,
+body.alpha-login,
+body.alpha-public {
+    background-color: transparent;
+}
+
+body.alpha-app::before {
+    content: "";
+    position: fixed;
+    left: -60px;
+    top: -170px;
+    width: 460px;
+    height: 360px;
+    background: $alpha-blob;
+    filter: blur(60px);
+    opacity: .5;
+    pointer-events: none;
+    z-index: -1;
+}
+
+// ---------------------------------------------------------------- Header.
+.navbar.fixed-top.alpha-header {
+    height: $alpha-header-height;
+    padding: 0;
+    background-color: rgba($alpha-bg, .82);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid $alpha-divider;
+    box-shadow: none;
+    z-index: $zindex-fixed;
+
+}
+
+.alpha-header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 .75rem;
+}
+
+.alpha-brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 100%;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.alpha-brand-wordmark {
+    height: 40px;
+    width: auto;
+}
+
+.alpha-brand-mark {
+    height: 30px;
+    width: auto;
+}
+
+.alpha-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 10px;
+    color: $alpha-text;
+    font-size: 1.375rem;
+    line-height: 1;
+
+    &:hover,
+    &:focus {
+        background-color: $alpha-surface-2;
+        color: $alpha-text;
+    }
+}
+
+.alpha-header #usernavigation {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    height: 100%;
+
+    .nav-link,
+    .popover-region-toggle {
+        color: $alpha-text-muted;
+
+        &:hover {
+            color: $alpha-text;
+        }
+    }
+
+    .popover-region {
+        display: flex;
+        align-items: center;
+    }
+
+    .popover-region-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: $alpha-surface-2;
+        }
+
+        .icon {
+            font-size: 1.125rem;
+            width: auto;
+            height: auto;
+            margin: 0;
+        }
+    }
+
+    .count-container {
+        top: 4px;
+        right: 2px;
+        background-color: $alpha-accent;
+        color: $alpha-on-accent;
+    }
+}
+
+.navbar.fixed-top.alpha-header .usermenu .dropdown .dropdown-toggle {
+    gap: .5rem;
+    height: 44px;
+    padding: 0 .5rem 0 .25rem;
+    border-radius: 12px;
+    color: $alpha-text;
+
+    &:hover,
+    &:focus {
+        background-color: $alpha-surface-2;
+    }
+}
+
+.alpha-header {
+    .usermenu .userpicture,
+    .usermenu .avatar img {
+        width: 32px;
+        height: 32px;
+        margin: 0;
+    }
+
+    .usermenu .avatars .avatar.current {
+        display: flex;
+    }
+
+    .usermenu .userbutton {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .alpha-username {
+        font-size: .875rem;
+        font-weight: 500;
+    }
+
+    .alpha-header-editswitch {
+        align-items: center;
+        margin-left: .5rem;
+        padding-left: .75rem;
+        border-left: 1px solid $alpha-divider;
+        font-size: .8125rem;
+        color: $alpha-text-muted;
+    }
+
+    .simplesearchform .btn-open {
+        color: $alpha-text-muted;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .alpha-header-inner {
+        padding: 0 1.5rem 0 1.375rem;
+    }
+
+    .alpha-header .alpha-brand {
+        width: calc(#{$alpha-sidebar-width} - 1.375rem);
+    }
+}
+
+// ---------------------------------------------------------------- Sidebar + shared nav list.
+.alpha-sidebar {
+    position: fixed;
+    top: $alpha-header-height;
+    bottom: 0;
+    left: 0;
+    width: $alpha-sidebar-width;
+    flex-direction: column;
+    padding: 1.25rem .875rem 1.5rem;
+    overflow-y: auto;
+    border-right: 1px solid $alpha-divider;
+    background: transparent;
+    z-index: $zindex-sticky - 4;
+}
+
+.alpha-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.alpha-nav-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .625rem .875rem;
+    border-radius: $alpha-radius-pill;
+    color: $alpha-text-muted;
+    font-size: .9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+
+    i {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    &:hover,
+    &:focus {
+        background-color: $alpha-surface;
+        color: $alpha-text;
+        text-decoration: none;
+    }
+
+    &.active {
+        background-color: $alpha-accent-800;
+        color: $alpha-accent-100;
+
+        i {
+            color: $alpha-accent-300;
+        }
+    }
+}
+
+.alpha-nav-separator {
+    margin: .75rem .5rem;
+    border-top: 1px solid $alpha-divider;
+}
+
+.alpha-nav-heading {
+    margin: 1.5rem .875rem .5rem;
+    color: $alpha-text-subtle;
+    font-size: .6875rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+// Mobile menu (Boost drawer).
+.drawer.alpha-mobilemenu {
+    background-color: $alpha-bg;
+    border-right: 1px solid $alpha-divider;
+
+    .drawerheader {
+        padding: 0 .75rem 0 1rem;
+        border-bottom: 1px solid $alpha-divider;
+    }
+
+    .alpha-brand-wordmark {
+        height: 30px;
+    }
+
+    .drawercontent {
+        padding: 1rem .75rem 2rem;
+    }
+}
+
+// ---------------------------------------------------------------- Content area.
+body.alpha-app {
+    #page.drawers {
+        margin-top: $alpha-header-height;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        .main-inner {
+            background-color: transparent;
+            border-radius: 0;
+            padding: 1.5rem 0 2rem;
+        }
+    }
+
+    #region-main {
+        background-color: transparent;
+        border: 0;
+    }
+}
+
+body.alpha-page,
+body.alpha-lesson,
+body.alpha-quiz {
+    #page.drawers .main-inner {
+        max-width: $alpha-content-max;
+    }
+}
+
+body.alpha-lesson #page.drawers .main-inner {
+    max-width: 880px;
+}
+
+@include media-breakpoint-up(md) {
+    body.alpha-app #page.drawers {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    body.alpha-app {
+        #page.drawers {
+            margin-left: $alpha-sidebar-width;
+
+            &.show-drawer-left {
+                margin-left: $alpha-sidebar-width + $drawer-left-width;
+            }
+        }
+
+        .drawer.drawer-left:not(.alpha-mobilemenu).show {
+            left: $alpha-sidebar-width;
+        }
+
+        .drawer-toggles .drawer-left-toggle {
+            left: $alpha-sidebar-width;
+        }
+
+        #sticky-footer,
+        .stickyfooter {
+            left: $alpha-sidebar-width;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Mobile tab bar.
+.alpha-tabbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    height: calc(#{$alpha-tabbar-height} + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: rgba($alpha-surface, .94);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid $alpha-divider;
+    z-index: $zindex-fixed;
+}
+
+.alpha-tabbar-item {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+    color: $alpha-text-muted;
+    font-size: .6875rem;
+    font-weight: 500;
+    text-decoration: none;
+
+    i {
+        font-size: 1.375rem;
+    }
+
+    span {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &:hover,
+    &:focus {
+        color: $alpha-text;
+        text-decoration: none;
+    }
+
+    &.active {
+        color: $alpha-accent-300;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    body.alpha-app {
+        #page.drawers {
+            padding-bottom: calc(#{$alpha-tabbar-height} + env(safe-area-inset-bottom) + 1rem);
+        }
+
+        .drawer-toggles .drawer-left-toggle,
+        .drawer-toggles .drawer-right-toggle {
+            top: calc(100vh - #{$alpha-tabbar-height} - 5rem);
+        }
+
+        #sticky-footer,
+        .stickyfooter {
+            bottom: calc(#{$alpha-tabbar-height} + env(safe-area-inset-bottom));
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Native page header + secondary nav.
+body.alpha-app {
+    #page-header {
+        margin-bottom: 1rem;
+
+        .page-context-header,
+        .page-header-headings h1,
+        .page-header-headings h2 {
+            color: $alpha-text;
+        }
+
+        .page-header-headings h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+    }
+
+    .breadcrumb {
+        font-size: .8125rem;
+
+        a {
+            color: $alpha-text-muted;
+        }
+    }
+
+    .secondary-navigation {
+        margin-bottom: 1.25rem;
+
+        .navigation .nav-tabs {
+            border-bottom: 1px solid $alpha-divider;
+        }
+
+        .navigation .nav-tabs .nav-link {
+            color: $alpha-text-muted;
+            border: 0;
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            background: transparent;
+
+            &:hover {
+                color: $alpha-text;
+            }
+
+            &.active,
+            &.active_tree_node {
+                color: $alpha-text;
+                border-bottom-color: $alpha-accent;
+                background: transparent;
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Footer.
+.alpha-footer {
+    margin-top: 2rem;
+    padding: 1.25rem 0 1.5rem;
+    border-top: 1px solid $alpha-divider;
+    color: $alpha-text-subtle;
+    font-size: .8125rem;
+    background: transparent;
+
+    a {
+        color: $alpha-text-muted;
+    }
+}
+
+.alpha-footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem 1.5rem;
+}
+
+.alpha-footer-brand {
+    color: $alpha-text-muted;
+    font-weight: 500;
+}
+
+.alpha-footer-links {
+    margin-left: auto;
+}
+
+.alpha-footer-standard {
+    margin-top: .75rem;
+    font-size: .75rem;
+
+    &:empty {
+        display: none;
+    }
+
+    > div {
+        margin-bottom: .25rem;
+    }
+}
+
+body.alpha-app .main-inner {
+    flex: 1 0 auto;
+}

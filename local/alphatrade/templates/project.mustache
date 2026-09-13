@@ -1,0 +1,115 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/project
+
+    Final project: progress, steps, results, one main call to action.
+
+    Example context (json):
+    {
+        "hasproject": true, "percent": 30, "hassteps": true,
+        "steps": [{"number": "01", "name": "Marché", "url": "#", "icon": "ph-clipboard-text", "isdone": true, "iscurrent": false, "istodo": false, "islocked": false, "statusicon": "ph-fill ph-check-circle", "statuslabel": "Terminé", "availableinfo": ""}],
+        "moduleurl": "#", "islocked": false, "availableinfo": "", "continueurl": "#",
+        "result": {"name": "Alpha Setup #01", "market": "FX:EURUSD", "timeframe": "H1", "url": "#", "stats": {"trades": 120, "winrate": "44 %", "expectancy": "+0,28R", "expectancyclass": "alpha-value-positive"}},
+        "backtestingurl": "#", "certificateurl": "#"
+    }
+}}
+<div class="alpha-project">
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow"><i class="ph-fill ph-trophy" aria-hidden="true"></i> {{#str}}finalproject, local_alphatrade{{/str}}</p>
+            <h1 class="alpha-title alpha-caps">{{#str}}alphatradingsystem, local_alphatrade{{/str}}</h1>
+            <p class="alpha-lead">{{#str}}finalproject_lead, local_alphatrade{{/str}}</p>
+        </div>
+    </header>
+
+    {{^hasproject}}
+        <div class="alpha-empty">
+            <i class="ph ph-trophy" aria-hidden="true"></i>
+            <p>{{#str}}noprogramme, local_alphatrade{{/str}}</p>
+        </div>
+    {{/hasproject}}
+
+    {{#hasproject}}
+        {{#islocked}}
+            <div class="alpha-banner alpha-banner-warning">
+                <i class="ph ph-lock-simple" aria-hidden="true"></i>
+                <div><strong>{{#str}}modulelocked, local_alphatrade{{/str}}</strong>{{#availableinfo}}<div>{{{availableinfo}}}</div>{{/availableinfo}}</div>
+            </div>
+        {{/islocked}}
+
+        <section class="alpha-card">
+            <div class="alpha-dash-progress-value">
+                <span class="alpha-percent">{{percent}}&nbsp;%</span>
+                <span class="alpha-muted">{{#str}}projectprogress, local_alphatrade{{/str}}</span>
+            </div>
+            <div class="alpha-progress" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" aria-label="{{#str}}projectprogress, local_alphatrade{{/str}}">
+                <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
+            </div>
+        </section>
+
+        <h2 class="alpha-section-title"><span>{{#str}}steps, local_alphatrade{{/str}}</span></h2>
+        {{#hassteps}}
+            <ol class="alpha-list">
+                {{#steps}}
+                    <li>{{> local_alphatrade/item_row }}</li>
+                {{/steps}}
+            </ol>
+        {{/hassteps}}
+        {{^hassteps}}
+            <div class="alpha-empty"><p>{{#str}}nosteps, local_alphatrade{{/str}}</p></div>
+        {{/hassteps}}
+    {{/hasproject}}
+
+    <h2 class="alpha-section-title"><span>{{#str}}yourresults, local_alphatrade{{/str}}</span></h2>
+    {{#result}}
+        <div class="alpha-card">
+            <p class="alpha-card-caps">{{name}}</p>
+            <p class="alpha-muted">{{market}} · {{timeframe}}</p>
+            <dl class="alpha-kv">
+                <div><dt>{{#str}}trades, local_alphatrade{{/str}}</dt><dd>{{stats.trades}}</dd></div>
+                <div><dt>{{#str}}winrate, local_alphatrade{{/str}}</dt><dd>{{stats.winrate}}</dd></div>
+                <div><dt>{{#str}}expectancy, local_alphatrade{{/str}}</dt><dd class="{{stats.expectancyclass}}">{{stats.expectancy}}</dd></div>
+                <div><dt>{{#str}}maxdrawdown, local_alphatrade{{/str}}</dt><dd>{{stats.maxdrawdown}}</dd></div>
+            </dl>
+            <div class="alpha-card-footer">
+                <span></span>
+                <a class="btn btn-secondary" href="{{url}}"><span>{{#str}}seereport, local_alphatrade{{/str}}</span><i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    {{/result}}
+    {{^result}}
+        <div class="alpha-empty">
+            <i class="ph ph-chart-line-up" aria-hidden="true"></i>
+            <p>{{#str}}noresults, local_alphatrade{{/str}}</p>
+            <a class="btn btn-secondary" href="{{backtestingurl}}">{{#str}}backtestinglab, local_alphatrade{{/str}}</a>
+        </div>
+    {{/result}}
+
+    {{#hasproject}}
+        <div class="alpha-row alpha-project-cta">
+            <a class="btn btn-ghost" href="{{certificateurl}}"><i class="ph ph-certificate" aria-hidden="true"></i>{{#str}}certification, local_alphatrade{{/str}}</a>
+            <span class="alpha-spacer"></span>
+            {{#continueurl}}
+                <a class="btn btn-primary alpha-btn-lg" href="{{continueurl}}">
+                    <span>{{#str}}continueproject, local_alphatrade{{/str}}</span>
+                    <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                </a>
+            {{/continueurl}}
+        </div>
+    {{/hasproject}}
+</div>

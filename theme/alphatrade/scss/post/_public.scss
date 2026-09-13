@@ -1,0 +1,454 @@
+// Public site (visitors): floating rounded navbar, photo hero, programme, method, team, FAQ.
+
+body.alpha-public {
+    #page-wrapper {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    #page {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.alpha-public-blob {
+    position: absolute;
+    top: -110px;
+    left: -40px;
+    width: 420px;
+    height: 240px;
+    background: $alpha-blob;
+    filter: blur(60px);
+    opacity: .6;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.alpha-public-nav {
+    position: sticky;
+    top: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 16px 24px 0;
+    padding: .625rem .75rem .625rem 1rem;
+    background-color: $alpha-surface;
+    border: 1px solid $alpha-divider;
+    border-radius: $alpha-radius-xl;
+    box-shadow: $alpha-shadow-md;
+
+    @include media-breakpoint-down(sm) {
+        margin: 12px 12px 0;
+        top: 12px;
+    }
+}
+
+.alpha-public-brand {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    color: $alpha-text;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-decoration: none;
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
+
+    span {
+        white-space: nowrap;
+    }
+
+    &:hover {
+        color: $alpha-text;
+        text-decoration: none;
+    }
+
+    @include media-breakpoint-down(xs) {
+        span {
+            display: none;
+        }
+    }
+}
+
+.alpha-public-links {
+    display: none;
+    gap: .25rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+
+    a {
+        display: block;
+        padding: .5rem .75rem;
+        border-radius: 10px;
+        color: $alpha-text-muted;
+        font-size: .9375rem;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $alpha-surface-2;
+            color: $alpha-text;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        display: flex;
+    }
+}
+
+.alpha-public-actions {
+    display: flex;
+    gap: .5rem;
+    margin-left: auto;
+
+    .btn {
+        white-space: nowrap;
+    }
+
+    @include media-breakpoint-down(xs) {
+        .btn-ghost {
+            padding-left: .5rem;
+            padding-right: .5rem;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        margin-left: 0;
+    }
+}
+
+// ---------------------------------------------------------------- Sections.
+.alpha-section {
+    padding: 5rem 1.5rem;
+
+    @include media-breakpoint-down(sm) {
+        padding: 3.5rem 1rem;
+    }
+}
+
+.alpha-container {
+    max-width: 1160px;
+    margin: 0 auto;
+}
+
+.alpha-section-head {
+    max-width: 720px;
+    margin-bottom: 2.5rem;
+
+    h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: -.02em;
+    }
+
+    p {
+        margin: .75rem 0 0;
+        color: $alpha-text-muted;
+        font-size: 1.0625rem;
+    }
+}
+
+// Hero: user photo, darkened so the copy stays readable.
+.alpha-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: #{"min(88vh, 760px)"};
+    margin-top: -80px;
+    padding: 9rem 1.5rem 4rem;
+    background-color: $alpha-bg;
+    background-position: 70% center;
+    background-size: cover;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, rgba($alpha-bg, .96) 0%, rgba($alpha-bg, .82) 40%, rgba($alpha-bg, .25) 100%),
+            linear-gradient(0deg, $alpha-bg 0%, rgba($alpha-bg, 0) 35%);
+    }
+
+    .alpha-container {
+        position: relative;
+        width: 100%;
+    }
+
+    h1 {
+        max-width: 18ch;
+        margin: 0;
+        font-size: #{"clamp(2.25rem, 5vw, 3.75rem)"};
+        font-weight: 600;
+        letter-spacing: -.03em;
+        line-height: 1.08;
+    }
+
+    .alpha-lead {
+        max-width: 54ch;
+        margin-top: 1.25rem;
+        font-size: 1.125rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+        padding: 8rem 1rem 3rem;
+
+        &::before {
+            background: linear-gradient(0deg, $alpha-bg 10%, rgba($alpha-bg, .85) 60%, rgba($alpha-bg, .6) 100%);
+        }
+    }
+}
+
+.alpha-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 2rem;
+}
+
+.alpha-hero-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 640px;
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    li {
+        padding-left: .875rem;
+        border-left: 2px solid rgba($alpha-accent, .6);
+    }
+
+    strong {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+    span {
+        color: $alpha-text-muted;
+        font-size: .8125rem;
+    }
+}
+
+// Programme: three months.
+.alpha-months {
+    display: grid;
+    gap: 1rem;
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.alpha-month {
+    ol {
+        display: flex;
+        flex-direction: column;
+        gap: .625rem;
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        display: flex;
+        gap: .75rem;
+        font-size: .9375rem;
+    }
+
+    .alpha-week {
+        flex-shrink: 0;
+        min-width: 3ch;
+        color: $alpha-accent-300;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+// Method: Comprendre > Analyser > Tester > Mesurer > Construire.
+.alpha-method {
+    display: grid;
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: method;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    li {
+        position: relative;
+        padding: 1.25rem;
+        background-color: $alpha-surface;
+        border: 1px solid $alpha-divider;
+        border-radius: $alpha-radius-lg;
+        counter-increment: method;
+
+        &::before {
+            content: counter(method, decimal-leading-zero);
+            display: block;
+            margin-bottom: .75rem;
+            color: $alpha-accent-300;
+            font-size: .8125rem;
+            font-weight: 600;
+        }
+    }
+
+    h3 {
+        margin: 0 0 .375rem;
+        font-size: 1rem;
+    }
+
+    p {
+        margin: 0;
+        color: $alpha-text-muted;
+        font-size: .875rem;
+    }
+}
+
+// Team.
+.alpha-team {
+    display: grid;
+    gap: 1rem;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.alpha-person {
+    .alpha-person-head {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .alpha-initials {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-color: $alpha-accent-800;
+        color: $alpha-accent-100;
+        font-weight: 600;
+        letter-spacing: .04em;
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.125rem;
+    }
+
+    .alpha-person-role {
+        color: $alpha-accent-300;
+        font-size: .875rem;
+    }
+
+    blockquote {
+        margin: 1.25rem 0 0;
+        padding-left: 1rem;
+        border-left: 2px solid rgba($alpha-accent, .5);
+        color: $alpha-text;
+        font-style: italic;
+    }
+}
+
+// FAQ.
+.alpha-faq {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-width: 820px;
+
+    details {
+        background-color: $alpha-surface;
+        border: 1px solid $alpha-divider;
+        border-radius: $alpha-radius;
+
+        &[open] {
+            border-color: $alpha-divider-strong;
+        }
+    }
+
+    summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        font-weight: 500;
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        i {
+            color: $alpha-text-muted;
+            transition: transform .2s ease;
+        }
+    }
+
+    details[open] summary i {
+        transform: rotate(45deg);
+    }
+
+    .alpha-faq-answer {
+        padding: 0 1.25rem 1.25rem;
+        color: $alpha-text-muted;
+    }
+}
+
+// Apply.
+.alpha-apply {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    padding: 2.5rem;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    }
+
+    h2 {
+        margin: 0;
+        font-size: 1.75rem;
+    }
+}
+
+.alpha-public-footer {
+    padding: 2rem 1.5rem 2.5rem;
+    border-top: 1px solid $alpha-divider;
+    color: $alpha-text-subtle;
+    font-size: .8125rem;
+
+    .alpha-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .75rem 2rem;
+    }
+
+    a {
+        color: $alpha-text-muted;
+    }
+}

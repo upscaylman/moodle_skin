@@ -1,0 +1,46 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core/user_menu_metadata
+
+    Alpha Trade: avatar + first name in the header.
+
+    Example context (json):
+    {
+        "metadata": [],
+        "avatardata": [{"classes": "current", "content": "<img src=\"#\" class=\"userpicture\">"}],
+        "userfullname": "Admin User",
+        "alphafirstname": "Admin"
+    }
+}}
+{{#metadata}}
+    <span class="usertext d-flex me-3">
+        <span class="meta d-flex {{classes}}">
+            {{{content}}}
+        </span>
+    </span>
+{{/metadata}}
+<span class="avatars">
+    {{#avatardata}}
+        <span class="avatar {{classes}}">
+            {{{content}}}
+        </span>
+    {{/avatardata}}
+</span>
+{{#alphafirstname}}
+    <span class="alpha-username d-none d-md-inline">{{alphafirstname}}</span>
+{{/alphafirstname}}

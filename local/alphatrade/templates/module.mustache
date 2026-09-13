@@ -1,0 +1,115 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/module
+
+    Module page: lessons with state, evaluation, objectives.
+
+    Example context (json):
+    {
+        "parcoursurl": "#",
+        "modulelabel": "Module 04",
+        "name": "Structure de marché",
+        "description": "<p>Lire la structure avant de chercher une entrée.</p>",
+        "percent": 40,
+        "lessonsprogress": "3 / 8 leçons terminées",
+        "islocked": false,
+        "availableinfo": "",
+        "lessons": [{"number": "01", "name": "HH, HL, LH, LL", "url": "#", "icon": "ph-article", "isdone": true, "iscurrent": false, "islocked": false, "istodo": false, "statusicon": "ph-fill ph-check-circle", "statuslabel": "Terminé"}],
+        "hasquiz": true,
+        "quizzes": [{"name": "Évaluation", "url": "#", "isdone": false, "iscurrent": false, "islocked": true, "istodo": false, "statusicon": "ph ph-lock-simple", "statuslabel": "Verrouillé", "availableinfo": ""}],
+        "hasobjectives": true,
+        "objectives": [{"text": "Identifier une tendance"}],
+        "objectivesdone": false,
+        "canedit": false,
+        "editurl": "#"
+    }
+}}
+<div class="alpha-module">
+    <a href="{{parcoursurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}backtoparcours, local_alphatrade{{/str}}</span>
+    </a>
+
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{modulelabel}}</p>
+            <h1 class="alpha-title">{{name}}</h1>
+            {{#description}}<div class="alpha-lead alpha-module-description">{{{description}}}</div>{{/description}}
+        </div>
+        {{#canedit}}
+            <div class="alpha-pagehead-actions">
+                <a class="btn btn-secondary" href="{{editurl}}"><i class="ph ph-pencil-simple" aria-hidden="true"></i>{{#str}}editinmoodle, local_alphatrade{{/str}}</a>
+            </div>
+        {{/canedit}}
+    </header>
+
+    {{#islocked}}
+        <div class="alpha-banner alpha-banner-warning">
+            <i class="ph ph-lock-simple" aria-hidden="true"></i>
+            <div>
+                <strong>{{#str}}modulelocked, local_alphatrade{{/str}}</strong>
+                {{#availableinfo}}<div>{{{availableinfo}}}</div>{{/availableinfo}}
+            </div>
+        </div>
+    {{/islocked}}
+
+    <section class="alpha-card alpha-module-progress">
+        <div class="alpha-dash-progress-value">
+            <span class="alpha-percent">{{percent}}&nbsp;%</span>
+            <span class="alpha-muted">{{lessonsprogress}}</span>
+        </div>
+        <div class="alpha-progress" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" aria-label="{{lessonsprogress}}">
+            <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
+        </div>
+    </section>
+
+    <h2 class="alpha-section-title"><span>{{#str}}lessons, local_alphatrade{{/str}}</span></h2>
+    <ol class="alpha-list">
+        {{#lessons}}
+            <li>
+                {{> local_alphatrade/item_row }}
+            </li>
+        {{/lessons}}
+    </ol>
+
+    {{#hasquiz}}
+        <h2 class="alpha-section-title"><span>{{#str}}evaluation, local_alphatrade{{/str}}</span></h2>
+        <ol class="alpha-list">
+            {{#quizzes}}
+                <li>
+                    {{> local_alphatrade/item_row }}
+                </li>
+            {{/quizzes}}
+        </ol>
+    {{/hasquiz}}
+
+    {{#hasobjectives}}
+        <h2 class="alpha-section-title"><span>{{#str}}objectives, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-card">
+            <ul class="alpha-checklist">
+                {{#objectives}}
+                    <li class="{{#objectivesdone}}is-done{{/objectivesdone}}{{^objectivesdone}}is-todo{{/objectivesdone}}">
+                        {{#objectivesdone}}<i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{/objectivesdone}}
+                        {{^objectivesdone}}<i class="ph ph-circle" aria-hidden="true"></i>{{/objectivesdone}}
+                        <span>{{text}}</span>
+                    </li>
+                {{/objectives}}
+            </ul>
+        </div>
+    {{/hasobjectives}}
+</div>

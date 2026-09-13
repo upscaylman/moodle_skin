@@ -1,0 +1,147 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/parcours
+
+    Programme grouped by month. Current module = card with "Continuer", locked = plain line.
+
+    Example context (json):
+    {
+        "hasprogramme": true,
+        "percent": 34,
+        "week": "Semaine 5 / 12",
+        "lessons": "31 / 94 leçons",
+        "months": [{
+            "number": 1, "label": "Mois 1", "theme": "Comprendre",
+            "modules": [{"number": "01", "name": "Fondamentaux des marchés", "url": "#", "meta": "8 leçons · 100 %", "isdone": true, "iscurrent": false, "islocked": false, "istodo": false, "statusicon": "ph-fill ph-check-circle", "statuslabel": "Terminé", "percent": 100}]
+        }],
+        "projecturl": "#",
+        "certificateurl": "#"
+    }
+}}
+<div class="alpha-parcours">
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{#str}}parcours, local_alphatrade{{/str}}</p>
+            <h1 class="alpha-title">{{#str}}programmetitle, local_alphatrade{{/str}}</h1>
+            <p class="alpha-lead">{{#str}}programmelead, local_alphatrade{{/str}}</p>
+        </div>
+    </header>
+
+    {{^hasprogramme}}
+        <div class="alpha-empty">
+            <i class="ph ph-path" aria-hidden="true"></i>
+            <p>{{#str}}noprogramme, local_alphatrade{{/str}}</p>
+        </div>
+    {{/hasprogramme}}
+
+    {{#hasprogramme}}
+        <section class="alpha-card alpha-parcours-progress">
+            <div class="alpha-dash-progress-value">
+                <span class="alpha-percent">{{percent}}&nbsp;%</span>
+                <span class="alpha-status alpha-status-accent"><i class="ph ph-calendar-blank" aria-hidden="true"></i>{{week}}</span>
+            </div>
+            <div class="alpha-progress" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" aria-label="{{#str}}yourprogress, local_alphatrade{{/str}}">
+                <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
+            </div>
+            <div class="alpha-progress-meta"><span>{{lessons}}</span></div>
+        </section>
+
+        {{#months}}
+            <section class="alpha-month-group" aria-labelledby="alpha-month-{{number}}">
+                <h2 class="alpha-section-title" id="alpha-month-{{number}}">
+                    <span>{{label}}{{#theme}} - {{theme}}{{/theme}}</span>
+                </h2>
+                <ol class="alpha-list">
+                    {{#modules}}
+                        <li>
+                            {{#islocked}}
+                                <div class="alpha-list-item is-locked">
+                                    <span class="alpha-state-icon is-locked"><i class="{{statusicon}}" aria-hidden="true"></i></span>
+                                    <span class="alpha-list-num">{{number}}</span>
+                                    <span class="alpha-list-body">
+                                        <span class="alpha-list-title">{{name}}</span>
+                                        {{#availableinfo}}<span class="alpha-list-meta">{{{availableinfo}}}</span>{{/availableinfo}}
+                                    </span>
+                                    <span class="alpha-status alpha-status-locked"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{statuslabel}}</span>
+                                </div>
+                            {{/islocked}}
+                            {{#iscurrent}}
+                                <div class="alpha-card alpha-card-accent alpha-module-current">
+                                    <div class="alpha-row">
+                                        <span class="alpha-state-icon is-current"><i class="{{statusicon}}" aria-hidden="true"></i></span>
+                                        <span class="alpha-list-num">{{number}}</span>
+                                        <span class="alpha-list-body">
+                                            <span class="alpha-list-title">{{name}}</span>
+                                            <span class="alpha-list-meta">{{meta}}</span>
+                                        </span>
+                                        <span class="alpha-status alpha-status-accent"><i class="ph ph-circle-half" aria-hidden="true"></i>{{statuslabel}}</span>
+                                    </div>
+                                    <div class="alpha-progress alpha-progress-sm alpha-module-current-bar" aria-hidden="true">
+                                        <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
+                                    </div>
+                                    <div class="alpha-card-footer">
+                                        <span></span>
+                                        <a class="btn btn-primary" href="{{url}}">
+                                            <span>{{#str}}continue, local_alphatrade{{/str}}</span>
+                                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            {{/iscurrent}}
+                            {{#isdone}}
+                                <a class="alpha-list-item" href="{{url}}">
+                                    <span class="alpha-state-icon is-done"><i class="{{statusicon}}" aria-hidden="true"></i></span>
+                                    <span class="alpha-list-num">{{number}}</span>
+                                    <span class="alpha-list-body">
+                                        <span class="alpha-list-title">{{name}}</span>
+                                        <span class="alpha-list-meta">{{meta}}</span>
+                                    </span>
+                                    <span class="alpha-status alpha-status-success"><i class="ph ph-check" aria-hidden="true"></i>{{statuslabel}}</span>
+                                </a>
+                            {{/isdone}}
+                            {{#istodo}}
+                                <a class="alpha-list-item" href="{{url}}">
+                                    <span class="alpha-state-icon is-todo"><i class="{{statusicon}}" aria-hidden="true"></i></span>
+                                    <span class="alpha-list-num">{{number}}</span>
+                                    <span class="alpha-list-body">
+                                        <span class="alpha-list-title">{{name}}</span>
+                                        <span class="alpha-list-meta">{{meta}}</span>
+                                    </span>
+                                    <i class="ph ph-caret-right alpha-subtle" aria-hidden="true"></i>
+                                </a>
+                            {{/istodo}}
+                        </li>
+                    {{/modules}}
+                </ol>
+            </section>
+        {{/months}}
+
+        <div class="alpha-grid alpha-grid-2 alpha-parcours-end">
+            <a class="alpha-card alpha-card-link" href="{{projecturl}}">
+                <span class="alpha-card-icon"><i class="ph ph-trophy" aria-hidden="true"></i></span>
+                <p class="alpha-card-caps">{{#str}}finalproject, local_alphatrade{{/str}}</p>
+                <p class="alpha-card-text">{{#str}}finalproject_lead, local_alphatrade{{/str}}</p>
+            </a>
+            <a class="alpha-card alpha-card-link" href="{{certificateurl}}">
+                <span class="alpha-card-icon"><i class="ph ph-certificate" aria-hidden="true"></i></span>
+                <p class="alpha-card-caps">{{#str}}certification, local_alphatrade{{/str}}</p>
+                <p class="alpha-card-text">{{#str}}certification_lead, local_alphatrade{{/str}}</p>
+            </a>
+        </div>
+    {{/hasprogramme}}
+</div>

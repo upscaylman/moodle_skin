@@ -1,0 +1,56 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/practice_list
+
+    Case studies or challenges: activities of the practice course.
+
+    Example context (json):
+    {
+        "backurl": "#",
+        "title": "Cas pratiques",
+        "lead": "Prenez une décision argumentée.",
+        "hasitems": true,
+        "items": [{"number": "01", "name": "50 setups", "url": "#", "icon": "ph-exam", "isdone": false, "iscurrent": false, "istodo": true, "islocked": false, "statusicon": "ph ph-circle", "statuslabel": "A faire", "availableinfo": ""}]
+    }
+}}
+<div class="alpha-practice-list">
+    <a href="{{backurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}practicelab, local_alphatrade{{/str}}</span>
+    </a>
+    <header class="alpha-pagehead">
+        <div>
+            <h1 class="alpha-title">{{title}}</h1>
+            <p class="alpha-lead">{{lead}}</p>
+        </div>
+    </header>
+
+    {{#hasitems}}
+        <ol class="alpha-list">
+            {{#items}}
+                <li>{{> local_alphatrade/item_row }}</li>
+            {{/items}}
+        </ol>
+    {{/hasitems}}
+    {{^hasitems}}
+        <div class="alpha-empty">
+            <i class="ph ph-flask" aria-hidden="true"></i>
+            <p>{{#str}}nopracticeitems, local_alphatrade{{/str}}</p>
+        </div>
+    {{/hasitems}}
+</div>

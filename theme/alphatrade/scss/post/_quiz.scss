@@ -1,0 +1,328 @@
+// Lesson reader and quiz (wireframe v3 screens 4 and 5).
+
+// ---------------------------------------------------------------- Lesson reader.
+.alpha-lesson-header {
+    margin-bottom: 1.5rem;
+}
+
+.alpha-lesson-topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem 1rem;
+    margin-bottom: 1rem;
+
+    .alpha-backlink {
+        margin-bottom: 0;
+    }
+}
+
+.alpha-lesson-counter {
+    padding: .25rem .75rem;
+    border: 1px solid $alpha-divider-strong;
+    border-radius: 999px;
+    color: $alpha-text-muted;
+    font-size: .8125rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.alpha-lesson-title {
+    margin: 0;
+    font-size: 1.625rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+}
+
+.alpha-lesson-subtitle {
+    margin: .375rem 0 0;
+    color: $alpha-text-muted;
+}
+
+body.alpha-lesson {
+    // Completion lives in the lesson footer (one action at a time).
+    .activity-header [data-region="activity-information"] [data-action="toggle-manual-completion"] {
+        display: none;
+    }
+
+    #region-main {
+        .box.generalbox,
+        [role="main"] > .box {
+            padding: 0;
+            border: 0;
+            background: transparent;
+        }
+
+        [role="main"] {
+            color: $alpha-text;
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        [role="main"] h2,
+        [role="main"] h3 {
+            margin-top: 2rem;
+        }
+
+        // "A retenir" / key takeaways: teachers wrap them in a blockquote or .alpha-keypoints.
+        blockquote,
+        .alpha-keypoints {
+            margin: 1.75rem 0;
+            padding: 1.25rem 1.5rem;
+            border-left: 3px solid $alpha-accent;
+            border-radius: 0 $alpha-radius $alpha-radius 0;
+            background-color: $alpha-surface;
+            font-size: .9375rem;
+
+            ul {
+                margin-bottom: 0;
+                padding-left: 1.25rem;
+            }
+        }
+
+        .alpha-resources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin: 1.5rem 0;
+            padding: 0;
+            list-style: none;
+
+            a {
+                display: inline-flex;
+                align-items: center;
+                gap: .5rem;
+                padding: .625rem .875rem;
+                border: 1px solid $alpha-divider-strong;
+                border-radius: 10px;
+                color: $alpha-text;
+                font-size: .875rem;
+                text-decoration: none;
+
+                &:hover {
+                    background-color: $alpha-surface-2;
+                }
+            }
+        }
+    }
+}
+
+.alpha-lesson-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $alpha-divider;
+
+    .alpha-completion {
+        padding: .625rem 1rem;
+        font-size: .9375rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+        .btn {
+            width: 100%;
+        }
+
+        .alpha-lesson-footer-completion {
+            width: 100%;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Quiz.
+body.alpha-quiz,
+.path-mod-quiz {
+    .que {
+        margin-bottom: 1.5rem;
+
+        .info {
+            padding: 1rem;
+            background-color: $alpha-surface;
+            border: 1px solid $alpha-divider;
+            border-radius: $alpha-radius;
+            color: $alpha-text-muted;
+
+            h3.no {
+                color: $alpha-text;
+                font-size: .875rem;
+                font-weight: 600;
+            }
+
+            .questionflag {
+                font-size: .8125rem;
+            }
+        }
+
+        .content .formulation,
+        .content .outcome,
+        .content .comment {
+            padding: 1.5rem;
+            border-radius: $alpha-radius-lg;
+            color: $alpha-text;
+        }
+
+        .formulation {
+            background-color: $alpha-surface;
+            border: 1px solid $alpha-divider;
+        }
+
+        .qtext {
+            margin-bottom: 1.25rem;
+            font-size: 1.0625rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .outcome,
+        .comment {
+            background-color: rgba($alpha-info, .08);
+            border: 1px solid rgba($alpha-info, .25);
+        }
+
+        .ablock .prompt {
+            color: $alpha-text-muted;
+            font-size: .8125rem;
+            margin-bottom: .5rem;
+        }
+
+        // Choices as selectable rows (A-D).
+        .answer {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            > div,
+            .r0,
+            .r1 {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: .75rem;
+                margin: 0;
+                padding: .875rem 1rem;
+                background-color: $alpha-sunken;
+                border: 1px solid $alpha-divider-strong;
+                border-radius: $alpha-radius;
+                transition: border-color .15s ease, background-color .15s ease;
+
+                &:hover {
+                    border-color: rgba($alpha-accent, .45);
+                }
+
+                &:has(input:checked) {
+                    background-color: mix($alpha-sunken, $alpha-accent, 88%);
+                    border-color: $alpha-accent;
+                }
+
+                &.correct {
+                    border-color: rgba($alpha-success, .6);
+                    background-color: rgba($alpha-success, .1);
+                }
+
+                &.incorrect {
+                    border-color: rgba($alpha-danger, .6);
+                    background-color: rgba($alpha-danger, .1);
+                }
+
+                input[type="radio"],
+                input[type="checkbox"] {
+                    flex-shrink: 0;
+                    width: 1.125rem;
+                    height: 1.125rem;
+                    margin: 0;
+                    accent-color: $alpha-accent;
+                }
+
+                label,
+                .d-flex {
+                    flex: 1 1 auto;
+                    margin: 0;
+                    cursor: pointer;
+                }
+
+                .answernumber {
+                    color: $alpha-accent-300;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        &.correct .grade,
+        .feedback .correct {
+            color: $alpha-success-tint;
+        }
+    }
+
+    .submitbtns {
+        display: flex;
+        justify-content: flex-end;
+        gap: .5rem;
+        margin-top: 1rem;
+    }
+
+    #mod_quiz_navblock,
+    .qn_buttons {
+        .qnbutton {
+            border-radius: $alpha-radius-sm;
+            background-color: $alpha-surface-2;
+            border-color: $alpha-divider-strong;
+            color: $alpha-text;
+
+            &.thispage {
+                border-color: $alpha-accent;
+            }
+
+            .trafficlight,
+            .thispageholder {
+                border-radius: $alpha-radius-sm;
+            }
+
+            &.answersaved .trafficlight,
+            &.complete .trafficlight {
+                background-color: $alpha-accent-700;
+            }
+
+            &.correct .trafficlight {
+                background-color: $alpha-success;
+            }
+
+            &.incorrect .trafficlight {
+                background-color: $alpha-danger;
+            }
+
+            &.partiallycorrect .trafficlight {
+                background-color: $alpha-warning;
+            }
+        }
+    }
+
+    .quizreviewsummary,
+    .quizattemptsummary,
+    .generaltable.quizattemptsummary {
+        background-color: $alpha-surface;
+        border-radius: $alpha-radius-lg;
+        overflow: hidden;
+
+        th {
+            background-color: $alpha-surface-2;
+            color: $alpha-text-muted;
+        }
+    }
+
+    .quizinfo,
+    .quizattempt {
+        text-align: left;
+    }
+
+    #region-main .quizattempt .btn,
+    .quizstartbuttondiv .btn {
+        padding: .75rem 1.25rem;
+        font-weight: 600;
+    }
+}

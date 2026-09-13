@@ -1,0 +1,12 @@
+{
+  "name": "alphatrade-moodle-tools",
+  "private": true,
+  "description": "Dev tools for the Alpha Trade Moodle theme (icon subset, checks). Not needed on the Moodle server.",
+  "type": "module",
+  "scripts": {
+    "icons": "node build-icons.mjs"
+  },
+  "devDependencies": {
+    "@phosphor-icons/web": "2.1.1"
+  }
+}

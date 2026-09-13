@@ -1,0 +1,202 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/strategy
+
+    Strategy dashboard: 4 stat cards, curve / candles, statistics, verdict, trades.
+
+    Example context (json):
+    {
+        "backurl": "#", "name": "Alpha Setup #01", "market": "FX:EURUSD", "timeframe": "H1", "period": "2023-2025",
+        "rules": "", "hasrules": false, "owner": "", "canedit": true,
+        "stats": {"trades": 52, "winrate": "46 %", "expectancy": "+0,32R", "expectancyclass": "alpha-value-positive", "maxdrawdown": "-6R",
+            "profitfactor": "1,6", "avgwin": "+1,9R", "avgloss": "-1R", "maxconsecutivelosses": 5, "totalr": "+16,6R", "totalrclass": "alpha-value-positive",
+            "verdict": "Votre stratégie présente une expectancy positive sur l'échantillon testé.", "verdictsuccess": true, "verdictwarning": false},
+        "iscurve": true, "curveurl": "#", "candlesurl": "#",
+        "equity": {"width": 720, "height": 260, "line": "M44,100 L676,40", "area": "M44,100 L676,40 L676,120 L44,120 Z", "zeroy": 120, "x1": 44, "x2": 708, "grid": [], "hasdata": true},
+        "chartsrc": "https://s.tradingview.com/widgetembed/?symbol=FX:EURUSD&interval=60",
+        "rows": [], "hasrows": false, "addtradeurl": "#", "editurl": "#", "deleteurl": "#", "tradeform": "", "minsample": ""
+    }
+}}
+<div class="alpha-strategy">
+    <a href="{{backurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}backtesting, local_alphatrade{{/str}}</span>
+    </a>
+
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{market}} · {{timeframe}}{{#period}} · {{period}}{{/period}}</p>
+            <h1 class="alpha-title">{{name}}</h1>
+            {{#owner}}<p class="alpha-lead"><i class="ph ph-user" aria-hidden="true"></i> {{owner}}</p>{{/owner}}
+        </div>
+        {{#canedit}}
+            <div class="alpha-pagehead-actions">
+                <a class="btn btn-ghost" href="{{editurl}}"><i class="ph ph-pencil-simple" aria-hidden="true"></i>{{#str}}edit{{/str}}</a>
+                <a class="btn btn-ghost" href="{{deleteurl}}"><i class="ph ph-trash" aria-hidden="true"></i>{{#str}}delete{{/str}}</a>
+            </div>
+        {{/canedit}}
+    </header>
+
+    {{#stats}}
+        <div class="alpha-grid alpha-grid-4">
+            <div class="alpha-card alpha-card-sm alpha-stat">
+                <span class="alpha-stat-head"><i class="ph ph-hash" aria-hidden="true"></i>{{#str}}trades, local_alphatrade{{/str}}</span>
+                <span class="alpha-stat-value">{{trades}}</span>
+            </div>
+            <div class="alpha-card alpha-card-sm alpha-stat">
+                <span class="alpha-stat-head"><i class="ph ph-target" aria-hidden="true"></i>{{#str}}winrate, local_alphatrade{{/str}}</span>
+                <span class="alpha-stat-value">{{winrate}}</span>
+            </div>
+            <div class="alpha-card alpha-card-sm alpha-stat">
+                <span class="alpha-stat-head"><i class="ph ph-scales" aria-hidden="true"></i>{{#str}}expectancy, local_alphatrade{{/str}}</span>
+                <span class="alpha-stat-value {{expectancyclass}}">{{expectancy}}</span>
+            </div>
+            <div class="alpha-card alpha-card-sm alpha-stat">
+                <span class="alpha-stat-head"><i class="ph ph-trend-down" aria-hidden="true"></i>{{#str}}maxdrawdown, local_alphatrade{{/str}}</span>
+                <span class="alpha-stat-value">{{maxdrawdown}}</span>
+            </div>
+        </div>
+    {{/stats}}
+
+    <section class="alpha-card alpha-strategy-chart">
+        <div class="alpha-row alpha-strategy-chart-head">
+            <p class="alpha-eyebrow">{{#iscurve}}{{#str}}equitycurve, local_alphatrade{{/str}}{{/iscurve}}{{^iscurve}}{{#str}}candles, local_alphatrade{{/str}}{{/iscurve}}</p>
+            <span class="alpha-spacer"></span>
+            <nav class="alpha-segmented" aria-label="{{#str}}chartview, local_alphatrade{{/str}}">
+                <a href="{{curveurl}}" class="{{#iscurve}}active{{/iscurve}}"{{#iscurve}} aria-current="true"{{/iscurve}}>{{#str}}curve, local_alphatrade{{/str}}</a>
+                <a href="{{candlesurl}}" class="{{^iscurve}}active{{/iscurve}}"{{^iscurve}} aria-current="true"{{/iscurve}}>{{#str}}candles, local_alphatrade{{/str}}</a>
+            </nav>
+        </div>
+        {{#iscurve}}
+            {{#equity.hasdata}}
+                <div class="alpha-equity">
+                    {{#equity}}
+                    <svg viewBox="0 0 {{width}} {{height}}" role="img" aria-label="{{#str}}equitycurve, local_alphatrade{{/str}}">
+                        {{#grid}}
+                            <line class="alpha-equity-grid" x1="{{x1}}" x2="{{x2}}" y1="{{y}}" y2="{{y}}"></line>
+                            <text class="alpha-equity-label" x="{{labelx}}" y="{{y}}" text-anchor="end" dominant-baseline="middle">{{label}}</text>
+                        {{/grid}}
+                        <line class="alpha-equity-zero" x1="{{x1}}" x2="{{x2}}" y1="{{zeroy}}" y2="{{zeroy}}"></line>
+                        <path class="alpha-equity-area" d="{{area}}"></path>
+                        <path class="alpha-equity-line" d="{{line}}"></path>
+                    </svg>
+                    {{/equity}}
+                </div>
+            {{/equity.hasdata}}
+            {{^equity.hasdata}}
+                <div class="alpha-empty">
+                    <i class="ph ph-chart-line" aria-hidden="true"></i>
+                    <p>{{#str}}notrades, local_alphatrade{{/str}}</p>
+                </div>
+            {{/equity.hasdata}}
+        {{/iscurve}}
+        {{^iscurve}}
+            <div class="alpha-chart">
+                <iframe src="{{chartsrc}}" title="{{market}} {{timeframe}}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            </div>
+        {{/iscurve}}
+    </section>
+
+    {{#stats}}
+        <h2 class="alpha-section-title"><span>{{#str}}statistics, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-card">
+            <dl class="alpha-kv">
+                <div><dt>{{#str}}profitfactor, local_alphatrade{{/str}}</dt><dd>{{profitfactor}}</dd></div>
+                <div><dt>{{#str}}avgwin, local_alphatrade{{/str}}</dt><dd class="alpha-value-positive">{{avgwin}}</dd></div>
+                <div><dt>{{#str}}avgloss, local_alphatrade{{/str}}</dt><dd class="alpha-value-negative">{{avgloss}}</dd></div>
+                <div><dt>{{#str}}maxconsecutivelosses, local_alphatrade{{/str}}</dt><dd>{{maxconsecutivelosses}}</dd></div>
+                <div><dt>{{#str}}totalr, local_alphatrade{{/str}}</dt><dd class="{{totalrclass}}">{{totalr}}</dd></div>
+            </dl>
+        </div>
+
+        <h2 class="alpha-section-title"><span>{{#str}}verdict, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-verdict{{#verdictsuccess}} alpha-verdict-success{{/verdictsuccess}}{{#verdictwarning}} alpha-verdict-warning{{/verdictwarning}}">
+            <p>{{verdict}}</p>
+        </div>
+    {{/stats}}
+    <p class="alpha-subtle alpha-minsample">{{minsample}}</p>
+
+    {{#hasrules}}
+        <h2 class="alpha-section-title"><span>{{#str}}strategyrules, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-card alpha-prose">{{{rules}}}</div>
+    {{/hasrules}}
+
+    {{#canedit}}
+        <div class="alpha-row alpha-strategy-actions">
+            <a class="btn btn-secondary" href="#trades"><i class="ph ph-list-bullets" aria-hidden="true"></i>{{#str}}seetrades, local_alphatrade{{/str}}</a>
+            <a class="btn btn-primary" href="{{addtradeurl}}"><i class="ph ph-plus" aria-hidden="true"></i>{{#str}}addtrade, local_alphatrade{{/str}}</a>
+        </div>
+    {{/canedit}}
+
+    {{#tradeform}}
+        <section class="alpha-card alpha-formcard" id="addtrade">
+            <p class="alpha-eyebrow">{{#str}}addtrade, local_alphatrade{{/str}}</p>
+            {{{tradeform}}}
+        </section>
+    {{/tradeform}}
+
+    <h2 class="alpha-section-title" id="trades"><span>{{#str}}tradeslist, local_alphatrade{{/str}}</span></h2>
+    {{#hasrows}}
+        <div class="alpha-table-wrap">
+            <table class="alpha-table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{#str}}date, local_alphatrade{{/str}}</th>
+                        <th scope="col">{{#str}}direction, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}entry, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}stoploss_short, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}takeprofit_short, local_alphatrade{{/str}}</th>
+                        <th scope="col" class="text-end">{{#str}}result, local_alphatrade{{/str}}</th>
+                        {{#canedit}}<th scope="col"><span class="sr-only">{{#str}}actions{{/str}}</span></th>{{/canedit}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#rows}}
+                        <tr>
+                            <td class="alpha-num">{{number}}</td>
+                            <td>{{date}}</td>
+                            <td>
+                                <span class="alpha-status alpha-status-neutral">
+                                    {{#islong}}<i class="ph ph-arrow-up-right" aria-hidden="true"></i>{{/islong}}
+                                    {{^islong}}<i class="ph ph-arrow-down-right" aria-hidden="true"></i>{{/islong}}
+                                    {{direction}}
+                                </span>
+                            </td>
+                            <td class="alpha-num">{{entry}}</td>
+                            <td class="alpha-num">{{stoploss}}</td>
+                            <td class="alpha-num">{{takeprofit}}</td>
+                            <td class="alpha-num {{resultclass}}"><strong>{{result}}</strong></td>
+                            {{#canedit}}
+                                <td class="text-end">
+                                    <a class="btn btn-ghost btn-sm" href="{{deleteurl}}" aria-label="{{#str}}delete{{/str}}" title="{{notes}}"><i class="ph ph-trash" aria-hidden="true"></i></a>
+                                </td>
+                            {{/canedit}}
+                        </tr>
+                    {{/rows}}
+                </tbody>
+            </table>
+        </div>
+    {{/hasrows}}
+    {{^hasrows}}
+        <div class="alpha-empty">
+            <i class="ph ph-list-bullets" aria-hidden="true"></i>
+            <p>{{#str}}notrades, local_alphatrade{{/str}}</p>
+        </div>
+    {{/hasrows}}
+</div>

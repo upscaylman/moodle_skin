@@ -1,0 +1,59 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_alphatrade/header
+
+    Fixed top header. Desktop: wordmark, search, notifications, avatar + first name.
+    Mobile: menu button, gold mark, notifications, avatar.
+
+    Example context (json):
+    {
+        "sitename": "Alpha Trade",
+        "homeurl": "#",
+        "logourl": "logo.png",
+        "markurl": "mark.png",
+        "output": {"search_box": "", "navbar_plugin_output": "", "edit_switch": ""}
+    }
+}}
+<nav class="navbar fixed-top alpha-header navbar-expand" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+    <div class="alpha-header-inner">
+        <button type="button" class="btn alpha-icon-btn alpha-header-menu d-lg-none"
+            data-toggler="drawers" data-action="toggle" data-target="theme_alphatrade-drawers-menu"
+            aria-label="{{#str}}menu, theme_alphatrade{{/str}}">
+            <i class="ph ph-list" aria-hidden="true"></i>
+        </button>
+        <a href="{{homeurl}}" class="alpha-brand aabtn">
+            <img src="{{logourl}}" class="alpha-brand-wordmark d-none d-lg-block" alt="{{sitename}}">
+            <img src="{{markurl}}" class="alpha-brand-mark d-lg-none" alt="{{sitename}}">
+        </a>
+        <div id="usernavigation" class="navbar-nav alpha-header-actions ms-auto">
+            {{# output.search_box }}
+                <div class="alpha-header-search d-none d-md-flex">{{{ output.search_box }}}</div>
+            {{/ output.search_box }}
+            {{#langmenu}}
+                <div class="d-none d-md-flex">{{> theme_boost/language_menu }}</div>
+            {{/langmenu}}
+            {{{ output.navbar_plugin_output }}}
+            <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
+                {{#usermenu}}
+                    {{> core/user_menu }}
+                {{/usermenu}}
+            </div>
+            <div class="alpha-header-editswitch d-none d-md-flex">{{{ output.edit_switch }}}</div>
+        </div>
+    </div>
+</nav>

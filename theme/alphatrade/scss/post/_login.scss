@@ -1,0 +1,169 @@
+// Login: one centered card, the decorative blob behind the logo, no Moodle jargon.
+
+body.alpha-login {
+    min-height: 100vh;
+
+    #page-wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow: hidden;
+    }
+
+    #page.alpha-login-page {
+        position: relative;
+        z-index: 1;
+        flex: 1 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 3rem 1rem;
+    }
+
+    #page-content,
+    #region-main-box,
+    #region-main {
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+        padding: 0;
+        background: transparent;
+        border: 0;
+    }
+
+    .login-wrapper {
+        display: block;
+        padding: 0;
+    }
+
+    .login-container.alpha-login-card {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 2.5rem 2.25rem 2rem;
+        background-color: $alpha-surface;
+        border: 1px solid $alpha-divider;
+        border-radius: $alpha-radius-xl;
+        box-shadow: $alpha-shadow-md;
+
+        @include media-breakpoint-down(sm) {
+            padding: 2rem 1.25rem 1.5rem;
+        }
+    }
+
+    .alpha-login-logo {
+        display: block;
+        width: 220px;
+        max-width: 80%;
+        height: auto;
+        margin: 0 auto 1.25rem;
+    }
+}
+
+.alpha-login-blob {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    width: 520px;
+    height: 400px;
+    margin-left: -380px;
+    background: $alpha-blob;
+    filter: blur(70px);
+    opacity: .45;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.alpha-loginform {
+    .alpha-login-tagline {
+        margin: 0 auto 2rem;
+        max-width: 34ch;
+        color: $alpha-text-muted;
+        font-size: .9375rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .alpha-field {
+        margin: 0;
+    }
+
+    .form-control {
+        min-height: 48px;
+    }
+
+    .login-form-submit {
+        margin-top: .5rem;
+    }
+
+    .login-form-forgotpassword {
+        text-align: center;
+        font-size: .875rem;
+
+        a {
+            color: $alpha-text-muted;
+
+            &:hover {
+                color: $alpha-text;
+            }
+        }
+    }
+
+    .login-identityproviders,
+    .login-signup {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    .login-instructions {
+        color: $alpha-text-muted;
+        font-size: .875rem;
+    }
+
+    .alpha-login-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .alert {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        font-size: .875rem;
+    }
+}
+
+.alpha-login-public {
+    margin: 1.5rem 0 0;
+    color: $alpha-text-muted;
+    font-size: .9375rem;
+    text-align: center;
+
+    a {
+        margin-left: .25rem;
+        font-weight: 600;
+    }
+}
+
+.alpha-login-footer {
+    position: relative;
+    z-index: 1;
+    padding: 1rem;
+    color: $alpha-text-subtle;
+    font-size: .75rem;
+    text-align: center;
+    background: transparent;
+}

@@ -1,0 +1,84 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/resources
+
+    Resource library: search, type pills, one row per resource with a single action.
+
+    Example context (json):
+    {
+        "action": "#", "type": "", "q": "",
+        "pills": [{"label": "Tous", "url": "#", "active": true}],
+        "hasitems": true,
+        "items": [{"name": "Checklist avant entrée", "meta": "PDF · Checklists", "url": "#", "icon": "ph-file-pdf", "isdownload": true, "isuse": false}],
+        "configured": true
+    }
+}}
+<div class="alpha-resources-page">
+    <header class="alpha-pagehead">
+        <div>
+            <p class="alpha-eyebrow">{{#str}}resources, local_alphatrade{{/str}}</p>
+            <h1 class="alpha-title">{{#str}}resources_title, local_alphatrade{{/str}}</h1>
+            <p class="alpha-lead">{{#str}}resources_lead, local_alphatrade{{/str}}</p>
+        </div>
+    </header>
+
+    <form class="alpha-search" method="get" action="{{action}}" role="search">
+        {{#type}}<input type="hidden" name="type" value="{{type}}">{{/type}}
+        <div class="alpha-input-icon">
+            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+            <label class="alpha-sr-only" for="alpha-resources-q">{{#str}}search{{/str}}</label>
+            <input class="form-control" id="alpha-resources-q" type="search" name="q" value="{{q}}" placeholder="{{#str}}searchresources, local_alphatrade{{/str}}">
+        </div>
+    </form>
+
+    <nav class="alpha-pills" aria-label="{{#str}}filters, local_alphatrade{{/str}}">
+        {{#pills}}
+            <a class="alpha-pill{{#active}} active{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>
+        {{/pills}}
+    </nav>
+
+    {{#hasitems}}
+        <ul class="alpha-list">
+            {{#items}}
+                <li>
+                    <div class="alpha-list-item alpha-resource">
+                        <span class="alpha-card-icon alpha-card-icon-sm"><i class="ph {{icon}}" aria-hidden="true"></i></span>
+                        <span class="alpha-list-body">
+                            <span class="alpha-list-title alpha-caps">{{name}}</span>
+                            <span class="alpha-list-meta">{{meta}}</span>
+                        </span>
+                        <a class="btn btn-secondary btn-sm" href="{{url}}">
+                            {{#isdownload}}<span>{{#str}}download, local_alphatrade{{/str}}</span><i class="ph ph-download-simple" aria-hidden="true"></i>{{/isdownload}}
+                            {{^isdownload}}
+                                {{#isuse}}<span>{{#str}}use, local_alphatrade{{/str}}</span>{{/isuse}}
+                                {{^isuse}}<span>{{#str}}open, local_alphatrade{{/str}}</span>{{/isuse}}
+                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                            {{/isdownload}}
+                        </a>
+                    </div>
+                </li>
+            {{/items}}
+        </ul>
+    {{/hasitems}}
+    {{^hasitems}}
+        <div class="alpha-empty">
+            <i class="ph ph-books" aria-hidden="true"></i>
+            <p>{{#configured}}{{#str}}noresources, local_alphatrade{{/str}}{{/configured}}{{^configured}}{{#str}}resourcesnotconfigured, local_alphatrade{{/str}}{{/configured}}</p>
+        </div>
+    {{/hasitems}}
+</div>

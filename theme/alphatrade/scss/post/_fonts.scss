@@ -1,0 +1,26 @@
+// Self-hosted fonts: Inter (variable, latin) and Phosphor Icons (regular + fill).
+// Served by Moodle's theme/font.php, no CDN.
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('[[font:theme|InterVariable.woff2]]') format('woff2');
+}
+
+@font-face {
+    font-family: 'Phosphor';
+    font-style: normal;
+    font-weight: normal;
+    font-display: block;
+    src: url('[[font:theme|Phosphor.woff2]]') format('woff2');
+}
+
+@font-face {
+    font-family: 'Phosphor-Fill';
+    font-style: normal;
+    font-weight: normal;
+    font-display: block;
+    src: url('[[font:theme|PhosphorFill.woff2]]') format('woff2');
+}

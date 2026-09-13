@@ -1,0 +1,75 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/certificate
+
+    End of programme certification.
+
+    Example context (json):
+    {
+        "fullname": "Sami Ben Ali", "hasprogramme": true,
+        "conditions": [{"label": "Cours complétés", "detail": "94 / 94", "class": "is-done", "icon": "ph-fill ph-check-circle"}],
+        "alldone": false, "downloadurl": "", "profileurl": "#"
+    }
+}}
+<div class="alpha-certificate">
+    <a href="{{profileurl}}" class="alpha-backlink">
+        <i class="ph ph-arrow-left" aria-hidden="true"></i>
+        <span>{{#str}}profile, local_alphatrade{{/str}}</span>
+    </a>
+
+    <section class="alpha-card alpha-card-accent alpha-certificate-card">
+        <span class="alpha-card-icon"><i class="ph ph-certificate" aria-hidden="true"></i></span>
+        <p class="alpha-eyebrow">{{#str}}certification_eyebrow, local_alphatrade{{/str}}</p>
+        <h1 class="alpha-title">{{fullname}}</h1>
+        <p class="alpha-lead">{{#str}}certification_mention, local_alphatrade{{/str}}</p>
+    </section>
+
+    {{#hasprogramme}}
+        <h2 class="alpha-section-title"><span>{{#str}}conditions, local_alphatrade{{/str}}</span></h2>
+        <div class="alpha-card">
+            <ul class="alpha-checklist">
+                {{#conditions}}
+                    <li class="{{class}}">
+                        <i class="{{icon}}" aria-hidden="true"></i>
+                        <span class="alpha-list-body">{{label}}</span>
+                        {{#detail}}<span class="alpha-subtle alpha-num">{{detail}}</span>{{/detail}}
+                    </li>
+                {{/conditions}}
+            </ul>
+        </div>
+
+        <div class="alpha-row alpha-certificate-cta">
+            <span class="alpha-spacer"></span>
+            {{#downloadurl}}
+                <a class="btn btn-primary alpha-btn-lg" href="{{downloadurl}}">
+                    <i class="ph ph-download-simple" aria-hidden="true"></i>
+                    <span>{{#str}}downloadcertificate, local_alphatrade{{/str}}</span>
+                </a>
+            {{/downloadurl}}
+            {{^downloadurl}}
+                <button type="button" class="btn btn-secondary alpha-btn-lg" disabled>
+                    <i class="ph ph-lock-simple" aria-hidden="true"></i>
+                    <span>{{#str}}downloadcertificate, local_alphatrade{{/str}}</span>
+                </button>
+            {{/downloadurl}}
+        </div>
+        {{^alldone}}
+            <p class="alpha-subtle alpha-certificate-note">{{#str}}certification_locked, local_alphatrade{{/str}}</p>
+        {{/alldone}}
+    {{/hasprogramme}}
+</div>

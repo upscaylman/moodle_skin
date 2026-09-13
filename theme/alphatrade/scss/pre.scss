@@ -1,0 +1,283 @@
+// Alpha Trade - design tokens and Bootstrap/Boost variables.
+// Injected BEFORE Boost compiles, so every native Moodle component inherits the palette.
+// $alpha-accent is prepended by lib.php from the admin setting (default #C99A3E).
+
+$alpha-accent: #C99A3E !default;
+
+// Surfaces (Nocturne anthracite, page ground fixed at #181a1e).
+$alpha-bg:          #181a1e;
+$alpha-surface:     #212429;
+$alpha-surface-2:   #292d33;
+$alpha-surface-3:   #32363d;
+$alpha-sunken:      #1c1f23;
+$alpha-divider:     rgba(255, 255, 255, .08);
+$alpha-divider-strong: rgba(255, 255, 255, .14);
+
+// Text.
+$alpha-text:        #ececee;
+$alpha-text-muted:  #9aa0a8;
+$alpha-text-subtle: #6b717a;
+
+// Matte gold scale derived from the accent (never a glossy gradient in the UI).
+$alpha-accent-100: mix(#ffffff, $alpha-accent, 78%);
+$alpha-accent-200: mix(#ffffff, $alpha-accent, 55%);
+$alpha-accent-300: mix(#ffffff, $alpha-accent, 30%);
+$alpha-accent-400: mix(#ffffff, $alpha-accent, 12%);
+$alpha-accent-500: $alpha-accent;
+$alpha-accent-600: mix($alpha-bg, $alpha-accent, 20%);
+$alpha-accent-700: mix($alpha-bg, $alpha-accent, 45%);
+$alpha-accent-800: mix($alpha-bg, $alpha-accent, 68%);
+$alpha-accent-900: mix($alpha-bg, $alpha-accent, 84%);
+$alpha-on-accent:  #16181b;
+
+// Functional colours. Never the only signal: always paired with an icon or a label.
+$alpha-success:      #5fae7d;
+$alpha-success-tint: #8fd1a6;
+$alpha-warning:      #d98a3f;
+$alpha-warning-tint: #f0b37a;
+$alpha-danger:       #d9776f;
+$alpha-danger-tint:  #f0a39c;
+$alpha-info:         #7a9cc6;
+$alpha-info-tint:    #a9c3e3;
+$alpha-locked:       #6b717a;
+
+// Shape and depth.
+$alpha-radius-sm:   8px;
+$alpha-radius:      12px;
+$alpha-radius-lg:   16px;
+$alpha-radius-xl:   20px;
+$alpha-radius-pill: 14px;
+$alpha-shadow-sm:   0 1px 2px rgba(0, 0, 0, .35), 0 1px 1px rgba(0, 0, 0, .2);
+$alpha-shadow-md:   0 14px 34px rgba(0, 0, 0, .4);
+
+// Shell.
+$alpha-header-height:  64px;
+$alpha-sidebar-width:  248px;
+$alpha-tabbar-height:  64px;
+$alpha-content-max:    1120px;
+
+// Decorative blob (logo / navbar only, page layer, never clipped, never behind text blocks).
+$alpha-blob: radial-gradient(circle at 30% 30%, rgba(244, 114, 182, .5) 0%, rgba(167, 139, 250, .42) 35%, rgba(96, 165, 250, .32) 60%, transparent 80%);
+
+// ---------------------------------------------------------------------------
+// Bootstrap 4.6 / Boost variables.
+// Dark UI: the gray scale is inverted ($white is the card surface, $gray-900 the text)
+// so Moodle's thousands of "bg-white / gray-100 / text-dark" rules follow automatically.
+// ---------------------------------------------------------------------------
+
+$white:    $alpha-surface;
+$gray-100: #25282e;
+$gray-200: $alpha-surface-2;
+$gray-300: #383c43;
+$gray-400: #454a52;
+$gray-500: #6b717a;
+$gray-600: $alpha-text-muted;
+$gray-700: #b9bec5;
+$gray-800: #d5d8dc;
+$gray-900: $alpha-text;
+$black:    #000000;
+
+$primary:   $alpha-accent;
+$secondary: $gray-400;
+$success:   $alpha-success;
+$info:      $alpha-info;
+$warning:   $alpha-warning;
+$danger:    $alpha-danger;
+$light:     $gray-200;
+$dark:      #0e0f11;
+
+$yiq-text-dark:  $alpha-on-accent;
+$yiq-text-light: #ffffff;
+$yiq-contrasted-threshold: 150;
+
+$body-bg:    $alpha-bg;
+$body-color: $alpha-text;
+$text-muted: $alpha-text-muted;
+
+$link-color:            $alpha-accent-300;
+$link-hover-color:      $alpha-accent-200;
+$link-decoration:       none;
+$link-hover-decoration: underline;
+
+$font-family-sans-serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$headings-font-weight: 600;
+$headings-color:       $alpha-text;
+$font-weight-bold:     600;
+
+$border-color:     $alpha-divider;
+$border-radius:    $alpha-radius;
+$border-radius-lg: $alpha-radius-lg;
+$border-radius-sm: $alpha-radius-sm;
+$btn-border-radius:    10px;
+$btn-border-radius-lg: $alpha-radius;
+$btn-border-radius-sm: $alpha-radius-sm;
+$btn-font-weight:      500;
+
+$box-shadow-sm: $alpha-shadow-sm;
+$box-shadow:    0 8px 24px rgba(0, 0, 0, .35);
+$box-shadow-lg: $alpha-shadow-md;
+
+$hr-border-color: $alpha-divider;
+
+$component-active-color: $alpha-on-accent;
+$component-active-bg:    $alpha-accent;
+$input-btn-focus-color:  rgba($alpha-accent, .45);
+
+$card-bg:           $alpha-surface;
+$card-border-color: $alpha-divider;
+$card-cap-bg:       transparent;
+$card-border-radius: $alpha-radius-lg;
+
+$input-bg:                 $alpha-sunken;
+$input-disabled-bg:        $alpha-surface-2;
+$input-color:              $alpha-text;
+$input-border-color:       #3a3e45;
+$input-focus-bg:           $alpha-sunken;
+$input-focus-border-color: $alpha-accent;
+$input-focus-color:        $alpha-text;
+$input-placeholder-color:  $alpha-text-subtle;
+$input-group-addon-bg:     $alpha-surface-2;
+$input-group-addon-color:  $alpha-text-muted;
+
+$custom-select-bg:            $alpha-sunken;
+$custom-select-color:         $alpha-text;
+$custom-select-border-color:  #3a3e45;
+$custom-select-disabled-bg:   $alpha-surface-2;
+$custom-control-indicator-bg: $alpha-sunken;
+$custom-control-indicator-border-color: #50555d;
+$custom-control-indicator-checked-color: $alpha-on-accent;
+$custom-control-indicator-checked-bg:    $alpha-accent;
+$custom-control-indicator-checked-border-color: $alpha-accent;
+
+$dropdown-bg:              $alpha-surface-2;
+$dropdown-border-color:    $alpha-divider-strong;
+$dropdown-link-color:      $alpha-text;
+$dropdown-link-active-color: $alpha-on-accent;
+$dropdown-link-active-bg:  $alpha-accent;
+$dropdown-divider-bg:      $alpha-divider;
+$dropdown-header-color:    $alpha-text-muted;
+$dropdown-box-shadow:      $alpha-shadow-md;
+
+$modal-content-bg:           $alpha-surface;
+$modal-content-border-color: $alpha-divider-strong;
+$modal-header-border-color:  $alpha-divider;
+$modal-footer-border-color:  $alpha-divider;
+$modal-backdrop-bg:          #000000;
+$modal-backdrop-opacity:     .6;
+
+$popover-bg:           $alpha-surface-2;
+$popover-border-color: $alpha-divider-strong;
+$popover-header-bg:    $alpha-surface-3;
+$popover-header-color: $alpha-text;
+$popover-body-color:   $alpha-text;
+
+$tooltip-bg:    #0e0f11;
+$tooltip-color: $alpha-text;
+
+$toast-color:                   $alpha-text;
+$toast-background-color:        rgba(14, 15, 17, .96);
+$toast-header-color:            $alpha-text;
+$toast-header-background-color: rgba(255, 255, 255, .05);
+
+$list-group-bg:                 $alpha-surface;
+$list-group-border-color:       $alpha-divider;
+$list-group-hover-bg:           $alpha-surface-2;
+$list-group-action-color:       $alpha-text;
+$list-group-action-hover-color: $alpha-text;
+$list-group-active-color:       $alpha-accent-100;
+$list-group-active-bg:          $alpha-accent-800;
+$list-group-active-border-color: transparent;
+
+$nav-tabs-border-color:            $alpha-divider;
+$nav-tabs-link-hover-border-color: transparent;
+$nav-tabs-link-active-color:       $alpha-text;
+$nav-tabs-link-active-bg:          transparent;
+$nav-tabs-link-active-border-color: transparent transparent $alpha-accent;
+$nav-link-disabled-color:          $alpha-text-subtle;
+
+$navbar-light-color:        $alpha-text-muted;
+$navbar-light-hover-color:  $alpha-text;
+$navbar-light-active-color: $alpha-text;
+
+$table-color:        $alpha-text;
+$table-bg:           transparent;
+$table-accent-bg:    rgba(255, 255, 255, .02);
+$table-hover-bg:     rgba(255, 255, 255, .04);
+$table-border-color: $alpha-divider;
+$table-head-bg:      $alpha-surface-2;
+$table-head-color:   $alpha-text-muted;
+
+$pagination-color:              $alpha-text;
+$pagination-bg:                 $alpha-surface;
+$pagination-border-color:       $alpha-divider;
+$pagination-hover-color:        $alpha-text;
+$pagination-hover-bg:           $alpha-surface-2;
+$pagination-hover-border-color: $alpha-divider;
+$pagination-active-color:       $alpha-on-accent;
+$pagination-active-bg:          $alpha-accent;
+$pagination-active-border-color: $alpha-accent;
+$pagination-disabled-color:     $alpha-text-subtle;
+$pagination-disabled-bg:        $alpha-surface;
+$pagination-disabled-border-color: $alpha-divider;
+
+$progress-bg:            $alpha-surface-3;
+$progress-bar-bg:        $alpha-accent;
+$progress-height:        .5rem;
+$progress-border-radius: 999px;
+
+$badge-font-weight:   500;
+$badge-padding-y:     .3em;
+$badge-padding-x:     .7em;
+$badge-border-radius: 999px;
+
+$breadcrumb-active-color: $alpha-text-muted;
+$breadcrumb-divider-color: $alpha-text-subtle;
+
+$close-color: $alpha-text;
+$mark-bg: rgba($alpha-accent, .3);
+$kbd-bg: $alpha-surface-3;
+$kbd-color: $alpha-text;
+$code-color: $alpha-accent-200;
+
+// Alerts are shaded toward the dark ground instead of tinted toward white.
+$alert-bg-scale:     78%;
+$alert-border-scale: 60%;
+$alert-color-scale:  -55%;
+
+// Boost / Moodle variables.
+$navbar-height:            $alpha-header-height;
+$drawer-bg-color:          $alpha-bg;
+$drawer-scroll-bg-track:   $alpha-bg;
+$drawer-bg:                $alpha-bg;
+$thin-scroll-bg-thumb:     #3a3e45;
+$thin-scroll-bg-hover:     #4a4f57;
+$collapse-list-item-hover-bg:     $alpha-surface-2;
+$collapse-list-item-hover-border: $alpha-divider;
+$courseindex-link-color:          $alpha-text-muted;
+$courseindex-link-hover-color:    $alpha-text;
+$courseindex-link-color-selected: $alpha-accent-100;
+$courseindex-link-dimmed-color:   $alpha-text-subtle;
+$courseindex-item-active-bg:      $alpha-surface-2;
+$courseindex-item-active-border:  $alpha-divider;
+$courseindex-item-page-bg:        $alpha-accent-800;
+$courseindex-item-current:        $alpha-accent;
+$courseindex-item-radius:         $alpha-radius-pill;
+$activity-border-radius: $alpha-radius-lg;
+$divider-color: $alpha-divider;
+$loginbackground-gradient-from: $alpha-bg;
+$loginbackground-gradient-to:   $alpha-bg;
+$logincontainer-bg:      $alpha-surface;
+$logincontainer-shadow:  $alpha-shadow-md;
+$logincontainer-padding: 2.5rem;
+$logindivider-border:    $alpha-divider;
+$message-send-bg:        $alpha-accent-800;
+$dropzone-border:        $alpha-text-muted;
+
+// Activity icons: one matte gold tone instead of Moodle's purpose colours.
+$alpha-icon-filter: invert(68%) sepia(35%) saturate(620%) hue-rotate(2deg) brightness(90%) contrast(88%);
+$activity-icon-administration-filter:     $alpha-icon-filter;
+$activity-icon-assessment-filter:         $alpha-icon-filter;
+$activity-icon-collaboration-filter:      $alpha-icon-filter;
+$activity-icon-communication-filter:      $alpha-icon-filter;
+$activity-icon-content-filter:            $alpha-icon-filter;
+$activity-icon-interactivecontent-filter: $alpha-icon-filter;

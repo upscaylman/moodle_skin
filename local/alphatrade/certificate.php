@@ -30,7 +30,8 @@ use local_alphatrade\local\activity;
 use local_alphatrade\local\page;
 use local_alphatrade\local\programme;
 
-page::setup('/local/alphatrade/certificate.php', 'profile', get_string('certification', 'local_alphatrade'));
+page::setup('/local/alphatrade/certificate.php', 'profile', get_string('certification', 'local_alphatrade'), [],
+    get_string('sub_certification', 'local_alphatrade'));
 
 $programme = programme::for_user($USER->id);
 $conditions = [];
@@ -76,8 +77,9 @@ if ($programme) {
         $conditions[] = [
             'label' => get_string($key, 'local_alphatrade'),
             'detail' => $detail,
-            'class' => $done ? 'is-done' : 'is-todo',
-            'icon' => $done ? 'ph-fill ph-check-circle' : 'ph ph-circle',
+            'isdone' => $done,
+            'iconclass' => programme::maquette_icon($done ? 'done' : 'todo'),
+            'statusclass' => programme::maquette_status_class($done ? 'done' : 'todo'),
         ];
     }
 
@@ -97,6 +99,5 @@ echo $OUTPUT->render_from_template('local_alphatrade/certificate', [
     'conditions' => $conditions,
     'alldone' => $alldone,
     'downloadurl' => $downloadurl,
-    'profileurl' => (new moodle_url('/local/alphatrade/profile.php'))->out(false),
 ]);
 echo $OUTPUT->footer();

@@ -17,43 +17,39 @@
 {{!
     @template theme_alphatrade/header
 
-    Fixed top header. Desktop: wordmark, search, notifications, avatar + first name.
-    Mobile: menu button, gold mark, notifications, avatar.
+    In-page header (maquette "at-desktop-header"): title + subtitle on the left,
+    search, notifications and avatar on the right. On mobile the actions move into the top bar.
 
     Example context (json):
     {
-        "sitename": "Alpha Trade",
-        "homeurl": "#",
-        "logourl": "logo.png",
-        "markurl": "mark.png",
-        "output": {"search_box": "", "navbar_plugin_output": "", "edit_switch": ""}
+        "isalphapage": true, "isnativepage": false,
+        "title": "Accueil", "subtitle": "Votre parcours Alpha Trade.",
+        "searchurl": "#", "nav": {"isstudent": true},
+        "output": {"navbar_plugin_output": "", "edit_switch": "", "full_header": ""}
     }
 }}
-<nav class="navbar fixed-top alpha-header navbar-expand" aria-label="{{#str}}sitemenubar, admin{{/str}}">
-    <div class="alpha-header-inner">
-        <button type="button" class="btn alpha-icon-btn alpha-header-menu d-lg-none"
-            data-toggler="drawers" data-action="toggle" data-target="theme_alphatrade-drawers-menu"
-            aria-label="{{#str}}menu, theme_alphatrade{{/str}}">
-            <i class="ph ph-list" aria-hidden="true"></i>
-        </button>
-        <a href="{{homeurl}}" class="alpha-brand aabtn">
-            <img src="{{logourl}}" class="alpha-brand-wordmark d-none d-lg-block" alt="{{sitename}}">
-            <img src="{{markurl}}" class="alpha-brand-mark d-lg-none" alt="{{sitename}}">
-        </a>
-        <div id="usernavigation" class="navbar-nav alpha-header-actions ms-auto">
-            {{# output.search_box }}
-                <div class="alpha-header-search d-none d-md-flex">{{{ output.search_box }}}</div>
-            {{/ output.search_box }}
-            {{#langmenu}}
-                <div class="d-none d-md-flex">{{> theme_boost/language_menu }}</div>
-            {{/langmenu}}
-            {{{ output.navbar_plugin_output }}}
-            <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
-                {{#usermenu}}
-                    {{> core/user_menu }}
-                {{/usermenu}}
-            </div>
-            <div class="alpha-header-editswitch d-none d-md-flex">{{{ output.edit_switch }}}</div>
-        </div>
+<div class="at-desktop-header d-print-none">
+    <div class="at-page-title">
+        {{#isalphapage}}
+            <h1>{{title}}</h1>
+            {{#subtitle}}<p>{{subtitle}}</p>{{/subtitle}}
+        {{/isalphapage}}
+        {{#isnativepage}}
+            {{{ output.full_header }}}
+        {{/isnativepage}}
     </div>
-</nav>
+    <div id="usernavigation" class="at-header-actions">
+        {{#nav.isstudent}}
+            <a class="btn btn-icon btn-secondary at-header-search" href="{{searchurl}}" aria-label="{{#str}}search{{/str}}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+            </a>
+        {{/nav.isstudent}}
+        {{{ output.navbar_plugin_output }}}
+        <div class="usermenu-container" data-region="usermenu">
+            {{#usermenu}}
+                {{> core/user_menu }}
+            {{/usermenu}}
+        </div>
+        <div class="at-editswitch">{{{ output.edit_switch }}}</div>
+    </div>
+</div>

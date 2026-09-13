@@ -30,7 +30,8 @@ use local_alphatrade\local\page;
 
 $id = required_param('id', PARAM_INT);
 
-page::setup('/local/alphatrade/review.php', 'reviews', get_string('reviews', 'local_alphatrade'), ['id' => $id]);
+page::setup('/local/alphatrade/review.php', 'reviews', get_string('correctanalysis', 'local_alphatrade'), ['id' => $id],
+    get_string('sub_review', 'local_alphatrade'));
 $context = page::programme_context();
 require_capability('local/alphatrade:reviewanalysis', $context);
 
@@ -92,7 +93,7 @@ echo $OUTPUT->render_from_template('local_alphatrade/review', [
     'student' => fullname($student),
     'number' => sprintf('#%03d', $chart->id),
     'title' => format_string($chart->title),
-    'symbol' => page::clean_symbol($chart->symbol),
+    'symbol' => page::display_symbol($chart->symbol),
     'timeframe' => page::timeframe_label($chart->timeframe),
     'chartsrc' => page::tradingview_url($chart->symbol, $chart->timeframe),
     'answers' => $answers,

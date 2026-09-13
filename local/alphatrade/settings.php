@@ -88,5 +88,22 @@ if ($hassiteconfig) {
             get_string('redirectcourse', 'local_alphatrade'), get_string('redirectcourse_desc', 'local_alphatrade'), 1));
         $settings->add(new admin_setting_configtext('local_alphatrade/inactivedays',
             get_string('inactivedays', 'local_alphatrade'), get_string('inactivedays_desc', 'local_alphatrade'), 7, PARAM_INT, 4));
+        $settings->add(new admin_setting_configcheckbox('local_alphatrade/redirectmessages',
+            get_string('redirectmessages', 'local_alphatrade'), get_string('redirectmessages_desc', 'local_alphatrade'), 1));
+
+        // Market data proxy (API key stays on the server).
+        $settings->add(new admin_setting_heading('local_alphatrade/marketheading',
+            get_string('settings_marketdata', 'local_alphatrade'), get_string('settings_marketdata_desc', 'local_alphatrade')));
+        $settings->add(new admin_setting_configtextarea('local_alphatrade/markets',
+            get_string('markets', 'local_alphatrade'), get_string('markets_desc', 'local_alphatrade'),
+            \local_alphatrade\local\markets::DEFAULT, PARAM_TEXT, 60, 6));
+        $settings->add(new admin_setting_configpasswordunmask('local_alphatrade/lse_apikey',
+            get_string('lse_apikey', 'local_alphatrade'), get_string('lse_apikey_desc', 'local_alphatrade'), ''));
+        $settings->add(new admin_setting_configtext('local_alphatrade/lse_baseurl',
+            get_string('lse_baseurl', 'local_alphatrade'), '', \local_alphatrade\local\marketdata::DEFAULT_BASEURL, PARAM_URL, 50));
+        $settings->add(new admin_setting_configtext('local_alphatrade/lse_cachettl',
+            get_string('lse_cachettl', 'local_alphatrade'), '', 3600, PARAM_INT, 6));
+        $settings->add(new admin_setting_configtext('local_alphatrade/lse_ratelimit',
+            get_string('lse_ratelimit', 'local_alphatrade'), get_string('lse_ratelimit_desc', 'local_alphatrade'), 120, PARAM_INT, 6));
     }
 }

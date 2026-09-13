@@ -1,0 +1,51 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/receipt
+
+    Printable payment receipt (billing patterns of the maquette Paiement).
+
+    Example context (json):
+    {"number": "AT-2026-000012", "date": "1 septembre 2026, 10:42", "sitename": "Alpha Trade", "payer": "Claire Moreau", "email": "claire@example.com",
+     "description": "Programme complet", "gateway": "Stripe", "amount": "1 490,00 €"}
+}}
+<div class="at-screen at-billing">
+    <div class="at-card at-elev-md at-receipt">
+        <div class="at-row-between">
+            <span class="at-card-kicker">{{#str}}receipt, local_alphatrade{{/str}}</span>
+            <span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}paid, local_alphatrade{{/str}}</span>
+        </div>
+        <h3 class="at-mt-2">{{number}}</h3>
+        <div class="at-strat-kv at-receipt-kv">
+            <div><span>{{#str}}date, local_alphatrade{{/str}}</span><span>{{date}}</span></div>
+            <div><span>{{#str}}issuer, local_alphatrade{{/str}}</span><span>{{sitename}}</span></div>
+            <div><span>{{#str}}billedto, local_alphatrade{{/str}}</span><span>{{payer}} · {{email}}</span></div>
+            <div><span>{{#str}}description{{/str}}</span><span>{{description}}</span></div>
+            <div><span>{{#str}}paymentmethod, local_alphatrade{{/str}}</span><span>{{gateway}}</span></div>
+        </div>
+        <hr class="at-hr">
+        <div class="at-row-between at-receipt-total"><span>{{#str}}total, local_alphatrade{{/str}}</span><span>{{amount}}</span></div>
+        <button type="button" class="btn btn-secondary d-print-none" data-action="at-print">{{#str}}print, local_alphatrade{{/str}}</button>
+    </div>
+</div>
+{{#js}}
+document.querySelectorAll('[data-action="at-print"]').forEach(function(button) {
+    button.addEventListener('click', function() {
+        window.print();
+    });
+});
+{{/js}}

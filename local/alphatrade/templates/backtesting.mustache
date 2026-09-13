@@ -17,69 +17,71 @@
 {{!
     @template local_alphatrade/backtesting
 
-    Backtesting Lab: one card per strategy with two key metric lines.
+    Maquette Portail Etudiant, screen "Backtest": strategy cards and the "Nouvelle stratégie" card.
 
     Example context (json):
     {
-        "hascards": true,
-        "cards": [{"name": "Alpha Setup #01", "market": "FX:EURUSD", "timeframe": "H1", "url": "#",
-            "stats": {"trades": 52, "expectancy": "+0,32R", "expectancyclass": "alpha-value-positive", "winrate": "46 %", "maxdrawdown": "-6R"}}],
-        "newurl": "#",
-        "toolsurl": "#"
+        "hascards": true, "newurl": "#", "listurl": "#", "showform": false, "editing": false, "formaction": "#", "sesskey": "x",
+        "name": "", "period": "", "description": "",
+        "markets": [{"value": "EUR/USD", "label": "EUR/USD", "checked": true}],
+        "timeframes": [{"value": "60", "label": "H1", "checked": true}],
+        "canverify": false, "verifyurl": "#",
+        "cards": [{"name": "Alpha Setup #01", "market": "EUR/USD", "timeframe": "H1", "url": "#",
+            "stats": {"trades": 247, "expectancy": "+0.38R", "winrate": "48.2 %", "maxdrawdown": "-7.4R"} }]
     }
 }}
-<div class="alpha-backtesting">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}backtestinglab, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}mystrategies, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}backtesting_lead, local_alphatrade{{/str}}</p>
+<div class="at-screen at-backtest">
+    <div class="at-row-between at-mb-18">
+        <h2 class="at-m-0">{{#str}}mystrategies, local_alphatrade{{/str}}</h2>
+        <div class="at-row-gap-10">
+            {{#canverify}}
+                <form method="post" action="{{verifyurl}}" class="at-inline-form">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <button type="submit" class="btn btn-secondary">{{#str}}verifyall, local_alphatrade{{/str}}</button>
+                </form>
+            {{/canverify}}
+            <a class="btn btn-primary" href="{{newurl}}">+ {{#str}}new, local_alphatrade{{/str}}</a>
         </div>
-        <div class="alpha-pagehead-actions">
-            <a class="btn btn-primary" href="{{newurl}}"><i class="ph ph-plus" aria-hidden="true"></i>{{#str}}new, local_alphatrade{{/str}}</a>
-        </div>
-    </header>
+    </div>
+
+    {{#showform}}
+        <form class="at-card at-elev-sm at-pad-20 at-mb-16" method="post" action="{{formaction}}">
+            <input type="hidden" name="sesskey" value="{{sesskey}}">
+            <h5 class="at-mb-14">{{#editing}}{{#str}}editstrategy, local_alphatrade{{/str}}{{/editing}}{{^editing}}{{#str}}newstrategy, local_alphatrade{{/str}}{{/editing}}</h5>
+            <div class="at-field at-mb-12 at-max-360">
+                <label for="at-strat-name">{{#str}}name{{/str}}</label>
+                <input class="at-input" id="at-strat-name" name="name" type="text" value="{{name}}" maxlength="255" placeholder="{{#str}}strategyname_ph, local_alphatrade{{/str}}">
+            </div>
+            <div class="at-field at-mb-12">
+                <span class="at-label">{{#str}}market, local_alphatrade{{/str}}</span>
+                <div class="at-pills">
+                    {{#markets}}<label class="at-pill"><input type="radio" name="market" value="{{value}}"{{#checked}} checked{{/checked}}><span>{{label}}</span></label>{{/markets}}
+                </div>
+            </div>
+            <div class="at-field at-mb-16">
+                <span class="at-label">{{#str}}timeframe, local_alphatrade{{/str}}</span>
+                <div class="at-pills">
+                    {{#timeframes}}<label class="at-pill"><input type="radio" name="timeframe" value="{{value}}"{{#checked}} checked{{/checked}}><span>{{label}}</span></label>{{/timeframes}}
+                </div>
+            </div>
+            <div class="at-row-gap-10">
+                <button type="submit" class="btn btn-primary">{{#editing}}{{#str}}savechanges{{/str}}{{/editing}}{{^editing}}{{#str}}createstrategy, local_alphatrade{{/str}}{{/editing}}</button>
+                <a class="btn btn-ghost" href="{{listurl}}">{{#str}}cancel{{/str}}</a>
+            </div>
+        </form>
+    {{/showform}}
 
     {{#hascards}}
-        <div class="alpha-grid alpha-grid-2">
+        <div class="at-stack-14">
             {{#cards}}
-                <article class="alpha-card alpha-strategy-card">
-                    <p class="alpha-card-caps">{{name}}</p>
-                    <p class="alpha-muted alpha-strategy-market">{{market}} · {{timeframe}}</p>
-                    <dl class="alpha-kv alpha-strategy-kv">
-                        <div>
-                            <dt>{{#str}}trades, local_alphatrade{{/str}}</dt>
-                            <dd>{{stats.trades}}</dd>
-                        </div>
-                        <div>
-                            <dt>{{#str}}expectancy, local_alphatrade{{/str}}</dt>
-                            <dd class="{{stats.expectancyclass}}">{{stats.expectancy}}</dd>
-                        </div>
-                        <div>
-                            <dt>{{#str}}winrate, local_alphatrade{{/str}}</dt>
-                            <dd>{{stats.winrate}}</dd>
-                        </div>
-                        <div>
-                            <dt>{{#str}}maxdrawdown, local_alphatrade{{/str}}</dt>
-                            <dd>{{stats.maxdrawdown}}</dd>
-                        </div>
-                    </dl>
-                    <div class="alpha-card-footer">
-                        <span></span>
-                        <a class="btn btn-secondary" href="{{url}}">
-                            <span>{{#str}}open, local_alphatrade{{/str}}</span>
-                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </article>
+                <div class="at-card at-elev-sm at-pad-20">
+                    <h4 class="at-card-title">{{name}}</h4>
+                    <div class="at-card-meta at-mb-10">{{market}} · {{timeframe}}</div>
+                    <div class="at-strat-figures"><span>{{stats.trades}} {{#str}}trades_lower, local_alphatrade{{/str}}</span><span>{{stats.expectancy}} expectancy</span><span>{{stats.winrate}} win rate</span><span>{{stats.maxdrawdown}} drawdown</span></div>
+                    <a class="btn btn-secondary" href="{{url}}">{{#str}}open, local_alphatrade{{/str}}</a>
+                </div>
             {{/cards}}
         </div>
     {{/hascards}}
-    {{^hascards}}
-        <div class="alpha-empty">
-            <i class="ph ph-chart-line-up" aria-hidden="true"></i>
-            <p>{{#str}}nostrategies, local_alphatrade{{/str}}</p>
-            <a class="btn btn-primary" href="{{newurl}}"><i class="ph ph-plus" aria-hidden="true"></i>{{#str}}newstrategy, local_alphatrade{{/str}}</a>
-        </div>
-    {{/hascards}}
+    {{^hascards}}{{^showform}}<p class="at-muted">{{#str}}nostrategies, local_alphatrade{{/str}}</p>{{/showform}}{{/hascards}}
 </div>

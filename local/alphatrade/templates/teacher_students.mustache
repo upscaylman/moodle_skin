@@ -1,0 +1,65 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/teacher_students
+
+    Trainer space: students progress and pedagogical alerts (Espace Enseignant patterns).
+
+    Example context (json):
+    {
+        "participantsurl": "#",
+        "hasalerts": true, "alerts": [{"student": "Léa Roussel", "text": "Inactive depuis 9 jours", "url": "#"}],
+        "hasrows": true,
+        "rows": [{"name": "Claire Moreau", "url": "#", "percent": 68, "module": "Module 03 - Structure", "lastaccess": "Il y a 2h", "isblocked": false, "islate": false, "isok": true, "journalurl": "#"}]
+    }
+}}
+<div class="at-screen at-staff">
+    <div class="at-row-between at-mb-14">
+        <h4 class="at-m-0">{{#str}}pedagogicalalerts, local_alphatrade{{/str}}</h4>
+        <a class="btn btn-secondary" href="{{participantsurl}}">{{#str}}participants{{/str}}</a>
+    </div>
+    <div class="at-card at-elev-sm at-pad-20 at-mb-20">
+        <div class="at-feed">
+            {{#alerts}}
+                <div><span class="at-feed-dot is-warning" aria-hidden="true"></span><div><a href="{{url}}"><strong>{{student}}</strong></a> - {{text}}</div></div>
+            {{/alerts}}
+            {{^hasalerts}}<div class="at-inline-icon"><i class="ph-fill ph-check-circle at-status-done" aria-hidden="true"></i>{{#str}}noalerts, local_alphatrade{{/str}}</div>{{/hasalerts}}
+        </div>
+    </div>
+    <div class="at-card at-elev-sm at-table-card">
+        <table class="at-table">
+            <thead><tr><th>{{#str}}student, local_alphatrade{{/str}}</th><th>{{#str}}progress, local_alphatrade{{/str}}</th><th>{{#str}}currentmodule, local_alphatrade{{/str}}</th><th>{{#str}}lastaccess{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+            <tbody>
+                {{#rows}}
+                    <tr>
+                        <td><a href="{{url}}">{{name}}</a></td>
+                        <td>{{percent}} %</td>
+                        <td>{{module}}</td>
+                        <td>{{lastaccess}}</td>
+                        <td>
+                            {{#isblocked}}<span class="at-tag at-tag-danger"><i class="ph ph-warning-octagon" aria-hidden="true"></i>{{#str}}student_blocked, local_alphatrade{{/str}}</span>{{/isblocked}}
+                            {{#islate}}<span class="at-tag at-tag-warning"><i class="ph ph-clock" aria-hidden="true"></i>{{#str}}student_late, local_alphatrade{{/str}}</span>{{/islate}}
+                            {{#isok}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}student_ok, local_alphatrade{{/str}}</span>{{/isok}}
+                        </td>
+                        <td><a class="btn btn-ghost" href="{{journalurl}}">{{#str}}journal, local_alphatrade{{/str}}</a></td>
+                    </tr>
+                {{/rows}}
+                {{^hasrows}}<tr><td colspan="6" class="at-muted">{{#str}}nostudents, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+            </tbody>
+        </table>
+    </div>
+</div>

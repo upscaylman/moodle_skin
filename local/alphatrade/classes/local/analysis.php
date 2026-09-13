@@ -40,13 +40,11 @@ class analysis {
      * @return array
      */
     public static function bias_options(string $selected): array {
-        $icons = ['bullish' => 'ph-trend-up', 'bearish' => 'ph-trend-down', 'neutral' => 'ph-arrows-left-right'];
         $options = [];
         foreach (self::BIASES as $bias) {
             $options[] = [
                 'value' => $bias,
                 'label' => get_string('bias_' . $bias, 'local_alphatrade'),
-                'icon' => $icons[$bias],
                 'checked' => $bias === $selected,
             ];
         }
@@ -75,9 +73,12 @@ class analysis {
         ];
         if ($data['isreviewed']) {
             $levels = [
-                2 => ['class' => 'is-done', 'icon' => 'ph-fill ph-check-circle', 'label' => get_string('crit_right', 'local_alphatrade')],
-                1 => ['class' => 'is-warning', 'icon' => 'ph-fill ph-warning-circle', 'label' => get_string('crit_partial', 'local_alphatrade')],
-                0 => ['class' => 'is-danger', 'icon' => 'ph-fill ph-x-circle', 'label' => get_string('crit_wrong', 'local_alphatrade')],
+                2 => ['class' => 'is-done', 'icon' => 'ph-fill ph-check-circle', 'colorclass' => 'at-status-done',
+                    'label' => get_string('crit_right', 'local_alphatrade')],
+                1 => ['class' => 'is-warning', 'icon' => 'ph ph-warning', 'colorclass' => 'at-icon-warning',
+                    'label' => get_string('crit_partial', 'local_alphatrade')],
+                0 => ['class' => 'is-danger', 'icon' => 'ph ph-x-circle', 'colorclass' => 'at-icon-danger',
+                    'label' => get_string('crit_wrong', 'local_alphatrade')],
             ];
             $data['criteria'] = [];
             foreach (self::CRITERIA as $criterion) {

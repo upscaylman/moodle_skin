@@ -17,68 +17,44 @@
 {{!
     @template local_alphatrade/resources
 
-    Resource library: search, type pills, one row per resource with a single action.
+    Maquette Portail Etudiant, screen "Ressources".
 
     Example context (json):
     {
         "action": "#", "type": "", "q": "",
         "pills": [{"label": "Tous", "url": "#", "active": true}],
-        "hasitems": true,
-        "items": [{"name": "Checklist avant entrée", "meta": "PDF · Checklists", "url": "#", "icon": "ph-file-pdf", "isdownload": true, "isuse": false}],
-        "configured": true
+        "hasitems": true, "configured": true,
+        "items": [{"name": "Checklist avant entrée", "meta": "Document · 2 pages", "url": "#", "icon": "ph-file-text", "isdownload": true, "isuse": false}]
     }
 }}
-<div class="alpha-resources-page">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}resources, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}resources_title, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}resources_lead, local_alphatrade{{/str}}</p>
-        </div>
-    </header>
-
-    <form class="alpha-search" method="get" action="{{action}}" role="search">
+<div class="at-screen at-resources">
+    <h2 class="at-mb-16">{{#str}}resources, local_alphatrade{{/str}}</h2>
+    <form class="at-search at-mb-14" method="get" action="{{action}}" role="search">
         {{#type}}<input type="hidden" name="type" value="{{type}}">{{/type}}
-        <div class="alpha-input-icon">
-            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
-            <label class="alpha-sr-only" for="alpha-resources-q">{{#str}}search{{/str}}</label>
-            <input class="form-control" id="alpha-resources-q" type="search" name="q" value="{{q}}" placeholder="{{#str}}searchresources, local_alphatrade{{/str}}">
-        </div>
+        <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+        <label class="sr-only" for="at-resources-q">{{#str}}search{{/str}}</label>
+        <input class="at-input" id="at-resources-q" type="text" name="q" value="{{q}}" placeholder="{{#str}}searchresources, local_alphatrade{{/str}}">
     </form>
-
-    <nav class="alpha-pills" aria-label="{{#str}}filters, local_alphatrade{{/str}}">
-        {{#pills}}
-            <a class="alpha-pill{{#active}} active{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>
-        {{/pills}}
-    </nav>
-
+    <div class="at-tags at-mb-18">
+        {{#pills}}<a class="at-tag {{#active}}at-tag-accent{{/active}}{{^active}}at-tag-neutral{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>{{/pills}}
+    </div>
     {{#hasitems}}
-        <ul class="alpha-list">
+        <div class="at-stack-12">
             {{#items}}
-                <li>
-                    <div class="alpha-list-item alpha-resource">
-                        <span class="alpha-card-icon alpha-card-icon-sm"><i class="ph {{icon}}" aria-hidden="true"></i></span>
-                        <span class="alpha-list-body">
-                            <span class="alpha-list-title alpha-caps">{{name}}</span>
-                            <span class="alpha-list-meta">{{meta}}</span>
-                        </span>
-                        <a class="btn btn-secondary btn-sm" href="{{url}}">
-                            {{#isdownload}}<span>{{#str}}download, local_alphatrade{{/str}}</span><i class="ph ph-download-simple" aria-hidden="true"></i>{{/isdownload}}
-                            {{^isdownload}}
-                                {{#isuse}}<span>{{#str}}use, local_alphatrade{{/str}}</span>{{/isuse}}
-                                {{^isuse}}<span>{{#str}}open, local_alphatrade{{/str}}</span>{{/isuse}}
-                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                            {{/isdownload}}
-                        </a>
+                <div class="at-card at-elev-sm at-list-card at-pad-18">
+                    <div class="at-list-card-main">
+                        <i class="ph {{icon}}" aria-hidden="true"></i>
+                        <div>
+                            <h4 class="at-list-card-title">{{name}}</h4>
+                            <div class="at-card-meta">{{meta}}</div>
+                        </div>
                     </div>
-                </li>
+                    <a class="btn btn-secondary" href="{{url}}">{{#isdownload}}{{#str}}download, local_alphatrade{{/str}} &darr;{{/isdownload}}{{^isdownload}}{{#isuse}}{{#str}}use, local_alphatrade{{/str}}{{/isuse}}{{^isuse}}{{#str}}open, local_alphatrade{{/str}}{{/isuse}} &rarr;{{/isdownload}}</a>
+                </div>
             {{/items}}
-        </ul>
+        </div>
     {{/hasitems}}
     {{^hasitems}}
-        <div class="alpha-empty">
-            <i class="ph ph-books" aria-hidden="true"></i>
-            <p>{{#configured}}{{#str}}noresources, local_alphatrade{{/str}}{{/configured}}{{^configured}}{{#str}}resourcesnotconfigured, local_alphatrade{{/str}}{{/configured}}</p>
-        </div>
+        <p class="at-muted">{{#configured}}{{#str}}noresources, local_alphatrade{{/str}}{{/configured}}{{^configured}}{{#str}}resourcesnotconfigured, local_alphatrade{{/str}}{{/configured}}</p>
     {{/hasitems}}
 </div>

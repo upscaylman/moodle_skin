@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Alpha Trade app shell: fixed header, left sidebar (desktop), tab bar + menu (mobile).
- * Drawer logic is Boost's (drawers.php) so course index, blocks and editing keep working.
+ * Alpha Trade app shell (maquettes Portail Etudiant / Espace Enseignant / Espace Admin):
+ * full-height sidebar, in-page header (title, subtitle, search, notifications, avatar),
+ * mobile top bar + bottom tab bar. Boost drawers (course index, blocks) keep working.
  *
  * @package   theme_alphatrade
  * @copyright 2026 Alpha Trade
@@ -37,21 +38,23 @@ if (isloggedin()) {
     $courseindexopen = false;
     $blockdraweropen = false;
 }
-
 if (defined('BEHAT_SITE_RUNNING') && get_user_preferences('behat_keep_drawer_closed') != 1) {
     $blockdraweropen = true;
 }
 
-$isalphapage = strpos(' ' . $PAGE->bodyclasses . ' ', ' alpha-page ') !== false;
-$caneditcourse = !empty($PAGE->course->id) && $PAGE->course->id != SITEID
+$bodyclasses = ' ' . $PAGE->bodyclasses . ' ';
+$isalphapage = strpos($bodyclasses, ' alpha-page ') !== false;
+$isstandalone = strpos($bodyclasses, ' alpha-standalone ') !== false;
+$caneditcourse = $PAGE->course->id != SITEID
     && has_capability('moodle/course:update', context_course::instance($PAGE->course->id));
+$programmeid = theme_alphatrade_has_app() ? (int) get_config('local_alphatrade', 'programmecourse') : 0;
+$inprogramme = $programmeid && $PAGE->course->id == $programmeid;
 
 $extraclasses = ['uses-drawers', 'alpha-app'];
 
-// The course index is Moodle's navigation: students of the programme get the Alpha Trade one instead.
+// Students of the programme navigate with Alpha Trade, not with Moodle's course index.
 $courseindex = core_course_drawer();
-$programmeid = theme_alphatrade_has_app() ? (int) get_config('local_alphatrade', 'programmecourse') : 0;
-if ($courseindex && !$caneditcourse && $programmeid && $PAGE->course->id == $programmeid) {
+if ($courseindex && !$caneditcourse && $inprogramme) {
     $courseindex = '';
 }
 if (!$courseindex) {
@@ -63,18 +66,32 @@ if ($courseindexopen) {
 
 $blockshtml = $OUTPUT->blocks('side-pre');
 $hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
+if ($isalphapage && !$PAGE->user_is_editing()) {
+    $hasblocks = false;
+}
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
 
-// Lesson reader and quiz: header "back to module + Lesson X / Y" and a single next action.
+// Lesson reader and quiz (maquette screens "Leçon" and "Évaluation").
 $lesson = null;
-if (theme_alphatrade_has_app() && !empty($PAGE->cm) && $programmeid && $PAGE->course->id == $programmeid
-        && !($caneditcourse && $PAGE->user_is_editing())) {
+if (theme_alphatrade_has_app() && $PAGE->cm && $inprogramme && !($caneditcourse && $PAGE->user_is_editing())) {
     $lesson = \local_alphatrade\local\programme::lesson_context($PAGE->cm, $USER->id);
     if ($lesson) {
         $extraclasses[] = $lesson['isquiz'] ? 'alpha-quiz' : 'alpha-lesson';
+        if ($lesson['isquiz']) {
+            $lesson = array_merge($lesson, \local_alphatrade\local\quizview::context($PAGE, $PAGE->cm, $USER->id));
+        }
     }
+}
+
+$navigation = new \theme_alphatrade\output\navigation($PAGE);
+$nav = $navigation->export();
+if (!$nav['isstudent']) {
+    $extraclasses[] = 'alpha-staff';
+}
+if ($isstandalone) {
+    $extraclasses[] = 'alpha-standalone-layout';
 }
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
@@ -91,8 +108,7 @@ if ($PAGE->has_secondary_navigation()) {
         $overflow = $overflowdata->export_for_template($OUTPUT);
     }
 }
-// Students do not need Moodle's course tabs (Participants, Grades, Reports...) on programme pages.
-if ($isalphapage || ($programmeid && $PAGE->course->id == $programmeid && !$caneditcourse && $PAGE->context->contextlevel != CONTEXT_MODULE)) {
+if ($isalphapage || $lesson || ($inprogramme && !$caneditcourse && $PAGE->context->contextlevel != CONTEXT_MODULE)) {
     $secondarynavigation = false;
 }
 
@@ -108,7 +124,24 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
-$navigation = new \theme_alphatrade\output\navigation($PAGE);
+// In-page header: Alpha Trade pages declare title + subtitle, Moodle pages use their heading.
+$title = format_string($PAGE->heading ?: $PAGE->title);
+$subtitle = '';
+$standalone = [];
+if (theme_alphatrade_has_app()) {
+    $declared = \local_alphatrade\local\page::get_header();
+    if ($declared) {
+        $title = $declared['title'];
+        $subtitle = $declared['subtitle'];
+        $standalone = $declared['standalone'] ?? [];
+    }
+}
+if ($lesson) {
+    $title = $lesson['isquiz'] ? get_string('evaluation', 'theme_alphatrade') : get_string('lesson', 'theme_alphatrade');
+    $subtitle = $lesson['isquiz'] ? get_string('evaluation_sub', 'theme_alphatrade') : $lesson['modulename'] . '.';
+}
+
+$searchurl = theme_alphatrade_has_app() ? new moodle_url('/local/alphatrade/resources.php') : new moodle_url('/course/search.php');
 
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
@@ -128,13 +161,22 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'showpageheader' => !$isalphapage && !$lesson,
+    'isalphapage' => $isalphapage || $lesson,
+    'isnativepage' => !$isalphapage && !$lesson,
+    'title' => $title,
+    'subtitle' => $subtitle,
+    'standalone' => $standalone,
     'lesson' => $lesson,
-    'nav' => $navigation->export(),
+    'nav' => $nav,
     'logourl' => $OUTPUT->image_url('logo', 'theme_alphatrade')->out(false),
     'markurl' => $OUTPUT->image_url('mark', 'theme_alphatrade')->out(false),
     'homeurl' => theme_alphatrade_has_app() ? (new moodle_url('/local/alphatrade/index.php'))->out(false)
         : (new moodle_url('/my/'))->out(false),
+    'searchurl' => $searchurl->out(false),
+    'userfullname' => isloggedin() ? fullname($USER) : '',
+    'userrole' => $nav['isteacher'] ? get_string('role_teacher', 'theme_alphatrade') : get_string('role_admin', 'theme_alphatrade'),
+    'userinitials' => isloggedin() ? core_text::strtoupper(core_text::substr($USER->firstname, 0, 1) . core_text::substr($USER->lastname, 0, 1)) : '',
+    'profileurl' => (new moodle_url(theme_alphatrade_has_app() ? '/local/alphatrade/profile.php' : '/user/profile.php'))->out(false),
 ];
 
-echo $OUTPUT->render_from_template('theme_alphatrade/app', $templatecontext);
+echo $OUTPUT->render_from_template($isstandalone ? 'theme_alphatrade/standalone' : 'theme_alphatrade/app', $templatecontext);

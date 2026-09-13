@@ -17,32 +17,21 @@
 {{!
     @template local_alphatrade/tools
 
-    Tools: 2x2 grid of shortcut cards.
+    Maquette Portail Etudiant, screen "Outils".
 
     Example context (json):
-    {
-        "cards": [{"icon": "ph-scales", "title": "Calculateur de risque", "text": "Montant risqué par trade", "url": "#"}]
-    }
+    {"cards": [{"icon": "ph-scales", "title": "Calculateur risque", "text": "Calculer votre risque par trade", "url": "#"}]}
 }}
-<div class="alpha-tools">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}tools, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}tools_title, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}tools_lead, local_alphatrade{{/str}}</p>
-        </div>
-    </header>
-    <div class="alpha-grid alpha-grid-2">
+<div class="at-screen at-tools">
+    <h2 class="at-mb-20">{{#str}}tools_title, local_alphatrade{{/str}}</h2>
+    <div class="at-tools-grid">
         {{#cards}}
-            <a class="alpha-card alpha-card-link" href="{{url}}">
-                <span class="alpha-card-icon"><i class="ph {{icon}}" aria-hidden="true"></i></span>
-                <p class="alpha-card-caps">{{title}}</p>
-                <p class="alpha-card-text">{{text}}</p>
-                <span class="alpha-card-footer">
-                    <span></span>
-                    <span class="alpha-link-cta">{{#str}}open, local_alphatrade{{/str}} <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
-                </span>
-            </a>
+            <div class="at-card at-elev-sm at-pad-20 at-tool-card">
+                <i class="ph {{icon}}" aria-hidden="true"></i>
+                <h4>{{title}}</h4>
+                <p class="at-card-body">{{text}}</p>
+                <a class="btn btn-secondary" href="{{url}}">{{#str}}open, local_alphatrade{{/str}} &rarr;</a>
+            </div>
         {{/cards}}
     </div>
 </div>

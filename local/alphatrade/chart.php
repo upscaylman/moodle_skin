@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Chart analysis (wireframe v3 screen 7): chart, structured analysis form, trainer correction.
+ * Chart analysis (maquette Portail Etudiant, screen "Analyse de graphique").
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -30,7 +30,8 @@ use local_alphatrade\local\page;
 $id = required_param('id', PARAM_INT);
 $edit = optional_param('edit', 0, PARAM_BOOL);
 
-page::setup('/local/alphatrade/chart.php', 'practice', get_string('practice_charts', 'local_alphatrade'), ['id' => $id]);
+page::setup('/local/alphatrade/chart.php', 'practice', get_string('practice_analysis', 'local_alphatrade'), ['id' => $id],
+    get_string('sub_analyse', 'local_alphatrade'));
 
 $chart = $DB->get_record('local_alphatrade_chart', ['id' => $id], '*', MUST_EXIST);
 if (!$chart->visible && !page::is_staff('local/alphatrade:managecharts')) {
@@ -45,10 +46,10 @@ if ($editable && data_submitted()) {
     require_sesskey();
     $bias = optional_param('bias', '', PARAM_ALPHA);
     $record = (object) [
-        'structure' => trim(optional_param('structure', '', PARAM_TEXT)),
-        'liquidity' => trim(optional_param('liquidity', '', PARAM_TEXT)),
+        'structure' => core_text::substr(trim(optional_param('structure', '', PARAM_TEXT)), 0, 2000),
+        'liquidity' => core_text::substr(trim(optional_param('liquidity', '', PARAM_TEXT)), 0, 2000),
         'bias' => in_array($bias, analysis::BIASES) ? $bias : null,
-        'scenario' => trim(optional_param('scenario', '', PARAM_TEXT)),
+        'scenario' => core_text::substr(trim(optional_param('scenario', '', PARAM_TEXT)), 0, 2000),
         'timemodified' => time(),
     ];
     if ($record->structure === '' || $record->scenario === '' || !$record->bias) {
@@ -70,28 +71,25 @@ if ($editable && data_submitted()) {
 
 $context = page::programme_context();
 $data = [
-    'backurl' => (new moodle_url('/local/alphatrade/charts.php'))->out(false),
-    'number' => sprintf('#%03d', $chart->id),
+    'backurl' => (new moodle_url('/local/alphatrade/practice.php'))->out(false),
+    'number' => core_text::strtoupper(get_string('analysisnumber', 'local_alphatrade', sprintf('#%03d', $chart->id))),
+    'market' => page::display_symbol($chart->symbol) . ' · ' . page::timeframe_label($chart->timeframe),
     'title' => format_string($chart->title),
-    'symbol' => page::clean_symbol($chart->symbol),
-    'timeframe' => page::timeframe_label($chart->timeframe),
     'chartsrc' => page::tradingview_url($chart->symbol, $chart->timeframe),
     'instructions' => format_text($chart->instructions, $chart->instructionsformat, ['context' => $context]),
+    'hasinstructions' => trim(strip_tags((string) $chart->instructions)) !== '',
     'showform' => $editable && (!$submission || $edit),
     'actionurl' => $pageurl->out(false),
     'sesskey' => sesskey(),
-    'biases' => analysis::bias_options($submission->bias ?? ''),
+    'biases' => analysis::bias_options($submission->bias ?? 'bullish'),
     'structure' => $submission->structure ?? '',
     'liquidity' => $submission->liquidity ?? '',
     'scenario' => $submission->scenario ?? '',
 ];
-
 if ($submission && !$data['showform']) {
     $data['submission'] = analysis::export_submission($submission, $chart, $context);
     $data['editurl'] = $editable ? (new moodle_url($pageurl, ['edit' => 1]))->out(false) : '';
 }
-
-$PAGE->set_title(get_string('analysisnumber', 'local_alphatrade', $data['number']));
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/chart', $data);

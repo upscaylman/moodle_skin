@@ -28,15 +28,21 @@ use moodle_url;
  */
 class page {
 
+    /** @var array|null In-page header (title, subtitle, standalone nav) read by theme_alphatrade. */
+    protected static $header = null;
+
     /**
      * Require a real (non guest) login and set up an Alpha Trade page.
      *
      * @param string $path e.g. /local/alphatrade/journal.php
      * @param string $navkey active navigation item (home, parcours, practice, backtest, journal...)
-     * @param string $title
+     * @param string $title page title shown in the in-page header (maquette)
      * @param array $params URL params
+     * @param string $subtitle line under the title
+     * @param array $options 'standalone' => ['ismessaging' => bool, 'links' => [...]] for site-style pages
      */
-    public static function setup(string $path, string $navkey, string $title, array $params = []): void {
+    public static function setup(string $path, string $navkey, string $title, array $params = [], string $subtitle = '',
+            array $options = []): void {
         global $PAGE;
 
         require_login(null, false);
@@ -51,6 +57,46 @@ class page {
         $PAGE->set_heading($title);
         $PAGE->add_body_class('alpha-page');
         $PAGE->add_body_class('alpha-nav-' . $navkey);
+        if (!empty($options['standalone'])) {
+            $PAGE->add_body_class('alpha-standalone');
+        }
+        self::$header = [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'standalone' => $options['standalone'] ?? [],
+        ];
+    }
+
+    /**
+     * Change the in-page header after setup (e.g. once the record is loaded).
+     *
+     * @param string $title
+     * @param string $subtitle
+     */
+    public static function set_header(string $title, string $subtitle = ''): void {
+        global $PAGE;
+        self::$header = array_merge(self::$header ?? [], ['title' => $title, 'subtitle' => $subtitle]);
+        $PAGE->set_title($title);
+    }
+
+    /**
+     * In-page header declared by the current page, if any.
+     *
+     * @return array|null
+     */
+    public static function get_header(): ?array {
+        return self::$header;
+    }
+
+    /**
+     * Trading figure with a dot decimal as in the maquettes: 48.2, +0.38R.
+     *
+     * @param float|null $value
+     * @param int $decimals
+     * @return string
+     */
+    public static function num(?float $value, int $decimals = 1): string {
+        return $value === null ? '-' : number_format($value, $decimals, '.', ' ');
     }
 
     /**
@@ -80,11 +126,14 @@ class page {
      * @param int $decimals
      * @return string
      */
-    public static function format_r(?float $value, int $decimals = 2): string {
+    public static function format_r(?float $value, int $decimals = 2, bool $trim = true): string {
         if ($value === null) {
             return '-';
         }
-        $formatted = format_float(abs($value), $decimals, true, true);
+        $formatted = number_format(abs($value), $decimals, '.', '');
+        if ($trim && strpos($formatted, '.') !== false) {
+            $formatted = rtrim(rtrim($formatted, '0'), '.');
+        }
         $sign = $value > 0 ? '+' : ($value < 0 ? '-' : '');
         return $sign . $formatted . 'R';
     }
@@ -99,7 +148,7 @@ class page {
         if ($value === null || $value == 0) {
             return '';
         }
-        return $value > 0 ? 'alpha-value-positive' : 'alpha-value-negative';
+        return $value > 0 ? 'at-positive' : 'at-negative';
     }
 
     /**
@@ -113,6 +162,27 @@ class page {
     }
 
     /**
+     * Human label of a market symbol as in the maquettes: FX:EURUSD -> EUR/USD, BINANCE:BTCUSDT -> BTC/USD.
+     *
+     * @param string $symbol
+     * @return string
+     */
+    public static function display_symbol(string $symbol): string {
+        $clean = self::clean_symbol($symbol);
+        $ticker = strpos($clean, ':') !== false ? substr($clean, strpos($clean, ':') + 1) : $clean;
+        if (strpos($ticker, '/') !== false) {
+            return $ticker;
+        }
+        if (preg_match('/^([A-Z]{3,4})(USDT|USDC)$/', $ticker, $m)) {
+            return $m[1] . '/USD';
+        }
+        if (preg_match('/^[A-Z]{6}$/', $ticker)) {
+            return substr($ticker, 0, 3) . '/' . substr($ticker, 3);
+        }
+        return $ticker;
+    }
+
+    /**
      * TradingView free embed (no API key, read only). Only the symbol and interval vary.
      *
      * @param string $symbol
@@ -121,19 +191,20 @@ class page {
      */
     public static function tradingview_url(string $symbol, string $interval): string {
         $interval = in_array($interval, array_keys(self::timeframes())) ? $interval : '60';
+        // Same embed as the maquette (www.tradingview.com/widgetembed).
         $params = [
             'symbol' => self::clean_symbol($symbol),
             'interval' => $interval,
+            'hidesidetoolbar' => '1',
+            'symboledit' => '0',
+            'saveimage' => '0',
+            'toolbarbg' => '1a1a1a',
             'theme' => 'dark',
             'style' => '1',
+            'timezone' => 'Etc/UTC',
             'locale' => 'fr',
-            'toolbarbg' => '181a1e',
-            'hide_side_toolbar' => '0',
-            'allow_symbol_change' => '0',
-            'saveimage' => '0',
-            'withdateranges' => '1',
         ];
-        return 'https://s.tradingview.com/widgetembed/?' . http_build_query($params, '', '&');
+        return 'https://www.tradingview.com/widgetembed/?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     }
 
     /**
@@ -162,5 +233,40 @@ class page {
      */
     public static function timeframe_label(string $interval): string {
         return self::timeframes()[$interval] ?? $interval;
+    }
+
+    /**
+     * Short relative time of the maquettes: "Il y a 2h", "Hier", "Il y a 3 jours".
+     *
+     * @param int $time
+     * @return string
+     */
+    public static function ago(int $time): string {
+        $diff = max(0, time() - $time);
+        if ($diff < HOURSECS) {
+            return get_string('ago_minutes', 'local_alphatrade', max(1, (int) floor($diff / MINSECS)));
+        }
+        if ($time >= usergetmidnight(time())) {
+            return get_string('ago_hours', 'local_alphatrade', (int) floor($diff / HOURSECS));
+        }
+        if ($time >= usergetmidnight(time()) - DAYSECS) {
+            return get_string('ago_yesterday', 'local_alphatrade');
+        }
+        if ($diff < 30 * DAYSECS) {
+            return get_string('ago_days', 'local_alphatrade', max(2, (int) ceil($diff / DAYSECS)));
+        }
+        return userdate($time, '%d/%m/%Y');
+    }
+
+    /**
+     * Initials of a user (avatar fallback).
+     *
+     * @param \stdClass $user
+     * @return string
+     */
+    public static function initials(\stdClass $user): string {
+        $first = \core_text::substr(trim((string) ($user->firstname ?? '')), 0, 1);
+        $last = \core_text::substr(trim((string) ($user->lastname ?? '')), 0, 1);
+        return \core_text::strtoupper($first . $last) ?: '?';
     }
 }

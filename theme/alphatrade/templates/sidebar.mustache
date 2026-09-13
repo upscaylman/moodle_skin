@@ -17,18 +17,62 @@
 {{!
     @template theme_alphatrade/sidebar
 
-    Desktop sidebar (lg and up). Active item is a 14px radius pill.
+    Desktop sidebar. Student: 8 items + Profil at the bottom. Trainer / admin: space tag,
+    6 items, user block at the bottom.
 
     Example context (json):
     {
+        "homeurl": "#", "logourl": "logo.png", "sitename": "Alpha Trade",
+        "userfullname": "Julien Dupré", "userrole": "Formateur", "userinitials": "JD", "profileurl": "#",
         "nav": {
-            "main": [{"key": "home", "label": "Accueil", "icon": "ph-house", "url": "#", "active": true}],
-            "secondary": [{"key": "profile", "label": "Profil", "icon": "ph-user-circle", "url": "#", "active": false}],
-            "staff": [],
-            "hasstaff": false
+            "isstudent": true, "spacelabel": "",
+            "main": [{"key": "home", "label": "Accueil", "url": "#", "active": true, "svg": "<path d=\"M3 11l9-8 9 8\"></path>", "icon": ""}],
+            "secondary": [{"key": "profile", "label": "Profil", "url": "#", "active": false, "svg": "<circle cx=\"12\" cy=\"8\" r=\"4\"></circle>", "icon": ""}],
+            "switch": [], "hasswitch": false
         }
     }
 }}
-<aside class="alpha-sidebar d-none d-lg-flex d-print-none" aria-label="{{#str}}mainnav, theme_alphatrade{{/str}}">
-    {{> theme_alphatrade/navlist }}
-</aside>
+<nav class="at-sidebar{{^nav.isstudent}} at-sidebar-staff{{/nav.isstudent}} d-print-none" aria-label="{{#str}}mainnav, theme_alphatrade{{/str}}">
+    <a class="at-sidebar-brand" href="{{homeurl}}">
+        <img src="{{logourl}}" alt="{{sitename}}">
+    </a>
+    {{^nav.isstudent}}
+        <div class="at-sidebar-space">
+            <span class="at-tag at-tag-outline">{{nav.spacelabel}}</span>
+        </div>
+    {{/nav.isstudent}}
+    <div class="at-navlist">
+        {{#nav.main}}
+            <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}>
+                {{#svg}}<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{{svg}}}</svg>{{/svg}}
+                {{^svg}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/svg}}
+                <span>{{label}}</span>
+            </a>
+        {{/nav.main}}
+    </div>
+    {{#nav.hasswitch}}
+        <div class="at-sidebar-switch">
+            {{#nav.switch}}
+                <a class="at-tag at-tag-outline" href="{{url}}"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
+            {{/nav.switch}}
+        </div>
+    {{/nav.hasswitch}}
+    {{#nav.isstudent}}
+        <div class="at-sidebar-sep"></div>
+        {{#nav.secondary}}
+            <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{{svg}}}</svg>
+                <span>{{label}}</span>
+            </a>
+        {{/nav.secondary}}
+    {{/nav.isstudent}}
+    {{^nav.isstudent}}
+        <a class="at-sidebar-user" href="{{profileurl}}">
+            <span class="at-avatar at-avatar-34">{{userinitials}}</span>
+            <span class="at-sidebar-user-text">
+                <span class="at-sidebar-user-name">{{userfullname}}</span>
+                <span class="at-sidebar-user-role">{{userrole}}</span>
+            </span>
+        </a>
+    {{/nav.isstudent}}
+</nav>

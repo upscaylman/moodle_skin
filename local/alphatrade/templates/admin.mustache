@@ -1,0 +1,167 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/admin
+
+    Maquette Espace Admin: dashboard, users, courses, cohorts, reports.
+
+    Example context (json):
+    {
+        "isdashboard": true, "isusers": false, "iscourses": false, "iscohorts": false, "isreports": false,
+        "kpis": [{"label": "Utilisateurs", "value": 312}],
+        "months": [{"label": "Sept", "x": 410, "y": 20, "height": 140, "islast": true}],
+        "hasnewusers": true, "newusers": [{"name": "Camille Petit", "url": "#", "tag": "Cohorte Sept."}]
+    }
+}}
+<div class="at-screen at-staff at-admin">
+    {{#isdashboard}}
+        <div class="at-kpis">
+            {{#kpis}}<div class="at-card at-elev-sm at-kpi"><span class="at-card-kicker">{{label}}</span><div class="at-kpi-value">{{value}}</div></div>{{/kpis}}
+        </div>
+        <div class="at-staff-grid">
+            <div class="at-card at-elev-sm at-pad-20 at-bars">
+                <h4 class="at-mb-14">{{#str}}enrolments6months, local_alphatrade{{/str}}</h4>
+                <svg width="100%" height="160" viewBox="0 0 480 160" preserveAspectRatio="none" role="img" aria-label="{{#str}}enrolments6months, local_alphatrade{{/str}}">
+                    {{#months}}<rect class="{{#islast}}is-last{{/islast}}" x="{{x}}" y="{{y}}" width="52" height="{{height}}"><title>{{label}}</title></rect>{{/months}}
+                </svg>
+                <div class="at-bars-labels">{{#months}}<span>{{label}}</span>{{/months}}</div>
+            </div>
+            <div class="at-card at-elev-sm at-pad-20">
+                <h4 class="at-mb-12">{{#str}}newusers, local_alphatrade{{/str}}</h4>
+                <div class="at-kv-list">
+                    {{#newusers}}<div><a href="{{url}}">{{name}}</a><span class="at-tag at-tag-neutral">{{tag}}</span></div>{{/newusers}}
+                    {{^hasnewusers}}<div class="at-muted">-</div>{{/hasnewusers}}
+                </div>
+                <a class="btn btn-ghost at-card-foot" href="{{applicationsurl}}">{{#str}}applications, local_alphatrade{{/str}}{{#newapplications}} <span class="at-tag at-tag-accent">{{newapplications}}</span>{{/newapplications}}</a>
+            </div>
+        </div>
+    {{/isdashboard}}
+
+    {{#isusers}}
+        <div class="at-row-between at-mb-14">
+            <form class="at-search at-grow" method="get" action="{{action}}" role="search">
+                <input type="hidden" name="view" value="users">
+                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                <label class="sr-only" for="at-admin-q">{{#str}}search{{/str}}</label>
+                <input class="at-input" id="at-admin-q" type="text" name="q" value="{{q}}" placeholder="{{#str}}searchusers, local_alphatrade{{/str}}">
+            </form>
+            <a class="btn btn-primary" href="{{addurl}}">{{#str}}adduser, local_alphatrade{{/str}}</a>
+        </div>
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}name{{/str}}</th><th>{{#str}}email{{/str}}</th><th>{{#str}}role, local_alphatrade{{/str}}</th><th>{{#str}}cohort, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+                <tbody>
+                    {{#rows}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{email}}</td>
+                            <td><span class="at-tag {{role.class}}">{{role.label}}</span></td>
+                            <td>{{cohort}}</td>
+                            <td>
+                                {{#issuspended}}<span class="at-tag at-tag-danger"><i class="ph ph-x-circle" aria-hidden="true"></i>{{#str}}suspended, local_alphatrade{{/str}}</span>{{/issuspended}}
+                                {{^issuspended}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}activeuser, local_alphatrade{{/str}}</span>{{/issuspended}}
+                            </td>
+                            <td><a class="btn btn-ghost" href="{{editurl}}">{{#str}}edit{{/str}}</a></td>
+                        </tr>
+                    {{/rows}}
+                    {{^hasrows}}<tr><td colspan="6" class="at-muted">{{#str}}nousersfound{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/isusers}}
+
+    {{#iscourses}}
+        <div class="at-row-end at-mb-14"><a class="btn btn-primary" href="{{addurl}}">{{#str}}createcourse, local_alphatrade{{/str}}</a></div>
+        <div class="at-stack-14">
+            {{#courses}}
+                <div class="at-card at-elev-sm at-list-card at-pad-18">
+                    <div>
+                        <h4 class="at-card-title"><a class="at-link-plain" href="{{viewurl}}">{{name}}</a></h4>
+                        <div class="at-card-meta">{{meta}}</div>
+                    </div>
+                    <div class="at-row-gap-8">
+                        <a class="btn btn-secondary" href="{{editurl}}">{{#str}}edit{{/str}}</a>
+                        {{#isvisible}}<a class="btn btn-ghost" href="{{copyurl}}">{{#str}}duplicate, local_alphatrade{{/str}}</a>{{/isvisible}}
+                        {{^isvisible}}<a class="btn btn-ghost" href="{{editurl}}">{{#str}}publish, local_alphatrade{{/str}}</a>{{/isvisible}}
+                    </div>
+                </div>
+            {{/courses}}
+            {{^hascourses}}<p class="at-muted">{{#str}}nocourses{{/str}}</p>{{/hascourses}}
+        </div>
+    {{/iscourses}}
+
+    {{#iscohorts}}
+        <div class="at-row-end at-mb-14"><a class="btn btn-primary" href="{{addurl}}">{{#str}}addcohort, cohort{{/str}}</a></div>
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}cohort, local_alphatrade{{/str}}</th><th>{{#str}}students, local_alphatrade{{/str}}</th><th>{{#str}}startdate, local_alphatrade{{/str}}</th><th>{{#str}}completion, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+                <tbody>
+                    {{#rows}}<tr><td>{{name}}</td><td>{{count}}</td><td>{{start}}</td><td>{{completion}}</td><td><a class="btn btn-ghost" href="{{manageurl}}">{{#str}}manage, local_alphatrade{{/str}}</a></td></tr>{{/rows}}
+                    {{^hasrows}}<tr><td colspan="5" class="at-muted">{{#str}}nocohorts, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/iscohorts}}
+
+    {{#isreports}}
+        <div class="at-kpis is-reports">
+            {{#kpis}}<div class="at-card at-elev-sm at-kpi"><span class="at-card-kicker">{{label}}</span><div class="at-kpi-value is-sm">{{value}}</div></div>{{/kpis}}
+        </div>
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>Module</th><th>{{#str}}students, local_alphatrade{{/str}}</th><th>{{#str}}completion, local_alphatrade{{/str}}</th><th>{{#str}}averagegrade, local_alphatrade{{/str}}</th></tr></thead>
+                <tbody>
+                    {{#rows}}<tr><td>{{name}}</td><td>{{count}}</td><td>{{completion}}</td><td>{{average}}</td></tr>{{/rows}}
+                    {{^hasrows}}<tr><td colspan="4" class="at-muted">{{#str}}noprogramme, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/isreports}}
+
+    {{#isapplications}}
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}name{{/str}}</th><th>{{#str}}email{{/str}}</th><th>{{#str}}phone{{/str}}</th><th>{{#str}}motivation, local_alphatrade{{/str}}</th><th>{{#str}}received, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+                <tbody>
+                    {{#rows}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td><a href="mailto:{{email}}">{{email}}</a></td>
+                            <td>{{phone}}</td>
+                            <td>{{motivation}}</td>
+                            <td>{{received}}</td>
+                            <td>
+                                {{#isnew}}<span class="at-tag at-tag-accent"><i class="ph ph-sparkle" aria-hidden="true"></i>{{#str}}application_new, local_alphatrade{{/str}}</span>{{/isnew}}
+                                {{#iscontacted}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}application_contacted, local_alphatrade{{/str}}</span>{{/iscontacted}}
+                                {{#isarchived}}<span class="at-tag at-tag-neutral"><i class="ph ph-archive" aria-hidden="true"></i>{{#str}}application_archived, local_alphatrade{{/str}}</span>{{/isarchived}}
+                            </td>
+                            <td>
+                                <form method="post" action="{{action}}" class="at-inline-form">
+                                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                                    <input type="hidden" name="id" value="{{id}}">
+                                    {{#isnew}}<button class="btn btn-ghost" type="submit" name="status" value="contacted">{{#str}}application_markcontacted, local_alphatrade{{/str}}</button>{{/isnew}}
+                                    {{^isarchived}}<button class="btn btn-ghost" type="submit" name="status" value="archived">{{#str}}application_archive, local_alphatrade{{/str}}</button>{{/isarchived}}
+                                </form>
+                            </td>
+                        </tr>
+                    {{/rows}}
+                    {{^hasrows}}<tr><td colspan="7" class="at-muted">{{#str}}noapplications, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/isapplications}}
+</div>

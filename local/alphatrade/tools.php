@@ -31,7 +31,8 @@ use local_alphatrade\local\page;
 $tool = optional_param('tool', '', PARAM_ALPHA);
 $tool = in_array($tool, ['risk', 'position', 'rr']) ? $tool : '';
 
-page::setup('/local/alphatrade/tools.php', 'tools', get_string('tools', 'local_alphatrade'), $tool ? ['tool' => $tool] : []);
+page::setup('/local/alphatrade/tools.php', 'tools', get_string('tools', 'local_alphatrade'), $tool ? ['tool' => $tool] : [],
+    get_string('sub_tools', 'local_alphatrade'));
 $baseurl = new moodle_url('/local/alphatrade/tools.php');
 
 if (!$tool) {

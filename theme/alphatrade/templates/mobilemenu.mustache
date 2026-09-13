@@ -17,28 +17,28 @@
 {{!
     @template theme_alphatrade/mobilemenu
 
-    Mobile menu (below lg). Uses Boost's drawer component so open/close, focus lock
-    and backdrop come from theme_boost/drawers.
+    Mobile drawer: the items that are not in the tab bar (Journal, Outils, Ressources, Communauté).
 
     Example context (json):
-    {
-        "sitename": "Alpha Trade",
-        "homeurl": "#",
-        "logourl": "logo.png",
-        "nav": {"main": [], "secondary": [], "staff": [], "hasstaff": false}
-    }
+    {"nav": {"hasdrawer": true, "drawer": [{"key": "journal", "label": "Journal", "icon": "ph-notebook", "url": "#", "active": false}], "switch": [], "hasswitch": false} }
 }}
+{{#nav.hasdrawer}}
 {{< theme_boost/drawer }}
     {{$id}}theme_alphatrade-drawers-menu{{/id}}
-    {{$drawerclasses}}drawer drawer-left drawer-primary alpha-mobilemenu{{/drawerclasses}}
+    {{$drawerclasses}}drawer drawer-left drawer-primary at-drawer{{/drawerclasses}}
     {{$drawercloseonresize}}1{{/drawercloseonresize}}
-    {{$drawerheading}}
-        <a href="{{homeurl}}" class="alpha-brand aabtn">
-            <img src="{{logourl}}" class="alpha-brand-wordmark" alt="{{sitename}}">
-        </a>
-    {{/drawerheading}}
     {{$drawercontent}}
-        {{> theme_alphatrade/navlist }}
+        <div class="at-drawer-list">
+            {{#nav.drawer}}
+                <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
+            {{/nav.drawer}}
+            {{#nav.hasswitch}}
+                {{#nav.switch}}
+                    <a href="{{url}}" class="at-navbtn"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
+                {{/nav.switch}}
+            {{/nav.hasswitch}}
+        </div>
     {{/drawercontent}}
     {{$drawerstate}}show-drawer-primary{{/drawerstate}}
 {{/ theme_boost/drawer}}
+{{/nav.hasdrawer}}

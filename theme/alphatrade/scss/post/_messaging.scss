@@ -1,0 +1,289 @@
+// "Alpha Trade - Messagerie": conversation list, thread, notifications.
+
+body.alpha-messaging {
+    #page-wrapper.at-standalone {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .at-standalone-page,
+    .at-standalone-page #page-content,
+    .at-standalone-page #region-main-box,
+    .at-standalone-page #region-main,
+    .at-standalone-page div[role="main"] {
+        min-height: 0;
+    }
+
+    // Keeps Moodle's footer scripts in the page without taking space in the full-height layout.
+    .at-standalone-footer {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+    }
+}
+
+.at-msg {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
+.at-msg-list {
+    width: 300px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-right: 1px solid $at-divider;
+}
+
+.at-msg-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    color: $at-text;
+    text-decoration: none;
+    border-bottom: 1px solid $at-text-6;
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+        background: rgba(233, 233, 237, .04);
+    }
+
+    &.is-active,
+    &.is-active:hover {
+        background: $at-accent-800;
+        border-bottom-color: transparent;
+
+        .at-msg-avatar {
+            background: $at-accent-700;
+            color: $at-accent-100;
+        }
+
+        .at-msg-item-name {
+            font-weight: 600;
+            color: $at-accent-100;
+        }
+
+        .at-msg-item-preview {
+            color: rgba($at-accent-100, .75);
+        }
+
+        .at-msg-item-time {
+            color: rgba($at-accent-100, .65);
+        }
+    }
+}
+
+.at-msg-avatar {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $at-neutral-800;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.at-msg-item-body {
+    min-width: 0;
+    flex: 1;
+}
+
+.at-msg-item-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.at-msg-item-preview {
+    display: block;
+    font-size: 12px;
+    color: $at-text-55;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.at-msg-item-time {
+    flex: none;
+    font-size: 11px;
+    color: $at-text-45;
+}
+
+.at-msg-thread {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.at-msg-thread-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid $at-divider;
+}
+
+.at-msg-back {
+    display: none !important;
+}
+
+.at-msg-thread-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.at-msg-thread-sub {
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+.at-msg-bubbles {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.at-msg-bubble {
+    max-width: 420px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: $at-surface;
+    font-size: 13px;
+    align-self: flex-start;
+    overflow-wrap: anywhere;
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    &.is-mine {
+        align-self: flex-end;
+        background: $at-accent-700;
+        color: $at-accent-100;
+    }
+}
+
+.at-msg-compose {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid $at-divider;
+    margin: 0;
+
+    .at-input {
+        flex: 1;
+    }
+}
+
+.at-msg-placeholder {
+    margin: auto;
+}
+
+@media (max-width: 760px) {
+    .at-msg-list {
+        width: 100%;
+        border-right: 0;
+    }
+
+    .at-msg-thread {
+        display: none;
+    }
+
+    .at-msg.is-thread-open {
+        .at-msg-list {
+            display: none;
+        }
+
+        .at-msg-thread {
+            display: flex;
+        }
+    }
+
+    .at-msg-back {
+        display: inline-flex !important;
+    }
+}
+
+// Notifications tab.
+.at-notifs {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+.at-notif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.at-notif {
+    display: flex;
+    gap: 12px;
+    padding: 14px 8px;
+    border-radius: 8px;
+
+    &.is-unread {
+        background: rgba($at-accent, .08);
+    }
+}
+
+.at-notif-dot {
+    width: 8px;
+    height: 8px;
+    flex: none;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: $at-neutral-700;
+
+    .is-unread & {
+        background: $at-accent;
+    }
+}
+
+.at-notif-text {
+    font-size: 13px;
+    opacity: .7;
+
+    .is-unread & {
+        opacity: 1;
+    }
+
+    a {
+        color: $at-text;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-accent;
+        }
+    }
+}
+
+.at-notif-when {
+    font-size: 12px;
+    margin-top: 2px;
+    color: $at-text-45;
+
+    .is-unread & {
+        color: $at-text-50;
+    }
+}

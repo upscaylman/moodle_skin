@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Module page: description, progress, lessons, evaluation, objectives (wireframe v3 screen 3).
+ * Module page (maquette Portail Etudiant, screen "Module").
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -37,16 +37,48 @@ if (!$module) {
     redirect(new moodle_url('/local/alphatrade/parcours.php'));
 }
 
-$PAGE->set_title($module['name']);
+$label = get_string('modulelabel', 'local_alphatrade', $module['number']);
+page::set_header($label, $module['name'] . '.');
 
-$data = $module;
-$data['parcoursurl'] = (new moodle_url('/local/alphatrade/parcours.php'))->out(false);
-$data['modulelabel'] = get_string('modulelabel', 'local_alphatrade', $module['number']);
-$data['lessonsprogress'] = get_string('lessonsdonecounter', 'local_alphatrade',
-    ['done' => $module['lessonsdone'], 'total' => $module['lessoncount']]);
-$data['objectivesdone'] = $module['isdone'];
-$data['canedit'] = has_capability('moodle/course:update', $programme->get_context());
-$data['editurl'] = (new moodle_url('/course/section.php', ['id' => $module['id']]))->out(false);
+$rows = [];
+$lessonnumbers = [];
+foreach ($module['lessons'] as $lesson) {
+    $lessonnumbers[$lesson['cmid']] = $lesson['number'];
+}
+$position = 0;
+foreach ($module['items'] as $item) {
+    $position++;
+    $rows[] = [
+        'number' => sprintf('%02d', $position),
+        'name' => $item['name'],
+        'url' => $item['url'],
+        'islocked' => $item['islocked'],
+        'iscurrent' => $item['iscurrent'],
+        'iconclass' => programme::maquette_icon($item['status']),
+        'statusclass' => programme::maquette_status_class($item['status']),
+        'availableinfo' => $item['availableinfo'],
+    ];
+}
+
+$description = trim(html_entity_decode(strip_tags($module['description']), ENT_QUOTES, 'UTF-8'));
+
+$data = [
+    'parcoursurl' => (new moodle_url('/local/alphatrade/parcours.php'))->out(false),
+    'label' => core_text::strtoupper($label),
+    'name' => $module['name'],
+    'description' => $description,
+    'percent' => $module['percent'],
+    'lessonsprogress' => get_string('lessonsshort', 'local_alphatrade',
+        ['done' => $module['lessonsdone'], 'total' => $module['lessoncount']]),
+    'rows' => $rows,
+    'islocked' => $module['islocked'],
+    'availableinfo' => $module['availableinfo'],
+    'hasobjectives' => $module['hasobjectives'],
+    'objectives' => $module['objectives'],
+    'objectivesdone' => $module['isdone'],
+    'canedit' => has_capability('moodle/course:update', $programme->get_context()),
+    'editurl' => (new moodle_url('/course/section.php', ['id' => $module['id']]))->out(false),
+];
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/module', $data);

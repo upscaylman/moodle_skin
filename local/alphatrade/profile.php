@@ -29,19 +29,23 @@ use local_alphatrade\local\activity;
 use local_alphatrade\local\page;
 use local_alphatrade\local\programme;
 
-page::setup('/local/alphatrade/profile.php', 'profile', get_string('profile', 'local_alphatrade'));
+page::setup('/local/alphatrade/profile.php', 'profile', get_string('profile', 'local_alphatrade'), [],
+    get_string('sub_profile', 'local_alphatrade'));
 
 $data = [
     'fullname' => fullname($USER),
-    'avatar' => $OUTPUT->user_picture($USER, ['size' => 128, 'link' => false, 'class' => 'alpha-avatar']),
-    'email' => $USER->email,
     'hasprogramme' => false,
+    'figures' => [],
     'trades' => activity::count_backtested_trades($USER->id),
     'journal' => $DB->count_records('local_alphatrade_journal', ['userid' => $USER->id]),
     'analyses' => $DB->count_records('local_alphatrade_analysis', ['userid' => $USER->id]),
     'certificateurl' => (new moodle_url('/local/alphatrade/certificate.php'))->out(false),
     'projecturl' => (new moodle_url('/local/alphatrade/project.php'))->out(false),
     'links' => [
+        ['icon' => 'ph-chat-circle-text', 'label' => get_string('messaging', 'local_alphatrade'),
+            'url' => (new moodle_url('/local/alphatrade/messages.php'))->out(false)],
+        ['icon' => 'ph-credit-card', 'label' => get_string('billing_title', 'local_alphatrade'),
+            'url' => (new moodle_url('/local/alphatrade/billing.php'))->out(false)],
         ['icon' => 'ph-user-circle', 'label' => get_string('editmyprofile'),
             'url' => (new moodle_url('/user/edit.php'))->out(false)],
         ['icon' => 'ph-sliders-horizontal', 'label' => get_string('preferences'),
@@ -90,8 +94,6 @@ if ($programme) {
             'value' => $challengesdone . ' / ' . $challengestotal],
         ['icon' => 'ph-flask', 'label' => get_string('backtestedtrades', 'local_alphatrade'),
             'value' => $data['trades']],
-        ['icon' => 'ph-notebook', 'label' => get_string('journalentries', 'local_alphatrade'),
-            'value' => $data['journal']],
     ];
 
     // Badges of the programme course: earned or locked.
@@ -99,16 +101,20 @@ if ($programme) {
     if (!empty($CFG->enablebadges)) {
         require_once($CFG->libdir . '/badgeslib.php');
         $coursebadges = badges_get_badges(BADGE_TYPE_COURSE, $programme->get_course_record()->id, '', '', 0, 0);
+        $current = false;
         foreach ($coursebadges as $badge) {
             if (!$badge->is_active()) {
                 continue;
             }
-            $earned = $badge->is_issued($USER->id);
+            // Earned = done, first badge not yet earned = current, the next ones = locked.
+            $status = $badge->is_issued($USER->id) ? 'done' : ($current ? 'locked' : 'current');
+            $current = $current || $status === 'current';
             $data['badges'][] = [
                 'name' => format_string($badge->name),
-                'image' => moodle_url::make_pluginfile_url($badge->get_context()->id, 'badges', 'badgeimage',
-                    $badge->id, '/', 'f3', false)->out(false),
-                'earned' => $earned,
+                'iconclass' => programme::maquette_icon($status),
+                'statusclass' => programme::maquette_status_class($status),
+                'islocked' => $status === 'locked',
+                'statuslabel' => get_string('badge_' . $status, 'local_alphatrade'),
             ];
         }
     }

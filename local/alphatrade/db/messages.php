@@ -32,4 +32,12 @@ $messageproviders = [
             'email' => MESSAGE_PERMITTED,
         ],
     ],
+    // A visitor applied from the public site (sent to site administrators).
+    'newapplication' => [
+        'capability' => 'moodle/site:config',
+        'defaults' => [
+            'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+        ],
+    ],
 ];

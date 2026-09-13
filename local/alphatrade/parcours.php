@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * "Mon parcours": the 3-month programme grouped by month (wireframe v3 screen 2).
+ * "Mon parcours" (maquette Portail Etudiant, screen "Parcours").
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -27,29 +27,40 @@ require(__DIR__ . '/../../config.php');
 use local_alphatrade\local\page;
 use local_alphatrade\local\programme;
 
-page::setup('/local/alphatrade/parcours.php', 'parcours', get_string('parcours', 'local_alphatrade'));
+page::setup('/local/alphatrade/parcours.php', 'parcours', get_string('parcours', 'local_alphatrade'), [],
+    get_string('sub_parcours', 'local_alphatrade'));
 
 $data = ['hasprogramme' => false];
 $programme = programme::for_user($USER->id);
 if ($programme) {
     $summary = $programme->get_summary();
+    $months = [];
+    foreach ($programme->get_months() as $month) {
+        $modules = [];
+        foreach ($month['modules'] as $module) {
+            $modules[] = [
+                'number' => $module['number'],
+                'name' => $module['name'],
+                'url' => $module['url'],
+                'meta' => get_string('modulemeta', 'local_alphatrade',
+                    ['lessons' => $module['lessoncount'], 'percent' => $module['percent']]),
+                'islocked' => $module['islocked'],
+                'iscurrent' => $module['iscurrent'],
+                'iconclass' => programme::maquette_icon($module['status']),
+                'statusclass' => programme::maquette_status_class($module['status']),
+            ];
+        }
+        $months[] = [
+            'number' => $month['number'],
+            'label' => core_text::strtoupper(get_string('monthlabel', 'local_alphatrade', $month['number'])),
+            'theme' => core_text::strtoupper($month['theme']),
+            'modules' => $modules,
+        ];
+    }
     $data = [
         'hasprogramme' => true,
-        'coursename' => format_string($programme->get_course_record()->fullname),
         'percent' => $summary['percent'],
-        'week' => get_string('weekcounter', 'local_alphatrade', ['week' => $summary['week'], 'weeks' => $summary['weeks']]),
-        'lessons' => get_string('lessonsdonecounter', 'local_alphatrade',
-            ['done' => $summary['lessonsdone'], 'total' => $summary['lessonstotal']]),
-        'months' => array_map(function($month) {
-            foreach ($month['modules'] as &$module) {
-                $module['meta'] = get_string('modulemeta', 'local_alphatrade',
-                    ['lessons' => $module['lessoncount'], 'percent' => $module['percent']]);
-            }
-            unset($module);
-            return $month;
-        }, $programme->get_months()),
-        'projecturl' => (new moodle_url('/local/alphatrade/project.php'))->out(false),
-        'certificateurl' => (new moodle_url('/local/alphatrade/certificate.php'))->out(false),
+        'months' => $months,
     ];
 }
 

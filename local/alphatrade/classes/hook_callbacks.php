@@ -34,16 +34,29 @@ class hook_callbacks {
      * @param \core\hook\output\before_http_headers $hook
      */
     public static function before_http_headers(\core\hook\output\before_http_headers $hook): void {
-        global $PAGE, $DB;
+        global $PAGE, $DB, $CFG;
 
-        if (during_initial_install() || CLI_SCRIPT || AJAX_SCRIPT || !isloggedin() || isguestuser()) {
-            return;
-        }
-        if (empty($PAGE->url) || !in_array($PAGE->pagelayout, ['mydashboard', 'course'])) {
+        if (during_initial_install() || CLI_SCRIPT || AJAX_SCRIPT || !isloggedin() || isguestuser() || !$PAGE->has_set_url()) {
             return;
         }
 
         $config = get_config('local_alphatrade');
+
+        // Moodle messaging pages open the Alpha Trade messaging (maquette Messagerie).
+        if (!empty($config->redirectmessages) && !empty($CFG->messaging)) {
+            if ($PAGE->url->compare(new moodle_url('/message/index.php'), URL_MATCH_BASE)) {
+                $convid = (int) $PAGE->url->get_param('convid');
+                $userid = (int) $PAGE->url->get_param('id');
+                redirect(new moodle_url('/local/alphatrade/messages.php', array_filter(['id' => $convid, 'userid' => $userid])));
+            }
+            if ($PAGE->url->compare(new moodle_url('/message/output/popup/notifications.php'), URL_MATCH_BASE)) {
+                redirect(new moodle_url('/local/alphatrade/messages.php', ['tab' => 'notifications']));
+            }
+        }
+
+        if (!in_array($PAGE->pagelayout, ['mydashboard', 'course'])) {
+            return;
+        }
 
         if (!empty($config->redirectdashboard) && $PAGE->pagetype === 'my-index'
                 && !$PAGE->user_is_editing() && !is_siteadmin()) {

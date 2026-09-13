@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_alphatrade';
-$plugin->version = 2026091300;
+$plugin->version = 2026091400;
 $plugin->requires = 2024100700; // Moodle 4.5 LTS.
 $plugin->supported = [405, 405];
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.2.0';
+$plugin->release = '0.3.0';

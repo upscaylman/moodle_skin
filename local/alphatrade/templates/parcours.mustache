@@ -17,131 +17,45 @@
 {{!
     @template local_alphatrade/parcours
 
-    Programme grouped by month. Current module = card with "Continuer", locked = plain line.
+    Maquette Portail Etudiant, screen "Parcours": months, module cards, locked modules as a line.
 
     Example context (json):
     {
-        "hasprogramme": true,
-        "percent": 34,
-        "week": "Semaine 5 / 12",
-        "lessons": "31 / 94 leçons",
-        "months": [{
-            "number": 1, "label": "Mois 1", "theme": "Comprendre",
-            "modules": [{"number": "01", "name": "Fondamentaux des marchés", "url": "#", "meta": "8 leçons · 100 %", "isdone": true, "iscurrent": false, "islocked": false, "istodo": false, "statusicon": "ph-fill ph-check-circle", "statuslabel": "Terminé", "percent": 100}]
-        }],
-        "projecturl": "#",
-        "certificateurl": "#"
+        "hasprogramme": true, "percent": 62,
+        "months": [{"number": 2, "label": "MOIS 2", "theme": "ANALYSER", "modules": [
+            {"number": "03", "name": "Structure de marché", "url": "#", "meta": "8 leçons · 75 %", "islocked": false, "iscurrent": true, "iconclass": "ph-fill ph-circle", "statusclass": "at-status-current"},
+            {"number": "04", "name": "ICT / SMC", "url": "#", "meta": "9 leçons · 0 %", "islocked": true, "iscurrent": false, "iconclass": "ph ph-lock-simple", "statusclass": "at-status-locked"}
+        ]}]
     }
 }}
-<div class="alpha-parcours">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}parcours, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}programmetitle, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}programmelead, local_alphatrade{{/str}}</p>
-        </div>
-    </header>
-
+<div class="at-screen at-parcours">
     {{^hasprogramme}}
-        <div class="alpha-empty">
-            <i class="ph ph-path" aria-hidden="true"></i>
-            <p>{{#str}}noprogramme, local_alphatrade{{/str}}</p>
-        </div>
+        <p class="at-muted">{{#str}}noprogramme, local_alphatrade{{/str}}</p>
     {{/hasprogramme}}
-
     {{#hasprogramme}}
-        <section class="alpha-card alpha-parcours-progress">
-            <div class="alpha-dash-progress-value">
-                <span class="alpha-percent">{{percent}}&nbsp;%</span>
-                <span class="alpha-status alpha-status-accent"><i class="ph ph-calendar-blank" aria-hidden="true"></i>{{week}}</span>
-            </div>
-            <div class="alpha-progress" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" aria-label="{{#str}}yourprogress, local_alphatrade{{/str}}">
-                <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
-            </div>
-            <div class="alpha-progress-meta"><span>{{lessons}}</span></div>
-        </section>
-
+        <div class="at-parcours-label">{{#str}}programmetitle, local_alphatrade{{/str}}</div>
+        <div class="at-progress at-mb-26"><span style="width: {{percent}}%"></span></div>
         {{#months}}
-            <section class="alpha-month-group" aria-labelledby="alpha-month-{{number}}">
-                <h2 class="alpha-section-title" id="alpha-month-{{number}}">
-                    <span>{{label}}{{#theme}} - {{theme}}{{/theme}}</span>
-                </h2>
-                <ol class="alpha-list">
+            <div class="at-month">
+                <div class="at-eyebrow at-mb-2">{{label}}</div>
+                <div class="at-month-theme">{{theme}}</div>
+                <div class="at-month-list">
                     {{#modules}}
-                        <li>
-                            {{#islocked}}
-                                <div class="alpha-list-item is-locked">
-                                    <span class="alpha-state-icon is-locked"><i class="{{statusicon}}" aria-hidden="true"></i></span>
-                                    <span class="alpha-list-num">{{number}}</span>
-                                    <span class="alpha-list-body">
-                                        <span class="alpha-list-title">{{name}}</span>
-                                        {{#availableinfo}}<span class="alpha-list-meta">{{{availableinfo}}}</span>{{/availableinfo}}
-                                    </span>
-                                    <span class="alpha-status alpha-status-locked"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{statuslabel}}</span>
+                        {{#islocked}}
+                            <div class="at-module-line"><i class="ph ph-lock-simple" aria-hidden="true"></i> {{number}} {{name}}</div>
+                        {{/islocked}}
+                        {{^islocked}}
+                            <a class="at-card at-elev-sm at-module-card" href="{{url}}">
+                                <div>
+                                    <div class="at-module-card-title"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{number}} {{name}}</div>
+                                    <div class="at-module-card-meta">{{meta}}</div>
                                 </div>
-                            {{/islocked}}
-                            {{#iscurrent}}
-                                <div class="alpha-card alpha-card-accent alpha-module-current">
-                                    <div class="alpha-row">
-                                        <span class="alpha-state-icon is-current"><i class="{{statusicon}}" aria-hidden="true"></i></span>
-                                        <span class="alpha-list-num">{{number}}</span>
-                                        <span class="alpha-list-body">
-                                            <span class="alpha-list-title">{{name}}</span>
-                                            <span class="alpha-list-meta">{{meta}}</span>
-                                        </span>
-                                        <span class="alpha-status alpha-status-accent"><i class="ph ph-circle-half" aria-hidden="true"></i>{{statuslabel}}</span>
-                                    </div>
-                                    <div class="alpha-progress alpha-progress-sm alpha-module-current-bar" aria-hidden="true">
-                                        <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
-                                    </div>
-                                    <div class="alpha-card-footer">
-                                        <span></span>
-                                        <a class="btn btn-primary" href="{{url}}">
-                                            <span>{{#str}}continue, local_alphatrade{{/str}}</span>
-                                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            {{/iscurrent}}
-                            {{#isdone}}
-                                <a class="alpha-list-item" href="{{url}}">
-                                    <span class="alpha-state-icon is-done"><i class="{{statusicon}}" aria-hidden="true"></i></span>
-                                    <span class="alpha-list-num">{{number}}</span>
-                                    <span class="alpha-list-body">
-                                        <span class="alpha-list-title">{{name}}</span>
-                                        <span class="alpha-list-meta">{{meta}}</span>
-                                    </span>
-                                    <span class="alpha-status alpha-status-success"><i class="ph ph-check" aria-hidden="true"></i>{{statuslabel}}</span>
-                                </a>
-                            {{/isdone}}
-                            {{#istodo}}
-                                <a class="alpha-list-item" href="{{url}}">
-                                    <span class="alpha-state-icon is-todo"><i class="{{statusicon}}" aria-hidden="true"></i></span>
-                                    <span class="alpha-list-num">{{number}}</span>
-                                    <span class="alpha-list-body">
-                                        <span class="alpha-list-title">{{name}}</span>
-                                        <span class="alpha-list-meta">{{meta}}</span>
-                                    </span>
-                                    <i class="ph ph-caret-right alpha-subtle" aria-hidden="true"></i>
-                                </a>
-                            {{/istodo}}
-                        </li>
+                                {{#iscurrent}}<span class="btn btn-primary">{{#str}}continue, local_alphatrade{{/str}} &rarr;</span>{{/iscurrent}}
+                            </a>
+                        {{/islocked}}
                     {{/modules}}
-                </ol>
-            </section>
+                </div>
+            </div>
         {{/months}}
-
-        <div class="alpha-grid alpha-grid-2 alpha-parcours-end">
-            <a class="alpha-card alpha-card-link" href="{{projecturl}}">
-                <span class="alpha-card-icon"><i class="ph ph-trophy" aria-hidden="true"></i></span>
-                <p class="alpha-card-caps">{{#str}}finalproject, local_alphatrade{{/str}}</p>
-                <p class="alpha-card-text">{{#str}}finalproject_lead, local_alphatrade{{/str}}</p>
-            </a>
-            <a class="alpha-card alpha-card-link" href="{{certificateurl}}">
-                <span class="alpha-card-icon"><i class="ph ph-certificate" aria-hidden="true"></i></span>
-                <p class="alpha-card-caps">{{#str}}certification, local_alphatrade{{/str}}</p>
-                <p class="alpha-card-text">{{#str}}certification_lead, local_alphatrade{{/str}}</p>
-            </a>
-        </div>
     {{/hasprogramme}}
 </div>

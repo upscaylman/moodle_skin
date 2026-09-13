@@ -26,45 +26,42 @@ require(__DIR__ . '/../../config.php');
 
 use local_alphatrade\local\page;
 
-page::setup('/local/alphatrade/charts.php', 'practice', get_string('practice_charts', 'local_alphatrade'));
+page::setup('/local/alphatrade/charts.php', 'practice', get_string('practice_charts', 'local_alphatrade'), [],
+    get_string('sub_analyse', 'local_alphatrade'));
 
 $canmanage = page::is_staff('local/alphatrade:managecharts');
-$select = $canmanage ? '' : 'visible = 1';
-$charts = $DB->get_records_select('local_alphatrade_chart', $select, [], 'sortorder ASC, id ASC');
+$charts = $DB->get_records_select('local_alphatrade_chart', $canmanage ? '' : 'visible = 1', [], 'sortorder ASC, id ASC');
 $submissions = $DB->get_records('local_alphatrade_analysis', ['userid' => $USER->id], '', 'chartid, status, score');
 
-$items = [];
+$cards = [];
 foreach ($charts as $chart) {
     $submission = $submissions[$chart->id] ?? null;
     if (!$submission) {
-        $status = ['label' => get_string('analysis_todo', 'local_alphatrade'), 'class' => 'neutral', 'icon' => 'ph-circle'];
+        $tag = ['class' => 'at-tag-neutral', 'label' => get_string('analysis_todo', 'local_alphatrade'), 'icon' => ''];
     } else if ($submission->status === 'reviewed') {
-        $status = ['label' => get_string('analysis_reviewed', 'local_alphatrade', (int) $submission->score),
-            'class' => 'success', 'icon' => 'ph-check-circle'];
+        $tag = ['class' => 'at-tag-success', 'label' => get_string('analysis_reviewed', 'local_alphatrade', (int) $submission->score),
+            'icon' => 'ph-fill ph-check-circle'];
     } else {
-        $status = ['label' => get_string('analysis_submitted', 'local_alphatrade'), 'class' => 'warning', 'icon' => 'ph-hourglass-medium'];
+        $tag = ['class' => 'at-tag-warning', 'label' => get_string('analysis_submitted', 'local_alphatrade'), 'icon' => 'ph ph-clock'];
     }
-    $items[] = [
-        'number' => sprintf('#%03d', $chart->id),
+    $cards[] = [
+        'number' => core_text::strtoupper(get_string('analysisnumber', 'local_alphatrade', sprintf('#%03d', $chart->id))),
         'title' => format_string($chart->title),
-        'meta' => page::clean_symbol($chart->symbol) . ' · ' . page::timeframe_label($chart->timeframe),
+        'market' => page::display_symbol($chart->symbol) . ' · ' . page::timeframe_label($chart->timeframe),
         'url' => (new moodle_url('/local/alphatrade/chart.php', ['id' => $chart->id]))->out(false),
         'editurl' => $canmanage ? (new moodle_url('/local/alphatrade/chartedit.php', ['id' => $chart->id]))->out(false) : '',
         'hidden' => !$chart->visible,
-        'status' => $status,
+        'tag' => $tag,
     ];
 }
 
-$data = [
+echo $OUTPUT->header();
+echo $OUTPUT->render_from_template('local_alphatrade/charts', [
     'backurl' => (new moodle_url('/local/alphatrade/practice.php'))->out(false),
-    'items' => $items,
-    'hasitems' => !empty($items),
+    'cards' => $cards,
+    'hascards' => !empty($cards),
     'canmanage' => $canmanage,
     'newurl' => (new moodle_url('/local/alphatrade/chartedit.php'))->out(false),
-    'reviewsurl' => page::is_staff('local/alphatrade:reviewanalysis')
-        ? (new moodle_url('/local/alphatrade/reviews.php'))->out(false) : '',
-];
-
-echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_alphatrade/charts', $data);
+    'reviewsurl' => page::is_staff('local/alphatrade:reviewanalysis') ? (new moodle_url('/local/alphatrade/reviews.php'))->out(false) : '',
+]);
 echo $OUTPUT->footer();

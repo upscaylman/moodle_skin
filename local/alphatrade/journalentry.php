@@ -34,7 +34,8 @@ $edit = optional_param('edit', 0, PARAM_BOOL);
 $delete = optional_param('delete', 0, PARAM_BOOL);
 
 $urlparams = array_filter(['id' => $id, 'edit' => $edit ? 1 : 0]);
-page::setup('/local/alphatrade/journalentry.php', 'journal', get_string('journal', 'local_alphatrade'), $urlparams);
+page::setup('/local/alphatrade/journalentry.php', 'journal', get_string('tradesheet', 'local_alphatrade'), $urlparams,
+    get_string('sub_trade', 'local_alphatrade'));
 
 $listurl = new moodle_url('/local/alphatrade/journal.php');
 $entry = $id ? $DB->get_record('local_alphatrade_journal', ['id' => $id], '*', MUST_EXIST) : null;
@@ -115,13 +116,32 @@ if ($canedit && ($edit || !$entry)) {
     echo $OUTPUT->render_from_template('local_alphatrade/formpage', [
         'backurl' => $cancelurl->out(false),
         'backlabel' => $entry ? s($entry->asset) : get_string('journal', 'local_alphatrade'),
-        'eyebrow' => get_string('journal', 'local_alphatrade'),
+        'eyebrow' => '',
         'title' => $entry ? get_string('edittrade', 'local_alphatrade') : get_string('addtrade', 'local_alphatrade'),
         'lead' => get_string('journal_form_lead', 'local_alphatrade'),
         'form' => $form->render(),
     ]);
     echo $OUTPUT->footer();
     exit;
+}
+
+$sheeturl = new moodle_url('/local/alphatrade/journalentry.php', ['id' => $entry->id]);
+
+// Inline save of the "before / after the trade" part of the sheet.
+if ($canedit && optional_param('action', '', PARAM_ALPHA) === 'savesheet' && data_submitted()) {
+    require_sesskey();
+    $plan = optional_param('followedplan', '', PARAM_RAW_TRIMMED);
+    $emotion = optional_param('emotion', '', PARAM_ALPHA);
+    $DB->update_record('local_alphatrade_journal', (object) [
+        'id' => $entry->id,
+        'reason' => core_text::substr(optional_param('reason', '', PARAM_TEXT), 0, 2000),
+        'marketcontext' => core_text::substr(optional_param('marketcontext', '', PARAM_TEXT), 0, 2000),
+        'review' => core_text::substr(optional_param('review', '', PARAM_TEXT), 0, 2000),
+        'followedplan' => $plan === '1' ? 1 : ($plan === '0' ? 0 : null),
+        'emotion' => isset(journal::EMOTIONS[$emotion]) ? $emotion : null,
+        'timemodified' => time(),
+    ]);
+    redirect($sheeturl, get_string('tradesaved', 'local_alphatrade'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 // Trade sheet.
@@ -131,28 +151,48 @@ $decimal = function($value, int $decimals = 5): string {
 $result = $entry->resultr === null ? null : (float) $entry->resultr;
 $owner = $entry->userid == $USER->id ? null : core_user::get_user($entry->userid);
 
+$emotions = [];
+foreach (journal::EMOTIONS as $key => $icon) {
+    $emotions[] = [
+        'value' => $key,
+        'icon' => $icon,
+        'label' => get_string('emotion_' . $key, 'local_alphatrade'),
+        'checked' => $entry->emotion === $key,
+    ];
+}
+
 $data = array_merge(journal::export_row($entry), [
     'backurl' => (new moodle_url('/local/alphatrade/journal.php', $owner ? ['userid' => $entry->userid] : []))->out(false),
-    'owner' => $owner ? fullname($owner) : '',
-    'date' => userdate($entry->tradedate, get_string('strftimedatetime', 'langconfig')),
+    'title' => page::display_symbol($entry->asset) . ' - '
+        . core_text::strtoupper(get_string('direction_' . $entry->direction . '_short', 'local_alphatrade')),
+    'meta' => implode(' · ', array_filter([
+        userdate($entry->tradedate, '%d/%m/%Y'),
+        $entry->setup ? get_string('setup', 'local_alphatrade') . ' ' . $entry->setup : '',
+        $owner ? fullname($owner) : '',
+    ])),
     'entry' => $decimal($entry->entry),
     'stoploss' => $decimal($entry->stoploss),
     'takeprofit' => $decimal($entry->takeprofit),
     'riskpct' => $entry->riskpct === null ? '-' : $decimal($entry->riskpct, 2) . ' %',
-    'reason' => nl2br(s((string) $entry->reason)),
-    'marketcontext' => nl2br(s((string) $entry->marketcontext)),
-    'review' => nl2br(s((string) $entry->review)),
+    'reason' => (string) $entry->reason,
+    'marketcontext' => (string) $entry->marketcontext,
+    'review' => (string) $entry->review,
     'hasfollowedplan' => $entry->followedplan !== null,
     'followedplan' => (bool) $entry->followedplan,
+    'planyes' => $entry->followedplan !== null && (int) $entry->followedplan === 1,
+    'planno' => $entry->followedplan !== null && (int) $entry->followedplan === 0,
+    'emotions' => $emotions,
     'screenshots' => journal::get_screenshots($entry),
     'canedit' => $canedit,
-    'editurl' => (new moodle_url('/local/alphatrade/journalentry.php', ['id' => $entry->id, 'edit' => 1]))->out(false),
-    'deleteurl' => (new moodle_url('/local/alphatrade/journalentry.php', ['id' => $entry->id, 'delete' => 1]))->out(false),
+    'saveurl' => (new moodle_url($sheeturl, ['action' => 'savesheet']))->out(false),
+    'sesskey' => sesskey(),
+    'editurl' => (new moodle_url($sheeturl, ['edit' => 1]))->out(false),
+    'deleteurl' => (new moodle_url($sheeturl, ['delete' => 1]))->out(false),
 ]);
 $data['result'] = page::format_r($result);
 $data['hasscreenshots'] = !empty($data['screenshots']);
 
-$PAGE->set_title(s($entry->asset));
+$PAGE->set_title($data['title']);
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/journalentry', $data);

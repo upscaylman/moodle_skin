@@ -17,65 +17,47 @@
 {{!
     @template local_alphatrade/teacher_backtests
 
-    Trainer view: all students' strategies with their key statistics.
+    Maquette Espace Enseignant, screen "Backtests des élèves".
 
     Example context (json):
     {
-        "backurl": "#", "minimum": "Minimum 100 trades",
+        "kpis": [{"label": "À revoir", "value": 3, "iswarning": true}],
         "hasrows": true,
-        "rows": [{"student": "Sami B.", "name": "Alpha Setup #01", "market": "FX:EURUSD", "timeframe": "H1", "url": "#", "journalurl": "#", "trades": 120, "enough": true,
-            "stats": {"trades": 120, "winrate": "44 %", "expectancy": "+0,28R", "expectancyclass": "alpha-value-positive", "maxdrawdown": "-7R", "profitfactor": "1,5"}}]
+        "rows": [{"student": "Claire Moreau", "name": "Alpha Setup #01", "market": "EUR/USD", "url": "#", "isreview": false, "reviewlabel": "À revoir",
+            "stats": {"trades": 120, "winrate": "44.0 %", "expectancy": "+0.28R", "expectancyclass": "at-positive", "maxdrawdown": "-7.0R"} }]
     }
 }}
-<div class="alpha-teacher-backtests">
-    <a href="{{backurl}}" class="alpha-backlink">
-        <i class="ph ph-arrow-left" aria-hidden="true"></i>
-        <span>{{#str}}teacherdashboard, local_alphatrade{{/str}}</span>
-    </a>
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}teacherspace, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}nav_studentbacktests, theme_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{minimum}}</p>
-        </div>
-    </header>
-
-    {{#hasrows}}
-        <div class="alpha-table-wrap">
-            <table class="alpha-table">
-                <thead>
+<div class="at-screen at-staff">
+    <div class="at-kpis">
+        {{#kpis}}
+            <div class="at-card at-elev-sm at-kpi">
+                <span class="at-card-kicker">{{label}}</span>
+                <div class="at-kpi-value{{#iswarning}} is-warning{{/iswarning}}">{{value}}</div>
+            </div>
+        {{/kpis}}
+    </div>
+    <div class="at-card at-elev-sm at-table-card">
+        <table class="at-table">
+            <thead><tr><th>{{#str}}student, local_alphatrade{{/str}}</th><th>{{#str}}strategy, local_alphatrade{{/str}}</th><th>{{#str}}market, local_alphatrade{{/str}}</th><th>Trades</th><th>Win rate</th><th>Expectancy</th><th>Drawdown</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+            <tbody>
+                {{#rows}}
                     <tr>
-                        <th scope="col">{{#str}}student, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}strategy, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end">{{#str}}trades, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end">{{#str}}winrate, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end">{{#str}}expectancy, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end">{{#str}}profitfactor, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end">{{#str}}maxdrawdown, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}status, local_alphatrade{{/str}}</th>
+                        <td>{{student}}</td>
+                        <td>{{name}}</td>
+                        <td>{{market}}</td>
+                        <td>{{stats.trades}}</td>
+                        <td>{{stats.winrate}}</td>
+                        <td class="{{stats.expectancyclass}}">{{stats.expectancy}}</td>
+                        <td>{{stats.maxdrawdown}}</td>
+                        <td>
+                            {{#isreview}}<span class="at-tag at-tag-warning"><i class="ph ph-warning" aria-hidden="true"></i>{{reviewlabel}}</span>{{/isreview}}
+                            {{^isreview}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}validated, local_alphatrade{{/str}}</span>{{/isreview}}
+                        </td>
+                        <td><a class="btn btn-ghost" href="{{url}}">{{#str}}open, local_alphatrade{{/str}}</a></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {{#rows}}
-                        <tr>
-                            <td>{{student}}<br><a class="alpha-subtle" href="{{journalurl}}">{{#str}}journal, local_alphatrade{{/str}}</a></td>
-                            <td><a href="{{url}}"><strong>{{name}}</strong></a><br><span class="alpha-subtle">{{market}} · {{timeframe}}</span></td>
-                            <td class="alpha-num">{{stats.trades}}</td>
-                            <td class="alpha-num">{{stats.winrate}}</td>
-                            <td class="alpha-num {{stats.expectancyclass}}">{{stats.expectancy}}</td>
-                            <td class="alpha-num">{{stats.profitfactor}}</td>
-                            <td class="alpha-num">{{stats.maxdrawdown}}</td>
-                            <td>
-                                {{#enough}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}sampleok, local_alphatrade{{/str}}</span>{{/enough}}
-                                {{^enough}}<span class="alpha-status alpha-status-warning"><i class="ph ph-hourglass-medium" aria-hidden="true"></i>{{#str}}samplesmall, local_alphatrade{{/str}}</span>{{/enough}}
-                            </td>
-                        </tr>
-                    {{/rows}}
-                </tbody>
-            </table>
-        </div>
-    {{/hasrows}}
-    {{^hasrows}}
-        <div class="alpha-empty"><i class="ph ph-chart-bar" aria-hidden="true"></i><p>{{#str}}nostrategiesstudents, local_alphatrade{{/str}}</p></div>
-    {{/hasrows}}
+                {{/rows}}
+                {{^hasrows}}<tr><td colspan="9" class="at-muted">{{#str}}nostrategiesstudents, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+            </tbody>
+        </table>
+    </div>
 </div>

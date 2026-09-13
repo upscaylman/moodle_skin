@@ -101,29 +101,50 @@ class stats {
      * @return array
      */
     public static function export(array $stats): array {
-        $percent = function(?float $value): string {
-            return $value === null ? '-' : format_float($value, 1, true, true) . ' %';
-        };
-        $plain = function(?float $value): string {
-            return $value === null ? '-' : format_float($value, 2, true, true);
-        };
+        $has = $stats['trades'] > 0;
         list($verdictkey, $verdictlevel) = self::verdict($stats);
 
         return [
             'trades' => $stats['trades'],
-            'winrate' => $percent($stats['winrate']),
-            'expectancy' => page::format_r($stats['expectancy']),
+            'winrate' => $has ? page::num($stats['winrate'], 1) . ' %' : '-',
+            'winratevalue' => $has ? round($stats['winrate'], 1) : 0,
+            'expectancy' => $has ? page::format_r($stats['expectancy'], 2, false) : '-',
             'expectancyclass' => page::value_class($stats['expectancy']),
-            'avgwin' => $stats['avgwin'] === null ? '-' : page::format_r($stats['avgwin']),
-            'avgloss' => $stats['avgloss'] === null ? '-' : page::format_r(-$stats['avgloss']),
-            'profitfactor' => $plain($stats['profitfactor']),
-            'maxdrawdown' => $stats['trades'] ? page::format_r(-$stats['maxdrawdown']) : '-',
+            'avgwin' => $stats['avgwin'] === null ? '-' : page::format_r($stats['avgwin'], 2, false),
+            'avgloss' => $stats['avgloss'] === null ? '-' : page::format_r(-$stats['avgloss'], 2, false),
+            'profitfactor' => $stats['profitfactor'] === null ? ($has ? '-' : '-') : page::num($stats['profitfactor'], 2),
+            'maxdrawdown' => $has ? '-' . page::num($stats['maxdrawdown'], 1) . 'R' : '-',
             'maxconsecutivelosses' => $stats['maxconsecutivelosses'],
-            'totalr' => page::format_r($stats['totalr']),
+            'totalr' => page::format_r($stats['totalr'], 2),
             'totalrclass' => page::value_class($stats['totalr']),
             'verdict' => get_string($verdictkey, 'local_alphatrade'),
             'verdictlevel' => $verdictlevel,
         ];
+    }
+
+    /**
+     * Equity curve as the maquette draws it: a polyline in a 480x140 box, stretched to the card.
+     *
+     * @param float[] $equity cumulative R starting at 0
+     * @param int $w
+     * @param int $h
+     * @return string SVG points attribute
+     */
+    public static function equity_polyline(array $equity, int $w = 480, int $h = 140): string {
+        if (count($equity) < 2) {
+            return "0," . ($h / 2) . " {$w}," . ($h / 2);
+        }
+        $min = min($equity);
+        $max = max($equity);
+        $range = ($max - $min) ?: 1;
+        $points = [];
+        $last = count($equity) - 1;
+        foreach ($equity as $i => $value) {
+            $x = $i / $last * $w;
+            $y = $h - (($value - $min) / $range) * $h;
+            $points[] = number_format($x, 1, '.', '') . ',' . number_format($y, 1, '.', '');
+        }
+        return implode(' ', $points);
     }
 
     /**

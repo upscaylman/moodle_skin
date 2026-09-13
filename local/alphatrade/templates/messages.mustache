@@ -1,0 +1,77 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/messages
+
+    Maquette Messagerie, tab "Messages": conversation list and thread.
+
+    Example context (json):
+    {
+        "haslist": true, "hasthread": true, "showthread": false, "backurl": "#",
+        "list": [{"id": 1, "name": "Julien Dupré", "initials": "JD", "preview": "Bonne analyse...", "time": "10:42", "url": "#", "active": true, "unread": ""}],
+        "thread": {"name": "Julien Dupré", "initials": "JD", "subtitle": "Formateur", "hasmessages": true,
+            "messages": [{"text": "Bonjour Claire", "ismine": false, "time": "12/09/26, 10:42"}], "cansend": true, "action": "#", "sesskey": "x"}
+    }
+}}
+<div class="at-msg{{#showthread}} is-thread-open{{/showthread}}">
+    <nav class="at-msg-list" aria-label="{{#str}}conversations, local_alphatrade{{/str}}">
+        {{#list}}
+            <a class="at-msg-item{{#active}} is-active{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>
+                <span class="at-msg-avatar" aria-hidden="true">{{initials}}</span>
+                <span class="at-msg-item-body">
+                    <span class="at-msg-item-name">{{name}}{{#unread}} <span class="at-tag at-tag-accent">{{unread}}</span>{{/unread}}</span>
+                    <span class="at-msg-item-preview">{{preview}}</span>
+                </span>
+                <span class="at-msg-item-time">{{time}}</span>
+            </a>
+        {{/list}}
+        {{^haslist}}<div class="at-empty">{{#str}}noconversations, local_alphatrade{{/str}}</div>{{/haslist}}
+    </nav>
+
+    <section class="at-msg-thread">
+        {{#thread}}
+            <div class="at-msg-thread-head">
+                <a class="at-msg-back btn btn-ghost btn-icon" href="{{backurl}}" aria-label="{{#str}}back{{/str}}"><i class="ph ph-arrow-left" aria-hidden="true"></i></a>
+                <span class="at-avatar" aria-hidden="true">{{initials}}</span>
+                <div><div class="at-msg-thread-name">{{name}}</div>{{#subtitle}}<div class="at-msg-thread-sub">{{subtitle}}</div>{{/subtitle}}</div>
+            </div>
+            <div class="at-msg-bubbles" role="log" aria-live="polite">
+                {{#messages}}
+                    <div class="at-msg-bubble{{#ismine}} is-mine{{/ismine}}" title="{{time}}">{{{text}}}</div>
+                {{/messages}}
+                {{^hasmessages}}<div class="at-muted at-small">{{#str}}nomessagesyet, local_alphatrade{{/str}}</div>{{/hasmessages}}
+                <span id="at-msg-end"></span>
+            </div>
+            {{#cansend}}
+                <form class="at-msg-compose" method="post" action="{{action}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <label class="sr-only" for="at-msg-text">{{#str}}writemessage, local_alphatrade{{/str}}</label>
+                    <input class="at-input" id="at-msg-text" type="text" name="text" maxlength="4000" autocomplete="off" required placeholder="{{#str}}writemessage, local_alphatrade{{/str}}">
+                    <button type="submit" class="btn btn-primary">{{#str}}send, local_alphatrade{{/str}}</button>
+                </form>
+            {{/cansend}}
+            {{^cansend}}<div class="at-msg-compose at-muted at-small">{{#str}}cannotsendmessage, local_alphatrade{{/str}}</div>{{/cansend}}
+        {{/thread}}
+        {{^hasthread}}<div class="at-empty at-msg-placeholder">{{#str}}selectconversation, local_alphatrade{{/str}}</div>{{/hasthread}}
+    </section>
+</div>
+{{#js}}
+var bubbles = document.querySelector('.at-msg-bubbles');
+if (bubbles) {
+    bubbles.scrollTop = bubbles.scrollHeight;
+}
+{{/js}}

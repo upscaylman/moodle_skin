@@ -22,7 +22,8 @@ use moodle_page;
 use moodle_url;
 
 /**
- * Alpha Trade app navigation: desktop sidebar, mobile tab bar and mobile menu share one model.
+ * App navigation as drawn in the maquettes: student sidebar (Portail Etudiant), trainer sidebar
+ * (Espace Enseignant) and admin sidebar (Espace Admin), plus the mobile top bar, drawer and tab bar.
  *
  * @package   theme_alphatrade
  * @copyright 2026 Alpha Trade
@@ -30,8 +31,41 @@ use moodle_url;
  */
 class navigation {
 
-    /** @var string[] Items shown in the mobile tab bar (5 max, the rest goes to the menu). */
+    /** @var string[] Student mobile tab bar (maquette: 5 items only). */
     const TABBAR = ['home', 'parcours', 'practice', 'backtest', 'profile'];
+
+    /** @var string[] Student items that go to the mobile drawer. */
+    const DRAWER = ['journal', 'tools', 'resources', 'community'];
+
+    /** @var string[] Navigation keys of the trainer space. */
+    const TEACHER_KEYS = ['teacher', 'teachercourses', 'reviews', 'studentbacktests', 'gradebook', 'teachercommunity'];
+
+    /** @var string[] Navigation keys of the admin space. */
+    const ADMIN_KEYS = ['adminhome', 'adminusers', 'admincourses', 'admincohorts', 'adminreports', 'adminsettings'];
+
+    /**
+     * Line icons of the student sidebar, copied from the maquette (24px viewBox, stroke).
+     * Paths only; the template wraps them in the svg element.
+     */
+    const SVG = [
+        'home' => '<path d="M3 11l9-8 9 8"></path><path d="M5 10v10h14V10"></path>',
+        'parcours' => '<path d="M4 5v14l6-3 6 3 4-2V5l-4 2-6-3-6 3z"></path>',
+        'practice' => '<circle cx="12" cy="12" r="9"></circle><path d="M10 8l6 4-6 4z"></path>',
+        'backtest' => '<path d="M2 20h20"></path><path d="M6 20V11"></path><path d="M12 20V5"></path><path d="M18 20v-8"></path>',
+        'journal' => '<rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 3v18"></path>',
+        'tools' => '<circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path>',
+        'resources' => '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>',
+        'community' => '<circle cx="8.5" cy="8" r="3"></circle><path d="M2 20c0-3.3 2.9-5.5 6.5-5.5S15 16.7 15 20"></path><circle cx="17" cy="9" r="2.3"></circle><path d="M15.8 14.7c2.6.5 4.2 2.3 4.2 5.3"></path>',
+        'profile' => '<circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"></path>',
+    ];
+
+    /** @var string[] Drawer icons (Phosphor, as in the maquette mobile drawer). */
+    const DRAWER_ICONS = [
+        'journal' => 'ph-notebook',
+        'tools' => 'ph-wrench',
+        'resources' => 'ph-books',
+        'community' => 'ph-users-three',
+    ];
 
     /** @var moodle_page */
     protected $page;
@@ -46,112 +80,190 @@ class navigation {
     }
 
     /**
-     * Template data for the sidebar, tab bar and mobile menu.
+     * Template data.
      *
      * @return array
      */
     public function export(): array {
         $active = $this->get_active_key();
-        $main = [];
-        $secondary = [];
-        foreach ($this->get_student_items() as $item) {
-            $item['active'] = ($item['key'] === $active);
-            $item['intabbar'] = in_array($item['key'], self::TABBAR);
-            if ($item['key'] === 'profile') {
-                $secondary[] = $item;
-            } else {
-                $main[] = $item;
+        $variant = 'student';
+        if (in_array($active, self::TEACHER_KEYS) && $this->can_teach()) {
+            $variant = 'teacher';
+        } else if ((in_array($active, self::ADMIN_KEYS) || $this->page->pagelayout === 'admin') && $this->is_admin()) {
+            $variant = 'admin';
+        }
+
+        $data = [
+            'isstudent' => $variant === 'student',
+            'isteacher' => $variant === 'teacher',
+            'isadmin' => $variant === 'admin',
+            'spacelabel' => $variant === 'teacher' ? get_string('space_teacher', 'theme_alphatrade')
+                : ($variant === 'admin' ? get_string('space_admin', 'theme_alphatrade') : ''),
+        ];
+
+        if ($variant === 'student') {
+            $items = $this->get_student_items($active);
+            $data['main'] = array_values(array_filter($items, function($item) {
+                return $item['key'] !== 'profile';
+            }));
+            $data['secondary'] = array_values(array_filter($items, function($item) {
+                return $item['key'] === 'profile';
+            }));
+            $data['tabbar'] = array_values(array_filter($items, function($item) {
+                return in_array($item['key'], self::TABBAR);
+            }));
+            $data['drawer'] = array_values(array_filter($items, function($item) {
+                return in_array($item['key'], self::DRAWER);
+            }));
+            $switch = [];
+            if ($this->can_teach()) {
+                $switch[] = $this->item('teacher', 'ph-chalkboard-teacher', new moodle_url('/local/alphatrade/teacher.php'), $active,
+                    get_string('space_teacher', 'theme_alphatrade'));
             }
+            if ($this->is_admin()) {
+                $switch[] = $this->item('adminhome', 'ph-gear-six', new moodle_url('/local/alphatrade/admin.php'), $active,
+                    get_string('space_admin', 'theme_alphatrade'));
+            }
+            $data['switch'] = $switch;
+            $data['hasswitch'] = !empty($switch);
+        } else {
+            $items = $variant === 'teacher' ? $this->get_teacher_items($active) : $this->get_admin_items($active);
+            $data['main'] = $items;
+            $data['secondary'] = [];
+            $data['tabbar'] = $items;
+            $data['drawer'] = [];
+            $data['switch'] = [$this->item('home', 'ph-student', $this->home_url(), $active,
+                get_string('space_student', 'theme_alphatrade'))];
+            $data['hasswitch'] = true;
         }
-        $tabbar = array_values(array_filter(array_merge($main, $secondary), function($item) {
-            return $item['intabbar'];
-        }));
-        $staff = $this->get_staff_items($active);
-
-        return [
-            'main' => $main,
-            'secondary' => $secondary,
-            'tabbar' => $tabbar,
-            'staff' => $staff,
-            'hasstaff' => !empty($staff),
-        ];
+        $data['hasdrawer'] = !empty($data['drawer']);
+        return $data;
     }
 
     /**
-     * Student navigation (wireframe v3). Falls back to native Moodle pages without local_alphatrade.
-     *
-     * @return array
-     */
-    protected function get_student_items(): array {
-        if (!theme_alphatrade_has_app()) {
-            return [
-                $this->item('home', 'ph-house', new moodle_url('/my/')),
-                $this->item('parcours', 'ph-path', new moodle_url('/my/courses.php')),
-                $this->item('profile', 'ph-user-circle', new moodle_url('/user/profile.php')),
-            ];
-        }
-        return [
-            $this->item('home', 'ph-house', new moodle_url('/local/alphatrade/index.php')),
-            $this->item('parcours', 'ph-path', new moodle_url('/local/alphatrade/parcours.php')),
-            $this->item('practice', 'ph-flask', new moodle_url('/local/alphatrade/practice.php')),
-            $this->item('backtest', 'ph-chart-line-up', new moodle_url('/local/alphatrade/backtesting.php')),
-            $this->item('journal', 'ph-notebook', new moodle_url('/local/alphatrade/journal.php')),
-            $this->item('tools', 'ph-wrench', new moodle_url('/local/alphatrade/tools.php')),
-            $this->item('resources', 'ph-books', new moodle_url('/local/alphatrade/resources.php')),
-            $this->item('community', 'ph-users-three', new moodle_url('/local/alphatrade/community.php')),
-            $this->item('profile', 'ph-user-circle', new moodle_url('/local/alphatrade/profile.php')),
-        ];
-    }
-
-    /**
-     * Teacher / admin shortcuts. Only shown to users who can manage the programme or the site.
+     * Student items.
      *
      * @param string $active
      * @return array
      */
-    protected function get_staff_items(string $active): array {
+    protected function get_student_items(string $active): array {
+        $urls = theme_alphatrade_has_app() ? [
+            'home' => '/local/alphatrade/index.php',
+            'parcours' => '/local/alphatrade/parcours.php',
+            'practice' => '/local/alphatrade/practice.php',
+            'backtest' => '/local/alphatrade/backtesting.php',
+            'journal' => '/local/alphatrade/journal.php',
+            'tools' => '/local/alphatrade/tools.php',
+            'resources' => '/local/alphatrade/resources.php',
+            'community' => '/local/alphatrade/community.php',
+            'profile' => '/local/alphatrade/profile.php',
+        ] : [
+            'home' => '/my/',
+            'parcours' => '/my/courses.php',
+            'profile' => '/user/profile.php',
+        ];
         $items = [];
-        $programmeid = theme_alphatrade_has_app() ? (int) get_config('local_alphatrade', 'programmecourse') : 0;
-        $programmecontext = $programmeid ? context_course::instance($programmeid, IGNORE_MISSING) : null;
-
-        if ($programmecontext && has_capability('local/alphatrade:viewteacher', $programmecontext)) {
-            $items[] = $this->item('teacher', 'ph-chalkboard-teacher', new moodle_url('/local/alphatrade/teacher.php'));
-            $items[] = $this->item('reviews', 'ph-check-square-offset', new moodle_url('/local/alphatrade/reviews.php'));
-            $items[] = $this->item('studentbacktests', 'ph-chart-bar',
-                new moodle_url('/local/alphatrade/teacher.php', ['view' => 'backtests']));
-            $items[] = $this->item('programmecourse', 'ph-graduation-cap',
-                new moodle_url('/course/view.php', ['id' => $programmeid]));
-            $items[] = $this->item('grades', 'ph-exam', new moodle_url('/grade/report/grader/index.php', ['id' => $programmeid]));
-        }
-        if (has_capability('moodle/site:config', context_system::instance())) {
-            $items[] = $this->item('siteadmin', 'ph-sliders-horizontal', new moodle_url('/admin/search.php'));
-        }
-        foreach ($items as &$item) {
-            $item['active'] = ($item['key'] === $active);
+        foreach ($urls as $key => $path) {
+            $item = $this->item($key, self::DRAWER_ICONS[$key] ?? '', new moodle_url($path), $active);
+            $item['svg'] = self::SVG[$key];
+            $items[] = $item;
         }
         return $items;
     }
 
     /**
-     * Build one navigation item.
+     * Trainer space (maquette Espace Enseignant).
      *
-     * @param string $key
-     * @param string $icon Phosphor icon class
-     * @param moodle_url $url
+     * @param string $active
      * @return array
      */
-    protected function item(string $key, string $icon, moodle_url $url): array {
+    protected function get_teacher_items(string $active): array {
+        $programmeid = (int) get_config('local_alphatrade', 'programmecourse');
         return [
-            'key' => $key,
-            'label' => get_string('nav_' . $key, 'theme_alphatrade'),
-            'icon' => $icon,
-            'url' => $url->out(false),
+            $this->item('teacher', 'ph-house', new moodle_url('/local/alphatrade/teacher.php'), $active),
+            $this->item('teachercourses', 'ph-squares-four', $programmeid
+                ? new moodle_url('/course/view.php', ['id' => $programmeid]) : new moodle_url('/my/courses.php'), $active),
+            $this->item('reviews', 'ph-file-text', new moodle_url('/local/alphatrade/reviews.php'), $active),
+            $this->item('studentbacktests', 'ph-chart-bar', new moodle_url('/local/alphatrade/teacher.php', ['view' => 'backtests']),
+                $active),
+            $this->item('gradebook', 'ph-table', $programmeid
+                ? new moodle_url('/grade/report/grader/index.php', ['id' => $programmeid]) : new moodle_url('/grade/index.php'), $active),
+            $this->item('teachercommunity', 'ph-users-three', new moodle_url('/local/alphatrade/community.php'), $active),
         ];
     }
 
     /**
-     * Which item is active. Alpha Trade pages declare it with a body class (alpha-nav-KEY),
-     * native Moodle pages are matched on their course or page type.
+     * Admin space (maquette Espace Admin).
+     *
+     * @param string $active
+     * @return array
+     */
+    protected function get_admin_items(string $active): array {
+        return [
+            $this->item('adminhome', 'ph-house', new moodle_url('/local/alphatrade/admin.php'), $active),
+            $this->item('adminusers', 'ph-users-three', new moodle_url('/local/alphatrade/admin.php', ['view' => 'users']), $active),
+            $this->item('admincourses', 'ph-squares-four', new moodle_url('/local/alphatrade/admin.php', ['view' => 'courses']), $active),
+            $this->item('admincohorts', 'ph-stack', new moodle_url('/local/alphatrade/admin.php', ['view' => 'cohorts']), $active),
+            $this->item('adminreports', 'ph-chart-bar', new moodle_url('/local/alphatrade/admin.php', ['view' => 'reports']), $active),
+            $this->item('adminsettings', 'ph-gear-six', new moodle_url('/admin/search.php'), $active),
+        ];
+    }
+
+    /**
+     * One item.
+     *
+     * @param string $key
+     * @param string $icon
+     * @param moodle_url $url
+     * @param string $active
+     * @param string|null $label
+     * @return array
+     */
+    protected function item(string $key, string $icon, moodle_url $url, string $active, ?string $label = null): array {
+        return [
+            'key' => $key,
+            'label' => $label ?? get_string('nav_' . $key, 'theme_alphatrade'),
+            'icon' => $icon,
+            'svg' => '',
+            'url' => $url->out(false),
+            'active' => $key === $active,
+        ];
+    }
+
+    /**
+     * Student home URL.
+     *
+     * @return moodle_url
+     */
+    protected function home_url(): moodle_url {
+        return theme_alphatrade_has_app() ? new moodle_url('/local/alphatrade/index.php') : new moodle_url('/my/');
+    }
+
+    /**
+     * Trainer of the programme?
+     *
+     * @return bool
+     */
+    protected function can_teach(): bool {
+        if (!theme_alphatrade_has_app() || !isloggedin() || isguestuser()) {
+            return false;
+        }
+        $programmeid = (int) get_config('local_alphatrade', 'programmecourse');
+        $context = $programmeid ? context_course::instance($programmeid, IGNORE_MISSING) : null;
+        return $context && has_capability('local/alphatrade:viewteacher', $context);
+    }
+
+    /**
+     * Site administrator?
+     *
+     * @return bool
+     */
+    protected function is_admin(): bool {
+        return isloggedin() && has_capability('moodle/site:config', context_system::instance());
+    }
+
+    /**
+     * Active item: Alpha Trade pages declare it (body class alpha-nav-KEY), native pages are matched.
      *
      * @return string
      */
@@ -162,31 +274,40 @@ class navigation {
         }
 
         $pagetype = $this->page->pagetype;
+        $path = $this->page->url ? $this->page->url->get_path() : '';
         if (strpos($pagetype, 'my-index') === 0) {
             return 'home';
         }
         if (strpos($pagetype, 'user-') === 0) {
             return 'profile';
         }
+        if (strpos($pagetype, 'grade-report') === 0) {
+            return 'gradebook';
+        }
+        if (strpos($path, '/admin/user.php') !== false || strpos($pagetype, 'admin-user') === 0) {
+            return 'adminusers';
+        }
+        if (strpos($pagetype, 'course-management') === 0) {
+            return 'admincourses';
+        }
+        if (strpos($pagetype, 'cohort-') === 0) {
+            return 'admincohorts';
+        }
         if (strpos($pagetype, 'admin-') === 0) {
-            return 'siteadmin';
+            return 'adminsettings';
         }
 
-        if (theme_alphatrade_has_app() && !empty($this->page->course->id) && $this->page->course->id != SITEID) {
+        if (theme_alphatrade_has_app() && $this->page->course->id != SITEID) {
             $config = get_config('local_alphatrade');
             $courseid = (int) $this->page->course->id;
-            if (strpos($pagetype, 'mod-forum-') === 0 && $courseid == ($config->programmecourse ?? 0)) {
+            if ($courseid == ($config->programmecourse ?? 0) && strpos($pagetype, 'mod-forum-') === 0) {
                 return 'community';
             }
-            $map = [
-                'programmecourse' => 'parcours',
-                'practicecourse' => 'practice',
-                'resourcescourse' => 'resources',
-            ];
-            foreach ($map as $setting => $key) {
-                if (!empty($config->$setting) && $courseid == $config->$setting) {
-                    return $key;
-                }
+            if ($courseid == ($config->practicecourse ?? 0)) {
+                return 'practice';
+            }
+            if ($courseid == ($config->resourcescourse ?? 0)) {
+                return 'resources';
             }
             return 'parcours';
         }

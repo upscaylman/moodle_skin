@@ -17,63 +17,37 @@
 {{!
     @template local_alphatrade/charts
 
-    List of chart analysis exercises with the student's status.
+    Chart analysis exercises, cards in the Backtesting list style of the maquette.
 
     Example context (json):
     {
-        "backurl": "#",
-        "hasitems": true,
-        "items": [{"number": "#012", "title": "Range asiatique", "meta": "FX:EURUSD · H1", "url": "#", "editurl": "", "hidden": false,
-            "status": {"label": "A faire", "class": "neutral", "icon": "ph-circle"}}],
-        "canmanage": false,
-        "newurl": "#",
-        "reviewsurl": ""
+        "backurl": "#", "hascards": true, "canmanage": false, "newurl": "#", "reviewsurl": "",
+        "cards": [{"number": "ANALYSE #017", "title": "Range asiatique", "market": "EUR/USD · H1", "url": "#", "editurl": "", "hidden": false,
+            "tag": {"class": "at-tag-neutral", "label": "À faire", "icon": ""} }]
     }
 }}
-<div class="alpha-charts">
-    <a href="{{backurl}}" class="alpha-backlink">
-        <i class="ph ph-arrow-left" aria-hidden="true"></i>
-        <span>{{#str}}practicelab, local_alphatrade{{/str}}</span>
-    </a>
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}practicelab, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}practice_charts, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}charts_lead, local_alphatrade{{/str}}</p>
+<div class="at-screen at-charts">
+    <a href="{{backurl}}" class="at-back">&larr; {{#str}}practicelab, local_alphatrade{{/str}}</a>
+    <div class="at-row-between at-mb-18">
+        <h2 class="at-m-0">{{#str}}practice_charts, local_alphatrade{{/str}}</h2>
+        <div class="at-row-gap-10">
+            {{#reviewsurl}}<a class="btn btn-secondary" href="{{reviewsurl}}">{{#str}}reviews, local_alphatrade{{/str}}</a>{{/reviewsurl}}
+            {{#canmanage}}<a class="btn btn-primary" href="{{newurl}}">+ {{#str}}newchart, local_alphatrade{{/str}}</a>{{/canmanage}}
         </div>
-        <div class="alpha-pagehead-actions">
-            {{#reviewsurl}}
-                <a class="btn btn-secondary" href="{{reviewsurl}}"><i class="ph ph-check-square-offset" aria-hidden="true"></i>{{#str}}reviews, local_alphatrade{{/str}}</a>
-            {{/reviewsurl}}
-            {{#canmanage}}
-                <a class="btn btn-primary" href="{{newurl}}"><i class="ph ph-plus" aria-hidden="true"></i>{{#str}}newchart, local_alphatrade{{/str}}</a>
-            {{/canmanage}}
+    </div>
+    {{#hascards}}
+        <div class="at-stack-14">
+            {{#cards}}
+                <div class="at-card at-elev-sm at-pad-20">
+                    <div class="at-eyebrow">{{number}}{{#hidden}} · {{#str}}hidden, local_alphatrade{{/str}}{{/hidden}}</div>
+                    <h4 class="at-card-title">{{market}}</h4>
+                    <div class="at-card-meta at-mb-10">{{title}}</div>
+                    <div class="at-mb-14"><span class="at-tag {{tag.class}}">{{#tag.icon}}<i class="{{tag.icon}}" aria-hidden="true"></i>{{/tag.icon}}{{tag.label}}</span></div>
+                    <a class="btn btn-secondary" href="{{url}}">{{#str}}open, local_alphatrade{{/str}}</a>
+                    {{#editurl}}<a class="btn btn-ghost" href="{{editurl}}">{{#str}}edit{{/str}}</a>{{/editurl}}
+                </div>
+            {{/cards}}
         </div>
-    </header>
-
-    {{#hasitems}}
-        <ul class="alpha-list">
-            {{#items}}
-                <li class="alpha-row-with-action">
-                    <a class="alpha-list-item" href="{{url}}">
-                        <span class="alpha-card-icon alpha-card-icon-sm"><i class="ph ph-chart-line-up" aria-hidden="true"></i></span>
-                        <span class="alpha-list-body">
-                            <span class="alpha-list-title">{{#str}}analysisnumber, local_alphatrade, {{number}}{{/str}} - {{title}}</span>
-                            <span class="alpha-list-meta">{{meta}}{{#hidden}} · {{#str}}hidden, local_alphatrade{{/str}}{{/hidden}}</span>
-                        </span>
-                        <span class="alpha-status alpha-status-{{status.class}}"><i class="ph {{status.icon}}" aria-hidden="true"></i>{{status.label}}</span>
-                    </a>
-                    {{#editurl}}
-                        <a class="btn btn-ghost alpha-icon-btn" href="{{editurl}}" aria-label="{{#str}}edit{{/str}}"><i class="ph ph-pencil-simple" aria-hidden="true"></i></a>
-                    {{/editurl}}
-                </li>
-            {{/items}}
-        </ul>
-    {{/hasitems}}
-    {{^hasitems}}
-        <div class="alpha-empty">
-            <i class="ph ph-chart-line-up" aria-hidden="true"></i>
-            <p>{{#str}}nocharts, local_alphatrade{{/str}}</p>
-        </div>
-    {{/hasitems}}
+    {{/hascards}}
+    {{^hascards}}<p class="at-muted">{{#str}}nocharts, local_alphatrade{{/str}}</p>{{/hascards}}
 </div>

@@ -30,7 +30,7 @@
         },
         "bodyattributes": "",
         "logourl": "logo.png",
-        "publicurl": "#"
+        "publicurl": "#", "contacturl": "#"
     }
 }}
 {{> theme_boost/head }}
@@ -38,33 +38,32 @@
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
 
-<div id="page-wrapper">
+<div id="page-wrapper" class="at-login">
     {{{ output.standard_top_of_body_html }}}
-    <div class="alpha-login-blob" aria-hidden="true"></div>
-    <div id="page" class="alpha-login-page">
-        <div id="page-content">
-            <div id="region-main-box">
-                <div id="region-main">
-                    <div class="login-wrapper">
-                        <div class="login-container alpha-login-card">
-                            <img src="{{logourl}}" class="alpha-login-logo" alt="{{sitename}}">
-                            {{{ output.main_content }}}
-                        </div>
-                        <p class="alpha-login-public">
-                            {{#str}}notmember, theme_alphatrade{{/str}}
-                            <a href="{{publicurl}}">{{#str}}discover, theme_alphatrade{{/str}}</a>
-                        </p>
+    <div id="page" class="at-login-page">
+        <div class="at-login-column">
+            <a href="{{publicurl}}" class="at-login-logo-link"><img src="{{logourl}}" class="at-login-logo" alt="{{sitename}}"></a>
+            <div id="page-content" class="at-card at-elev-md at-login-card">
+                <div id="region-main-box">
+                    <div id="region-main">
+                        {{{ output.main_content }}}
                     </div>
                 </div>
             </div>
+            <p class="at-login-contact">
+                {{#str}}notmember, theme_alphatrade{{/str}}
+                <a href="{{contacturl}}">{{#str}}contactteam, theme_alphatrade{{/str}}</a>
+            </p>
         </div>
     </div>
-    <footer id="page-footer" class="alpha-login-footer">
-        <span>{{#str}}footerbrand, theme_alphatrade{{/str}}</span>
-        <div class="alpha-footer-standard">
-            {{{ output.standard_footer_html }}}
-            {{{ output.standard_end_of_body_html }}}
-        </div>
+    <footer id="page-footer" class="at-login-footer">
+        {{{ output.standard_footer_html }}}
+        {{{ output.standard_end_of_body_html }}}
+        <button type="button" class="btn btn-link at-login-cookies" {{!
+        }} data-modal="alert"{{!
+        }} data-modal-title-str='["cookiesenabled", "core"]' {{!
+        }} data-modal-content-str='["cookiesenabled_help_html", "core"]'{{!
+        }}>{{#str}}cookiesnotice{{/str}}</button>
         <div class="footer-content-debugging footer-dark bg-dark text-light">
             <div class="container-fluid footer-dark-inner">
                 {{{ output.debug_footer_html }}}

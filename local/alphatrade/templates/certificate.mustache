@@ -17,59 +17,32 @@
 {{!
     @template local_alphatrade/certificate
 
-    End of programme certification.
+    Maquette Portail Etudiant, screen "Certification".
 
     Example context (json):
     {
-        "fullname": "Sami Ben Ali", "hasprogramme": true,
-        "conditions": [{"label": "Cours complétés", "detail": "94 / 94", "class": "is-done", "icon": "ph-fill ph-check-circle"}],
-        "alldone": false, "downloadurl": "", "profileurl": "#"
+        "fullname": "Julien Bouvier", "hasprogramme": true, "alldone": false, "downloadurl": "",
+        "conditions": [{"label": "Cours complétés", "detail": "68 / 94", "iconclass": "ph-fill ph-check-circle", "statusclass": "at-status-done", "isdone": true}]
     }
 }}
-<div class="alpha-certificate">
-    <a href="{{profileurl}}" class="alpha-backlink">
-        <i class="ph ph-arrow-left" aria-hidden="true"></i>
-        <span>{{#str}}profile, local_alphatrade{{/str}}</span>
-    </a>
-
-    <section class="alpha-card alpha-card-accent alpha-certificate-card">
-        <span class="alpha-card-icon"><i class="ph ph-certificate" aria-hidden="true"></i></span>
-        <p class="alpha-eyebrow">{{#str}}certification_eyebrow, local_alphatrade{{/str}}</p>
-        <h1 class="alpha-title">{{fullname}}</h1>
-        <p class="alpha-lead">{{#str}}certification_mention, local_alphatrade{{/str}}</p>
-    </section>
-
-    {{#hasprogramme}}
-        <h2 class="alpha-section-title"><span>{{#str}}conditions, local_alphatrade{{/str}}</span></h2>
-        <div class="alpha-card">
-            <ul class="alpha-checklist">
+<div class="at-screen at-certificate">
+    <div class="at-card at-elev-md at-cert-card">
+        <i class="ph ph-graduation-cap at-cert-icon" aria-hidden="true"></i>
+        <h3 class="at-mb-4">Alpha Trade</h3>
+        <div class="at-cert-sub">{{#str}}certification_sub, local_alphatrade{{/str}}</div>
+        <h4 class="at-mb-6">{{fullname}}</h4>
+        <p class="at-card-body at-mb-18">{{#str}}certification_text, local_alphatrade{{/str}}</p>
+        {{#hasprogramme}}
+            <div class="at-checklist at-cert-list">
                 {{#conditions}}
-                    <li class="{{class}}">
-                        <i class="{{icon}}" aria-hidden="true"></i>
-                        <span class="alpha-list-body">{{label}}</span>
-                        {{#detail}}<span class="alpha-subtle alpha-num">{{detail}}</span>{{/detail}}
-                    </li>
+                    <div class="{{^isdone}}is-locked{{/isdone}}"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{label}}{{#detail}} <span class="at-muted">· {{detail}}</span>{{/detail}}</div>
                 {{/conditions}}
-            </ul>
-        </div>
-
-        <div class="alpha-row alpha-certificate-cta">
-            <span class="alpha-spacer"></span>
-            {{#downloadurl}}
-                <a class="btn btn-primary alpha-btn-lg" href="{{downloadurl}}">
-                    <i class="ph ph-download-simple" aria-hidden="true"></i>
-                    <span>{{#str}}downloadcertificate, local_alphatrade{{/str}}</span>
-                </a>
-            {{/downloadurl}}
-            {{^downloadurl}}
-                <button type="button" class="btn btn-secondary alpha-btn-lg" disabled>
-                    <i class="ph ph-lock-simple" aria-hidden="true"></i>
-                    <span>{{#str}}downloadcertificate, local_alphatrade{{/str}}</span>
-                </button>
-            {{/downloadurl}}
-        </div>
-        {{^alldone}}
-            <p class="alpha-subtle alpha-certificate-note">{{#str}}certification_locked, local_alphatrade{{/str}}</p>
-        {{/alldone}}
-    {{/hasprogramme}}
+            </div>
+        {{/hasprogramme}}
+        {{#downloadurl}}<a class="btn btn-primary" href="{{downloadurl}}">{{#str}}downloadcertificate, local_alphatrade{{/str}}</a>{{/downloadurl}}
+        {{^downloadurl}}
+            <span class="btn btn-primary disabled" aria-disabled="true">{{#str}}downloadcertificate, local_alphatrade{{/str}}</span>
+            <p class="at-cert-hint">{{#alldone}}{{#str}}certificatenotconfigured, local_alphatrade{{/str}}{{/alldone}}{{^alldone}}{{#str}}certificatelocked, local_alphatrade{{/str}}{{/alldone}}</p>
+        {{/downloadurl}}
+    </div>
 </div>

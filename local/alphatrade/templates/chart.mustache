@@ -17,137 +17,85 @@
 {{!
     @template local_alphatrade/chart
 
-    Chart analysis: TradingView chart, "Votre analyse" form, then the trainer's correction.
+    Maquette Portail Etudiant, screen "Analyse de graphique" (form, then trainer correction).
 
     Example context (json):
     {
-        "backurl": "#",
-        "number": "#012",
-        "title": "Range asiatique",
-        "symbol": "FX:EURUSD",
-        "timeframe": "H1",
-        "chartsrc": "https://s.tradingview.com/widgetembed/?symbol=FX:EURUSD&interval=60",
-        "instructions": "",
-        "showform": true,
-        "actionurl": "#",
-        "sesskey": "abc",
-        "biases": [{"value": "bullish", "label": "Bullish", "icon": "ph-trend-up", "checked": false}],
+        "backurl": "#", "number": "ANALYSE #017", "market": "EUR/USD · H1", "title": "Range asiatique",
+        "chartsrc": "https://www.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=60",
+        "instructions": "", "hasinstructions": false,
+        "showform": true, "actionurl": "#", "sesskey": "x",
+        "biases": [{"value": "bullish", "label": "Bullish", "checked": true}, {"value": "bearish", "label": "Bearish", "checked": false}],
         "structure": "", "liquidity": "", "scenario": ""
     }
 }}
-<div class="alpha-chart-page">
-    <a href="{{backurl}}" class="alpha-backlink">
-        <i class="ph ph-arrow-left" aria-hidden="true"></i>
-        <span>{{#str}}practicelab, local_alphatrade{{/str}}</span>
-    </a>
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}analysisnumber, local_alphatrade, {{number}}{{/str}}</p>
-            <h1 class="alpha-title">{{title}}</h1>
-            <p class="alpha-lead"><span class="alpha-status alpha-status-neutral"><i class="ph ph-currency-circle-dollar" aria-hidden="true"></i>{{symbol}}</span> <span class="alpha-status alpha-status-neutral"><i class="ph ph-clock" aria-hidden="true"></i>{{timeframe}}</span></p>
-        </div>
-    </header>
-
-    <div class="alpha-chart">
-        <iframe src="{{chartsrc}}" title="{{symbol}} {{timeframe}}" loading="lazy" referrerpolicy="no-referrer" allowtransparency="true"></iframe>
+<div class="at-screen at-analyse">
+    <a href="{{backurl}}" class="at-back">&larr; {{#str}}practicelab, local_alphatrade{{/str}}</a>
+    <div class="at-eyebrow">{{number}}</div>
+    <h3 class="at-analyse-market">{{market}}</h3>
+    <div class="at-chartbox">
+        <iframe src="{{chartsrc}}" title="{{market}} - TradingView" loading="lazy" referrerpolicy="no-referrer"></iframe>
     </div>
-
-    {{#instructions}}
-        <div class="alpha-card alpha-chart-instructions">
-            <p class="alpha-eyebrow">{{#str}}instructions, local_alphatrade{{/str}}</p>
-            <div class="alpha-prose">{{{instructions}}}</div>
-        </div>
-    {{/instructions}}
+    {{#hasinstructions}}<div class="at-analyse-instructions">{{{instructions}}}</div>{{/hasinstructions}}
 
     {{#showform}}
-        <h2 class="alpha-section-title"><span>{{#str}}youranalysis, local_alphatrade{{/str}}</span></h2>
-        <form class="alpha-card alpha-form" method="post" action="{{actionurl}}">
+        <h5 class="at-mb-14">{{#str}}youranalysis_upper, local_alphatrade{{/str}}</h5>
+        <form method="post" action="{{actionurl}}">
             <input type="hidden" name="sesskey" value="{{sesskey}}">
-            <div class="alpha-field">
-                <label for="alpha-structure">{{#str}}analysis_structure, local_alphatrade{{/str}}</label>
-                <textarea class="form-control" id="alpha-structure" name="structure" rows="3" required placeholder="{{#str}}analysis_structure_ph, local_alphatrade{{/str}}">{{structure}}</textarea>
+            <div class="at-field at-mb-12 at-max-520">
+                <label for="at-structure">{{#str}}analysis_structure, local_alphatrade{{/str}}</label>
+                <input class="at-input" id="at-structure" name="structure" type="text" value="{{structure}}" required placeholder="{{#str}}analysis_structure_ph, local_alphatrade{{/str}}">
             </div>
-            <div class="alpha-field">
-                <label for="alpha-liquidity">{{#str}}analysis_liquidity, local_alphatrade{{/str}}</label>
-                <textarea class="form-control" id="alpha-liquidity" name="liquidity" rows="3" placeholder="{{#str}}analysis_liquidity_ph, local_alphatrade{{/str}}">{{liquidity}}</textarea>
+            <div class="at-field at-mb-12 at-max-520">
+                <label for="at-liquidity">{{#str}}analysis_liquidity, local_alphatrade{{/str}}</label>
+                <input class="at-input" id="at-liquidity" name="liquidity" type="text" value="{{liquidity}}" placeholder="{{#str}}analysis_liquidity_ph, local_alphatrade{{/str}}">
             </div>
-            <fieldset class="alpha-field">
-                <legend class="alpha-label">{{#str}}analysis_bias, local_alphatrade{{/str}}</legend>
-                <div class="alpha-choice-group">
+            <div class="at-field at-mb-12">
+                <span class="at-label">{{#str}}analysis_bias, local_alphatrade{{/str}}</span>
+                <div class="at-radio-row">
                     {{#biases}}
-                        <label class="alpha-choice">
-                            <input type="radio" name="bias" value="{{value}}" required{{#checked}} checked{{/checked}}>
-                            <span><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</span>
-                        </label>
+                        <label class="at-radio"><input type="radio" name="bias" value="{{value}}"{{#checked}} checked{{/checked}}><span class="at-dot"></span>{{label}}</label>
                     {{/biases}}
                 </div>
-            </fieldset>
-            <div class="alpha-field">
-                <label for="alpha-scenario">{{#str}}analysis_scenario, local_alphatrade{{/str}}</label>
-                <textarea class="form-control" id="alpha-scenario" name="scenario" rows="4" required placeholder="{{#str}}analysis_scenario_ph, local_alphatrade{{/str}}">{{scenario}}</textarea>
             </div>
-            <div class="alpha-card-footer">
-                <span class="alpha-subtle">{{#str}}nosignalsrule, local_alphatrade{{/str}}</span>
-                <button type="submit" class="btn btn-primary alpha-btn-lg">
-                    <span>{{#str}}submitanalysis, local_alphatrade{{/str}}</span>
-                    <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>
-                </button>
+            <div class="at-field at-mb-18 at-max-520">
+                <label for="at-scenario">{{#str}}analysis_scenario, local_alphatrade{{/str}}</label>
+                <input class="at-input" id="at-scenario" name="scenario" type="text" value="{{scenario}}" required placeholder="{{#str}}analysis_scenario_ph, local_alphatrade{{/str}}">
             </div>
+            <button type="submit" class="btn btn-primary">{{#str}}submitanalysis, local_alphatrade{{/str}}</button>
         </form>
     {{/showform}}
 
     {{#submission}}
         {{^isreviewed}}
-            <div class="alpha-banner alpha-banner-info">
-                <i class="ph ph-hourglass-medium" aria-hidden="true"></i>
-                <div><strong>{{#str}}analysis_submitted, local_alphatrade{{/str}}</strong> - {{#str}}analysis_waiting, local_alphatrade{{/str}}</div>
+            <div class="at-card at-elev-sm at-pad-22 at-max-480">
+                <span class="at-card-kicker">{{#str}}analysis_submitted, local_alphatrade{{/str}}</span>
+                <h4 class="at-card-title at-mt-2">{{#str}}analysis_waiting_title, local_alphatrade{{/str}}</h4>
+                <div class="at-answers">
+                    <div><span>{{#str}}analysis_structure, local_alphatrade{{/str}}</span>{{{structure}}}</div>
+                    <div><span>{{#str}}analysis_liquidity, local_alphatrade{{/str}}</span>{{{liquidity}}}</div>
+                    <div><span>{{#str}}analysis_bias, local_alphatrade{{/str}}</span>{{bias}}</div>
+                    <div><span>{{#str}}analysis_scenario, local_alphatrade{{/str}}</span>{{{scenario}}}</div>
+                </div>
+                {{#editurl}}<a class="btn btn-secondary" href="{{editurl}}">{{#str}}editanalysis, local_alphatrade{{/str}}</a>{{/editurl}}
             </div>
         {{/isreviewed}}
-
-        <h2 class="alpha-section-title">
-            <span>{{#str}}youranalysis, local_alphatrade{{/str}}</span>
-            {{#editurl}}<a href="{{editurl}}">{{#str}}editanalysis, local_alphatrade{{/str}}</a>{{/editurl}}
-        </h2>
-        <div class="alpha-card">
-            <dl class="alpha-answers">
-                <dt>{{#str}}analysis_structure, local_alphatrade{{/str}}</dt>
-                <dd>{{{structure}}}</dd>
-                <dt>{{#str}}analysis_liquidity, local_alphatrade{{/str}}</dt>
-                <dd>{{{liquidity}}}</dd>
-                <dt>{{#str}}analysis_bias, local_alphatrade{{/str}}</dt>
-                <dd>{{bias}}</dd>
-                <dt>{{#str}}analysis_scenario, local_alphatrade{{/str}}</dt>
-                <dd>{{{scenario}}}</dd>
-            </dl>
-            <p class="alpha-subtle">{{#str}}submittedon, local_alphatrade, {{submitted}}{{/str}}</p>
-        </div>
-
         {{#isreviewed}}
-            <h2 class="alpha-section-title"><span>{{#str}}correctiontitle, local_alphatrade{{/str}}</span></h2>
-            <div class="alpha-grid alpha-grid-main">
-                <div class="alpha-card">
-                    <p class="alpha-eyebrow">{{#str}}correctionsubtitle, local_alphatrade{{/str}}</p>
-                    <ul class="alpha-checklist">
-                        {{#criteria}}
-                            <li class="{{class}}">
-                                <i class="{{icon}}" aria-hidden="true"></i>
-                                <span><strong>{{name}}</strong> - {{label}}</span>
-                            </li>
-                        {{/criteria}}
-                    </ul>
-                    {{#hasfeedback}}
-                        <div class="alpha-verdict alpha-correction-feedback"><p>{{{feedback}}}</p></div>
-                    {{/hasfeedback}}
+            <div class="at-card at-elev-sm at-pad-22 at-max-480">
+                <span class="at-card-kicker">{{#str}}correctiontitle, local_alphatrade{{/str}}</span>
+                <h4 class="at-card-title at-mt-2">{{#str}}correctionsubtitle, local_alphatrade{{/str}}</h4>
+                <div class="at-criteria">
+                    {{#criteria}}
+                        <div>{{name}} - <i class="{{icon}} {{colorclass}}" aria-hidden="true"></i><span class="sr-only">{{label}}</span></div>
+                    {{/criteria}}
                 </div>
-                <div class="alpha-card alpha-score">
-                    <span class="alpha-score-value">{{score}}</span>
-                    <span class="alpha-muted">{{#str}}scoreout100, local_alphatrade{{/str}}</span>
-                </div>
+                {{#hasfeedback}}<p class="at-card-body">{{{feedback}}}</p>{{/hasfeedback}}
+                <div class="at-analyse-score">{{score}} / 100</div>
             </div>
             {{#hascorrection}}
-                <div class="alpha-card alpha-reference">
-                    <p class="alpha-eyebrow">{{#str}}referencecorrection, local_alphatrade{{/str}}</p>
-                    <div class="alpha-prose">{{{correction}}}</div>
+                <div class="at-card at-elev-sm at-pad-22 at-mt-16">
+                    <span class="at-card-kicker">{{#str}}referencecorrection, local_alphatrade{{/str}}</span>
+                    <div class="at-card-body">{{{correction}}}</div>
                 </div>
             {{/hascorrection}}
         {{/isreviewed}}

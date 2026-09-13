@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 /** Default accent: matte gold derived from the logo, deliberately desaturated. */
-define('THEME_ALPHATRADE_ACCENT', '#C99A3E');
+define('THEME_ALPHATRADE_ACCENT', '#c99a3e');
 
 /**
  * Main SCSS: Boost's default preset, untouched. Alpha Trade only changes variables (pre) and
@@ -50,6 +50,7 @@ function theme_alphatrade_get_pre_scss($theme) {
     if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $accent)) {
         $accent = THEME_ALPHATRADE_ACCENT;
     }
+    $accent = strtolower($accent);
     return '$alpha-accent: ' . $accent . ";\n" . file_get_contents(__DIR__ . '/scss/pre.scss');
 }
 
@@ -60,7 +61,7 @@ function theme_alphatrade_get_pre_scss($theme) {
  * @return string
  */
 function theme_alphatrade_get_extra_scss($theme) {
-    $files = ['fonts', 'icons', 'base', 'shell', 'components', 'native', 'quiz', 'login', 'public', 'app'];
+    $files = ['fonts', 'icons', 'nocturne', 'shell', 'native', 'quiz', 'screens', 'staff', 'login', 'public', 'messaging', 'billing'];
     $scss = '';
     foreach ($files as $file) {
         $scss .= file_get_contents(__DIR__ . "/scss/post/_{$file}.scss") . "\n";

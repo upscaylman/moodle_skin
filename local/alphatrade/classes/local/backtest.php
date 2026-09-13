@@ -86,7 +86,7 @@ class backtest {
         return [
             'id' => $strategy->id,
             'name' => format_string($strategy->name),
-            'market' => page::clean_symbol($strategy->market),
+            'market' => markets::label($strategy->market),
             'timeframe' => page::timeframe_label($strategy->timeframe),
             'url' => (new moodle_url('/local/alphatrade/strategy.php', ['id' => $strategy->id]))->out(false),
             'stats' => $exported,

@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Teacher: chart analyses to correct.
+ * Correction queue (maquette Espace Enseignant, screen "Devoirs à corriger"):
+ * Moodle assignments and Practice Lab chart analyses.
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -24,38 +25,15 @@
 
 require(__DIR__ . '/../../config.php');
 
-use core_user\fields;
 use local_alphatrade\local\page;
+use local_alphatrade\local\reviewqueue;
 
 $filter = optional_param('filter', 'submitted', PARAM_ALPHA);
 $filter = in_array($filter, ['submitted', 'reviewed', 'all']) ? $filter : 'submitted';
 
-page::setup('/local/alphatrade/reviews.php', 'reviews', get_string('reviews', 'local_alphatrade'), ['filter' => $filter]);
+page::setup('/local/alphatrade/reviews.php', 'reviews', get_string('reviews', 'local_alphatrade'), ['filter' => $filter],
+    get_string('sub_reviews', 'local_alphatrade'));
 require_capability('local/alphatrade:reviewanalysis', page::programme_context());
-
-$userfields = fields::for_name()->get_sql('u', false, '', '', false)->selects;
-$where = $filter === 'all' ? '' : 'WHERE a.status = :status';
-$sql = "SELECT a.id, a.status, a.score, a.timemodified, a.userid, c.title, c.symbol, c.timeframe, $userfields
-          FROM {local_alphatrade_analysis} a
-          JOIN {local_alphatrade_chart} c ON c.id = a.chartid
-          JOIN {user} u ON u.id = a.userid
-          $where
-      ORDER BY a.status DESC, a.timemodified ASC";
-$records = $DB->get_records_sql($sql, $filter === 'all' ? [] : ['status' => $filter], 0, 500);
-
-$rows = [];
-foreach ($records as $record) {
-    $reviewed = $record->status === 'reviewed';
-    $rows[] = [
-        'student' => fullname($record),
-        'chart' => format_string($record->title),
-        'meta' => page::clean_symbol($record->symbol) . ' · ' . page::timeframe_label($record->timeframe),
-        'date' => userdate($record->timemodified, get_string('strftimedatetimeshort', 'langconfig')),
-        'isreviewed' => $reviewed,
-        'score' => $reviewed ? (int) $record->score : '',
-        'url' => (new moodle_url('/local/alphatrade/review.php', ['id' => $record->id]))->out(false),
-    ];
-}
 
 $filters = [];
 foreach (['submitted', 'reviewed', 'all'] as $key) {
@@ -65,11 +43,12 @@ foreach (['submitted', 'reviewed', 'all'] as $key) {
         'active' => $key === $filter,
     ];
 }
+$rows = reviewqueue::items($filter, 300);
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/reviews', [
+    'filters' => $filters,
     'rows' => $rows,
     'hasrows' => !empty($rows),
-    'filters' => $filters,
 ]);
 echo $OUTPUT->footer();

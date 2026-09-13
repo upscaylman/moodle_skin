@@ -1,0 +1,101 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/billing
+
+    Maquette "Alpha Trade - Paiement".
+
+    Example context (json):
+    {
+        "hasplan": true, "plan": {"name": "Programme complet - 3 mois", "text": "1 490 € payé le 1 septembre 2026.", "isactive": true, "count": "1 paiement effectué"},
+        "hasmethod": true, "method": {"name": "Stripe", "text": "Dernier paiement le 1 septembre 2026."},
+        "hasrows": true, "rows": [{"date": "01/09/2026", "description": "Programme complet", "amount": "1 490,00 €", "receipturl": "#"}],
+        "hasoffers": true, "offers": [{"name": "Coaching individuel", "text": "4 sessions", "price": "290,00 €", "instanceid": 3, "description": "Inscription", "successurl": "#", "primary": true, "isprogramme": false}]
+    }
+}}
+<div class="at-screen at-billing">
+    <h1 class="at-billing-title">{{#str}}billing_title, local_alphatrade{{/str}}</h1>
+    <p class="at-billing-sub">{{#str}}billing_sub, local_alphatrade{{/str}}</p>
+
+    <div class="at-billing-grid">
+        <div class="at-card at-elev-sm at-pad-22">
+            <span class="at-card-kicker">{{#str}}currentplan, local_alphatrade{{/str}}</span>
+            {{#plan}}
+                <h3 class="at-card-title at-mt-2">{{name}}</h3>
+                <p class="at-card-body">{{text}}</p>
+                <div class="at-row-gap-10 at-wrap at-mt-4">
+                    {{#isactive}}<span class="at-tag at-tag-accent">{{#str}}activeuser, local_alphatrade{{/str}}</span>{{/isactive}}
+                    {{^isactive}}<span class="at-tag at-tag-neutral"><i class="ph ph-clock" aria-hidden="true"></i>{{#str}}expired, local_alphatrade{{/str}}</span>{{/isactive}}
+                    {{#count}}<span class="at-tag at-tag-neutral">{{count}}</span>{{/count}}
+                </div>
+            {{/plan}}
+            {{^hasplan}}<p class="at-card-body">{{#str}}noplan, local_alphatrade{{/str}}</p>{{/hasplan}}
+        </div>
+        <div class="at-card at-elev-sm at-pad-22">
+            <span class="at-card-kicker">{{#str}}paymentmethod, local_alphatrade{{/str}}</span>
+            {{#method}}
+                <h4 class="at-card-title at-mt-2">{{name}}</h4>
+                <p class="at-card-body">{{text}}</p>
+            {{/method}}
+            {{^hasmethod}}<p class="at-card-body">{{#str}}nomethod, local_alphatrade{{/str}}</p>{{/hasmethod}}
+            <div class="at-card-meta"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{#str}}nocarddata, local_alphatrade{{/str}}</div>
+        </div>
+    </div>
+
+    <h4 class="at-mb-12">{{#str}}billinghistory, local_alphatrade{{/str}}</h4>
+    <div class="at-card at-elev-sm at-table-card at-mb-28">
+        <table class="at-table">
+            <thead><tr><th>{{#str}}date, local_alphatrade{{/str}}</th><th>{{#str}}description{{/str}}</th><th>{{#str}}amount, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}receipt, local_alphatrade{{/str}}</span></th></tr></thead>
+            <tbody>
+                {{#rows}}
+                    <tr>
+                        <td>{{date}}</td>
+                        <td>{{description}}</td>
+                        <td>{{amount}}</td>
+                        <td><span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}paid, local_alphatrade{{/str}}</span></td>
+                        <td><a href="{{receipturl}}">{{#str}}receipt, local_alphatrade{{/str}}</a></td>
+                    </tr>
+                {{/rows}}
+                {{^hasrows}}<tr><td colspan="5" class="at-muted">{{#str}}nopayments, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+            </tbody>
+        </table>
+    </div>
+
+    {{#hasoffers}}
+        <h4 class="at-mb-12">{{#str}}addmodule, local_alphatrade{{/str}}</h4>
+        <div class="at-offers">
+            {{#offers}}
+                <div class="at-card at-elev-sm at-pad-22">
+                    <span class="at-card-kicker">{{#isprogramme}}{{#str}}programme, local_alphatrade{{/str}}{{/isprogramme}}{{^isprogramme}}{{#str}}option, local_alphatrade{{/str}}{{/isprogramme}}</span>
+                    <h4 class="at-card-title">{{name}}</h4>
+                    <p class="at-card-body">{{text}}</p>
+                    <div class="at-offer-price">{{price}}</div>
+                    <button type="button" class="btn {{#primary}}btn-primary{{/primary}}{{^primary}}btn-secondary{{/primary}} btn-block"
+                        data-action="core_payment/triggerPayment" data-component="enrol_fee" data-paymentarea="fee"
+                        data-itemid="{{instanceid}}" data-cost="{{price}}" data-successurl="{{successurl}}" data-description="{{description}}">
+                        {{#str}}addtoaccount, local_alphatrade{{/str}}
+                    </button>
+                </div>
+            {{/offers}}
+        </div>
+    {{/hasoffers}}
+</div>
+{{#js}}
+require(['core_payment/gateways_modal'], function(modal) {
+    modal.init();
+});
+{{/js}}

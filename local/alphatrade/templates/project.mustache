@@ -17,99 +17,43 @@
 {{!
     @template local_alphatrade/project
 
-    Final project: progress, steps, results, one main call to action.
+    Maquette Portail Etudiant, screen "Projet final".
 
     Example context (json):
     {
-        "hasproject": true, "percent": 30, "hassteps": true,
-        "steps": [{"number": "01", "name": "Marché", "url": "#", "icon": "ph-clipboard-text", "isdone": true, "iscurrent": false, "istodo": false, "islocked": false, "statusicon": "ph-fill ph-check-circle", "statuslabel": "Terminé", "availableinfo": ""}],
-        "moduleurl": "#", "islocked": false, "availableinfo": "", "continueurl": "#",
-        "result": {"name": "Alpha Setup #01", "market": "FX:EURUSD", "timeframe": "H1", "url": "#", "stats": {"trades": 120, "winrate": "44 %", "expectancy": "+0,28R", "expectancyclass": "alpha-value-positive"}},
-        "backtestingurl": "#", "certificateurl": "#"
+        "hasproject": true, "percent": 85, "hassteps": true, "islocked": false, "availableinfo": "", "continueurl": "#",
+        "steps": [{"number": "01", "name": "Marché", "url": "#", "iconclass": "ph-fill ph-check-circle", "statusclass": "at-status-done", "islocked": false, "statuslabel": "Terminé"}],
+        "result": {"url": "#", "stats": {"trades": 247, "winrate": "48.2 %", "expectancy": "+0.38R"} },
+        "backtestingurl": "#"
     }
 }}
-<div class="alpha-project">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow"><i class="ph-fill ph-trophy" aria-hidden="true"></i> {{#str}}finalproject, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title alpha-caps">{{#str}}alphatradingsystem, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}finalproject_lead, local_alphatrade{{/str}}</p>
-        </div>
-    </header>
-
-    {{^hasproject}}
-        <div class="alpha-empty">
-            <i class="ph ph-trophy" aria-hidden="true"></i>
-            <p>{{#str}}noprogramme, local_alphatrade{{/str}}</p>
-        </div>
-    {{/hasproject}}
-
+<div class="at-screen at-project">
+    <div class="at-eyebrow at-inline-icon"><i class="ph ph-trophy" aria-hidden="true"></i>{{#str}}finalproject_upper, local_alphatrade{{/str}}</div>
+    <h2 class="at-module-title">Alpha Trading System</h2>
+    <p class="at-module-desc">{{#str}}project_lead, local_alphatrade{{/str}}</p>
+    {{^hasproject}}<p class="at-muted">{{#str}}noproject, local_alphatrade{{/str}}</p>{{/hasproject}}
     {{#hasproject}}
-        {{#islocked}}
-            <div class="alpha-banner alpha-banner-warning">
-                <i class="ph ph-lock-simple" aria-hidden="true"></i>
-                <div><strong>{{#str}}modulelocked, local_alphatrade{{/str}}</strong>{{#availableinfo}}<div>{{{availableinfo}}}</div>{{/availableinfo}}</div>
-            </div>
-        {{/islocked}}
-
-        <section class="alpha-card">
-            <div class="alpha-dash-progress-value">
-                <span class="alpha-percent">{{percent}}&nbsp;%</span>
-                <span class="alpha-muted">{{#str}}projectprogress, local_alphatrade{{/str}}</span>
-            </div>
-            <div class="alpha-progress" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" aria-label="{{#str}}projectprogress, local_alphatrade{{/str}}">
-                <div class="alpha-progress-bar" style="width: {{percent}}%"></div>
-            </div>
-        </section>
-
-        <h2 class="alpha-section-title"><span>{{#str}}steps, local_alphatrade{{/str}}</span></h2>
+        {{#islocked}}<p class="at-module-locked"><i class="ph ph-lock-simple" aria-hidden="true"></i> {{#str}}modulelocked, local_alphatrade{{/str}}{{#availableinfo}} - {{{availableinfo}}}{{/availableinfo}}</p>{{/islocked}}
+        <div class="at-progress at-mb-20"><span style="width: {{percent}}%"></span></div>
         {{#hassteps}}
-            <ol class="alpha-list">
+            <div class="at-checklist at-mb-22">
                 {{#steps}}
-                    <li>{{> local_alphatrade/item_row }}</li>
+                    {{#islocked}}<div class="is-locked"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{number}} {{name}}</div>{{/islocked}}
+                    {{^islocked}}<a href="{{url}}"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{number}} {{name}}<span class="sr-only"> ({{statuslabel}})</span></a>{{/islocked}}
                 {{/steps}}
-            </ol>
-        {{/hassteps}}
-        {{^hassteps}}
-            <div class="alpha-empty"><p>{{#str}}nosteps, local_alphatrade{{/str}}</p></div>
-        {{/hassteps}}
-    {{/hasproject}}
-
-    <h2 class="alpha-section-title"><span>{{#str}}yourresults, local_alphatrade{{/str}}</span></h2>
-    {{#result}}
-        <div class="alpha-card">
-            <p class="alpha-card-caps">{{name}}</p>
-            <p class="alpha-muted">{{market}} · {{timeframe}}</p>
-            <dl class="alpha-kv">
-                <div><dt>{{#str}}trades, local_alphatrade{{/str}}</dt><dd>{{stats.trades}}</dd></div>
-                <div><dt>{{#str}}winrate, local_alphatrade{{/str}}</dt><dd>{{stats.winrate}}</dd></div>
-                <div><dt>{{#str}}expectancy, local_alphatrade{{/str}}</dt><dd class="{{stats.expectancyclass}}">{{stats.expectancy}}</dd></div>
-                <div><dt>{{#str}}maxdrawdown, local_alphatrade{{/str}}</dt><dd>{{stats.maxdrawdown}}</dd></div>
-            </dl>
-            <div class="alpha-card-footer">
-                <span></span>
-                <a class="btn btn-secondary" href="{{url}}"><span>{{#str}}seereport, local_alphatrade{{/str}}</span><i class="ph ph-arrow-right" aria-hidden="true"></i></a>
             </div>
-        </div>
-    {{/result}}
-    {{^result}}
-        <div class="alpha-empty">
-            <i class="ph ph-chart-line-up" aria-hidden="true"></i>
-            <p>{{#str}}noresults, local_alphatrade{{/str}}</p>
-            <a class="btn btn-secondary" href="{{backtestingurl}}">{{#str}}backtestinglab, local_alphatrade{{/str}}</a>
-        </div>
-    {{/result}}
-
-    {{#hasproject}}
-        <div class="alpha-row alpha-project-cta">
-            <a class="btn btn-ghost" href="{{certificateurl}}"><i class="ph ph-certificate" aria-hidden="true"></i>{{#str}}certification, local_alphatrade{{/str}}</a>
-            <span class="alpha-spacer"></span>
-            {{#continueurl}}
-                <a class="btn btn-primary alpha-btn-lg" href="{{continueurl}}">
-                    <span>{{#str}}continueproject, local_alphatrade{{/str}}</span>
-                    <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                </a>
-            {{/continueurl}}
-        </div>
+        {{/hassteps}}
     {{/hasproject}}
+    <div class="at-card at-elev-sm at-pad-20 at-mb-22 at-max-480">
+        <span class="at-card-kicker">{{#str}}yourresults, local_alphatrade{{/str}}</span>
+        {{#result}}
+            <p class="at-card-body at-mt-6">{{stats.trades}} {{#str}}trades_lower, local_alphatrade{{/str}} · {{stats.winrate}} win rate · {{stats.expectancy}} expectancy</p>
+            <a class="btn btn-secondary" href="{{url}}">{{#str}}viewreport, local_alphatrade{{/str}} &rarr;</a>
+        {{/result}}
+        {{^result}}
+            <p class="at-card-body at-mt-6">{{#str}}noresultsyet, local_alphatrade{{/str}}</p>
+            <a class="btn btn-secondary" href="{{backtestingurl}}">{{#str}}backtesting, local_alphatrade{{/str}} &rarr;</a>
+        {{/result}}
+    </div>
+    {{#continueurl}}<a class="btn btn-primary" href="{{continueurl}}">{{#str}}continueproject, local_alphatrade{{/str}} &rarr;</a>{{/continueurl}}
 </div>

@@ -1,169 +1,161 @@
-// Login: one centered card, the decorative blob behind the logo, no Moodle jargon.
+// "Connexion": logo, one card, contact link (maquette Connexion.dc.html).
 
 body.alpha-login {
-    min-height: 100vh;
-
-    #page-wrapper {
+    #page-wrapper.at-login {
         position: relative;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
-        overflow: hidden;
     }
 
-    #page.alpha-login-page {
-        position: relative;
-        z-index: 1;
+    #page.at-login-page {
         flex: 1 0 auto;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0;
-        padding: 3rem 1rem;
+        padding: 24px;
     }
 
-    #page-content,
     #region-main-box,
     #region-main {
-        width: 100%;
-        max-width: 440px;
-        margin: 0 auto;
         padding: 0;
+        margin: 0;
         background: transparent;
         border: 0;
     }
 
-    .login-wrapper {
-        display: block;
-        padding: 0;
-    }
-
-    .login-container.alpha-login-card {
-        width: 100%;
-        max-width: none;
-        margin: 0;
-        padding: 2.5rem 2.25rem 2rem;
-        background-color: $alpha-surface;
-        border: 1px solid $alpha-divider;
-        border-radius: $alpha-radius-xl;
-        box-shadow: $alpha-shadow-md;
-
-        @include media-breakpoint-down(sm) {
-            padding: 2rem 1.25rem 1.5rem;
-        }
-    }
-
-    .alpha-login-logo {
-        display: block;
-        width: 220px;
-        max-width: 80%;
-        height: auto;
-        margin: 0 auto 1.25rem;
-    }
-}
-
-.alpha-login-blob {
-    position: absolute;
-    top: 8%;
-    left: 50%;
-    width: 520px;
-    height: 400px;
-    margin-left: -380px;
-    background: $alpha-blob;
-    filter: blur(70px);
-    opacity: .45;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.alpha-loginform {
-    .alpha-login-tagline {
-        margin: 0 auto 2rem;
-        max-width: 34ch;
-        color: $alpha-text-muted;
-        font-size: .9375rem;
-        line-height: 1.5;
-        text-align: center;
-    }
-
-    .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .alpha-field {
-        margin: 0;
-    }
-
-    .form-control {
-        min-height: 48px;
-    }
-
-    .login-form-submit {
-        margin-top: .5rem;
-    }
-
-    .login-form-forgotpassword {
-        text-align: center;
-        font-size: .875rem;
-
-        a {
-            color: $alpha-text-muted;
-
-            &:hover {
-                color: $alpha-text;
-            }
-        }
-    }
-
-    .login-identityproviders,
-    .login-signup {
-        display: flex;
-        flex-direction: column;
-        gap: .5rem;
-    }
-
-    .login-instructions {
-        color: $alpha-text-muted;
-        font-size: .875rem;
-    }
-
-    .alpha-login-meta {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: .5rem 1rem;
-        margin-top: 1.5rem;
-    }
-
     .alert {
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-        font-size: .875rem;
+        font-size: 13px;
+        margin-bottom: 14px;
     }
 }
 
-.alpha-login-public {
-    margin: 1.5rem 0 0;
-    color: $alpha-text-muted;
-    font-size: .9375rem;
-    text-align: center;
+.at-login-column {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.at-login-logo-link {
+    display: block;
+    margin-bottom: 36px;
+}
+
+.at-login-logo {
+    display: block;
+    width: 220px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.at-login-card {
+    display: block;
+    width: 100%;
+    padding: 28px;
+}
+
+// The maquette card is a flex column (gap 5.6px): same rhythm for the title, fields and button.
+.at-loginform,
+.at-loginform .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: $at-space-2;
+}
+
+.at-login-title {
+    font-family: $at-font;
+    font-weight: $at-heading-weight;
+    font-size: 25px;
+    line-height: 1.12;
+    letter-spacing: -.015em;
+    margin: 0 0 4px;
+    color: $at-text;
+}
+
+.at-login-sub {
+    margin: 0 0 22px;
+    font-size: 13px;
+    color: $at-text-55;
+}
+
+.at-login-forgot {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
 
     a {
-        margin-left: .25rem;
-        font-weight: 600;
+        font-size: 12px;
     }
 }
 
-.alpha-login-footer {
-    position: relative;
-    z-index: 1;
-    padding: 1rem;
-    color: $alpha-text-subtle;
-    font-size: .75rem;
-    text-align: center;
-    background: transparent;
+.at-login-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0;
+    font-size: 12px;
+    color: $at-text-45;
+
+    &::before,
+    &::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: $at-divider;
+    }
+
+    &:empty::after {
+        display: none;
+    }
 }
+
+.login-identityproviders .btn + .btn {
+    margin-top: 8px;
+}
+
+.at-login-meta {
+    margin-top: 16px;
+    font-size: 12px;
+}
+
+.at-login-contact {
+    font-size: 12px;
+    margin: 22px 0 0;
+    color: $at-text-45;
+}
+
+.at-login-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 24px 18px;
+    text-align: center;
+    font-size: 12px;
+    color: $at-text-45;
+
+    .logininfo,
+    .homelink {
+        display: none;
+    }
+
+    a {
+        color: $at-text-55;
+    }
+}
+
+.at-login-cookies {
+    font-size: 12px;
+    color: $at-text-45;
+    padding: 0;
+
+    &:hover {
+        background: transparent;
+        color: $at-accent;
+    }
+}
+
+.at-mb-8 { margin-bottom: 8px !important; }

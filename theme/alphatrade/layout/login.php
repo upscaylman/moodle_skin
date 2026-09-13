@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Alpha Trade login layout: logo, one line of copy, e-mail, password, one call to action.
+ * Login layout (maquette Connexion): logo, card, contact link.
  *
  * @package   theme_alphatrade
  * @copyright 2026 Alpha Trade
@@ -32,6 +32,7 @@ $templatecontext = [
     'bodyattributes' => $bodyattributes,
     'logourl' => $OUTPUT->image_url('logo', 'theme_alphatrade')->out(false),
     'publicurl' => (new moodle_url('/', ['redirect' => 0]))->out(false),
+    'contacturl' => \theme_alphatrade\output\public_site::url('candidater'),
 ];
 
 echo $OUTPUT->render_from_template('theme_alphatrade/login', $templatecontext);

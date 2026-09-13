@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Backtesting Lab: my strategies (wireframe v3 screen 8) and "new strategy".
+ * Backtesting Lab (maquette Portail Etudiant, screen "Backtest"): my strategies, create / edit a strategy,
+ * verify all trades against real market data.
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -24,53 +25,85 @@
 
 require(__DIR__ . '/../../config.php');
 
-use local_alphatrade\form\strategy_form;
 use local_alphatrade\local\backtest;
+use local_alphatrade\local\marketdata;
+use local_alphatrade\local\markets;
 use local_alphatrade\local\page;
+use local_alphatrade\local\verifier;
 
 $action = optional_param('action', '', PARAM_ALPHA);
+$id = optional_param('id', 0, PARAM_INT);
 
-page::setup('/local/alphatrade/backtesting.php', 'backtest', get_string('backtestinglab', 'local_alphatrade'),
-    $action === 'new' ? ['action' => 'new'] : []);
+page::setup('/local/alphatrade/backtesting.php', 'backtest', get_string('backtesting', 'local_alphatrade'),
+    array_filter(['action' => $action, 'id' => $id]), get_string('sub_backtest', 'local_alphatrade'));
 $listurl = new moodle_url('/local/alphatrade/backtesting.php');
 
-if ($action === 'new') {
-    $form = new strategy_form($PAGE->url);
-    if ($form->is_cancelled()) {
-        redirect($listurl);
-    } else if ($formdata = $form->get_data()) {
-        $id = $DB->insert_record('local_alphatrade_strategy', (object) [
-            'userid' => $USER->id,
-            'name' => $formdata->name,
-            'market' => page::clean_symbol($formdata->market),
-            'timeframe' => $formdata->timeframe,
-            'period' => $formdata->period,
-            'description' => $formdata->description,
-            'timecreated' => time(),
-            'timemodified' => time(),
-        ]);
-        redirect(new moodle_url('/local/alphatrade/strategy.php', ['id' => $id]),
-            get_string('strategycreated', 'local_alphatrade'), null, \core\output\notification::NOTIFY_SUCCESS);
-    }
+$editing = $id ? $DB->get_record('local_alphatrade_strategy', ['id' => $id, 'userid' => $USER->id], '*', MUST_EXIST) : null;
 
-    echo $OUTPUT->header();
-    echo $OUTPUT->render_from_template('local_alphatrade/formpage', [
-        'backurl' => $listurl->out(false),
-        'backlabel' => get_string('backtestinglab', 'local_alphatrade'),
-        'eyebrow' => get_string('backtestinglab', 'local_alphatrade'),
-        'title' => get_string('newstrategy', 'local_alphatrade'),
-        'lead' => get_string('newstrategy_lead', 'local_alphatrade'),
-        'form' => $form->render(),
-    ]);
-    echo $OUTPUT->footer();
-    exit;
+// Create or update a strategy.
+if (($action === 'save') && data_submitted()) {
+    require_sesskey();
+    $name = core_text::substr(trim(required_param('name', PARAM_TEXT)), 0, 255);
+    $market = required_param('market', PARAM_TEXT);
+    $timeframe = required_param('timeframe', PARAM_ALPHANUM);
+    $preset = markets::find($market);
+    if (!$preset || !isset(markets::TIMEFRAMES[$timeframe]) && !isset(page::timeframes()[$timeframe])) {
+        throw new moodle_exception('invalidsymbol', 'local_alphatrade');
+    }
+    $count = $DB->count_records('local_alphatrade_strategy', ['userid' => $USER->id]);
+    $record = (object) [
+        'name' => $name !== '' ? $name : get_string('strategydefaultname', 'local_alphatrade', sprintf('%02d', $count + 1)),
+        'market' => $preset['label'],
+        'timeframe' => $timeframe,
+        'period' => core_text::substr(trim(optional_param('period', '', PARAM_TEXT)), 0, 64),
+        'description' => trim(optional_param('description', '', PARAM_TEXT)),
+        'timemodified' => time(),
+    ];
+    if ($editing) {
+        $record->id = $editing->id;
+        $DB->update_record('local_alphatrade_strategy', $record);
+        $newid = $editing->id;
+    } else {
+        $record->userid = $USER->id;
+        $record->timecreated = time();
+        $newid = $DB->insert_record('local_alphatrade_strategy', $record);
+    }
+    redirect(new moodle_url('/local/alphatrade/strategy.php', ['id' => $newid]));
 }
 
-$strategies = $DB->get_records('local_alphatrade_strategy', ['userid' => $USER->id], 'timemodified DESC');
+// Verify every strategy against real market data.
+if ($action === 'verifyall' && data_submitted()) {
+    require_sesskey();
+    $totals = ['confirmed' => 0, 'mismatch' => 0, 'open' => 0, 'nodata' => 0];
+    try {
+        foreach ($DB->get_records('local_alphatrade_strategy', ['userid' => $USER->id]) as $strategy) {
+            foreach (verifier::verify_strategy($strategy) as $status => $count) {
+                $totals[$status] += $count;
+            }
+        }
+        redirect($listurl, get_string('verifydone', 'local_alphatrade', (object) $totals), null,
+            \core\output\notification::NOTIFY_SUCCESS);
+    } catch (moodle_exception $e) {
+        redirect($listurl, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
+    }
+}
+
+$strategies = $DB->get_records('local_alphatrade_strategy', ['userid' => $USER->id], 'timecreated ASC');
 $results = backtest::get_results_for(array_keys($strategies));
 $cards = [];
 foreach ($strategies as $strategy) {
     $cards[] = backtest::export_card($strategy, $results[$strategy->id]);
+}
+
+$showform = $action === 'new' || $editing;
+$currentmarket = $editing ? markets::label($editing->market) : (markets::all()[0]['label'] ?? '');
+$currenttf = $editing ? $editing->timeframe : '60';
+$marketoptions = array_map(function($preset) use ($currentmarket) {
+    return ['value' => $preset['label'], 'label' => $preset['label'], 'checked' => $preset['label'] === $currentmarket];
+}, markets::all());
+$tfoptions = [];
+foreach (markets::TIMEFRAMES as $value => $label) {
+    $tfoptions[] = ['value' => $value, 'label' => $label, 'checked' => (string) $value === (string) $currenttf];
 }
 
 echo $OUTPUT->header();
@@ -78,6 +111,17 @@ echo $OUTPUT->render_from_template('local_alphatrade/backtesting', [
     'cards' => $cards,
     'hascards' => !empty($cards),
     'newurl' => (new moodle_url($listurl, ['action' => 'new']))->out(false),
-    'toolsurl' => (new moodle_url('/local/alphatrade/tools.php'))->out(false),
+    'listurl' => $listurl->out(false),
+    'showform' => $showform,
+    'editing' => (bool) $editing,
+    'formaction' => (new moodle_url($listurl, array_filter(['action' => 'save', 'id' => $editing->id ?? 0])))->out(false),
+    'sesskey' => sesskey(),
+    'name' => $editing->name ?? '',
+    'period' => $editing->period ?? '',
+    'description' => $editing->description ?? '',
+    'markets' => $marketoptions,
+    'timeframes' => $tfoptions,
+    'canverify' => marketdata::is_configured() && !empty($cards),
+    'verifyurl' => (new moodle_url($listurl, ['action' => 'verifyall']))->out(false),
 ]);
 echo $OUTPUT->footer();

@@ -1,0 +1,581 @@
+// Nocturne components, ported 1:1 from _ds/nocturne styles.css.
+// Prefixed "at-" where Bootstrap already owns the class name (card, table, tag...).
+// Buttons are the exception: Bootstrap .btn is restyled so native Moodle buttons match.
+
+html,
+body {
+    background-color: $at-bg;
+}
+
+body {
+    color: $at-text;
+    font-family: $at-font;
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid $at-accent;
+    outline-offset: 2px;
+}
+
+::selection {
+    background: rgba($at-accent, .3);
+}
+
+a {
+    color: $at-accent;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+        color: $at-accent-2;
+    }
+}
+
+.text-muted,
+.dimmed_text,
+.dimmed_text a {
+    color: $at-text-55 !important;
+}
+
+.bg-white,
+.bg-light {
+    background-color: $at-surface !important;
+}
+
+.text-dark,
+.text-body {
+    color: $at-text !important;
+}
+
+// ---------------------------------------------------------------- Screen scope (Alpha Trade pages).
+// Headings take the Nocturne scale only inside Alpha Trade screens, native pages keep Boost sizes.
+// :where() keeps element specificity, so component classes win as in the design system.
+:where(.at-screen) {
+    h1, h2, h3, h4, h5, h6 {
+        font-family: $at-font;
+        font-weight: $at-heading-weight;
+        line-height: 1.12;
+        letter-spacing: -.015em;
+        margin: 0 0 $at-space-2;
+        color: $at-text;
+    }
+
+    h1 { font-size: 42px; }
+    h2 { font-size: 32px; }
+    h3 { font-size: 25px; }
+    h4 { font-size: 20px; }
+    h5 { font-size: 16px; }
+    h6 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+
+    p {
+        margin: 0 0 $at-space-3;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+    }
+}
+
+// ---------------------------------------------------------------- Buttons (Bootstrap restyled to Nocturne).
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: $at-font;
+    font-weight: $at-heading-weight;
+    font-size: 14px;
+    line-height: 1.2;
+    color: $at-text;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: $at-space-2 ($at-space-3 * 1.2);
+    border-radius: $at-radius-md;
+    box-shadow: none;
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+    }
+
+    &:focus,
+    &.focus {
+        box-shadow: none;
+    }
+
+    &:disabled,
+    &.disabled {
+        opacity: .45;
+        cursor: not-allowed;
+    }
+
+    i.ph,
+    i.ph-fill {
+        font-size: 1.05em;
+    }
+}
+
+.btn-primary,
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active {
+    color: $at-accent;
+    border-color: $at-accent;
+    background: transparent;
+    box-shadow: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    color: $at-accent;
+    border-color: $at-accent;
+    background: rgba($at-accent, .12);
+}
+
+.btn-primary:not(:disabled):not(.disabled):active {
+    background: rgba($at-accent, .22);
+}
+
+.btn-secondary,
+.btn-outline-secondary,
+.btn-light,
+.btn-outline-primary,
+.btn-outline-info,
+.btn-outline-warning,
+.btn-default {
+    color: $at-text;
+    border-color: $at-divider;
+    background: transparent;
+
+    &:hover,
+    &:focus {
+        color: $at-text;
+        border-color: $at-divider;
+        background: rgba(233, 233, 237, .07);
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        color: $at-text;
+        border-color: $at-divider;
+        background: rgba(233, 233, 237, .14);
+    }
+}
+
+.btn-ghost,
+.btn-link {
+    color: $at-accent;
+    padding-left: $at-space-1;
+    padding-right: $at-space-1;
+    border-color: transparent;
+    background: transparent;
+
+    &:hover,
+    &:focus {
+        color: $at-accent;
+        background: rgba($at-accent, .10);
+        text-decoration: none;
+    }
+
+    &:active {
+        background: rgba($at-accent, .18);
+    }
+}
+
+.btn-danger,
+.btn-outline-danger {
+    color: $at-danger-tint;
+    border-color: rgba($at-danger, .6);
+    background: transparent;
+
+    &:hover,
+    &:focus {
+        color: $at-danger-tint;
+        border-color: $at-danger;
+        background: rgba($at-danger, .12);
+    }
+}
+
+.btn-success {
+    color: $at-success-tint;
+    border-color: rgba($at-success, .6);
+    background: transparent;
+
+    &:hover {
+        color: $at-success-tint;
+        background: rgba($at-success, .12);
+    }
+}
+
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: $at-radius-md;
+}
+
+.btn-block {
+    display: flex;
+    width: 100%;
+    margin-top: $at-space-2;
+}
+
+.btn-lg,
+.btn-sm {
+    font-size: 14px;
+    padding: $at-space-2 ($at-space-3 * 1.2);
+    border-radius: $at-radius-md;
+}
+
+// ---------------------------------------------------------------- Forms.
+.at-field > label,
+.at-field > .at-label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: $at-text-70;
+    font-weight: 400;
+}
+
+.at-input,
+.form-control,
+.custom-select,
+.form-select {
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 14px;
+    color: $at-text;
+    caret-color: $at-accent;
+    background-color: $at-surface;
+    border: 1px solid $at-divider;
+    border-radius: $at-radius-md;
+    box-shadow: none;
+
+    &:hover {
+        border-color: rgba(233, 233, 237, .45);
+    }
+
+    &:focus,
+    &:focus-visible {
+        color: $at-text;
+        background-color: $at-surface;
+        border-color: $at-accent;
+        outline: 2px solid $at-accent;
+        outline-offset: 0;
+        box-shadow: none;
+    }
+
+    &::placeholder {
+        color: $at-text-45;
+    }
+}
+
+.custom-select {
+    padding-right: 28px;
+}
+
+textarea.at-input,
+textarea.form-control {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.at-radio {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+    }
+
+    .at-dot {
+        width: 16px;
+        height: 16px;
+        flex: none;
+        border-radius: 50%;
+        border: 1.5px solid $at-divider;
+    }
+
+    &:hover .at-dot {
+        border-color: $at-accent;
+    }
+
+    input:checked + .at-dot {
+        border-color: $at-accent;
+        background: $at-accent;
+        box-shadow: inset 0 0 0 4px $at-bg;
+    }
+
+    input:focus-visible + .at-dot {
+        outline: 2px solid $at-accent;
+        outline-offset: 2px;
+    }
+}
+
+.at-seg {
+    display: inline-flex;
+    overflow: hidden;
+    border: 1px solid $at-divider;
+    border-radius: $at-radius-md;
+}
+
+.at-seg-opt {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    color: $at-text;
+    text-decoration: none;
+    margin: 0;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+    }
+
+    & + & {
+        border-left: 1px solid $at-divider;
+    }
+
+    &.is-active,
+    &:has(input:checked) {
+        color: $at-accent;
+        box-shadow: inset 0 0 0 1px $at-accent;
+    }
+
+    &:not(.is-active):not(:has(input:checked)):hover {
+        color: $at-text;
+        text-decoration: none;
+        background: rgba(233, 233, 237, .07);
+    }
+}
+
+// ---------------------------------------------------------------- Cards, elevation.
+.at-card {
+    display: flex;
+    flex-direction: column;
+    gap: $at-space-2;
+    padding: $at-space-3;
+    border-radius: $at-radius-md;
+    background: $at-surface;
+    color: $at-text;
+}
+
+.at-card-kicker {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: $at-accent;
+}
+
+.at-card-title {
+    font-family: $at-font;
+    font-weight: $at-heading-weight;
+    font-size: 17px;
+    line-height: 1.2;
+}
+
+.at-card-body {
+    margin: 0;
+    font-size: 13px;
+    opacity: .8;
+    flex: 1;
+}
+
+.at-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: $at-text-50;
+}
+
+.at-elev-sm { box-shadow: $at-shadow-sm; }
+.at-elev-md { box-shadow: $at-shadow-md; }
+.at-elev-lg { box-shadow: $at-shadow-lg; }
+
+// ---------------------------------------------------------------- Tags.
+.at-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: .02em;
+    padding: 3px 10px;
+    border-radius: $at-radius-md * .75;
+    white-space: nowrap;
+    text-decoration: none;
+    color: $at-text;
+    line-height: 1.55;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+a.at-tag:hover {
+    color: $at-accent-100;
+}
+
+.at-tag-accent { background: $at-accent-800; color: $at-accent-100; }
+.at-tag-neutral { background: $at-neutral-800; color: $at-neutral-100; }
+.at-tag-outline { border: 1px solid $at-accent; color: $at-accent; }
+.at-tag-success { background: rgba($at-success, .20); color: $at-success-tint; }
+.at-tag-warning { background: rgba($at-warning, .18); color: $at-warning-tint; }
+.at-tag-danger { background: rgba($at-danger, .18); color: $at-danger-tint; }
+
+// ---------------------------------------------------------------- Table with fading row rules.
+.at-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: $at-text;
+
+    th {
+        text-align: left;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: $at-text-60;
+        padding: $at-space-2;
+        border-bottom: 1px solid transparent;
+    }
+
+    td {
+        padding: $at-space-2;
+        border-bottom: 1px solid transparent;
+    }
+
+    thead tr {
+        background: linear-gradient(to right, transparent, $at-divider 48px, $at-divider calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;
+    }
+
+    tbody tr {
+        background: linear-gradient(to right, transparent, $at-text-8 48px, $at-text-8 calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;
+    }
+
+    tbody tr:hover {
+        background:
+            linear-gradient(rgba(233, 233, 237, .04), rgba(233, 233, 237, .04)) no-repeat 0 0 / 100% 100%,
+            linear-gradient(to right, transparent, $at-text-8 48px, $at-text-8 calc(100% - 48px), transparent) no-repeat bottom / 100% 1px;
+    }
+}
+
+.at-table-card {
+    padding: 0;
+    overflow-x: auto;
+
+    .at-table {
+        padding: 6px 12px;
+    }
+}
+
+.at-hr {
+    height: 1px;
+    border: 0;
+    margin: $at-space-4 0;
+    background: linear-gradient(to right, transparent, $at-divider 48px, $at-divider calc(100% - 48px), transparent);
+}
+
+// ---------------------------------------------------------------- Shared screen patterns (maquettes).
+.at-progress {
+    height: 6px;
+    border-radius: 3px;
+    background: $at-neutral-800;
+    overflow: hidden;
+
+    > span {
+        display: block;
+        height: 100%;
+        background: $at-accent;
+        border-radius: 3px;
+    }
+}
+
+.at-back {
+    display: inline-block;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.at-eyebrow {
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: $at-text-50;
+}
+
+.at-muted {
+    color: $at-text-55;
+}
+
+.at-status-done { color: $at-success; }
+.at-status-current { color: $at-accent; }
+.at-status-locked { color: $at-neutral-600; }
+.at-positive { color: $at-success; }
+.at-negative { color: $at-danger; }
+
+.at-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $at-accent-800;
+    color: $at-accent-100;
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.at-empty {
+    padding: 22px;
+    font-size: 13px;
+    color: $at-text-55;
+}
+
+.at-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}

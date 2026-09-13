@@ -29,7 +29,7 @@ if ((isloggedin() && !isguestuser()) || !get_config('theme_alphatrade', 'publich
     return;
 }
 
-$publicsite = new \theme_alphatrade\output\public_site();
+$publicsite = new \theme_alphatrade\output\public_site(optional_param('view', '', PARAM_ALPHA));
 $templatecontext = array_merge($publicsite->export(), [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,

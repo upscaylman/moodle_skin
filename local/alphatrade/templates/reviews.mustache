@@ -17,67 +17,38 @@
 {{!
     @template local_alphatrade/reviews
 
-    Teacher list of chart analyses to correct.
+    Maquette Espace Enseignant, screen "Devoirs à corriger".
 
     Example context (json):
     {
-        "filters": [{"label": "A corriger", "url": "#", "active": true}],
+        "filters": [{"label": "À corriger", "url": "#", "active": true}],
         "hasrows": true,
-        "rows": [{"student": "Sami B.", "chart": "Range asiatique", "meta": "FX:EURUSD · H1", "date": "12/09/26", "isreviewed": false, "score": "", "url": "#"}]
+        "rows": [{"student": "Claire Moreau", "item": "Analyse de structure", "course": "Structure de marché - S8", "submitted": "Il y a 2h", "isreviewed": false, "score": "", "url": "#"}]
     }
 }}
-<div class="alpha-reviews">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}teacherspace, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}reviews, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}reviews_lead, local_alphatrade{{/str}}</p>
-        </div>
-    </header>
-
-    <nav class="alpha-pills" aria-label="{{#str}}filters, local_alphatrade{{/str}}">
-        {{#filters}}
-            <a class="alpha-pill{{#active}} active{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>
-        {{/filters}}
-    </nav>
-
-    {{#hasrows}}
-        <div class="alpha-table-wrap">
-            <table class="alpha-table">
-                <thead>
+<div class="at-screen at-staff">
+    <div class="at-tags at-mb-14">
+        {{#filters}}<a class="at-tag {{#active}}at-tag-accent{{/active}}{{^active}}at-tag-neutral{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>{{/filters}}
+    </div>
+    <div class="at-card at-elev-sm at-table-card">
+        <table class="at-table">
+            <thead><tr><th>{{#str}}student, local_alphatrade{{/str}}</th><th>{{#str}}assignment, local_alphatrade{{/str}}</th><th>{{#str}}course{{/str}}</th><th>{{#str}}submitted, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+            <tbody>
+                {{#rows}}
                     <tr>
-                        <th scope="col">{{#str}}student, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}practice_charts, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}date, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}status, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end"><span class="sr-only">{{#str}}actions{{/str}}</span></th>
+                        <td>{{student}}</td>
+                        <td>{{item}}</td>
+                        <td>{{course}}</td>
+                        <td>{{submitted}}</td>
+                        <td>
+                            {{#isreviewed}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}filter_reviewed, local_alphatrade{{/str}}{{#score}} · {{score}}{{/score}}</span>{{/isreviewed}}
+                            {{^isreviewed}}<span class="at-tag at-tag-warning"><i class="ph ph-clock" aria-hidden="true"></i>{{#str}}filter_submitted, local_alphatrade{{/str}}</span>{{/isreviewed}}
+                        </td>
+                        <td><a class="btn btn-ghost" href="{{url}}">{{#isreviewed}}{{#str}}view{{/str}}{{/isreviewed}}{{^isreviewed}}{{#str}}correct, local_alphatrade{{/str}}{{/isreviewed}}</a></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {{#rows}}
-                        <tr>
-                            <td>{{student}}</td>
-                            <td class="alpha-cell-wrap">{{chart}}<br><span class="alpha-subtle">{{meta}}</span></td>
-                            <td>{{date}}</td>
-                            <td>
-                                {{#isreviewed}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{score}} / 100</span>{{/isreviewed}}
-                                {{^isreviewed}}<span class="alpha-status alpha-status-warning"><i class="ph ph-hourglass-medium" aria-hidden="true"></i>{{#str}}filter_submitted, local_alphatrade{{/str}}</span>{{/isreviewed}}
-                            </td>
-                            <td class="text-end">
-                                <a class="btn btn-secondary btn-sm" href="{{url}}">
-                                    {{#isreviewed}}{{#str}}view{{/str}}{{/isreviewed}}{{^isreviewed}}{{#str}}correct, local_alphatrade{{/str}}{{/isreviewed}}
-                                </a>
-                            </td>
-                        </tr>
-                    {{/rows}}
-                </tbody>
-            </table>
-        </div>
-    {{/hasrows}}
-    {{^hasrows}}
-        <div class="alpha-empty">
-            <i class="ph ph-check-square-offset" aria-hidden="true"></i>
-            <p>{{#str}}noreviews, local_alphatrade{{/str}}</p>
-        </div>
-    {{/hasrows}}
+                {{/rows}}
+                {{^hasrows}}<tr><td colspan="6" class="at-muted">{{#str}}noreviews, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+            </tbody>
+        </table>
+    </div>
 </div>

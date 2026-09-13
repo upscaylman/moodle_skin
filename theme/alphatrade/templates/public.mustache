@@ -17,200 +17,222 @@
 {{!
     @template theme_alphatrade/public
 
-    Public site for visitors. Moodle's own site home content is rendered but hidden
+    Maquette "Alpha Trade - Site Public". Moodle's own site home content is rendered but hidden
     (the layout must print main_content).
 
     Example context (json):
     {
         "sitename": "Alpha Trade",
         "output": {"doctype": "<!DOCTYPE html>", "page_title": "Alpha Trade", "favicon": "favicon.ico", "main_content": ""},
-        "bodyattributes": "",
-        "markurl": "mark.png", "logourl": "logo.png", "heroimageurl": "hero.jpg", "loginurl": "#",
-        "links": [{"label": "Le programme", "anchor": "#programme"}],
-        "facts": [{"value": "12", "label": "semaines"}],
-        "pillars": [{"icon": "ph-bank", "title": "Théorie des marchés", "text": "Comprendre la mécanique des marchés"}],
-        "months": [{"label": "Mois 1", "theme": "Comprendre", "weeks": [{"week": "S1-2", "label": "Marchés financiers"}]}],
-        "method": [{"title": "Comprendre", "text": "Les marchés et leurs acteurs"}],
-        "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "", "quote": ""}],
-        "faq": [{"question": "Pour qui ?", "answer": "..."}],
-        "applyurl": "#", "hasapply": true, "contactemail": "", "year": "2026"
+        "bodyattributes": "", "markurl": "mark.png", "logourl": "logo.png", "heroimageurl": "hero.jpg", "loginurl": "#",
+        "nav": [{"label": "Accueil", "url": "#", "active": true}],
+        "homeurl": "#", "programmeurl": "#", "teamurl": "#", "candidaterurl": "#",
+        "isaccueil": true, "isprogramme": false, "ismethode": false, "isformateurs": false, "isfaq": false, "iscandidater": false,
+        "pipeline": [{"label": "Comprendre", "icon": "ph-book-open", "hasarrow": true}],
+        "months": [{"number": 1, "label": "Comprendre", "summary": "Fondamentaux", "modules": [{"number": "01", "title": "Fondamentaux des marchés", "desc": "Marchés"}]}],
+        "method": [{"number": 1, "title": "Comprendre", "desc": "Les mécanismes"}],
+        "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "Enseigne"}],
+        "faq": [{"question": "Signaux ?", "answer": "Non."}],
+        "hasform": true, "applyurl": "", "hasapplyurl": false, "formaction": "#", "sesskey": "x", "applied": false
     }
 }}
 {{> theme_boost/head }}
 
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
-<div id="page-wrapper">
+<div id="page-wrapper" class="at-public">
     {{{ output.standard_top_of_body_html }}}
-    <div class="alpha-public-blob" aria-hidden="true"></div>
+    <div class="at-blob at-blob-page" aria-hidden="true"></div>
 
-    <header class="alpha-public-nav">
-        <a class="alpha-public-brand" href="#top">
-            <img src="{{markurl}}" alt="" width="32" height="32">
-            <span>ALPHA TRADE</span>
-        </a>
-        <ul class="alpha-public-links">
-            {{#links}}<li><a href="{{anchor}}">{{label}}</a></li>{{/links}}
-        </ul>
-        <div class="alpha-public-actions">
-            <a class="btn btn-ghost" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
-            {{#hasapply}}<a class="btn btn-primary" href="{{applyurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>{{/hasapply}}
+    <header class="at-pub-header">
+        <a class="at-pub-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
+        <nav class="at-pub-nav" aria-label="{{sitename}}">
+            {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
+        </nav>
+        <div class="at-pub-actions">
+            <a class="btn btn-secondary" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
+            <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
         </div>
     </header>
 
-    <main id="page">
-        <section class="alpha-hero" id="top" style="background-image: url('{{heroimageurl}}');">
-            <div class="alpha-container">
-                <p class="alpha-eyebrow">{{#str}}pub_hero_eyebrow, theme_alphatrade{{/str}}</p>
-                <h1>{{#str}}pub_hero_title, theme_alphatrade{{/str}}</h1>
-                <p class="alpha-lead">{{#str}}pub_hero_lead, theme_alphatrade{{/str}}</p>
-                <div class="alpha-hero-actions">
-                    {{#hasapply}}
-                        <a class="btn btn-primary alpha-btn-lg" href="{{applyurl}}">
-                            <span>{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
-                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    {{/hasapply}}
-                    <a class="btn btn-secondary alpha-btn-lg" href="#programme">{{#str}}pub_discover_programme, theme_alphatrade{{/str}}</a>
+    <main id="page" class="at-pub-main">
+        {{#isaccueil}}
+            <section class="at-pub-hero">
+                <div>
+                    <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_hero_tag, theme_alphatrade{{/str}}</span>
+                    <h1>{{#str}}pub_hero_title, theme_alphatrade{{/str}}</h1>
+                    <p>{{#str}}pub_hero_lead, theme_alphatrade{{/str}}</p>
+                    <div class="at-pub-buttons">
+                        <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
+                        <a class="btn btn-secondary" href="{{programmeurl}}">{{#str}}pub_discover, theme_alphatrade{{/str}}</a>
+                    </div>
                 </div>
-                <ul class="alpha-hero-facts">
-                    {{#facts}}<li><strong>{{value}}</strong><span>{{label}}</span></li>{{/facts}}
-                </ul>
-            </div>
-        </section>
+                <div class="at-pub-hero-img"><img src="{{heroimageurl}}" alt="{{#str}}pub_hero_alt, theme_alphatrade{{/str}}"></div>
+            </section>
 
-        <section class="alpha-section" aria-labelledby="alpha-pillars-title">
-            <div class="alpha-container">
-                <div class="alpha-section-head">
-                    <p class="alpha-eyebrow">{{#str}}pub_positioning, theme_alphatrade{{/str}}</p>
-                    <h2 id="alpha-pillars-title">{{#str}}pub_pillars_title, theme_alphatrade{{/str}}</h2>
-                    <p>{{#str}}pub_pillars_lead, theme_alphatrade{{/str}}</p>
+            <section class="at-pub-band">
+                <div class="at-pub-pipeline">
+                    {{#pipeline}}
+                        <span class="at-pub-step">
+                            <span class="at-pub-pill"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</span>
+                            {{#hasarrow}}<i class="ph ph-arrow-right at-pub-arrow" aria-hidden="true"></i>{{/hasarrow}}
+                        </span>
+                    {{/pipeline}}
                 </div>
-                <div class="alpha-grid alpha-grid-3">
-                    {{#pillars}}
-                        <div class="alpha-card">
-                            <span class="alpha-card-icon"><i class="ph {{icon}}" aria-hidden="true"></i></span>
-                            <h3 class="alpha-card-title">{{title}}</h3>
-                            <p class="alpha-card-text">{{text}}</p>
-                        </div>
-                    {{/pillars}}
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="alpha-section" id="programme" aria-labelledby="alpha-programme-title">
-            <div class="alpha-container">
-                <div class="alpha-section-head">
-                    <p class="alpha-eyebrow">{{#str}}pub_nav_programme, theme_alphatrade{{/str}}</p>
-                    <h2 id="alpha-programme-title">{{#str}}pub_programme_title, theme_alphatrade{{/str}}</h2>
-                    <p>{{#str}}pub_programme_lead, theme_alphatrade{{/str}}</p>
+            <section class="at-pub-section">
+                <div class="at-pub-section-head">
+                    <h2>{{#str}}pub_programme_title, theme_alphatrade{{/str}}</h2>
+                    <a href="{{programmeurl}}">{{#str}}pub_programme_link, theme_alphatrade{{/str}} &rarr;</a>
                 </div>
-                <div class="alpha-months">
+                <div class="at-pub-grid">
                     {{#months}}
-                        <div class="alpha-card alpha-month">
-                            <p class="alpha-eyebrow">{{label}}</p>
-                            <h3 class="alpha-card-title">{{theme}}</h3>
-                            <ol>
-                                {{#weeks}}<li><span class="alpha-week">{{week}}</span><span>{{label}}</span></li>{{/weeks}}
-                            </ol>
+                        <div class="at-card at-elev-sm at-pad-22">
+                            <span class="at-card-kicker">{{#str}}pub_month, theme_alphatrade, {{number}}{{/str}}</span>
+                            <h4 class="at-card-title at-mt-2">{{label}}</h4>
+                            <p class="at-card-body">{{summary}}</p>
                         </div>
                     {{/months}}
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="alpha-section" id="method" aria-labelledby="alpha-method-title">
-            <div class="alpha-container">
-                <div class="alpha-section-head">
-                    <p class="alpha-eyebrow">{{#str}}pub_nav_method, theme_alphatrade{{/str}}</p>
-                    <h2 id="alpha-method-title">{{#str}}pub_method_title, theme_alphatrade{{/str}}</h2>
-                    <p>{{#str}}pub_method_lead, theme_alphatrade{{/str}}</p>
+            <section class="at-pub-section is-bordered">
+                <div class="at-pub-section-head">
+                    <h2>{{#str}}pub_team_title, theme_alphatrade{{/str}}</h2>
+                    <a href="{{teamurl}}">{{#str}}pub_team_link, theme_alphatrade{{/str}} &rarr;</a>
                 </div>
-                <ol class="alpha-method">
-                    {{#method}}<li><h3>{{title}}</h3><p>{{text}}</p></li>{{/method}}
-                </ol>
-                <div class="alpha-banner alpha-banner-warning alpha-public-notice">
-                    <i class="ph ph-shield-check" aria-hidden="true"></i>
-                    <div><strong>{{#str}}nosignals, theme_alphatrade{{/str}}</strong> {{#str}}pub_nosignals_detail, theme_alphatrade{{/str}}</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="alpha-section" id="team" aria-labelledby="alpha-team-title">
-            <div class="alpha-container">
-                <div class="alpha-section-head">
-                    <p class="alpha-eyebrow">{{#str}}pub_nav_team, theme_alphatrade{{/str}}</p>
-                    <h2 id="alpha-team-title">{{#str}}pub_team_title, theme_alphatrade{{/str}}</h2>
-                    <p>{{#str}}pub_team_lead, theme_alphatrade{{/str}}</p>
-                </div>
-                <div class="alpha-team">
+                <div class="at-pub-grid">
                     {{#team}}
-                        <article class="alpha-card alpha-person">
-                            <div class="alpha-person-head">
-                                <span class="alpha-initials" aria-hidden="true">{{initials}}</span>
-                                <div>
-                                    <h3>{{name}}</h3>
-                                    <span class="alpha-person-role">{{role}}</span>
-                                </div>
-                            </div>
-                            <p class="alpha-card-text">{{bio}}</p>
-                            <blockquote>{{quote}}</blockquote>
-                        </article>
+                        <div class="at-card at-elev-sm at-pad-22 at-pub-person">
+                            <span class="at-pub-initials" aria-hidden="true">{{initials}}</span>
+                            <div><h4 class="at-card-title">{{name}}</h4><div class="at-card-meta">{{role}}</div></div>
+                        </div>
                     {{/team}}
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="alpha-section" id="faq" aria-labelledby="alpha-faq-title">
-            <div class="alpha-container">
-                <div class="alpha-section-head">
-                    <p class="alpha-eyebrow">{{#str}}pub_nav_faq, theme_alphatrade{{/str}}</p>
-                    <h2 id="alpha-faq-title">{{#str}}pub_faq_title, theme_alphatrade{{/str}}</h2>
+            <section class="at-pub-cta">
+                <h2>{{#str}}pub_cta_title, theme_alphatrade{{/str}}</h2>
+                <p>{{#str}}pub_cta_lead, theme_alphatrade{{/str}}</p>
+                <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
+            </section>
+        {{/isaccueil}}
+
+        {{#isprogramme}}
+            <section class="at-pub-page is-960">
+                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_programme_tag, theme_alphatrade{{/str}}</span>
+                <h1>{{#str}}pub_programme_h1, theme_alphatrade{{/str}}</h1>
+                <p class="at-pub-lead">{{#str}}pub_programme_lead, theme_alphatrade{{/str}}</p>
+                {{#months}}
+                    <div class="at-pub-month">
+                        <div class="at-eyebrow">{{#str}}pub_month_upper, theme_alphatrade, {{number}}{{/str}}</div>
+                        <div class="at-pub-month-label">{{label}}</div>
+                        <div class="at-stack-8">
+                            {{#modules}}
+                                <div class="at-card at-elev-sm at-pub-module">
+                                    <span class="at-pub-module-n">{{number}}</span>
+                                    <div><div class="at-pub-module-title">{{title}}</div><div class="at-pub-module-desc">{{desc}}</div></div>
+                                </div>
+                            {{/modules}}
+                        </div>
+                    </div>
+                {{/months}}
+                <div class="at-pub-center"><a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a></div>
+            </section>
+        {{/isprogramme}}
+
+        {{#ismethode}}
+            <section class="at-pub-page is-900">
+                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_nav_methode, theme_alphatrade{{/str}}</span>
+                <h1>{{#str}}pub_method_h1, theme_alphatrade{{/str}}</h1>
+                <p class="at-pub-lead">{{#str}}pub_method_lead, theme_alphatrade{{/str}}</p>
+                <div class="at-pub-steps">
+                    {{#method}}
+                        <div class="at-pub-stepline">
+                            <span class="at-pub-stepnum" aria-hidden="true">{{number}}</span>
+                            <div><div class="at-pub-steptitle">{{title}}</div><div class="at-pub-stepdesc">{{desc}}</div></div>
+                        </div>
+                    {{/method}}
                 </div>
-                <div class="alpha-faq">
+                <div class="at-card at-elev-sm at-pub-warning">
+                    <i class="ph ph-warning" aria-hidden="true"></i>
+                    <span>{{#str}}pub_method_warning, theme_alphatrade{{/str}}</span>
+                </div>
+            </section>
+        {{/ismethode}}
+
+        {{#isformateurs}}
+            <section class="at-pub-page is-900">
+                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_nav_formateurs, theme_alphatrade{{/str}}</span>
+                <h1>{{#str}}pub_team_h1, theme_alphatrade{{/str}}</h1>
+                <p class="at-pub-lead">{{#str}}pub_team_lead, theme_alphatrade{{/str}}</p>
+                <div class="at-pub-grid is-320">
+                    {{#team}}
+                        <div class="at-card at-elev-sm at-pub-trainer">
+                            <span class="at-pub-photo" aria-hidden="true">{{initials}}</span>
+                            <h3 class="at-card-title">{{name}}</h3>
+                            <div class="at-card-meta at-mb-10">{{role}}</div>
+                            <p class="at-card-body">{{bio}}</p>
+                        </div>
+                    {{/team}}
+                </div>
+            </section>
+        {{/isformateurs}}
+
+        {{#isfaq}}
+            <section class="at-pub-page is-760">
+                <span class="at-tag at-tag-outline at-pub-kicker">FAQ</span>
+                <h1 class="at-pub-faq-h1">{{#str}}pub_faq_h1, theme_alphatrade{{/str}}</h1>
+                <div class="at-pub-faq">
                     {{#faq}}
                         <details>
-                            <summary>{{question}}<i class="ph ph-plus" aria-hidden="true"></i></summary>
-                            <div class="alpha-faq-answer">{{answer}}</div>
+                            <summary>{{question}}</summary>
+                            <p>{{answer}}</p>
                         </details>
                     {{/faq}}
                 </div>
-            </div>
-        </section>
+            </section>
+        {{/isfaq}}
 
-        <section class="alpha-section" id="apply" aria-labelledby="alpha-apply-title">
-            <div class="alpha-container">
-                <div class="alpha-card alpha-card-accent alpha-apply">
-                    <div>
-                        <p class="alpha-eyebrow">{{#str}}pub_apply, theme_alphatrade{{/str}}</p>
-                        <h2 id="alpha-apply-title">{{#str}}pub_apply_title, theme_alphatrade{{/str}}</h2>
-                        <p class="alpha-lead">{{#str}}pub_apply_lead, theme_alphatrade{{/str}}</p>
+        {{#iscandidater}}
+            <section class="at-pub-page is-560">
+                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
+                <h1 class="at-pub-apply-h1">{{#str}}pub_apply_h1, theme_alphatrade{{/str}}</h1>
+                <p class="at-pub-lead">{{#str}}pub_apply_lead, theme_alphatrade{{/str}}</p>
+                {{#applied}}
+                    <div class="at-card at-elev-sm at-pad-22 at-pub-applied">
+                        <i class="ph-fill ph-check-circle" aria-hidden="true"></i>
+                        <span>{{#str}}pub_apply_done, theme_alphatrade{{/str}}</span>
                     </div>
-                    <div class="alpha-stack">
-                        {{#hasapply}}
-                            <a class="btn btn-primary alpha-btn-lg alpha-btn-block" href="{{applyurl}}">
-                                <span>{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
-                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                            </a>
-                        {{/hasapply}}
-                        <a class="btn btn-secondary alpha-btn-lg alpha-btn-block" href="{{loginurl}}">{{#str}}pub_alreadymember, theme_alphatrade{{/str}}</a>
-                        {{#contactemail}}<a class="alpha-link-muted" href="mailto:{{contactemail}}"><i class="ph ph-envelope-simple" aria-hidden="true"></i> {{contactemail}}</a>{{/contactemail}}
-                    </div>
-                </div>
-            </div>
-        </section>
+                {{/applied}}
+                {{^applied}}
+                    {{#hasform}}
+                        <form class="at-card at-elev-sm at-pad-24" method="post" action="{{formaction}}">
+                            <input type="hidden" name="sesskey" value="{{sesskey}}">
+                            <div class="at-hp" aria-hidden="true"><label for="at-apply-website">Website</label><input type="text" id="at-apply-website" name="website" tabindex="-1" autocomplete="off"></div>
+                            <div class="at-field at-mb-14"><label for="at-apply-name">{{#str}}pub_apply_name, theme_alphatrade{{/str}}</label><input class="at-input" id="at-apply-name" type="text" name="fullname" required maxlength="120" autocomplete="name" placeholder="{{#str}}pub_apply_name_ph, theme_alphatrade{{/str}}"></div>
+                            <div class="at-field at-mb-14"><label for="at-apply-email">{{#str}}email{{/str}}</label><input class="at-input" id="at-apply-email" type="email" name="email" required maxlength="120" autocomplete="email" placeholder="vous@email.com"></div>
+                            <div class="at-field at-mb-14"><label for="at-apply-phone">{{#str}}pub_apply_phone, theme_alphatrade{{/str}}</label><input class="at-input" id="at-apply-phone" type="tel" name="phone" maxlength="40" autocomplete="tel" placeholder="+33 6 00 00 00 00"></div>
+                            <div class="at-field at-mb-20"><label for="at-apply-why">{{#str}}pub_apply_why, theme_alphatrade{{/str}}</label><input class="at-input" id="at-apply-why" type="text" name="motivation" maxlength="1000" placeholder="{{#str}}pub_apply_why_ph, theme_alphatrade{{/str}}"></div>
+                            <button type="submit" class="btn btn-primary btn-block">{{#str}}pub_apply_send, theme_alphatrade{{/str}}</button>
+                        </form>
+                    {{/hasform}}
+                    {{^hasform}}
+                        {{#hasapplyurl}}<a class="btn btn-primary btn-block" href="{{applyurl}}">{{#str}}pub_apply_send, theme_alphatrade{{/str}}</a>{{/hasapplyurl}}
+                    {{/hasform}}
+                {{/applied}}
+                <p class="at-pub-member">{{#str}}pub_member, theme_alphatrade{{/str}} <a href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a></p>
+            </section>
+        {{/iscandidater}}
 
         <div class="d-none" aria-hidden="true">{{{ output.main_content }}}</div>
     </main>
 
-    <footer id="page-footer" class="alpha-public-footer">
-        <div class="alpha-container">
-            <img src="{{logourl}}" alt="{{sitename}}" height="28">
-            <span>{{#str}}nosignals, theme_alphatrade{{/str}}</span>
-            <span class="alpha-spacer"></span>
-            <span>&copy; {{year}} Alpha Trade</span>
-        </div>
-        <div class="alpha-container alpha-footer-standard">
+    <footer id="page-footer" class="at-pub-footer">
+        <img src="{{logourl}}" alt="{{sitename}}">
+        <span>{{#str}}pub_tagline, theme_alphatrade{{/str}}</span>
+        <div class="at-pub-footer-standard">
             {{{ output.standard_footer_html }}}
             {{{ output.standard_end_of_body_html }}}
         </div>

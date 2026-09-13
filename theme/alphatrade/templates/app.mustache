@@ -17,24 +17,19 @@
 {{!
     @template theme_alphatrade/app
 
-    Alpha Trade app shell. Same drawers contract as theme_boost/drawers (course index,
-    blocks, JS) with the Alpha Trade header, sidebar and mobile tab bar around it.
+    App shell of the maquettes: sidebar, in-page header, mobile top bar and tab bar.
+    Keeps the theme_boost/drawers contract (course index, blocks, drawers JS).
 
     Example context (json):
     {
         "sitename": "Alpha Trade",
-        "output": {
-            "doctype": "<!DOCTYPE html>",
-            "page_title": "Dashboard",
-            "favicon": "favicon.ico",
-            "main_content": "<h1>Content</h1>"
-        },
+        "output": {"doctype": "<!DOCTYPE html>", "page_title": "Accueil", "favicon": "favicon.ico", "main_content": "<p>Contenu</p>"},
         "bodyattributes": "",
-        "nav": {"main": [], "secondary": [], "tabbar": [], "staff": [], "hasstaff": false},
-        "showpageheader": true,
-        "logourl": "logo.png",
-        "markurl": "mark.png",
-        "homeurl": "#"
+        "nav": {"isstudent": true, "main": [], "secondary": [], "tabbar": [], "drawer": [], "switch": [], "hasswitch": false},
+        "isalphapage": true, "isnativepage": false,
+        "title": "Accueil", "subtitle": "Votre parcours Alpha Trade.",
+        "logourl": "logo.png", "markurl": "mark.png", "homeurl": "#", "searchurl": "#",
+        "userfullname": "Julien Bouvier", "userrole": "Formateur", "userinitials": "JB", "profileurl": "#"
     }
 }}
 {{> theme_boost/head }}
@@ -45,9 +40,10 @@
 
     {{{ output.standard_top_of_body_html }}}
 
-    {{> theme_alphatrade/header }}
     {{> theme_alphatrade/sidebar }}
+    {{> theme_alphatrade/mobtop }}
     {{> theme_alphatrade/mobilemenu }}
+    {{> theme_alphatrade/tabbar }}
 
     {{#courseindex}}
         {{< theme_boost/drawer }}
@@ -85,19 +81,12 @@
     {{/hasblocks}}
 
     <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container">
-        <div id="topofscroll" class="main-inner">
+        <div id="topofscroll" class="main-inner at-main">
+            {{> theme_alphatrade/header }}
             <div class="drawer-toggles d-flex">
                 {{#courseindex}}
                     <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
-                        <button
-                            class="btn icon-no-margin"
-                            data-toggler="drawers"
-                            data-action="toggle"
-                            data-target="theme_boost-drawers-courseindex"
-                            data-toggle="tooltip"
-                            data-placement="right"
-                            title="{{#str}}opendrawerindex, core{{/str}}"
-                        >
+                        <button class="btn icon-no-margin" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-courseindex" data-toggle="tooltip" data-placement="right" title="{{#str}}opendrawerindex, core{{/str}}">
                             <span class="sr-only">{{#str}}opendrawerindex, core{{/str}}</span>
                             {{#pix}} t/index_drawer, moodle {{/pix}}
                         </button>
@@ -105,15 +94,7 @@
                 {{/courseindex}}
                 {{#hasblocks}}
                     <div class="drawer-toggler drawer-right-toggle ms-auto d-print-none">
-                        <button
-                            class="btn icon-no-margin"
-                            data-toggler="drawers"
-                            data-action="toggle"
-                            data-target="theme_boost-drawers-blocks"
-                            data-toggle="tooltip"
-                            data-placement="right"
-                            title="{{#str}}opendrawerblocks, core{{/str}}"
-                        >
+                        <button class="btn icon-no-margin" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-blocks" data-toggle="tooltip" data-placement="right" title="{{#str}}opendrawerblocks, core{{/str}}">
                             <span class="sr-only">{{#str}}opendrawerblocks, core{{/str}}</span>
                             <span class="dir-rtl-hide">{{#pix}}t/blocks_drawer, core{{/pix}}</span>
                             <span class="dir-ltr-hide">{{#pix}}t/blocks_drawer_rtl, core{{/pix}}</span>
@@ -121,9 +102,6 @@
                     </div>
                 {{/hasblocks}}
             </div>
-            {{#showpageheader}}
-                {{{ output.full_header }}}
-            {{/showpageheader}}
             {{#lesson}}
                 {{> theme_alphatrade/lesson_header }}
             {{/lesson}}
@@ -132,7 +110,7 @@
                     {{> core/moremenu}}
                 </div>
             {{/secondarymoremenu}}
-            <div id="page-content" class="pb-3 d-print-block">
+            <div id="page-content" class="d-print-block">
                 <div id="region-main-box">
                     {{#hasregionmainsettingsmenu}}
                     <div id="region-main-settings-menu" class="d-print-none">
@@ -147,6 +125,9 @@
                         {{#headercontent}}
                             {{> core/activity_header }}
                         {{/headercontent}}
+                        {{#lesson}}
+                            {{^lesson.isquiz}}<h3 class="at-lesson-title">{{lesson.title}}</h3>{{/lesson.isquiz}}
+                        {{/lesson}}
                         {{#overflow}}
                             <div class="container-fluid tertiary-navigation">
                                 <div class="navitem">
@@ -168,7 +149,6 @@
         </div>
         {{> theme_alphatrade/footer }}
     </div>
-    {{> theme_alphatrade/tabbar }}
     {{{ output.standard_after_main_region_html }}}
 </div>
 

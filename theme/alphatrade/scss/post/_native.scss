@@ -1,334 +1,196 @@
-// Native Moodle pages restyled for the dark Alpha Trade UI
-// (course, activities, forms, tables, popovers, messaging, admin).
+// Native Moodle pages (course, activities, forms, tables, admin) in the Nocturne look.
 
-// ---------------------------------------------------------------- Dropdowns and menus.
+// Links that are navigation, not prose.
+.nav-link,
+.dropdown-item,
+.list-group-item,
+.courseindex a,
+.breadcrumb a,
+.activityname a,
+.aalink,
+.moremenu a,
+.pagination a,
+.page-link,
+.card a.stretched-link,
+.navbar a,
+.btn,
+.at-navbtn,
+.at-mobbtn {
+    text-decoration: none;
+}
+
+// ---------------------------------------------------------------- Dropdowns, popovers, modals.
 .dropdown-menu {
-    padding: .375rem;
-    border-radius: $alpha-radius;
+    padding: 6px;
+    border-radius: $at-radius-md;
+    box-shadow: $at-shadow-md;
+    border: 0;
 }
 
 .dropdown-item {
-    border-radius: $alpha-radius-sm;
-    color: $alpha-text;
+    border-radius: 6px;
+    font-size: 13px;
+    color: $at-text;
 
     &:hover,
     &:focus {
-        background-color: $alpha-surface-3;
-        color: $alpha-text;
+        background: rgba(233, 233, 237, .07);
+        color: $at-text;
     }
 
     &.active,
     &:active,
     &[aria-current="true"] {
-        background-color: $alpha-accent-800;
-        color: $alpha-accent-100;
+        background: $at-accent-800;
+        color: $at-accent-100;
     }
 }
 
 .dropdown-divider {
-    border-top-color: $alpha-divider;
+    border-top-color: $at-divider;
 }
 
-// ---------------------------------------------------------------- Cards, blocks, list groups.
-.card,
-.block.card {
-    border-radius: $alpha-radius-lg;
-    border-color: $alpha-divider;
-    box-shadow: none;
+.modal-content {
+    border-radius: $at-radius-lg;
+    box-shadow: $at-shadow-lg;
 }
 
-.block .card-title {
-    font-size: 1rem;
-    font-weight: 600;
+.modal-title {
+    font-weight: $at-heading-weight;
+    font-size: 20px;
 }
 
-.list-group-item {
-    border-color: $alpha-divider;
-}
+.popover-region-container {
+    background: $at-surface;
+    border: 0;
+    border-radius: $at-radius-md;
+    box-shadow: $at-shadow-md;
 
-.drawer {
-    .block.card {
-        background-color: $alpha-surface;
+    .popover-region-header-container,
+    .popover-region-footer-container {
+        background: $at-surface;
+        border-color: $at-divider;
+    }
+
+    .content-item-container {
+        border-color: $at-text-6;
+
+        &.unread {
+            background: rgba($at-accent, .08);
+        }
+
+        &:hover {
+            background: rgba(233, 233, 237, .04);
+        }
     }
 }
 
-// ---------------------------------------------------------------- Course page.
+// ---------------------------------------------------------------- Cards, blocks.
+.card,
+.block.card {
+    border: 0;
+    border-radius: $at-radius-md;
+    box-shadow: $at-shadow-sm;
+}
+
+.block .card-title {
+    font-size: 17px;
+    font-weight: $at-heading-weight;
+}
+
+.list-group-item {
+    border-color: $at-text-8;
+}
+
+// ---------------------------------------------------------------- Course page and activities.
 .course-content {
     .section,
     .course-section {
-        border-color: $alpha-divider !important;
+        border-color: $at-text-8 !important;
     }
 
     .sectionname,
     .course-section-header h3 {
-        font-size: 1.125rem;
-        font-weight: 600;
-    }
-
-    .summarytext {
-        color: $alpha-text-muted;
+        font-size: 20px;
+        font-weight: $at-heading-weight;
     }
 }
 
 .activity-item {
-    border-radius: $alpha-radius;
+    border-radius: $at-radius-md;
 
     &:not(.activityinline) {
-        border-color: $alpha-divider;
-        background-color: $alpha-surface;
-    }
-
-    .activityname a,
-    .activity-name-area a {
-        color: $alpha-text;
+        border: 0;
+        background: $at-surface;
+        box-shadow: $at-shadow-sm;
     }
 }
 
 .activityiconcontainer {
-    border-radius: $alpha-radius-sm;
-    background-color: $alpha-accent-900;
+    border-radius: $at-radius-md;
+    background: $at-accent-900;
 }
 
-.courseindex {
-    .courseindex-item {
-        border-radius: $alpha-radius-pill;
+.courseindex .courseindex-item {
+    border-radius: 14px;
 
-        &.pageitem {
-            background-color: $alpha-accent-800;
-            color: $alpha-accent-100;
+    &.pageitem {
+        background: $at-accent-800;
+        color: $at-accent-100;
 
-            a {
-                color: $alpha-accent-100;
-            }
+        a {
+            color: $at-accent-100;
         }
     }
+}
 
-    .courseindex-section-title a {
-        font-weight: 600;
+.drawer {
+    background: $at-bg;
+    border-right: 1px solid $at-divider;
+
+    &.drawer-right {
+        border-right: 0;
+        border-left: 1px solid $at-divider;
     }
 }
 
-// ---------------------------------------------------------------- Activity header and content.
-.activity-header {
-    margin-bottom: 1.25rem;
-
-    .activity-information {
-        margin-bottom: .75rem;
-    }
-
-    .activity-description {
-        color: $alpha-text-muted;
-    }
-}
-
-[data-region="activity-information"] .badge,
-.completion-info .badge {
-    padding: .35em .75em;
-}
-
-.completion-info .btn-success,
-[data-region="completion-info"] .btn-success {
-    background-color: rgba($alpha-success, .18);
-    border-color: transparent;
-    color: $alpha-success-tint;
+// ---------------------------------------------------------------- Status badges (colour + text).
+.badge {
+    font-size: 11px;
+    letter-spacing: .02em;
+    font-weight: 400;
 }
 
 .badge-success,
-.badge.bg-success {
-    background-color: rgba($alpha-success, .18) !important;
-    color: $alpha-success-tint !important;
-}
-
+.badge.bg-success { background: rgba($at-success, .20) !important; color: $at-success-tint !important; }
 .badge-warning,
-.badge.bg-warning {
-    background-color: rgba($alpha-warning, .18) !important;
-    color: $alpha-warning-tint !important;
-}
-
+.badge.bg-warning { background: rgba($at-warning, .18) !important; color: $at-warning-tint !important; }
 .badge-danger,
-.badge.bg-danger {
-    background-color: rgba($alpha-danger, .18) !important;
-    color: $alpha-danger-tint !important;
-}
-
+.badge.bg-danger { background: rgba($at-danger, .18) !important; color: $at-danger-tint !important; }
+.badge-primary,
+.badge.bg-primary { background: $at-accent-800 !important; color: $at-accent-100 !important; }
 .badge-secondary,
 .badge.bg-secondary,
-.badge-light {
-    background-color: rgba(255, 255, 255, .08) !important;
-    color: $alpha-text-muted !important;
-}
+.badge-light,
+.badge-info { background: $at-neutral-800 !important; color: $at-neutral-100 !important; }
 
-.badge-primary,
-.badge.bg-primary {
-    background-color: rgba($alpha-accent, .2) !important;
-    color: $alpha-accent-200 !important;
-}
-
-#region-main {
-    .generalbox,
-    .box.generalbox {
-        border-color: $alpha-divider;
-    }
-}
-
-// Media blocks inside lessons: rounded, framed on the dark ground.
-#region-main {
-    video,
-    iframe[src*="youtube"],
-    iframe[src*="vimeo"],
-    .mediaplugin {
-        max-width: 100%;
-        border-radius: $alpha-radius-lg;
-        overflow: hidden;
-    }
-}
-
-// ---------------------------------------------------------------- Forms.
-.mform {
-    fieldset.collapsible legend a.fheader,
-    legend {
-        color: $alpha-text;
-        font-weight: 600;
-    }
-
-    .fitem .col-form-label,
-    .form-label {
-        color: $alpha-text;
-        font-weight: 500;
-    }
-
-    .form-control-static {
-        color: $alpha-text;
-    }
-
-    fieldset {
-        border-color: $alpha-divider;
-    }
-}
-
-.form-description,
-.form-defaultinfo,
-.form-text {
-    color: $alpha-text-muted;
-}
-
-.custom-switch .custom-control-label::after {
-    background-color: $alpha-text-muted;
-}
-
-.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
-    background-color: $alpha-on-accent;
-}
-
-.input-group-text {
-    border-color: $input-border-color;
-}
-
-.form-autocomplete-selection .badge {
-    background-color: $alpha-surface-3 !important;
-    color: $alpha-text !important;
-}
-
-// ---------------------------------------------------------------- Tables.
-.generaltable,
-.table {
-    color: $alpha-text;
-
-    thead th,
-    th.header {
-        background-color: $alpha-surface-2;
-        color: $alpha-text-muted;
-        border-color: $alpha-divider;
-        font-weight: 600;
-    }
-
-    td,
-    th {
-        border-color: $alpha-divider;
-    }
-}
-
-.generaltable tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, .02);
-}
-
-.generaltable.table-hover tbody tr:hover,
-.generaltable tbody tr:hover {
-    background-color: rgba(255, 255, 255, .04);
-    color: $alpha-text;
-}
-
-// ---------------------------------------------------------------- Popovers (notifications, messages).
-.popover-region-container {
-    background-color: $alpha-surface-2;
-    border-color: $alpha-divider-strong;
-    border-radius: $alpha-radius;
-    box-shadow: $alpha-shadow-md;
-
-    .popover-region-header-container,
-    .popover-region-footer-container {
-        background-color: $alpha-surface-2;
-        border-color: $alpha-divider;
-    }
-
-    .content-item-container {
-        border-color: $alpha-divider;
-
-        &.unread {
-            background-color: rgba($alpha-accent, .08);
-        }
-
-        &:hover {
-            background-color: $alpha-surface-3;
-        }
-    }
-}
-
-.message-app,
-.message-app .bg-white,
-.message-app .footer-container,
-.message-app .panel-header-container {
-    background-color: $alpha-surface !important;
-}
-
-.message-app {
-    .message.send {
-        background-color: $alpha-accent-800;
-        color: $alpha-accent-100;
-    }
-
-    .message.received {
-        background-color: $alpha-surface-3;
-        color: $alpha-text;
-    }
-
-    .list-group-item {
-        background-color: transparent;
-    }
-}
-
-[data-region="right-hand-drawer"].drawer {
-    background-color: $alpha-surface;
-    border-left: 1px solid $alpha-divider;
-}
-
-// ---------------------------------------------------------------- Alerts, toasts, modals.
+// ---------------------------------------------------------------- Alerts.
 .alert {
-    border-radius: $alpha-radius;
     border: 1px solid transparent;
+    border-radius: $at-radius-md;
+    font-size: 14px;
 }
 
-// Bootstrap tints toward $white, which is dark here: set readable alert text explicitly.
-$alpha-alerts: (
-    "primary": ($alpha-accent, $alpha-accent-200),
-    "info": ($alpha-info, $alpha-info-tint),
-    "success": ($alpha-success, $alpha-success-tint),
-    "warning": ($alpha-warning, $alpha-warning-tint),
-    "danger": ($alpha-danger, $alpha-danger-tint),
-    "secondary": ($alpha-text-muted, $alpha-text),
+$at-alerts: (
+    "primary": ($at-accent, $at-accent-200),
+    "info": ($at-neutral-500, $at-text),
+    "success": ($at-success, $at-success-tint),
+    "warning": ($at-warning, $at-warning-tint),
+    "danger": ($at-danger, $at-danger-tint),
+    "secondary": ($at-neutral-500, $at-text),
 );
 
-@each $name, $pair in $alpha-alerts {
+@each $name, $pair in $at-alerts {
     .alert-#{$name} {
         background-color: rgba(nth($pair, 1), .1);
         border-color: rgba(nth($pair, 1), .3);
@@ -337,98 +199,177 @@ $alpha-alerts: (
         a,
         .alert-link {
             color: nth($pair, 2);
-            text-decoration: underline;
-        }
-
-        hr {
-            border-top-color: rgba(nth($pair, 1), .3);
         }
     }
 }
 
-.modal-content {
-    border-radius: $alpha-radius-lg;
+// ---------------------------------------------------------------- Forms.
+.mform {
+    legend,
+    fieldset.collapsible legend a.fheader {
+        color: $at-text;
+        font-weight: $at-heading-weight;
+        font-size: 16px;
+        text-decoration: none;
+    }
+
+    .fitem .col-form-label,
+    .form-label,
+    .fitem label {
+        font-size: 12px;
+        color: $at-text-70;
+        font-weight: 400;
+    }
+
+    fieldset {
+        border-color: $at-divider;
+    }
 }
 
-.close,
-.btn-close {
-    color: $alpha-text;
-    opacity: .7;
-    text-shadow: none;
+.form-description,
+.form-defaultinfo,
+.form-text {
+    color: $at-text-55;
+    font-size: 12px;
 }
 
-.toast {
-    border-radius: $alpha-radius;
+.input-group-text {
+    border-color: $at-divider;
 }
 
-// ---------------------------------------------------------------- Forum.
+.custom-switch .custom-control-label::after {
+    background-color: $at-text-55;
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+    background-color: #181a1e;
+}
+
+.form-autocomplete-selection .badge {
+    background: $at-neutral-800 !important;
+    color: $at-neutral-100 !important;
+}
+
+// ---------------------------------------------------------------- Tables.
+.generaltable,
+.table {
+    color: $at-text;
+    font-size: 14px;
+
+    thead th,
+    th.header {
+        background: transparent;
+        color: $at-text-60;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        border-color: $at-divider;
+    }
+
+    td,
+    th {
+        border-color: $at-text-8;
+    }
+}
+
+.generaltable tbody tr:nth-of-type(odd) {
+    background: transparent;
+}
+
+.generaltable tbody tr:hover {
+    background: rgba(233, 233, 237, .04);
+    color: $at-text;
+}
+
+// ---------------------------------------------------------------- Secondary navigation (course / admin tabs).
+body.alpha-app .secondary-navigation {
+    margin-bottom: 20px;
+
+    .navigation .nav-tabs {
+        border-bottom: 1px solid $at-divider;
+    }
+
+    .navigation .nav-tabs .nav-link {
+        color: $at-text;
+        font-size: 13px;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        background: transparent;
+
+        &:hover {
+            color: $at-accent;
+        }
+
+        &.active,
+        &.active_tree_node {
+            color: $at-accent;
+            border-bottom-color: $at-accent;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Messaging drawer, forum, misc.
+[data-region="right-hand-drawer"].drawer,
+.message-app,
+.message-app .bg-white,
+.message-app .footer-container,
+.message-app .panel-header-container {
+    background: $at-surface !important;
+}
+
+.message-app {
+    .message.send {
+        background: $at-accent-700;
+        color: $at-accent-100;
+    }
+
+    .message.received {
+        background: $at-surface;
+        color: $at-text;
+    }
+}
+
 .forumpost,
 .forum-post-container .forumpost {
-    background-color: $alpha-surface;
-    border-color: $alpha-divider !important;
-    border-radius: $alpha-radius-lg;
-}
-
-.discussion-list thead th {
-    background-color: transparent;
-}
-
-// ---------------------------------------------------------------- Admin and reports.
-#adminsettings,
-.admin_settingspage {
-    .form-item {
-        border-color: $alpha-divider;
-    }
-}
-
-.path-admin .adminlink,
-.path-admin .admintree a {
-    color: $alpha-accent-300;
+    background: $at-surface;
+    border: 0 !important;
+    border-radius: $at-radius-md;
+    box-shadow: $at-shadow-sm;
 }
 
 .userprofile .profile_tree section {
-    background-color: $alpha-surface;
-    border-color: $alpha-divider;
-    border-radius: $alpha-radius-lg;
-}
-
-// Calendar event colours, muted for the dark ground.
-.calendarwrapper .calendar_event_course,
-.calendar_event_course { background-color: rgba($alpha-accent, .22); border-color: $alpha-accent; }
-.calendar_event_site { background-color: rgba($alpha-success, .22); border-color: $alpha-success; }
-.calendar_event_user { background-color: rgba($alpha-info, .22); border-color: $alpha-info; }
-.calendar_event_group { background-color: rgba($alpha-warning, .22); border-color: $alpha-warning; }
-.calendar_event_category { background-color: rgba(167, 139, 250, .22); border-color: #a78bfa; }
-
-// ---------------------------------------------------------------- Edit switch, user tours, misc.
-.editmode-switch-form {
-    color: $alpha-text-muted;
-}
-
-.tool_usertours-resettourcontainer:empty {
-    display: none;
+    background: $at-surface;
+    border: 0;
+    border-radius: $at-radius-md;
+    box-shadow: $at-shadow-sm;
 }
 
 .filemanager .fp-content,
 .filemanager-container,
 .form-filemanager .fm-empty-container {
-    background-color: $alpha-sunken;
-    border-color: $input-border-color;
+    background: $at-surface;
+    border-color: $at-divider;
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap {
-    background-color: $alpha-surface;
-    color: $alpha-text;
+    background: $at-surface;
+    color: $at-text;
 }
 
-pre,
-code {
-    color: $alpha-accent-200;
-}
+.calendar_event_course { background: rgba($at-accent, .22); border-color: $at-accent; }
+.calendar_event_site { background: rgba($at-success, .22); border-color: $at-success; }
+.calendar_event_user { background: rgba($at-neutral-500, .22); border-color: $at-neutral-500; }
+.calendar_event_group { background: rgba($at-warning, .22); border-color: $at-warning; }
 
 pre {
-    padding: 1rem;
-    background-color: $alpha-sunken;
-    border: 1px solid $alpha-divider;
-    border-radius: $alpha-radius;
+    padding: 12px;
+    background: $at-surface;
+    border-radius: $at-radius-md;
+    color: $at-accent-300;
+}
+
+.tool_usertours-resettourcontainer:empty {
+    display: none;
 }

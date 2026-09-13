@@ -26,7 +26,6 @@
 require(__DIR__ . '/../../config.php');
 
 use local_alphatrade\local\page;
-use local_alphatrade\local\programme;
 
 $type = optional_param('type', '', PARAM_ALPHA);
 $types = ['pdf', 'video', 'checklist', 'template'];
@@ -34,7 +33,7 @@ $type = in_array($type, $types) ? $type : '';
 $search = trim(optional_param('q', '', PARAM_TEXT));
 
 page::setup('/local/alphatrade/resources.php', 'resources', get_string('resources', 'local_alphatrade'),
-    array_filter(['type' => $type, 'q' => $search]));
+    array_filter(['type' => $type, 'q' => $search]), get_string('sub_resources', 'local_alphatrade'));
 
 $items = [];
 $courseid = (int) get_config('local_alphatrade', 'resourcescourse');
@@ -86,8 +85,7 @@ if ($courseid && $DB->record_exists('course', ['id' => $courseid])) {
                 'name' => $name,
                 'meta' => $typelabel . ' · ' . $sectionname,
                 'url' => $cm->url->out(false),
-                'icon' => in_array('pdf', $itemtypes) ? 'ph-file-pdf'
-                    : (in_array('video', $itemtypes) ? 'ph-play-circle' : (programme::ICONS[$cm->modname] ?? 'ph-file')),
+                'icon' => in_array('video', $itemtypes) ? 'ph-play-circle' : 'ph-file-text',
                 'isdownload' => $isdownload,
                 'isuse' => in_array('template', $itemtypes),
             ];

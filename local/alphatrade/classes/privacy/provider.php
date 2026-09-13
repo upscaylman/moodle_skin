@@ -41,7 +41,7 @@ class provider implements
     const TABLES = [
         'local_alphatrade_strategy' => ['name', 'market', 'timeframe', 'period', 'description', 'timecreated', 'timemodified'],
         'local_alphatrade_bttrade' => ['strategyid', 'tradedate', 'direction', 'entry', 'stoploss', 'takeprofit', 'resultr', 'notes',
-            'timecreated'],
+            'verifiedr', 'verifystatus', 'timeverified', 'timecreated'],
         'local_alphatrade_journal' => ['tradedate', 'asset', 'assetclass', 'direction', 'setup', 'entry', 'stoploss', 'takeprofit',
             'riskpct', 'resultr', 'emotion', 'reason', 'marketcontext', 'followedplan', 'review', 'timecreated', 'timemodified'],
         'local_alphatrade_analysis' => ['chartid', 'structure', 'liquidity', 'bias', 'scenario', 'status', 'score', 'feedback',
@@ -62,6 +62,13 @@ class provider implements
             }
             $collection->add_database_table($table, $metadata, 'privacy:metadata:' . $table);
         }
+        // Applications of the public site come from visitors without an account (no user id is stored).
+        $collection->add_database_table('local_alphatrade_application', [
+            'fullname' => 'privacy:metadata:application_fullname',
+            'email' => 'privacy:metadata:application_email',
+            'phone' => 'privacy:metadata:application_phone',
+            'motivation' => 'privacy:metadata:application_motivation',
+        ], 'privacy:metadata:local_alphatrade_application');
         $collection->add_subsystem_link('core_files', [], 'privacy:metadata:core_files');
         $collection->add_subsystem_link('core_message', [], 'privacy:metadata:core_message');
         return $collection;

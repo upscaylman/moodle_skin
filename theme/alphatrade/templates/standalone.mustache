@@ -1,0 +1,79 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_alphatrade/standalone
+
+    "Site" pages of the maquettes (Messagerie, Paiement): floating rounded navbar with the
+    decorative gradient behind the logo, no sidebar.
+
+    Example context (json):
+    {
+        "sitename": "Alpha Trade",
+        "output": {"doctype": "<!DOCTYPE html>", "page_title": "Messagerie", "favicon": "favicon.ico", "main_content": "<p>Contenu</p>"},
+        "bodyattributes": "", "title": "Messagerie", "homeurl": "#", "logourl": "logo.png", "markurl": "mark.png",
+        "standalone": {"ismessaging": true, "links": [{"label": "Messages", "url": "#", "icon": "ph-chat-circle-text", "badge": "", "active": true}]}
+    }
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper" class="at-standalone">
+    {{{ output.standard_top_of_body_html }}}
+    {{^standalone.ismessaging}}<div class="at-blob at-blob-page" aria-hidden="true"></div>{{/standalone.ismessaging}}
+    <header class="at-floatnav{{#standalone.ismessaging}} at-floatnav-messaging{{/standalone.ismessaging}} d-print-none">
+        {{#standalone.ismessaging}}
+            <a class="at-floatnav-logo" href="{{homeurl}}">
+                <span class="at-blob at-blob-logo" aria-hidden="true"></span>
+                <img src="{{logourl}}" alt="{{sitename}}">
+            </a>
+        {{/standalone.ismessaging}}
+        {{^standalone.ismessaging}}
+            <a class="at-floatnav-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
+        {{/standalone.ismessaging}}
+        <span class="at-floatnav-brand">{{title}}</span>
+        {{#standalone.links}}
+            <a href="{{url}}" class="at-floatnav-link{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}>
+                <i class="ph {{icon}}" aria-hidden="true"></i><span>{{label}}</span>{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}
+            </a>
+        {{/standalone.links}}
+    </header>
+    <div id="page" class="at-standalone-page">
+        <div id="page-content">
+            <div id="region-main-box">
+                <div id="region-main">
+                    {{{ output.main_content }}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="page-footer" class="at-standalone-footer">
+        {{{ output.standard_footer_html }}}
+        {{{ output.standard_end_of_body_html }}}
+        <div class="footer-content-debugging footer-dark bg-dark text-light">
+            <div class="container-fluid footer-dark-inner">{{{ output.debug_footer_html }}}</div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

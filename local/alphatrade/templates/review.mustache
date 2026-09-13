@@ -17,57 +17,39 @@
 {{!
     @template local_alphatrade/review
 
-    Teacher correction of a chart analysis.
+    Trainer correction of a chart analysis (patterns of the "Analyse de graphique" screen).
 
     Example context (json):
     {
-        "backurl": "#",
-        "student": "Sami B.",
-        "number": "#012",
-        "title": "Range asiatique",
-        "symbol": "FX:EURUSD",
-        "timeframe": "H1",
-        "chartsrc": "https://s.tradingview.com/widgetembed/?symbol=FX:EURUSD&interval=60",
+        "backurl": "#", "student": "Claire Moreau", "number": "#012", "title": "Range asiatique", "symbol": "EUR/USD", "timeframe": "H1",
+        "chartsrc": "https://www.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=60",
         "answers": {"structure": "HH/HL", "liquidity": "Equal highs", "bias": "Bullish", "scenario": "Sweep puis BOS", "submitted": "12/09/26"},
         "form": "<form></form>"
     }
 }}
-<div class="alpha-review">
-    <a href="{{backurl}}" class="alpha-backlink">
-        <i class="ph ph-arrow-left" aria-hidden="true"></i>
-        <span>{{#str}}reviews, local_alphatrade{{/str}}</span>
-    </a>
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}analysisnumber, local_alphatrade, {{number}}{{/str}} · {{symbol}} · {{timeframe}}</p>
-            <h1 class="alpha-title">{{title}}</h1>
-            <p class="alpha-lead">{{student}}</p>
-        </div>
-    </header>
-
-    <div class="alpha-chart alpha-chart-compact">
-        <iframe src="{{chartsrc}}" title="{{symbol}} {{timeframe}}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+<div class="at-screen at-analyse">
+    <a href="{{backurl}}" class="at-back">&larr; {{#str}}reviews, local_alphatrade{{/str}}</a>
+    <div class="at-eyebrow">ANALYSE {{number}} · {{student}}</div>
+    <h3 class="at-analyse-market">{{symbol}} · {{timeframe}}</h3>
+    <div class="at-chartbox">
+        <iframe src="{{chartsrc}}" title="{{symbol}} {{timeframe}} - TradingView" loading="lazy" referrerpolicy="no-referrer"></iframe>
     </div>
-
-    <div class="alpha-grid alpha-grid-2 alpha-review-grid">
-        <div class="alpha-card">
-            <p class="alpha-eyebrow">{{#str}}studentanalysis, local_alphatrade{{/str}}</p>
+    <div class="at-staff-grid is-even">
+        <div class="at-card at-elev-sm at-pad-22">
+            <span class="at-card-kicker">{{#str}}studentanalysis, local_alphatrade{{/str}}</span>
+            <h4 class="at-card-title at-mt-2">{{title}}</h4>
             {{#answers}}
-                <dl class="alpha-answers">
-                    <dt>{{#str}}analysis_structure, local_alphatrade{{/str}}</dt>
-                    <dd>{{{structure}}}</dd>
-                    <dt>{{#str}}analysis_liquidity, local_alphatrade{{/str}}</dt>
-                    <dd>{{{liquidity}}}</dd>
-                    <dt>{{#str}}analysis_bias, local_alphatrade{{/str}}</dt>
-                    <dd>{{bias}}</dd>
-                    <dt>{{#str}}analysis_scenario, local_alphatrade{{/str}}</dt>
-                    <dd>{{{scenario}}}</dd>
-                </dl>
-                <p class="alpha-subtle">{{#str}}submittedon, local_alphatrade, {{submitted}}{{/str}}</p>
+                <div class="at-answers">
+                    <div><span>{{#str}}analysis_structure, local_alphatrade{{/str}}</span>{{{structure}}}</div>
+                    <div><span>{{#str}}analysis_liquidity, local_alphatrade{{/str}}</span>{{{liquidity}}}</div>
+                    <div><span>{{#str}}analysis_bias, local_alphatrade{{/str}}</span>{{bias}}</div>
+                    <div><span>{{#str}}analysis_scenario, local_alphatrade{{/str}}</span>{{{scenario}}}</div>
+                </div>
+                <div class="at-card-meta">{{#str}}submittedon, local_alphatrade, {{submitted}}{{/str}}</div>
             {{/answers}}
         </div>
-        <div class="alpha-card">
-            <p class="alpha-eyebrow">{{#str}}correctiontitle, local_alphatrade{{/str}}</p>
+        <div class="at-card at-elev-sm at-pad-22 at-formcard">
+            <span class="at-card-kicker">{{#str}}correctiontitle, local_alphatrade{{/str}}</span>
             {{{form}}}
         </div>
     </div>

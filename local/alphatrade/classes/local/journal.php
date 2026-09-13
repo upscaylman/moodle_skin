@@ -35,11 +35,11 @@ class journal {
     /** @var string[] Emotional state => Phosphor icon (no emoji anywhere). */
     const EMOTIONS = [
         'calm' => 'ph-smiley',
+        'neutral' => 'ph-smiley-meh',
         'confident' => 'ph-smiley-wink',
-        'hesitant' => 'ph-smiley-meh',
         'stressed' => 'ph-smiley-nervous',
         'frustrated' => 'ph-smiley-angry',
-        'euphoric' => 'ph-smiley-sticker',
+        'disappointed' => 'ph-smiley-sad',
     ];
 
     /** @var string File area for trade screenshots. */
@@ -108,8 +108,9 @@ class journal {
         $result = $entry->resultr === null ? null : (float) $entry->resultr;
         return [
             'id' => $entry->id,
+            'date' => userdate($entry->tradedate, '%d/%m'),
             'url' => (new moodle_url('/local/alphatrade/journalentry.php', ['id' => $entry->id]))->out(false),
-            'asset' => $entry->asset,
+            'asset' => page::display_symbol($entry->asset),
             'assetclass' => get_string('assetclass_' . $entry->assetclass, 'local_alphatrade'),
             'setup' => (string) $entry->setup,
             'islong' => $entry->direction === 'long',

@@ -17,49 +17,29 @@
 {{!
     @template core_course/completion_manual
 
-    Alpha Trade manual completion button: same data attributes as core (so
-    core_course/manual_completion_toggle keeps working), Phosphor icon, colour + text.
+    Manual completion button, maquette style ("Leçon terminée", secondary button).
+    Same data attributes as core so core_course/manual_completion_toggle keeps working.
 
     Example context (json):
-    {
-        "cmid": 0,
-        "activityname": "Lesson",
-        "overallcomplete": true,
-        "overallincomplete": false,
-        "istrackeduser": true
-    }
+    {"cmid": 0, "activityname": "Leçon", "overallcomplete": true, "overallincomplete": false, "istrackeduser": true}
 }}
 {{#istrackeduser}}
     {{#overallcomplete}}
-        <button class="btn btn-sm text-nowrap alpha-completion alpha-completion-done" data-action="toggle-manual-completion" data-toggletype="manual:undo" data-cmid="{{cmid}}" data-activityname="{{activityname}}" data-withavailability="{{withavailability}}" {{!
-        }}{{#accessibledescription}}{{!
-            }}title="{{.}}" {{!
-            }}aria-label="{{.}}" {{!
-        }}{{/accessibledescription}}{{!
-        }}{{^accessibledescription}}{{!
-            }}title="{{#str}}completion_manual:aria:done, course, {{activityname}} {{/str}}" {{!
-            }}aria-label="{{#str}}completion_manual:aria:done, course, {{activityname}} {{/str}}" {{!
-        }}{{/accessibledescription}}>
-            <i class="ph-fill ph-check-circle" aria-hidden="true"></i> {{#str}}lessondone, theme_alphatrade{{/str}}
+        <button class="btn btn-secondary text-nowrap at-completion is-done" data-action="toggle-manual-completion" data-toggletype="manual:undo" data-cmid="{{cmid}}" data-activityname="{{activityname}}" data-withavailability="{{withavailability}}" {{!
+        }}title="{{#str}}completion_manual:aria:done, course, {{activityname}} {{/str}}" aria-label="{{#str}}completion_manual:aria:done, course, {{activityname}} {{/str}}">
+            <i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}lessondone, theme_alphatrade{{/str}}
         </button>
     {{/overallcomplete}}
     {{#overallincomplete}}
-        <button class="btn btn-sm text-nowrap alpha-completion" data-action="toggle-manual-completion" data-toggletype="manual:mark-done" data-cmid="{{cmid}}" data-activityname="{{activityname}}" data-withavailability="{{withavailability}}" {{!
-        }}{{#accessibledescription}}{{!
-            }}title="{{.}}" {{!
-            }}aria-label="{{.}}" {{!
-        }}{{/accessibledescription}}{{!
-        }}{{^accessibledescription}}{{!
-            }}title="{{#str}}completion_manual:aria:markdone, course, {{activityname}} {{/str}}" {{!
-            }}aria-label="{{#str}}completion_manual:aria:markdone, course, {{activityname}} {{/str}}" {{!
-        }}{{/accessibledescription}}>
-            <i class="ph ph-check" aria-hidden="true"></i> {{#str}}markdone, theme_alphatrade{{/str}}
+        <button class="btn btn-secondary text-nowrap at-completion" data-action="toggle-manual-completion" data-toggletype="manual:mark-done" data-cmid="{{cmid}}" data-activityname="{{activityname}}" data-withavailability="{{withavailability}}" {{!
+        }}title="{{#str}}completion_manual:aria:markdone, course, {{activityname}} {{/str}}" aria-label="{{#str}}completion_manual:aria:markdone, course, {{activityname}} {{/str}}">
+            <i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}markdone, theme_alphatrade{{/str}}
         </button>
     {{/overallincomplete}}
 {{/istrackeduser}}
 {{^istrackeduser}}
-    <button class="btn btn-sm text-nowrap alpha-completion" disabled>
-        <i class="ph ph-check" aria-hidden="true"></i> {{#str}}markdone, theme_alphatrade{{/str}}
+    <button class="btn btn-secondary text-nowrap at-completion" disabled>
+        <i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}markdone, theme_alphatrade{{/str}}
     </button>
 {{/istrackeduser}}
 

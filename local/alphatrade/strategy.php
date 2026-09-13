@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Strategy dashboard (wireframe v3 screen 9): stats, equity curve or candles, trades, add a trade.
+ * Strategy detail (maquette Portail Etudiant, screen "Stratégie"): stats, curve or real market candles,
+ * statistics, trades, add a trade, verification against real market data.
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -24,18 +25,22 @@
 
 require(__DIR__ . '/../../config.php');
 
-use local_alphatrade\form\strategy_form;
 use local_alphatrade\form\trade_form;
 use local_alphatrade\local\backtest;
+use local_alphatrade\local\candles;
+use local_alphatrade\local\marketdata;
+use local_alphatrade\local\markets;
 use local_alphatrade\local\page;
 use local_alphatrade\local\stats;
+use local_alphatrade\local\verifier;
 
 $id = required_param('id', PARAM_INT);
 $view = optional_param('view', 'curve', PARAM_ALPHA);
-$view = in_array($view, ['curve', 'candles']) ? $view : 'curve';
+$view = $view === 'candles' ? 'candles' : 'curve';
 $action = optional_param('action', '', PARAM_ALPHA);
 
-page::setup('/local/alphatrade/strategy.php', 'backtest', get_string('backtestinglab', 'local_alphatrade'), ['id' => $id]);
+page::setup('/local/alphatrade/strategy.php', 'backtest', get_string('strategy', 'local_alphatrade'), ['id' => $id],
+    get_string('sub_strategy', 'local_alphatrade'));
 
 $strategy = $DB->get_record('local_alphatrade_strategy', ['id' => $id], '*', MUST_EXIST);
 if (!backtest::can_view($strategy)) {
@@ -45,13 +50,47 @@ $canedit = $strategy->userid == $USER->id;
 $pageurl = new moodle_url('/local/alphatrade/strategy.php', ['id' => $strategy->id]);
 $listurl = new moodle_url('/local/alphatrade/backtesting.php');
 
-// Owner actions.
+if ($canedit && $action === 'savetrade' && data_submitted()) {
+    require_sesskey();
+    $result = trade_form::to_float(optional_param('resultr', '', PARAM_RAW_TRIMMED));
+    $datestring = optional_param('tradedate', '', PARAM_RAW_TRIMMED);
+    $tradedate = $datestring !== '' ? strtotime($datestring . ' 12:00:00') : time();
+    if ($result === null || abs($result) > 100 || !$tradedate) {
+        redirect(new moodle_url($pageurl, ['action' => 'addtrade'], 'addtrade'), get_string('invalidresultr', 'local_alphatrade'),
+            null, \core\output\notification::NOTIFY_ERROR);
+    }
+    $DB->insert_record('local_alphatrade_bttrade', (object) [
+        'strategyid' => $strategy->id,
+        'userid' => $USER->id,
+        'tradedate' => $tradedate,
+        'direction' => optional_param('direction', 'long', PARAM_ALPHA) === 'short' ? 'short' : 'long',
+        'entry' => trade_form::to_float(optional_param('entry', '', PARAM_RAW_TRIMMED)),
+        'stoploss' => trade_form::to_float(optional_param('stoploss', '', PARAM_RAW_TRIMMED)),
+        'takeprofit' => trade_form::to_float(optional_param('takeprofit', '', PARAM_RAW_TRIMMED)),
+        'resultr' => $result,
+        'notes' => null,
+        'timecreated' => time(),
+    ]);
+    $DB->set_field('local_alphatrade_strategy', 'timemodified', time(), ['id' => $strategy->id]);
+    redirect(new moodle_url($pageurl, ['action' => 'addtrade'], 'addtrade'), get_string('tradesaved', 'local_alphatrade'),
+        null, \core\output\notification::NOTIFY_SUCCESS);
+}
+
 if ($canedit && $action === 'deletetrade') {
     require_sesskey();
-    $tradeid = required_param('tradeid', PARAM_INT);
-    $DB->delete_records('local_alphatrade_bttrade', ['id' => $tradeid, 'strategyid' => $strategy->id]);
-    $DB->set_field('local_alphatrade_strategy', 'timemodified', time(), ['id' => $strategy->id]);
-    redirect(new moodle_url($pageurl, [], 'trades'), get_string('deleted', 'local_alphatrade'));
+    $DB->delete_records('local_alphatrade_bttrade', ['id' => required_param('tradeid', PARAM_INT), 'strategyid' => $strategy->id]);
+    redirect(new moodle_url($pageurl, [], 'trades'));
+}
+
+if ($canedit && $action === 'verify' && data_submitted()) {
+    require_sesskey();
+    try {
+        $counts = verifier::verify_strategy($strategy);
+        redirect(new moodle_url($pageurl, [], 'trades'), get_string('verifydone', 'local_alphatrade', (object) $counts), null,
+            \core\output\notification::NOTIFY_SUCCESS);
+    } catch (moodle_exception $e) {
+        redirect($pageurl, $e->getMessage(), null, \core\output\notification::NOTIFY_ERROR);
+    }
 }
 
 if ($canedit && $action === 'delete') {
@@ -67,125 +106,74 @@ if ($canedit && $action === 'delete') {
     exit;
 }
 
-if ($canedit && $action === 'edit') {
-    $form = new strategy_form(new moodle_url($pageurl, ['action' => 'edit']));
-    $form->set_data($strategy);
-    if ($form->is_cancelled()) {
-        redirect($pageurl);
-    } else if ($formdata = $form->get_data()) {
-        $DB->update_record('local_alphatrade_strategy', (object) [
-            'id' => $strategy->id,
-            'name' => $formdata->name,
-            'market' => page::clean_symbol($formdata->market),
-            'timeframe' => $formdata->timeframe,
-            'period' => $formdata->period,
-            'description' => $formdata->description,
-            'timemodified' => time(),
-        ]);
-        redirect($pageurl, get_string('changessaved'), null, \core\output\notification::NOTIFY_SUCCESS);
-    }
-    echo $OUTPUT->header();
-    echo $OUTPUT->render_from_template('local_alphatrade/formpage', [
-        'backurl' => $pageurl->out(false),
-        'backlabel' => format_string($strategy->name),
-        'eyebrow' => get_string('backtestinglab', 'local_alphatrade'),
-        'title' => get_string('editstrategy', 'local_alphatrade'),
-        'lead' => '',
-        'form' => $form->render(),
-    ]);
-    echo $OUTPUT->footer();
-    exit;
-}
-
-$tradeform = null;
-if ($canedit && $action === 'addtrade') {
-    $tradeform = new trade_form(new moodle_url($pageurl, ['action' => 'addtrade']));
-    $tradeform->set_data(['id' => $strategy->id, 'tradedate' => time()]);
-    if ($tradeform->is_cancelled()) {
-        redirect($pageurl);
-    } else if ($formdata = $tradeform->get_data()) {
-        $DB->insert_record('local_alphatrade_bttrade', (object) [
-            'strategyid' => $strategy->id,
-            'userid' => $USER->id,
-            'tradedate' => $formdata->tradedate,
-            'direction' => $formdata->direction === 'short' ? 'short' : 'long',
-            'entry' => trade_form::to_float($formdata->entry),
-            'stoploss' => trade_form::to_float($formdata->stoploss),
-            'takeprofit' => trade_form::to_float($formdata->takeprofit),
-            'resultr' => trade_form::to_float($formdata->resultr),
-            'notes' => $formdata->notes,
-            'timecreated' => time(),
-        ]);
-        $DB->set_field('local_alphatrade_strategy', 'timemodified', time(), ['id' => $strategy->id]);
-        // Stay on the form: trades are usually entered in series.
-        redirect(new moodle_url($pageurl, ['action' => 'addtrade']), get_string('tradesaved', 'local_alphatrade'),
-            null, \core\output\notification::NOTIFY_SUCCESS);
-    }
-}
-
-// Dashboard.
 $trades = $DB->get_records('local_alphatrade_bttrade', ['strategyid' => $strategy->id], 'tradedate ASC, id ASC');
-$results = array_map(function($trade) {
+$computed = stats::compute(array_map(function($trade) {
     return (float) $trade->resultr;
-}, array_values($trades));
-$computed = stats::compute($results);
+}, array_values($trades)));
 
-$decimal = function($value): string {
-    return $value === null ? '-' : format_float((float) $value, 5, true, true);
-};
 $rows = [];
-$number = 0;
-foreach ($trades as $trade) {
-    $number++;
+$verifyicons = [
+    'confirmed' => ['ph-fill ph-check-circle', 'at-status-done'],
+    'mismatch' => ['ph ph-warning', 'at-icon-warning'],
+    'open' => ['ph ph-clock', 'at-status-locked'],
+    'nodata' => ['ph ph-minus-circle', 'at-status-locked'],
+];
+foreach (array_reverse($trades) as $trade) {
+    $status = $trade->verifystatus ?? '';
     $rows[] = [
-        'number' => $number,
-        'date' => userdate($trade->tradedate, get_string('strftimedatefullshort', 'langconfig')),
-        'direction' => get_string('direction_' . $trade->direction, 'local_alphatrade'),
-        'islong' => $trade->direction === 'long',
-        'entry' => $decimal($trade->entry),
-        'stoploss' => $decimal($trade->stoploss),
-        'takeprofit' => $decimal($trade->takeprofit),
-        'result' => page::format_r((float) $trade->resultr),
+        'date' => userdate($trade->tradedate, '%d/%m/%Y'),
+        'direction' => get_string('direction_' . $trade->direction . '_short', 'local_alphatrade'),
+        'result' => page::format_r((float) $trade->resultr, 2, false),
         'resultclass' => page::value_class((float) $trade->resultr),
-        'notes' => (string) $trade->notes,
+        'hasverify' => isset($verifyicons[$status]),
+        'verifyicon' => $verifyicons[$status][0] ?? '',
+        'verifyclass' => $verifyicons[$status][1] ?? '',
+        'verifylabel' => $status ? get_string('verify_' . $status, 'local_alphatrade',
+            $trade->verifiedr === null ? '-' : page::format_r((float) $trade->verifiedr)) : '',
         'deleteurl' => $canedit ? (new moodle_url($pageurl, ['action' => 'deletetrade', 'tradeid' => $trade->id,
             'sesskey' => sesskey()]))->out(false) : '',
     ];
 }
-$rows = array_reverse($rows);
+
+$market = markets::label($strategy->market);
+$candledata = ['hascandles' => false];
+$candleerror = '';
+if ($view === 'candles' && marketdata::is_configured() && ($preset = markets::find($strategy->market)) && $preset['lse'] !== '') {
+    try {
+        $candledata = candles::svg(array_reverse(marketdata::candles($preset['lse'], $strategy->timeframe, null, null, 120, 'desc')));
+    } catch (moodle_exception $e) {
+        $candleerror = $e->getMessage();
+    }
+}
 
 $owner = $canedit ? null : core_user::get_user($strategy->userid);
+$exported = stats::export($computed);
 
-$data = [
-    'backurl' => $canedit ? $listurl->out(false)
-        : (new moodle_url('/local/alphatrade/teacher.php', ['view' => 'backtests']))->out(false),
+echo $OUTPUT->header();
+echo $OUTPUT->render_from_template('local_alphatrade/strategy', [
+    'backurl' => $canedit ? $listurl->out(false) : (new moodle_url('/local/alphatrade/teacher.php', ['view' => 'backtests']))->out(false),
     'name' => format_string($strategy->name),
-    'market' => page::clean_symbol($strategy->market),
-    'timeframe' => page::timeframe_label($strategy->timeframe),
-    'period' => format_string((string) $strategy->period),
-    'rules' => nl2br(s((string) $strategy->description)),
-    'hasrules' => trim((string) $strategy->description) !== '',
-    'owner' => $owner ? fullname($owner) : '',
-    'canedit' => $canedit,
-    'stats' => stats::export($computed),
+    'meta' => $market . ' · ' . page::timeframe_label($strategy->timeframe) . ($owner ? ' · ' . fullname($owner) : ''),
+    'stats' => $exported,
     'iscurve' => $view === 'curve',
     'curveurl' => (new moodle_url($pageurl, ['view' => 'curve']))->out(false),
     'candlesurl' => (new moodle_url($pageurl, ['view' => 'candles']))->out(false),
-    'equity' => stats::equity_svg($computed['equity']),
-    'chartsrc' => page::tradingview_url($strategy->market, $strategy->timeframe),
+    'polyline' => stats::equity_polyline($computed['equity']),
+    'candles' => $candledata,
+    'userealdata' => $candledata['hascandles'],
+    'candleerror' => $candleerror,
+    'chartsrc' => page::tradingview_url(markets::tv_symbol($strategy->market), $strategy->timeframe),
+    'canedit' => $canedit,
     'rows' => $rows,
     'hasrows' => !empty($rows),
-    'addtradeurl' => (new moodle_url($pageurl, ['action' => 'addtrade'], 'addtrade'))->out(false),
-    'editurl' => (new moodle_url($pageurl, ['action' => 'edit']))->out(false),
+    'adding' => $action === 'addtrade',
+    'addurl' => (new moodle_url($pageurl, ['action' => 'addtrade'], 'addtrade'))->out(false),
+    'saveurl' => (new moodle_url($pageurl, ['action' => 'savetrade']))->out(false),
+    'today' => date('Y-m-d'),
+    'sesskey' => sesskey(),
+    'canverify' => $canedit && marketdata::is_configured() && !empty($rows),
+    'verifyurl' => (new moodle_url($pageurl, ['action' => 'verify']))->out(false),
+    'editurl' => (new moodle_url($listurl, ['id' => $strategy->id]))->out(false),
     'deleteurl' => (new moodle_url($pageurl, ['action' => 'delete']))->out(false),
-    'tradeform' => $tradeform ? $tradeform->render() : '',
-    'minsample' => get_string('minsample', 'local_alphatrade', stats::MIN_SAMPLE),
-];
-$data['stats']['verdictsuccess'] = $data['stats']['verdictlevel'] === 'success';
-$data['stats']['verdictwarning'] = $data['stats']['verdictlevel'] === 'warning';
-
-$PAGE->set_title(format_string($strategy->name));
-
-echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_alphatrade/strategy', $data);
+]);
 echo $OUTPUT->footer();

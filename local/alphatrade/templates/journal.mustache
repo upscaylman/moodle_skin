@@ -17,106 +17,41 @@
 {{!
     @template local_alphatrade/journal
 
-    Trading journal: asset pills, filters, table grouped by day, weekly summary.
+    Maquette Portail Etudiant, screen "Journal".
 
     Example context (json):
     {
-        "isown": true, "owner": "", "addurl": "#",
-        "pills": [{"label": "Toutes", "url": "#", "active": true}],
-        "filteraction": "#", "hiddenparams": [], "setup": "",
-        "periods": [{"value": "", "label": "Toutes les dates", "selected": true}],
-        "results": [{"value": "", "label": "Tous les résultats", "selected": true}],
-        "emotions": [{"value": "", "label": "Toutes les émotions", "selected": true}],
-        "hasfilters": false, "resetfiltersurl": "#",
-        "hasentries": true,
-        "groups": [{"date": "vendredi 12 septembre", "rows": [{"url": "#", "asset": "EURUSD", "assetclass": "Forex", "setup": "Sweep + BOS", "islong": true, "direction": "Achat", "result": "+2R", "resultclass": "alpha-value-positive", "hasemotion": true, "emotion": "Calme", "emotionicon": "ph-smiley"}]}],
-        "week": "Cette semaine - 4 trades · +3,5R · 50 % de réussite"
+        "isown": true, "addurl": "#",
+        "tags": [{"label": "Toutes", "url": "#", "active": true}, {"label": "Forex", "url": "#", "active": false}],
+        "hasrows": true,
+        "rows": [{"date": "12/09", "url": "#", "asset": "EUR/USD", "setup": "Alpha #01", "result": "+3R", "resultclass": "at-positive", "hasemotion": true, "emotion": "Neutre", "emotionicon": "ph-smiley-meh"}],
+        "week": "Cette semaine - 12 trades · +4.5R · 58 % win rate"
     }
 }}
-<div class="alpha-journal">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}journal, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#isown}}{{#str}}journal_title, local_alphatrade{{/str}}{{/isown}}{{^isown}}{{owner}}{{/isown}}</h1>
-            <p class="alpha-lead">{{#str}}journal_lead, local_alphatrade{{/str}}</p>
-        </div>
-        {{#isown}}
-            <div class="alpha-pagehead-actions">
-                <a class="btn btn-primary" href="{{addurl}}"><i class="ph ph-plus" aria-hidden="true"></i>{{#str}}add, local_alphatrade{{/str}}</a>
-            </div>
-        {{/isown}}
-    </header>
-
-    <nav class="alpha-pills" aria-label="{{#str}}assetclass, local_alphatrade{{/str}}">
-        {{#pills}}
-            <a class="alpha-pill{{#active}} active{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>
-        {{/pills}}
-    </nav>
-
-    <form class="alpha-filters" method="get" action="{{filteraction}}">
-        {{#hiddenparams}}<input type="hidden" name="{{name}}" value="{{value}}">{{/hiddenparams}}
-        <label class="alpha-sr-only" for="alpha-filter-period">{{#str}}date, local_alphatrade{{/str}}</label>
-        <select class="custom-select" id="alpha-filter-period" name="period">
-            {{#periods}}<option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>{{/periods}}
-        </select>
-        <label class="alpha-sr-only" for="alpha-filter-setup">{{#str}}setup, local_alphatrade{{/str}}</label>
-        <input class="form-control" id="alpha-filter-setup" type="search" name="setup" value="{{setup}}" placeholder="{{#str}}setup, local_alphatrade{{/str}}">
-        <label class="alpha-sr-only" for="alpha-filter-result">{{#str}}result, local_alphatrade{{/str}}</label>
-        <select class="custom-select" id="alpha-filter-result" name="result">
-            {{#results}}<option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>{{/results}}
-        </select>
-        <label class="alpha-sr-only" for="alpha-filter-emotion">{{#str}}emotion, local_alphatrade{{/str}}</label>
-        <select class="custom-select" id="alpha-filter-emotion" name="emotion">
-            {{#emotions}}<option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>{{/emotions}}
-        </select>
-        <button type="submit" class="btn btn-secondary"><i class="ph ph-funnel-simple" aria-hidden="true"></i>{{#str}}filter, local_alphatrade{{/str}}</button>
-        {{#hasfilters}}<a class="btn btn-ghost" href="{{resetfiltersurl}}">{{#str}}resetfilters, local_alphatrade{{/str}}</a>{{/hasfilters}}
-    </form>
-
-    {{#hasentries}}
-        <div class="alpha-table-wrap">
-            <table class="alpha-table alpha-journal-table">
-                <thead>
-                    <tr>
-                        <th scope="col">{{#str}}asset, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}setup, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}direction, local_alphatrade{{/str}}</th>
-                        <th scope="col" class="text-end">{{#str}}result, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}state, local_alphatrade{{/str}}</th>
-                    </tr>
-                </thead>
-                {{#groups}}
-                    <tbody>
-                        <tr class="alpha-table-group"><td colspan="5">{{date}}</td></tr>
-                        {{#rows}}
-                            <tr>
-                                <td><a href="{{url}}"><strong>{{asset}}</strong></a><br><span class="alpha-subtle">{{assetclass}}</span></td>
-                                <td class="alpha-cell-wrap">{{setup}}</td>
-                                <td>
-                                    <span class="alpha-status alpha-status-neutral">
-                                        {{#islong}}<i class="ph ph-arrow-up-right" aria-hidden="true"></i>{{/islong}}
-                                        {{^islong}}<i class="ph ph-arrow-down-right" aria-hidden="true"></i>{{/islong}}
-                                        {{direction}}
-                                    </span>
-                                </td>
-                                <td class="alpha-num {{resultclass}}"><strong>{{result}}</strong></td>
-                                <td>{{#hasemotion}}<span class="alpha-emotion"><i class="ph {{emotionicon}}" aria-hidden="true"></i>{{emotion}}</span>{{/hasemotion}}</td>
-                            </tr>
-                        {{/rows}}
-                    </tbody>
-                {{/groups}}
-            </table>
-        </div>
-    {{/hasentries}}
-    {{^hasentries}}
-        <div class="alpha-empty">
-            <i class="ph ph-notebook" aria-hidden="true"></i>
-            <p>{{#str}}nojournal, local_alphatrade{{/str}}</p>
-        </div>
-    {{/hasentries}}
-
-    <div class="alpha-banner alpha-journal-week">
-        <i class="ph ph-calendar-check" aria-hidden="true"></i>
-        <div><strong>{{week}}</strong></div>
+<div class="at-screen at-journal">
+    <div class="at-row-between at-mb-16">
+        <h2 class="at-m-0">{{#str}}journal_title, local_alphatrade{{/str}}</h2>
+        {{#isown}}<a class="btn btn-primary" href="{{addurl}}">+ {{#str}}add, local_alphatrade{{/str}}</a>{{/isown}}
     </div>
+    <div class="at-tags at-mb-16">
+        {{#tags}}<a class="at-tag {{#active}}at-tag-accent{{/active}}{{^active}}at-tag-neutral{{/active}}" href="{{url}}"{{#active}} aria-current="true"{{/active}}>{{label}}</a>{{/tags}}
+    </div>
+    <div class="at-card at-elev-sm at-table-card at-mb-14">
+        <table class="at-table">
+            <thead><tr><th>{{#str}}date, local_alphatrade{{/str}}</th><th>{{#str}}asset, local_alphatrade{{/str}}</th><th>{{#str}}setup, local_alphatrade{{/str}}</th><th>{{#str}}result, local_alphatrade{{/str}}</th><th>{{#str}}state, local_alphatrade{{/str}}</th></tr></thead>
+            <tbody>
+                {{#rows}}
+                    <tr class="at-rowlink">
+                        <td><a href="{{url}}">{{date}}</a></td>
+                        <td>{{asset}}</td>
+                        <td>{{setup}}</td>
+                        <td class="{{resultclass}}">{{result}}</td>
+                        <td>{{#hasemotion}}<i class="ph {{emotionicon}}" title="{{emotion}}" aria-label="{{emotion}}"></i>{{/hasemotion}}</td>
+                    </tr>
+                {{/rows}}
+                {{^hasrows}}<tr><td colspan="5" class="at-muted">{{#str}}nojournal, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+            </tbody>
+        </table>
+    </div>
+    <div class="at-meta13">{{week}}</div>
 </div>

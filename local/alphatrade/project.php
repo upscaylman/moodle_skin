@@ -29,7 +29,8 @@ use local_alphatrade\local\backtest;
 use local_alphatrade\local\page;
 use local_alphatrade\local\programme;
 
-page::setup('/local/alphatrade/project.php', 'parcours', get_string('finalproject', 'local_alphatrade'));
+page::setup('/local/alphatrade/project.php', 'profile', get_string('finalproject', 'local_alphatrade'), [],
+    get_string('sub_project', 'local_alphatrade'));
 
 $data = ['hasproject' => false];
 $programme = programme::for_user($USER->id);
@@ -42,6 +43,8 @@ if ($module) {
     foreach ($module['items'] as $item) {
         $number++;
         $item['number'] = sprintf('%02d', $number);
+        $item['iconclass'] = programme::maquette_icon($item['status']);
+        $item['statusclass'] = programme::maquette_status_class($item['status']);
         $steps[] = $item;
         if (!$current && $item['iscurrent']) {
             $current = $item;
@@ -52,7 +55,6 @@ if ($module) {
         'percent' => $module['percent'],
         'steps' => $steps,
         'hassteps' => !empty($steps),
-        'moduleurl' => $module['url'],
         'islocked' => $module['islocked'],
         'availableinfo' => $module['availableinfo'],
         'continueurl' => $current ? $current['url'] : '',
@@ -71,7 +73,6 @@ if ($best) {
     $data['result'] = backtest::export_card($strategy, backtest::get_results($strategy->id));
 }
 $data['backtestingurl'] = (new moodle_url('/local/alphatrade/backtesting.php'))->out(false);
-$data['certificateurl'] = (new moodle_url('/local/alphatrade/certificate.php'))->out(false);
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/project', $data);

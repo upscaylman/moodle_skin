@@ -1,328 +1,343 @@
-// Lesson reader and quiz (wireframe v3 screens 4 and 5).
+// Maquette "Leçon" and "Évaluation" applied to Moodle activity pages of the programme.
 
 // ---------------------------------------------------------------- Lesson reader.
-.alpha-lesson-header {
-    margin-bottom: 1.5rem;
-}
-
-.alpha-lesson-topbar {
+.at-lesson-top {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
-    gap: .5rem 1rem;
-    margin-bottom: 1rem;
+    align-items: center;
+    margin-bottom: 16px;
 
-    .alpha-backlink {
-        margin-bottom: 0;
+    a {
+        font-size: 13px;
     }
-}
 
-.alpha-lesson-counter {
-    padding: .25rem .75rem;
-    border: 1px solid $alpha-divider-strong;
-    border-radius: 999px;
-    color: $alpha-text-muted;
-    font-size: .8125rem;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
-}
-
-.alpha-lesson-title {
-    margin: 0;
-    font-size: 1.625rem;
-    font-weight: 600;
-    letter-spacing: .01em;
-    text-transform: uppercase;
-}
-
-.alpha-lesson-subtitle {
-    margin: .375rem 0 0;
-    color: $alpha-text-muted;
+    span {
+        font-size: 12px;
+        color: $at-text-55;
+    }
 }
 
 body.alpha-lesson {
-    // Completion lives in the lesson footer (one action at a time).
-    .activity-header [data-region="activity-information"] [data-action="toggle-manual-completion"] {
-        display: none;
+    .activity-header {
+        margin: 0;
+
+        .activity-information {
+            display: none;
+        }
+
+        .activity-description {
+            margin: 0 0 20px;
+            color: $at-text;
+        }
     }
 
-    #region-main {
-        .box.generalbox,
-        [role="main"] > .box {
+    // Video block: first media of the lesson (put the video in the activity description).
+    .activity-description,
+    #region-main [role="main"] {
+        video,
+        iframe,
+        .mediaplugin,
+        .video-js {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            border: 0;
+            border-radius: 12px;
+            background: $at-surface;
+            overflow: hidden;
+        }
+
+        .mediaplugin video,
+        .mediaplugin iframe {
+            border-radius: 0;
+        }
+    }
+
+    #region-main [role="main"] {
+        font-size: 14px;
+
+        > .box,
+        .box.generalbox {
             padding: 0;
+            margin: 0;
             border: 0;
             background: transparent;
         }
 
-        [role="main"] {
-            color: $alpha-text;
-            font-size: 1rem;
-            line-height: 1.75;
+        p {
+            opacity: .85;
+            max-width: 600px;
+            margin: 0 0 18px;
         }
 
-        [role="main"] h2,
-        [role="main"] h3 {
-            margin-top: 2rem;
+        h4,
+        h5 {
+            font-family: $at-font;
+            font-size: 16px;
+            font-weight: $at-heading-weight;
+            line-height: 1.12;
+            letter-spacing: -.015em;
+            margin: 0 0 10px;
+            text-transform: uppercase;
         }
 
-        // "A retenir" / key takeaways: teachers wrap them in a blockquote or .alpha-keypoints.
-        blockquote,
-        .alpha-keypoints {
-            margin: 1.75rem 0;
-            padding: 1.25rem 1.5rem;
-            border-left: 3px solid $alpha-accent;
-            border-radius: 0 $alpha-radius $alpha-radius 0;
-            background-color: $alpha-surface;
-            font-size: .9375rem;
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 0 0 20px;
+            padding: 0;
+            list-style: none;
+            font-size: 13px;
+            opacity: .85;
 
-            ul {
-                margin-bottom: 0;
-                padding-left: 1.25rem;
+            li::before {
+                content: "\2022\00a0";
             }
         }
 
+        // Resource line: "Fiche de cours", "Exemple graphique".
         .alpha-resources {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .5rem;
-            margin: 1.5rem 0;
-            padding: 0;
-            list-style: none;
+            flex-direction: row;
+            gap: 20px;
+            opacity: 1;
+            margin-bottom: 24px;
+
+            li::before {
+                content: none;
+            }
 
             a {
-                display: inline-flex;
+                display: flex;
                 align-items: center;
-                gap: .5rem;
-                padding: .625rem .875rem;
-                border: 1px solid $alpha-divider-strong;
-                border-radius: 10px;
-                color: $alpha-text;
-                font-size: .875rem;
+                gap: 6px;
+                color: $at-text;
                 text-decoration: none;
-
-                &:hover {
-                    background-color: $alpha-surface-2;
-                }
             }
         }
     }
 }
 
-.alpha-lesson-footer {
+.at-lesson-title {
+    font-family: $at-font;
+    font-size: 25px;
+    font-weight: $at-heading-weight;
+    line-height: 1.12;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+    color: $at-text;
+}
+
+.at-lesson-actions {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
-    gap: .75rem;
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid $alpha-divider;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
 
-    .alpha-completion {
-        padding: .625rem 1rem;
-        font-size: .9375rem;
+    .is-static {
+        cursor: default;
     }
+}
 
-    @include media-breakpoint-down(sm) {
-        .btn {
-            width: 100%;
-        }
-
-        .alpha-lesson-footer-completion {
-            width: 100%;
-        }
-    }
+.at-completion.is-done i {
+    color: $at-text;
 }
 
 // ---------------------------------------------------------------- Quiz.
-body.alpha-quiz,
-.path-mod-quiz {
+.at-quiz-head {
+    .at-quiz-module {
+        font-size: 15px;
+        margin-bottom: 16px;
+    }
+
+    .at-quiz-count {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+}
+
+.at-progress-5 {
+    height: 5px;
+    margin-bottom: 24px;
+}
+
+.at-quiz-result {
+    max-width: 420px;
+    margin: 20px auto 24px;
+    padding: 32px;
+    text-align: center;
+    align-items: center;
+    gap: 0;
+
+    .at-quiz-score {
+        font-size: 32px;
+        font-weight: 600;
+    }
+
+    .at-quiz-percent {
+        font-size: 15px;
+        color: $at-text-60;
+        margin-bottom: 14px;
+    }
+
+    .at-quiz-verdict {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+
+        &.is-passed { color: $at-success; }
+        &.is-failed { color: $at-warning; }
+    }
+}
+
+body.alpha-quiz {
+    .activity-header {
+        display: none;
+    }
+
     .que {
-        margin-bottom: 1.5rem;
+        margin: 0 0 24px;
+        border: 0;
+        background: transparent;
 
         .info {
-            padding: 1rem;
-            background-color: $alpha-surface;
-            border: 1px solid $alpha-divider;
-            border-radius: $alpha-radius;
-            color: $alpha-text-muted;
-
-            h3.no {
-                color: $alpha-text;
-                font-size: .875rem;
-                font-weight: 600;
-            }
-
-            .questionflag {
-                font-size: .8125rem;
-            }
+            display: none;
         }
 
-        .content .formulation,
-        .content .outcome,
-        .content .comment {
-            padding: 1.5rem;
-            border-radius: $alpha-radius-lg;
-            color: $alpha-text;
+        .content {
+            margin: 0;
+            padding: 0;
         }
 
-        .formulation {
-            background-color: $alpha-surface;
-            border: 1px solid $alpha-divider;
+        .formulation,
+        .outcome,
+        .comment {
+            padding: 0;
+            margin: 0 0 16px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: $at-text;
         }
 
         .qtext {
-            margin-bottom: 1.25rem;
-            font-size: 1.0625rem;
-            font-weight: 500;
-            line-height: 1.6;
+            font-family: $at-font;
+            font-size: 25px;
+            font-weight: $at-heading-weight;
+            line-height: 1.12;
+            letter-spacing: -.015em;
+            max-width: 520px;
+            margin: 0 0 18px;
+
+            p {
+                margin: 0;
+            }
         }
 
-        .outcome,
-        .comment {
-            background-color: rgba($alpha-info, .08);
-            border: 1px solid rgba($alpha-info, .25);
+        .ablock {
+            margin: 0 0 24px;
+
+            .prompt {
+                display: none;
+            }
         }
 
-        .ablock .prompt {
-            color: $alpha-text-muted;
-            font-size: .8125rem;
-            margin-bottom: .5rem;
-        }
-
-        // Choices as selectable rows (A-D).
         .answer {
             display: flex;
             flex-direction: column;
-            gap: .5rem;
+            gap: 10px;
 
             > div,
             .r0,
             .r1 {
-                position: relative;
                 display: flex;
                 align-items: center;
-                gap: .75rem;
+                gap: 8px;
                 margin: 0;
-                padding: .875rem 1rem;
-                background-color: $alpha-sunken;
-                border: 1px solid $alpha-divider-strong;
-                border-radius: $alpha-radius;
-                transition: border-color .15s ease, background-color .15s ease;
+                padding: 0;
+                font-size: 14px;
+                background: transparent;
+                border: 0;
+
+                &.correct { color: $at-success-tint; }
+                &.incorrect { color: $at-danger-tint; }
+            }
+
+            label,
+            .d-flex {
+                margin: 0;
+                cursor: pointer;
+            }
+
+            .answernumber {
+                display: none;
+            }
+
+            input[type="radio"],
+            input[type="checkbox"] {
+                appearance: none;
+                -webkit-appearance: none;
+                flex: none;
+                width: 16px;
+                height: 16px;
+                margin: 0;
+                border: 1.5px solid $at-divider;
+                background: transparent;
+                cursor: pointer;
 
                 &:hover {
-                    border-color: rgba($alpha-accent, .45);
+                    border-color: $at-accent;
                 }
 
-                &:has(input:checked) {
-                    background-color: mix($alpha-sunken, $alpha-accent, 88%);
-                    border-color: $alpha-accent;
+                &:checked {
+                    border-color: $at-accent;
+                    background: $at-accent;
+                    box-shadow: inset 0 0 0 4px $at-bg;
                 }
+            }
 
-                &.correct {
-                    border-color: rgba($alpha-success, .6);
-                    background-color: rgba($alpha-success, .1);
-                }
+            input[type="radio"] {
+                border-radius: 50%;
+            }
 
-                &.incorrect {
-                    border-color: rgba($alpha-danger, .6);
-                    background-color: rgba($alpha-danger, .1);
-                }
-
-                input[type="radio"],
-                input[type="checkbox"] {
-                    flex-shrink: 0;
-                    width: 1.125rem;
-                    height: 1.125rem;
-                    margin: 0;
-                    accent-color: $alpha-accent;
-                }
-
-                label,
-                .d-flex {
-                    flex: 1 1 auto;
-                    margin: 0;
-                    cursor: pointer;
-                }
-
-                .answernumber {
-                    color: $alpha-accent-300;
-                    font-weight: 600;
-                }
+            input[type="checkbox"] {
+                border-radius: $at-radius-sm;
             }
         }
 
-        &.correct .grade,
-        .feedback .correct {
-            color: $alpha-success-tint;
+        .feedback,
+        .specificfeedback,
+        .rightanswer {
+            font-size: 13px;
+            color: $at-text-70;
         }
     }
 
     .submitbtns {
         display: flex;
         justify-content: flex-end;
-        gap: .5rem;
-        margin-top: 1rem;
-    }
-
-    #mod_quiz_navblock,
-    .qn_buttons {
-        .qnbutton {
-            border-radius: $alpha-radius-sm;
-            background-color: $alpha-surface-2;
-            border-color: $alpha-divider-strong;
-            color: $alpha-text;
-
-            &.thispage {
-                border-color: $alpha-accent;
-            }
-
-            .trafficlight,
-            .thispageholder {
-                border-radius: $alpha-radius-sm;
-            }
-
-            &.answersaved .trafficlight,
-            &.complete .trafficlight {
-                background-color: $alpha-accent-700;
-            }
-
-            &.correct .trafficlight {
-                background-color: $alpha-success;
-            }
-
-            &.incorrect .trafficlight {
-                background-color: $alpha-danger;
-            }
-
-            &.partiallycorrect .trafficlight {
-                background-color: $alpha-warning;
-            }
-        }
+        gap: 10px;
+        margin: 0;
     }
 
     .quizreviewsummary,
-    .quizattemptsummary,
-    .generaltable.quizattemptsummary {
-        background-color: $alpha-surface;
-        border-radius: $alpha-radius-lg;
-        overflow: hidden;
-
-        th {
-            background-color: $alpha-surface-2;
-            color: $alpha-text-muted;
-        }
+    .quizsummaryofattempt {
+        font-size: 13px;
     }
 
-    .quizinfo,
-    .quizattempt {
-        text-align: left;
-    }
-
-    #region-main .quizattempt .btn,
-    .quizstartbuttondiv .btn {
-        padding: .75rem 1.25rem;
-        font-weight: 600;
+    #region-main .generaltable th,
+    #region-main .generaltable td {
+        border-color: $at-text-8;
     }
 }

@@ -1,0 +1,97 @@
+// "Alpha Trade - Paiement": plan, payment method, history, options, receipt.
+
+.at-billing {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 36px 24px 60px;
+}
+
+.at-screen .at-billing-title {
+    font-size: 24px;
+    margin: 0 0 4px;
+}
+
+.at-screen .at-billing-sub {
+    margin: 0 0 28px;
+    font-size: 14px;
+    color: $at-text-60;
+}
+
+.at-billing-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(240px, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.at-mt-4 { margin-top: 4px !important; }
+.at-mb-28 { margin-bottom: 28px !important; }
+
+.at-offers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.at-offer-price {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.at-receipt {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 28px;
+
+    .at-receipt-kv {
+        margin: 10px 0 0;
+
+        > div {
+            max-width: none;
+        }
+
+        span:first-child {
+            color: $at-text-55;
+        }
+
+        span:last-child {
+            text-align: right;
+        }
+    }
+
+    .at-hr {
+        margin: 14px 0;
+    }
+
+    .btn {
+        align-self: flex-start;
+        margin-top: 10px;
+    }
+}
+
+.at-receipt-total {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    .at-billing-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media print {
+    .at-floatnav,
+    .at-blob,
+    .at-standalone-footer {
+        display: none !important;
+    }
+
+    .at-receipt {
+        box-shadow: none;
+        color: #000;
+        background: #fff;
+    }
+}

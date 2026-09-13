@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Practice Lab (wireframe v3 screen 6): charts, case studies, challenges.
- * Case studies and challenges are activities of the "Pratique" course (one section each).
+ * Practice Lab (maquette Portail Etudiant, screen "Pratique"). Case studies and challenges are
+ * activities of the "Pratique" course (one section each).
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -30,39 +30,25 @@ use local_alphatrade\local\page;
 use local_alphatrade\local\programme;
 
 $view = optional_param('view', '', PARAM_ALPHA);
-if (!in_array($view, ['cases', 'challenges'])) {
-    $view = '';
-}
+$view = in_array($view, ['cases', 'challenges']) ? $view : '';
 
-page::setup('/local/alphatrade/practice.php', 'practice', get_string('practicelab', 'local_alphatrade'),
-    $view ? ['view' => $view] : []);
+page::setup('/local/alphatrade/practice.php', 'practice', get_string('nav_practice', 'theme_alphatrade'),
+    $view ? ['view' => $view] : [], get_string('sub_practice', 'local_alphatrade'));
 
 $baseurl = new moodle_url('/local/alphatrade/practice.php');
 
 if (!$view) {
     $data = [
         'cards' => [
-            [
-                'icon' => 'ph-chart-line-up',
-                'title' => get_string('practice_charts', 'local_alphatrade'),
-                'text' => get_string('practice_charts_desc', 'local_alphatrade'),
-                'cta' => get_string('start', 'local_alphatrade'),
-                'url' => (new moodle_url('/local/alphatrade/charts.php'))->out(false),
-            ],
-            [
-                'icon' => 'ph-brain',
-                'title' => get_string('practice_cases', 'local_alphatrade'),
-                'text' => get_string('practice_cases_desc', 'local_alphatrade'),
-                'cta' => get_string('start', 'local_alphatrade'),
-                'url' => (new moodle_url($baseurl, ['view' => 'cases']))->out(false),
-            ],
-            [
-                'icon' => 'ph-trophy',
-                'title' => get_string('practice_challenges', 'local_alphatrade'),
-                'text' => get_string('practice_challenges_desc', 'local_alphatrade'),
-                'cta' => get_string('seechallenges', 'local_alphatrade'),
-                'url' => (new moodle_url($baseurl, ['view' => 'challenges']))->out(false),
-            ],
+            ['icon' => 'ph-chart-line-up', 'title' => get_string('practice_charts', 'local_alphatrade'),
+                'text' => get_string('practice_charts_desc', 'local_alphatrade'), 'cta' => get_string('start', 'local_alphatrade'),
+                'url' => (new moodle_url('/local/alphatrade/charts.php'))->out(false), 'primary' => true],
+            ['icon' => 'ph-brain', 'title' => get_string('practice_cases', 'local_alphatrade'),
+                'text' => get_string('practice_cases_desc', 'local_alphatrade'), 'cta' => get_string('start', 'local_alphatrade'),
+                'url' => (new moodle_url($baseurl, ['view' => 'cases']))->out(false), 'primary' => false],
+            ['icon' => 'ph-trophy', 'title' => get_string('practice_challenges', 'local_alphatrade'),
+                'text' => get_string('practice_challenges_desc', 'local_alphatrade'), 'cta' => get_string('seechallenges', 'local_alphatrade'),
+                'url' => (new moodle_url($baseurl, ['view' => 'challenges']))->out(false), 'primary' => false],
         ],
     ];
     echo $OUTPUT->header();
@@ -71,7 +57,6 @@ if (!$view) {
     exit;
 }
 
-// Activity list of the practice course section.
 $items = [];
 $courseid = (int) get_config('local_alphatrade', 'practicecourse');
 $sectionnum = (int) get_config('local_alphatrade', $view === 'cases' ? 'casessection' : 'challengessection');
@@ -92,25 +77,25 @@ if ($courseid && $DB->record_exists('course', ['id' => $courseid])) {
         }
         $status = !$cm->uservisible ? 'locked' : ($isdone ? 'done' : 'todo');
         $number++;
-        $items[] = array_merge([
+        $items[] = [
             'number' => sprintf('%02d', $number),
             'name' => $cm->get_formatted_name(),
             'url' => $cm->uservisible ? $cm->url->out(false) : '',
-            'icon' => programme::ICONS[$cm->modname] ?? 'ph-circle',
-            'availableinfo' => !$cm->uservisible && $cm->availableinfo
-                ? \core_availability\info::format_info($cm->availableinfo, $course) : '',
-        ], programme::status_flags($status));
+            'islocked' => !$cm->uservisible,
+            'iscurrent' => false,
+            'iconclass' => programme::maquette_icon($status),
+            'statusclass' => programme::maquette_status_class($status),
+        ];
     }
 }
 
-$data = [
-    'backurl' => $baseurl->out(false),
-    'title' => get_string($view === 'cases' ? 'practice_cases' : 'practice_challenges', 'local_alphatrade'),
-    'lead' => get_string($view === 'cases' ? 'practice_cases_desc' : 'practice_challenges_desc', 'local_alphatrade'),
-    'items' => $items,
-    'hasitems' => !empty($items),
-];
-
+$title = get_string($view === 'cases' ? 'practice_cases' : 'practice_challenges', 'local_alphatrade');
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_alphatrade/practice_list', $data);
+echo $OUTPUT->render_from_template('local_alphatrade/practice_list', [
+    'backurl' => $baseurl->out(false),
+    'title' => $title,
+    'lead' => get_string($view === 'cases' ? 'practice_cases_desc' : 'practice_challenges_desc', 'local_alphatrade'),
+    'rows' => $items,
+    'hasrows' => !empty($items),
+]);
 echo $OUTPUT->footer();

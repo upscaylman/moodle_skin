@@ -19,7 +19,7 @@ namespace theme_alphatrade\output;
 use moodle_url;
 
 /**
- * Public site content (visitors): home, programme, method, trainers, FAQ, apply.
+ * Public site (maquette "Alpha Trade - Site Public"): home, programme, method, trainers, FAQ, apply.
  * Copy lives in the language files so it can be edited with the language customisation tool.
  *
  * @package   theme_alphatrade
@@ -27,6 +27,31 @@ use moodle_url;
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class public_site {
+
+    /** @var string[] Views of the public site. */
+    const VIEWS = ['accueil', 'programme', 'methode', 'formateurs', 'faq', 'candidater'];
+
+    /** @var string Current view. */
+    protected $view;
+
+    /**
+     * Constructor.
+     *
+     * @param string $view
+     */
+    public function __construct(string $view) {
+        $this->view = in_array($view, self::VIEWS) ? $view : 'accueil';
+    }
+
+    /**
+     * URL of a view.
+     *
+     * @param string $view
+     * @return string
+     */
+    public static function url(string $view): string {
+        return (new moodle_url('/', $view === 'accueil' ? [] : ['view' => $view]))->out(false);
+    }
 
     /**
      * Template data.
@@ -38,51 +63,41 @@ class public_site {
             return get_string($key, 'theme_alphatrade', $a);
         };
 
-        $applyurl = get_config('theme_alphatrade', 'applyurl');
-        $contactemail = get_config('theme_alphatrade', 'contactemail');
-        if (!$applyurl && $contactemail) {
-            $applyurl = 'mailto:' . $contactemail;
-        }
-        if (!$applyurl && !empty(get_config('core', 'registerauth'))) {
-            $applyurl = (new moodle_url('/login/signup.php'))->out(false);
+        $nav = [];
+        foreach (['accueil', 'programme', 'methode', 'formateurs', 'faq'] as $view) {
+            $nav[] = ['label' => $str('pub_nav_' . $view), 'url' => self::url($view), 'active' => $view === $this->view];
         }
 
-        $links = [];
-        foreach (['programme', 'method', 'team', 'faq'] as $key) {
-            $links[] = ['label' => $str('pub_nav_' . $key), 'anchor' => '#' . $key];
-        }
-
-        $facts = [];
-        foreach (['weeks' => '12', 'hours' => '96 h', 'modules' => '7', 'trainers' => '2'] as $key => $value) {
-            $facts[] = ['value' => $value, 'label' => $str('pub_fact_' . $key)];
-        }
-
-        $pillars = [];
-        foreach (['theory' => 'ph-bank', 'psychology' => 'ph-brain', 'quant' => 'ph-chart-bar'] as $key => $icon) {
-            $pillars[] = ['icon' => $icon, 'title' => $str('pub_pillar_' . $key), 'text' => $str('pub_pillar_' . $key . '_desc')];
+        $pipeline = [];
+        $steps = ['understand' => 'ph-book-open', 'analyse' => 'ph-magnifying-glass', 'test' => 'ph-flask',
+            'measure' => 'ph-chart-bar', 'build' => 'ph-hammer'];
+        foreach ($steps as $key => $icon) {
+            $pipeline[] = ['label' => $str('pub_pipe_' . $key), 'icon' => $icon, 'hasarrow' => $key !== 'build'];
         }
 
         $months = [];
-        $weeks = [
-            1 => ['1-2' => 'pub_w1', '3' => 'pub_w3', '4' => 'pub_w4'],
-            2 => ['5' => 'pub_w5', '6' => 'pub_w6', '7' => 'pub_w7', '8' => 'pub_w8'],
-            3 => ['9' => 'pub_w9', '10' => 'pub_w10', '11' => 'pub_w11', '12' => 'pub_w12'],
-        ];
-        foreach ($weeks as $month => $items) {
-            $list = [];
-            foreach ($items as $week => $key) {
-                $list[] = ['week' => 'S' . $week, 'label' => $str($key)];
+        $number = 0;
+        foreach ([1 => 3, 2 => 4, 3 => 5] as $month => $count) {
+            $modules = [];
+            for ($i = 0; $i < $count; $i++) {
+                $number++;
+                $modules[] = [
+                    'number' => sprintf('%02d', $number),
+                    'title' => $str('pub_mod' . $number),
+                    'desc' => $str('pub_mod' . $number . '_desc'),
+                ];
             }
             $months[] = [
-                'label' => $str('pub_month', $month),
-                'theme' => $str('pub_month' . $month . '_theme'),
-                'weeks' => $list,
+                'number' => $month,
+                'label' => $str('pub_month' . $month . '_theme'),
+                'summary' => $str('pub_month' . $month . '_summary'),
+                'modules' => $modules,
             ];
         }
 
         $method = [];
-        foreach (['understand', 'analyse', 'test', 'measure', 'build'] as $key) {
-            $method[] = ['title' => $str('pub_method_' . $key), 'text' => $str('pub_method_' . $key . '_desc')];
+        for ($i = 1; $i <= 8; $i++) {
+            $method[] = ['number' => $i, 'title' => $str('pub_step' . $i), 'desc' => $str('pub_step' . $i . '_desc')];
         }
 
         $team = [];
@@ -92,27 +107,43 @@ class public_site {
                 'name' => $str('pub_team_' . $key),
                 'role' => $str('pub_team_' . $key . '_role'),
                 'bio' => $str('pub_team_' . $key . '_bio'),
-                'quote' => $str('pub_team_' . $key . '_quote'),
             ];
         }
 
         $faq = [];
-        foreach (['who', 'capital', 'signals', 'rhythm', 'certificate', 'online'] as $key) {
+        foreach (['signals', 'experience', 'duration', 'project', 'admission'] as $key) {
             $faq[] = ['question' => $str('pub_faq_' . $key), 'answer' => $str('pub_faq_' . $key . '_answer')];
         }
 
-        return [
-            'links' => $links,
-            'facts' => $facts,
-            'pillars' => $pillars,
+        // Application: the Alpha Trade form when the app plugin is installed, else a URL or an e-mail.
+        $hasform = theme_alphatrade_has_app();
+        $applyurl = get_config('theme_alphatrade', 'applyurl');
+        $contactemail = get_config('theme_alphatrade', 'contactemail');
+        if (!$applyurl && $contactemail) {
+            $applyurl = 'mailto:' . $contactemail;
+        }
+
+        $data = [
+            'nav' => $nav,
+            'homeurl' => self::url('accueil'),
+            'programmeurl' => self::url('programme'),
+            'teamurl' => self::url('formateurs'),
+            'candidaterurl' => $hasform || !$applyurl ? self::url('candidater') : $applyurl,
+            'pipeline' => $pipeline,
             'months' => $months,
             'method' => $method,
             'team' => $team,
             'faq' => $faq,
+            'hasform' => $hasform,
             'applyurl' => $applyurl,
-            'hasapply' => !empty($applyurl),
-            'contactemail' => $contactemail,
-            'year' => date('Y'),
+            'hasapplyurl' => !empty($applyurl),
+            'formaction' => $hasform ? (new moodle_url('/local/alphatrade/apply.php'))->out(false) : '',
+            'sesskey' => sesskey(),
+            'applied' => optional_param('applied', 0, PARAM_BOOL),
         ];
+        foreach (self::VIEWS as $view) {
+            $data['is' . $view] = $view === $this->view;
+        }
+        return $data;
     }
 }

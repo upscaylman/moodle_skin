@@ -17,35 +17,22 @@
 {{!
     @template local_alphatrade/practice
 
-    Practice Lab: square cards, 2 on the first row, 1 on the second.
+    Maquette Portail Etudiant, screen "Pratique".
 
     Example context (json):
-    {
-        "cards": [{"icon": "ph-chart-line-up", "title": "Graphiques", "text": "Analysez des situations", "cta": "Commencer", "url": "#"}]
-    }
+    {"cards": [{"icon": "ph-chart-line-up", "title": "Graphiques", "text": "Analysez des situations de marché", "cta": "Commencer", "url": "#", "primary": true}]}
 }}
-<div class="alpha-practice">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}practicelab, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}practice_title, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{#str}}practice_lead, local_alphatrade{{/str}}</p>
-        </div>
-    </header>
-
-    <div class="alpha-grid alpha-grid-2 alpha-practice-grid">
+<div class="at-screen at-practice">
+    <h2 class="at-mb-6">{{#str}}practicelab, local_alphatrade{{/str}}</h2>
+    <p class="at-practice-lead">{{#str}}practice_title, local_alphatrade{{/str}}</p>
+    <div class="at-practice-grid">
         {{#cards}}
-            <a class="alpha-card alpha-card-link alpha-card-square" href="{{url}}">
-                <span class="alpha-card-icon"><i class="ph {{icon}}" aria-hidden="true"></i></span>
-                <div>
-                    <p class="alpha-card-caps">{{title}}</p>
-                    <p class="alpha-card-text">{{text}}</p>
-                </div>
-                <span class="btn btn-secondary">
-                    <span>{{cta}}</span>
-                    <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                </span>
-            </a>
+            <div class="at-card at-elev-sm at-practice-card">
+                <i class="ph {{icon}}" aria-hidden="true"></i>
+                <h4>{{title}}</h4>
+                <p class="at-card-body">{{text}}</p>
+                <a class="btn {{#primary}}btn-primary{{/primary}}{{^primary}}btn-secondary{{/primary}}" href="{{url}}">{{cta}} &rarr;</a>
+            </div>
         {{/cards}}
     </div>
 </div>

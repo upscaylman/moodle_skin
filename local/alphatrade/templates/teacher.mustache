@@ -17,106 +17,51 @@
 {{!
     @template local_alphatrade/teacher
 
-    Trainer dashboard: KPIs, pedagogical alerts, students table.
+    Maquette Espace Enseignant, screen "Tableau de bord".
 
     Example context (json):
     {
-        "coursename": "Programme intensif",
-        "kpis": [{"icon": "ph-users", "label": "Inscrits", "value": 24, "class": ""}],
-        "hasalerts": true,
-        "alerts": [{"level": "danger", "icon": "ph-clock-countdown", "student": "Sami B.", "url": "#", "text": "Aucune activité depuis 9 jours"}],
-        "hasrows": true,
-        "rows": [{"name": "Sami B.", "url": "#", "percent": 34, "module": "Module 04 - Structure", "lastaccess": "12/09/26", "isblocked": false, "islate": false, "isok": true, "journalurl": "#"}],
-        "backtestsurl": "#", "courseurl": "#", "participantsurl": "#"
+        "kpis": [{"label": "Étudiants actifs", "value": 84, "url": "#", "isaccent": false}],
+        "queue": [{"student": "Claire Moreau", "item": "Analyse de structure", "course": "S8", "submitted": "Il y a 2h", "url": "#", "isreviewed": false}],
+        "reviewsurl": "#",
+        "hasactivity": true, "activity": [{"html": "<strong>Claire Moreau</strong> a terminé « Liquidité »", "time": "Il y a 2h", "isaccent": true}]
     }
 }}
-<div class="alpha-teacher">
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{#str}}teacherspace, local_alphatrade{{/str}}</p>
-            <h1 class="alpha-title">{{#str}}teacherdashboard, local_alphatrade{{/str}}</h1>
-            <p class="alpha-lead">{{coursename}}</p>
-        </div>
-        <div class="alpha-pagehead-actions">
-            <a class="btn btn-secondary" href="{{participantsurl}}"><i class="ph ph-users" aria-hidden="true"></i>{{#str}}participants{{/str}}</a>
-            <a class="btn btn-secondary" href="{{backtestsurl}}"><i class="ph ph-chart-bar" aria-hidden="true"></i>{{#str}}nav_studentbacktests, theme_alphatrade{{/str}}</a>
-        </div>
-    </header>
-
-    <div class="alpha-grid alpha-kpis">
+<div class="at-screen at-staff at-teacher">
+    <div class="at-kpis">
         {{#kpis}}
-            {{#url}}<a class="alpha-card alpha-card-sm alpha-card-link alpha-stat" href="{{url}}">{{/url}}
-            {{^url}}<div class="alpha-card alpha-card-sm alpha-stat">{{/url}}
-                <span class="alpha-stat-head"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</span>
-                <span class="alpha-stat-value {{class}}">{{value}}</span>
-            {{#url}}</a>{{/url}}
-            {{^url}}</div>{{/url}}
+            {{#url}}<a class="at-card at-elev-sm at-kpi" href="{{url}}">{{/url}}{{^url}}<div class="at-card at-elev-sm at-kpi">{{/url}}
+                <span class="at-card-kicker">{{label}}</span>
+                <div class="at-kpi-value{{#isaccent}} is-accent{{/isaccent}}">{{value}}</div>
+            {{#url}}</a>{{/url}}{{^url}}</div>{{/url}}
         {{/kpis}}
     </div>
-
-    <h2 class="alpha-section-title"><span>{{#str}}pedagogicalalerts, local_alphatrade{{/str}}</span></h2>
-    {{#hasalerts}}
-        <ul class="alpha-list">
-            {{#alerts}}
-                <li>
-                    <a class="alpha-list-item" href="{{url}}">
-                        <span class="alpha-state-icon is-{{level}}"><i class="ph {{icon}}" aria-hidden="true"></i></span>
-                        <span class="alpha-list-body">
-                            <span class="alpha-list-title">{{student}}</span>
-                            <span class="alpha-list-meta">{{text}}</span>
-                        </span>
-                        <i class="ph ph-caret-right alpha-subtle" aria-hidden="true"></i>
-                    </a>
-                </li>
-            {{/alerts}}
-        </ul>
-    {{/hasalerts}}
-    {{^hasalerts}}
-        <div class="alpha-banner alpha-banner-success">
-            <i class="ph ph-check-circle" aria-hidden="true"></i>
-            <div>{{#str}}noalerts, local_alphatrade{{/str}}</div>
+    <div class="at-staff-grid">
+        <div class="at-card at-elev-sm at-panel">
+            <div class="at-panel-head">
+                <h4>{{#str}}toreviewfirst, local_alphatrade{{/str}}</h4>
+                <a class="btn btn-ghost" href="{{reviewsurl}}">{{#str}}seeall, local_alphatrade{{/str}}</a>
+            </div>
+            <div class="at-table-scroll">
+                <table class="at-table">
+                    <thead><tr><th>{{#str}}student, local_alphatrade{{/str}}</th><th>{{#str}}assignment, local_alphatrade{{/str}}</th><th>{{#str}}submitted, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+                    <tbody>
+                        {{#queue}}
+                            <tr><td>{{student}}</td><td>{{item}}</td><td>{{submitted}}</td><td><a class="btn btn-ghost" href="{{url}}">{{#str}}correct, local_alphatrade{{/str}}</a></td></tr>
+                        {{/queue}}
+                        {{^queue}}<tr><td colspan="4" class="at-muted">{{#str}}noreviews, local_alphatrade{{/str}}</td></tr>{{/queue}}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    {{/hasalerts}}
-
-    <h2 class="alpha-section-title"><span>{{#str}}students, local_alphatrade{{/str}}</span></h2>
-    {{#hasrows}}
-        <div class="alpha-table-wrap">
-            <table class="alpha-table">
-                <thead>
-                    <tr>
-                        <th scope="col">{{#str}}student, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}progress, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}currentmodule, local_alphatrade{{/str}}</th>
-                        <th scope="col">{{#str}}lastaccess{{/str}}</th>
-                        <th scope="col">{{#str}}status, local_alphatrade{{/str}}</th>
-                        <th scope="col"><span class="sr-only">{{#str}}actions{{/str}}</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#rows}}
-                        <tr>
-                            <td><a href="{{url}}">{{name}}</a></td>
-                            <td>
-                                <div class="alpha-table-progress">
-                                    <div class="alpha-progress alpha-progress-sm" aria-hidden="true"><div class="alpha-progress-bar" style="width: {{percent}}%"></div></div>
-                                    <span class="alpha-num">{{percent}}&nbsp;%</span>
-                                </div>
-                            </td>
-                            <td class="alpha-cell-wrap">{{module}}</td>
-                            <td>{{lastaccess}}</td>
-                            <td>
-                                {{#isblocked}}<span class="alpha-status alpha-status-danger"><i class="ph ph-warning-octagon" aria-hidden="true"></i>{{#str}}student_blocked, local_alphatrade{{/str}}</span>{{/isblocked}}
-                                {{#islate}}<span class="alpha-status alpha-status-warning"><i class="ph ph-hourglass-medium" aria-hidden="true"></i>{{#str}}student_late, local_alphatrade{{/str}}</span>{{/islate}}
-                                {{#isok}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}student_ok, local_alphatrade{{/str}}</span>{{/isok}}
-                            </td>
-                            <td class="text-end"><a class="btn btn-ghost btn-sm" href="{{journalurl}}"><i class="ph ph-notebook" aria-hidden="true"></i>{{#str}}journal, local_alphatrade{{/str}}</a></td>
-                        </tr>
-                    {{/rows}}
-                </tbody>
-            </table>
+        <div class="at-card at-elev-sm at-pad-20">
+            <h4 class="at-mb-12">{{#str}}recentactivity, local_alphatrade{{/str}}</h4>
+            <div class="at-feed">
+                {{#activity}}
+                    <div><span class="at-feed-dot{{#isaccent}} is-accent{{/isaccent}}" aria-hidden="true"></span><div>{{{html}}}{{#time}} <span class="at-muted">· {{time}}</span>{{/time}}</div></div>
+                {{/activity}}
+                {{^hasactivity}}<div class="at-muted">{{#str}}noactivity, local_alphatrade{{/str}}</div>{{/hasactivity}}
+            </div>
         </div>
-    {{/hasrows}}
-    {{^hasrows}}
-        <div class="alpha-empty"><i class="ph ph-users" aria-hidden="true"></i><p>{{#str}}nostudents, local_alphatrade{{/str}}</p></div>
-    {{/hasrows}}
+    </div>
 </div>

@@ -17,39 +17,42 @@
 {{!
     @template theme_alphatrade/lesson_header
 
-    Lesson reader / quiz header (wireframe v3, screens 4 and 5).
+    Maquette "Leçon": back link + counter. Maquette "Évaluation": module, question counter,
+    progress, and the centered result card on the review page.
 
     Example context (json):
     {
         "lesson": {
-            "isquiz": false,
-            "moduleurl": "#",
-            "modulename": "Fondamentaux des marchés",
-            "modulenumber": "01",
-            "index": "03",
-            "count": "08",
-            "title": "Offre, demande et liquidité",
-            "counter": "Leçon 03 / 08",
-            "modulelabel": "Module 01"
+            "isquiz": true, "moduleurl": "#", "modulename": "Structure de marché", "modulelabel": "Module 03", "counter": "Leçon 07 / 08",
+            "hasquestion": true, "questioncounter": "Question 4 / 10", "questionpercent": 40,
+            "hasresult": false, "result": {"score": "8 / 10", "percent": "80 %", "passed": true, "label": "ÉVALUATION VALIDÉE", "nexturl": "#", "nextlabel": "Continuer le parcours"}
         }
     }
 }}
-<header class="alpha-lesson-header">
-    <div class="alpha-lesson-topbar">
-        <a href="{{lesson.moduleurl}}" class="alpha-backlink">
-            <i class="ph ph-arrow-left" aria-hidden="true"></i>
-            <span>{{lesson.modulename}}</span>
-        </a>
-        {{^lesson.isquiz}}
-            <span class="alpha-lesson-counter">{{lesson.counter}}</span>
-        {{/lesson.isquiz}}
+{{^lesson.isquiz}}
+    <div class="at-lesson-top">
+        <a href="{{lesson.moduleurl}}">&larr; {{lesson.modulename}}</a>
+        <span>{{lesson.counter}}</span>
     </div>
-    {{#lesson.isquiz}}
-        <p class="alpha-eyebrow">{{#str}}evaluation, theme_alphatrade{{/str}}</p>
-        <h1 class="alpha-lesson-title">{{lesson.modulelabel}} - {{lesson.modulename}}</h1>
-        <p class="alpha-lesson-subtitle">{{lesson.title}}</p>
-    {{/lesson.isquiz}}
-    {{^lesson.isquiz}}
-        <h1 class="alpha-lesson-title">{{lesson.title}}</h1>
-    {{/lesson.isquiz}}
-</header>
+{{/lesson.isquiz}}
+{{#lesson.isquiz}}
+    <div class="at-quiz-head">
+        <div class="at-eyebrow">{{#str}}evaluation_upper, theme_alphatrade{{/str}}</div>
+        <div class="at-quiz-module">{{lesson.modulelabel}} - {{lesson.modulename}}</div>
+        {{#lesson.hasquestion}}
+            <div class="at-quiz-count"><span>{{lesson.questioncounter}}</span><span>{{lesson.questionpercent}} %</span></div>
+            <div class="at-progress at-progress-5"><span style="width: {{lesson.questionpercent}}%"></span></div>
+        {{/lesson.hasquestion}}
+    </div>
+    {{#lesson.hasresult}}
+        {{#lesson.result}}
+            <div class="at-card at-elev-md at-quiz-result">
+                <div class="at-quiz-score">{{score}}</div>
+                <div class="at-quiz-percent">{{percent}}</div>
+                {{#passed}}<div class="at-quiz-verdict is-passed"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{label}}</div>{{/passed}}
+                {{^passed}}<div class="at-quiz-verdict is-failed"><i class="ph ph-warning" aria-hidden="true"></i>{{label}}</div>{{/passed}}
+                <a class="btn btn-primary" href="{{nexturl}}">{{nextlabel}} &rarr;</a>
+            </div>
+        {{/lesson.result}}
+    {{/lesson.hasresult}}
+{{/lesson.isquiz}}

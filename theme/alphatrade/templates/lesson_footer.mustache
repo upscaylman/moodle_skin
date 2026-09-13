@@ -17,44 +17,33 @@
 {{!
     @template theme_alphatrade/lesson_footer
 
-    One lesson, one notion, one action: completion + a single "next" call to action.
+    Maquette "Leçon": "Leçon terminée" (secondary) and "Leçon suivante" (primary).
 
     Example context (json):
     {
         "lesson": {
             "isquiz": false,
             "hasmanualcompletion": true,
-            "completiontoggle": {"cmid": 1, "activityname": "Lesson", "overallcomplete": false, "overallincomplete": true, "istrackeduser": true},
-            "hasautocompletion": false,
-            "iscomplete": false,
-            "hasnext": true,
-            "nexturl": "#",
-            "nextlabel": "Leçon suivante"
+            "completiontoggle": {"cmid": 1, "activityname": "Leçon", "overallcomplete": true, "overallincomplete": false, "istrackeduser": true},
+            "hasautocompletion": false, "iscomplete": true,
+            "hasnext": true, "nexturl": "#", "nextlabel": "Leçon suivante"
         }
     }
 }}
 {{^lesson.isquiz}}
-<div class="alpha-lesson-footer d-print-none">
-    <div class="alpha-lesson-footer-completion">
+<div class="at-lesson-actions d-print-none">
+    <div>
         {{#lesson.hasmanualcompletion}}
             {{#lesson.completiontoggle}}
                 {{> core_course/completion_manual }}
             {{/lesson.completiontoggle}}
         {{/lesson.hasmanualcompletion}}
         {{#lesson.hasautocompletion}}
-            {{#lesson.iscomplete}}
-                <span class="alpha-status alpha-status-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}lessondone, theme_alphatrade{{/str}}</span>
-            {{/lesson.iscomplete}}
-            {{^lesson.iscomplete}}
-                <span class="alpha-status alpha-status-neutral"><i class="ph ph-circle-dashed" aria-hidden="true"></i>{{#str}}lessoninprogress, theme_alphatrade{{/str}}</span>
-            {{/lesson.iscomplete}}
+            {{#lesson.iscomplete}}<span class="btn btn-secondary is-static"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}lessondone, theme_alphatrade{{/str}}</span>{{/lesson.iscomplete}}
         {{/lesson.hasautocompletion}}
     </div>
     {{#lesson.hasnext}}
-        <a href="{{lesson.nexturl}}" class="btn btn-primary alpha-btn-lg">
-            <span>{{lesson.nextlabel}}</span>
-            <i class="ph ph-arrow-right" aria-hidden="true"></i>
-        </a>
+        <a href="{{lesson.nexturl}}" class="btn btn-primary">{{lesson.nextlabel}} &rarr;</a>
     {{/lesson.hasnext}}
 </div>
 {{/lesson.isquiz}}

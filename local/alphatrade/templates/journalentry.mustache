@@ -17,78 +17,91 @@
 {{!
     @template local_alphatrade/journalentry
 
-    Trade sheet: the trade, before the trade, after the trade.
+    Maquette Portail Etudiant, screen "Trade" (trade sheet of the journal).
 
     Example context (json):
     {
-        "backurl": "#", "owner": "", "asset": "EURUSD", "assetclass": "Forex", "direction": "Achat", "islong": true,
-        "date": "12 septembre 2026, 10:30", "setup": "Sweep + BOS",
-        "entry": "1,0842", "stoploss": "1,0821", "takeprofit": "1,0884", "riskpct": "1 %", "result": "+2R", "resultclass": "alpha-value-positive",
-        "reason": "Sweep des equal lows", "marketcontext": "Tendance H4 haussière", "review": "Plan respecté",
-        "hasfollowedplan": true, "followedplan": true, "hasemotion": true, "emotion": "Calme", "emotionicon": "ph-smiley",
-        "screenshots": [], "canedit": true, "editurl": "#", "deleteurl": "#"
+        "backurl": "#", "title": "EUR/USD - LONG", "meta": "12/09/2026 · Setup Alpha #01",
+        "entry": "1.0820", "stoploss": "1.0800", "takeprofit": "1.0880", "riskpct": "1 %", "result": "+3R", "resultclass": "at-positive",
+        "reason": "Order block H1", "marketcontext": "Range asiatique", "review": "",
+        "hasfollowedplan": true, "planyes": true, "planno": false, "hasemotion": true, "emotion": "Neutre", "emotionicon": "ph-smiley-meh",
+        "emotions": [{"value": "neutral", "icon": "ph-smiley-meh", "label": "Neutre", "checked": true}],
+        "screenshots": [], "hasscreenshots": false,
+        "canedit": true, "saveurl": "#", "sesskey": "x", "editurl": "#", "deleteurl": "#"
     }
 }}
-<div class="alpha-trade">
-    <a href="{{backurl}}" class="alpha-backlink">
-        <i class="ph ph-arrow-left" aria-hidden="true"></i>
-        <span>{{#str}}journal, local_alphatrade{{/str}}</span>
-    </a>
-
-    <header class="alpha-pagehead">
-        <div>
-            <p class="alpha-eyebrow">{{date}}{{#owner}} · {{owner}}{{/owner}}</p>
-            <h1 class="alpha-title">{{asset}} - {{direction}}</h1>
-            <p class="alpha-lead">{{assetclass}}{{#setup}} · {{setup}}{{/setup}}</p>
-        </div>
-        {{#canedit}}
-            <div class="alpha-pagehead-actions">
-                <a class="btn btn-ghost" href="{{deleteurl}}"><i class="ph ph-trash" aria-hidden="true"></i>{{#str}}delete{{/str}}</a>
-                <a class="btn btn-secondary" href="{{editurl}}"><i class="ph ph-pencil-simple" aria-hidden="true"></i>{{#str}}edit{{/str}}</a>
-            </div>
-        {{/canedit}}
-    </header>
-
-    <div class="alpha-card">
-        <dl class="alpha-kv">
-            <div><dt>{{#str}}entry, local_alphatrade{{/str}}</dt><dd>{{entry}}</dd></div>
-            <div><dt>{{#str}}stoploss, local_alphatrade{{/str}}</dt><dd>{{stoploss}}</dd></div>
-            <div><dt>{{#str}}takeprofit, local_alphatrade{{/str}}</dt><dd>{{takeprofit}}</dd></div>
-            <div><dt>{{#str}}riskpct, local_alphatrade{{/str}}</dt><dd>{{riskpct}}</dd></div>
-            <div><dt>{{#str}}result, local_alphatrade{{/str}}</dt><dd class="{{resultclass}}">{{result}}</dd></div>
-        </dl>
+<div class="at-screen at-trade">
+    <a href="{{backurl}}" class="at-back">&larr; {{#str}}journal, local_alphatrade{{/str}}</a>
+    <h3 class="at-strat-name">{{title}}</h3>
+    <div class="at-strat-meta">{{meta}}</div>
+    <div class="at-trade-figures">
+        <span>Entry <strong>{{entry}}</strong></span>
+        <span>SL <strong>{{stoploss}}</strong></span>
+        <span>TP <strong>{{takeprofit}}</strong></span>
+        <span>{{#str}}risk, local_alphatrade{{/str}} <strong>{{riskpct}}</strong></span>
+        <span>{{#str}}result, local_alphatrade{{/str}} <strong class="{{resultclass}}">{{result}}</strong></span>
     </div>
 
-    <div class="alpha-grid alpha-grid-2 alpha-trade-blocks">
-        <section class="alpha-card">
-            <p class="alpha-eyebrow">{{#str}}journal_before, local_alphatrade{{/str}}</p>
-            <h2 class="alpha-card-title">{{#str}}journal_reason, local_alphatrade{{/str}}</h2>
-            <p class="alpha-card-text">{{{reason}}}</p>
-            <h2 class="alpha-card-title alpha-mt">{{#str}}journal_context, local_alphatrade{{/str}}</h2>
-            <p class="alpha-card-text">{{{marketcontext}}}</p>
-        </section>
-        <section class="alpha-card">
-            <p class="alpha-eyebrow">{{#str}}journal_after, local_alphatrade{{/str}}</p>
-            <div class="alpha-row">
-                {{#hasfollowedplan}}
-                    {{#followedplan}}<span class="alpha-status alpha-status-success"><i class="ph ph-check-circle" aria-hidden="true"></i>{{#str}}planfollowed, local_alphatrade{{/str}}</span>{{/followedplan}}
-                    {{^followedplan}}<span class="alpha-status alpha-status-warning"><i class="ph ph-warning-circle" aria-hidden="true"></i>{{#str}}plannotfollowed, local_alphatrade{{/str}}</span>{{/followedplan}}
-                {{/hasfollowedplan}}
-                {{#hasemotion}}<span class="alpha-status alpha-status-neutral"><i class="ph {{emotionicon}}" aria-hidden="true"></i>{{emotion}}</span>{{/hasemotion}}
+    {{#canedit}}
+        <form method="post" action="{{saveurl}}">
+            <input type="hidden" name="sesskey" value="{{sesskey}}">
+            <h5 class="at-mb-10">{{#str}}journal_before_upper, local_alphatrade{{/str}}</h5>
+            <div class="at-field at-mb-10 at-max-520">
+                <label for="at-je-reason">{{#str}}journal_reason, local_alphatrade{{/str}}</label>
+                <input class="at-input" id="at-je-reason" type="text" name="reason" value="{{reason}}">
             </div>
-            <h2 class="alpha-card-title alpha-mt">{{#str}}journal_review, local_alphatrade{{/str}}</h2>
-            <p class="alpha-card-text">{{{review}}}</p>
-        </section>
-    </div>
+            <div class="at-field at-mb-22 at-max-520">
+                <label for="at-je-context">{{#str}}journal_context, local_alphatrade{{/str}}</label>
+                <input class="at-input" id="at-je-context" type="text" name="marketcontext" value="{{marketcontext}}">
+            </div>
+            <h5 class="at-mb-10">{{#str}}journal_after_upper, local_alphatrade{{/str}}</h5>
+            <div class="at-trade-after">
+                <span>{{#str}}journal_followedplan, local_alphatrade{{/str}}</span>
+                <span class="at-choice-group" role="radiogroup" aria-label="{{#str}}journal_followedplan, local_alphatrade{{/str}}">
+                    <label class="at-choice is-yes"><input type="radio" name="followedplan" value="1"{{#planyes}} checked{{/planyes}}><span class="at-tag"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}yes{{/str}}</span></label>
+                    <label class="at-choice is-no"><input type="radio" name="followedplan" value="0"{{#planno}} checked{{/planno}}><span class="at-tag"><i class="ph-fill ph-x-circle" aria-hidden="true"></i>{{#str}}no{{/str}}</span></label>
+                </span>
+                <span class="at-emotions" role="radiogroup" aria-label="{{#str}}emotion, local_alphatrade{{/str}}">
+                    <span>{{#str}}emotion_state, local_alphatrade{{/str}}</span>
+                    {{#emotions}}
+                        <label class="at-emotion" title="{{label}}"><input type="radio" name="emotion" value="{{value}}"{{#checked}} checked{{/checked}}><i class="ph {{icon}}" aria-hidden="true"></i><span class="sr-only">{{label}}</span></label>
+                    {{/emotions}}
+                </span>
+            </div>
+            <div class="at-field at-mb-14 at-max-520">
+                <label for="at-je-review">{{#str}}journal_review_q, local_alphatrade{{/str}}</label>
+                <input class="at-input" id="at-je-review" type="text" name="review" value="{{review}}">
+            </div>
+            {{#hasscreenshots}}
+                <div class="at-shots at-mb-14">
+                    {{#screenshots}}<a href="{{url}}" target="_blank" rel="noopener"><img src="{{url}}" alt="{{name}}" loading="lazy"></a>{{/screenshots}}
+                </div>
+            {{/hasscreenshots}}
+            <div class="at-row-gap-10 at-wrap">
+                <button type="submit" class="btn btn-secondary">{{#str}}save, local_alphatrade{{/str}}</button>
+                <a class="btn btn-ghost" href="{{editurl}}">{{#str}}edittrade, local_alphatrade{{/str}}</a>
+                <a class="btn btn-ghost" href="{{deleteurl}}">{{#str}}delete{{/str}}</a>
+            </div>
+        </form>
+    {{/canedit}}
 
-    {{#hasscreenshots}}
-        <h2 class="alpha-section-title"><span>{{#str}}screenshot, local_alphatrade{{/str}}</span></h2>
-        <div class="alpha-grid alpha-grid-2">
-            {{#screenshots}}
-                <a class="alpha-screenshot" href="{{url}}" target="_blank" rel="noopener">
-                    <img src="{{url}}" alt="{{name}}" loading="lazy">
-                </a>
-            {{/screenshots}}
+    {{^canedit}}
+        <h5 class="at-mb-10">{{#str}}journal_before_upper, local_alphatrade{{/str}}</h5>
+        <div class="at-field at-mb-10 at-max-520"><span class="at-label">{{#str}}journal_reason, local_alphatrade{{/str}}</span><div class="at-readonly">{{reason}}</div></div>
+        <div class="at-field at-mb-22 at-max-520"><span class="at-label">{{#str}}journal_context, local_alphatrade{{/str}}</span><div class="at-readonly">{{marketcontext}}</div></div>
+        <h5 class="at-mb-10">{{#str}}journal_after_upper, local_alphatrade{{/str}}</h5>
+        <div class="at-trade-after">
+            <span>{{#str}}journal_followedplan, local_alphatrade{{/str}}</span>
+            {{#planyes}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}yes{{/str}}</span>{{/planyes}}
+            {{#planno}}<span class="at-tag at-tag-danger"><i class="ph-fill ph-x-circle" aria-hidden="true"></i>{{#str}}no{{/str}}</span>{{/planno}}
+            {{^hasfollowedplan}}<span class="at-muted">-</span>{{/hasfollowedplan}}
+            {{#hasemotion}}<span class="at-inline-icon">{{#str}}emotion_state, local_alphatrade{{/str}} <i class="ph {{emotionicon}}" aria-hidden="true"></i> {{emotion}}</span>{{/hasemotion}}
         </div>
-    {{/hasscreenshots}}
+        {{#review}}<div class="at-field at-mb-14 at-max-520"><span class="at-label">{{#str}}journal_review_q, local_alphatrade{{/str}}</span><div class="at-readonly">{{review}}</div></div>{{/review}}
+        {{#hasscreenshots}}
+            <div class="at-shots">
+                {{#screenshots}}<a href="{{url}}" target="_blank" rel="noopener"><img src="{{url}}" alt="{{name}}" loading="lazy"></a>{{/screenshots}}
+            </div>
+        {{/hasscreenshots}}
+    {{/canedit}}
 </div>

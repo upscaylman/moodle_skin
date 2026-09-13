@@ -619,6 +619,32 @@ class programme {
     }
 
     /**
+     * Status icon of the maquette (check for done, filled dot for current, lock for locked).
+     *
+     * @param string $status
+     * @return string
+     */
+    public static function maquette_icon(string $status): string {
+        $icons = [
+            'done' => 'ph-fill ph-check-circle',
+            'current' => 'ph-fill ph-circle',
+            'todo' => 'ph ph-circle',
+            'locked' => 'ph ph-lock-simple',
+        ];
+        return $icons[$status] ?? 'ph ph-circle';
+    }
+
+    /**
+     * Colour class of a status icon.
+     *
+     * @param string $status
+     * @return string
+     */
+    public static function maquette_status_class(string $status): string {
+        return 'at-status-' . $status;
+    }
+
+    /**
      * Month index (1-based) of each module, from the "3,4,5" setting.
      *
      * @param int $count

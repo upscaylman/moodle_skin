@@ -30,7 +30,8 @@ use local_alphatrade\local\page;
 $id = optional_param('id', 0, PARAM_INT);
 $delete = optional_param('delete', 0, PARAM_BOOL);
 
-page::setup('/local/alphatrade/chartedit.php', 'practice', get_string('newchart', 'local_alphatrade'), $id ? ['id' => $id] : []);
+page::setup('/local/alphatrade/chartedit.php', 'practice', get_string('practice_charts', 'local_alphatrade'), $id ? ['id' => $id] : [],
+    get_string('sub_chartedit', 'local_alphatrade'));
 require_capability('local/alphatrade:managecharts', page::programme_context());
 
 $listurl = new moodle_url('/local/alphatrade/charts.php');
@@ -87,21 +88,13 @@ if ($form->is_cancelled()) {
 }
 
 echo $OUTPUT->header();
-echo html_writer::start_div('alpha-formpage');
-echo html_writer::link($listurl, html_writer::tag('i', '', ['class' => 'ph ph-arrow-left', 'aria-hidden' => 'true']) .
-    html_writer::span(get_string('practice_charts', 'local_alphatrade')), ['class' => 'alpha-backlink']);
-echo html_writer::start_tag('header', ['class' => 'alpha-pagehead']);
-echo html_writer::start_div();
-echo html_writer::tag('h1', $chart ? format_string($chart->title) : get_string('newchart', 'local_alphatrade'), ['class' => 'alpha-title']);
-echo html_writer::end_div();
-if ($chart) {
-    echo html_writer::link(new moodle_url($PAGE->url, ['delete' => 1]),
-        html_writer::tag('i', '', ['class' => 'ph ph-trash', 'aria-hidden' => 'true']) . get_string('delete'),
-        ['class' => 'btn btn-secondary']);
-}
-echo html_writer::end_tag('header');
-echo html_writer::start_div('alpha-card');
-$form->display();
-echo html_writer::end_div();
-echo html_writer::end_div();
+echo $OUTPUT->render_from_template('local_alphatrade/formpage', [
+    'backurl' => $listurl->out(false),
+    'backlabel' => get_string('practice_charts', 'local_alphatrade'),
+    'eyebrow' => $chart ? sprintf('ANALYSE #%03d', $chart->id) : '',
+    'title' => $chart ? format_string($chart->title) : get_string('newchart', 'local_alphatrade'),
+    'lead' => '',
+    'form' => $form->render(),
+    'deleteurl' => $chart ? (new moodle_url($PAGE->url, ['delete' => 1]))->out(false) : '',
+]);
 echo $OUTPUT->footer();

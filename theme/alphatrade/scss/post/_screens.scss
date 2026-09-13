@@ -1,0 +1,965 @@
+// Student screens of "Alpha Trade - Portail Etudiant" (maquette inline styles, 1:1).
+
+// ---------------------------------------------------------------- Utilities used by the screens.
+.at-m-0 { margin: 0 !important; }
+.at-mb-2 { margin-bottom: 2px !important; }
+.at-mb-4 { margin-bottom: 4px !important; }
+.at-mb-6 { margin-bottom: 6px !important; }
+.at-mb-8 { margin-bottom: 8px !important; }
+.at-mb-10 { margin-bottom: 10px !important; }
+.at-mb-12 { margin-bottom: 12px !important; }
+.at-mb-14 { margin-bottom: 14px !important; }
+.at-mb-16 { margin-bottom: 16px !important; }
+.at-mb-18 { margin-bottom: 18px !important; }
+.at-mb-20 { margin-bottom: 20px !important; }
+.at-mb-22 { margin-bottom: 22px !important; }
+.at-mb-24 { margin-bottom: 24px !important; }
+.at-mb-26 { margin-bottom: 26px !important; }
+.at-mt-2 { margin-top: 2px !important; }
+.at-mt-6 { margin-top: 6px !important; }
+.at-mt-16 { margin-top: 16px !important; }
+.at-mt-22 { margin-top: 22px !important; }
+.at-pad-18 { padding: 18px !important; }
+.at-pad-20 { padding: 20px !important; }
+.at-pad-22 { padding: 22px !important; }
+.at-max-360 { max-width: 360px; }
+.at-max-400 { max-width: 400px; }
+.at-max-420 { max-width: 420px; }
+.at-max-480 { max-width: 480px; }
+.at-max-520 { max-width: 520px; }
+.at-small { font-size: 12px; }
+.at-meta13 { font-size: 13px; color: $at-text-55; }
+.at-wrap { flex-wrap: wrap; }
+.at-td-right { text-align: right; }
+.at-rowlink {
+    position: relative;
+    cursor: pointer;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+        }
+    }
+}
+.at-inline-form { display: inline-flex; margin: 0; }
+.at-icon-warning { color: $at-warning; }
+.at-icon-danger { color: $at-danger; }
+.at-status-todo { color: $at-text-45; }
+
+.at-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.at-row-gap-10 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.at-stack-12,
+.at-stack-14 {
+    display: flex;
+    flex-direction: column;
+}
+
+.at-stack-12 { gap: 12px; }
+.at-stack-14 { gap: 14px; }
+
+.at-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.at-inline-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.at-kicker-icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.at-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: $at-text-60;
+}
+
+.at-help {
+    font-size: 11px;
+    margin-top: 4px;
+    color: $at-text-50;
+}
+
+.at-readonly {
+    font-size: 14px;
+    padding: 6px 0;
+}
+
+.at-readonly-note {
+    font-size: 12px;
+    color: $at-text-50;
+}
+
+.at-radio-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    margin-top: 4px;
+
+    .at-radio {
+        font-size: 13px;
+    }
+}
+
+.at-field-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.at-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.at-pill {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+    }
+
+    span {
+        display: inline-block;
+        font-size: 12px;
+        line-height: 1.55;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid $at-divider;
+        background: transparent;
+        color: $at-text;
+    }
+
+    input:checked + span {
+        border-color: $at-accent;
+        background: $at-accent-800;
+        color: $at-accent-100;
+    }
+
+    input:focus-visible + span {
+        outline: 2px solid $at-accent;
+        outline-offset: 2px;
+    }
+}
+
+.at-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+
+    > div,
+    > a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    > a {
+        color: $at-text;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-accent-100;
+        }
+    }
+
+    > .is-locked {
+        color: $at-text-45;
+    }
+}
+
+.at-h5-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px !important;
+}
+
+// ---------------------------------------------------------------- Accueil.
+.at-greeting {
+    font-size: 16px;
+    margin: 0 0 18px !important;
+}
+
+.at-dash-percent {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.55;
+    margin: 4px 0 8px;
+}
+
+.at-dash-week {
+    font-size: 13px;
+    color: $at-text-55;
+}
+
+.at-dash-h4 {
+    margin: 0 0 12px !important;
+}
+
+.at-dash-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.at-dash-tile {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    background: $at-surface;
+    color: $at-text;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+        box-shadow: $at-shadow-sm;
+    }
+
+    &.is-locked {
+        cursor: default;
+    }
+}
+
+.at-dash-tile-n {
+    font-size: 11px;
+    margin-bottom: 2px;
+    color: $at-text-50;
+}
+
+.at-dash-tile-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.at-dash-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+}
+
+.at-stat-center {
+    padding: 16px;
+    text-align: center;
+    align-items: center;
+}
+
+.at-stat-icon {
+    font-size: 22px;
+    margin-bottom: 4px;
+    color: $at-accent;
+
+    &.is-warning {
+        color: $at-warning;
+    }
+}
+
+.at-stat-value {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.at-stat-label {
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+
+// ---------------------------------------------------------------- Parcours.
+.at-parcours-label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: $at-text-60;
+}
+
+.at-month {
+    margin-bottom: 24px;
+}
+
+.at-month-theme {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.at-month-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.at-module-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 4px;
+    font-size: 13px;
+    color: $at-text-45;
+}
+
+.at-module-card {
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    text-decoration: none;
+    color: $at-text;
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+        box-shadow: 0 0 0 1px $at-neutral-700;
+    }
+
+    .btn {
+        flex: none;
+    }
+}
+
+.at-module-card-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.at-module-card-meta {
+    font-size: 12px;
+    margin-top: 2px;
+    color: $at-text-55;
+}
+
+// ---------------------------------------------------------------- Module.
+.at-screen .at-module-title {
+    margin: 2px 0 8px;
+}
+
+.at-screen .at-module-desc {
+    font-size: 14px;
+    opacity: .85;
+    max-width: 560px;
+    margin-bottom: 16px;
+}
+
+.at-module-locked {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: $at-warning-tint;
+}
+
+.at-module-count {
+    font-size: 13px;
+    margin-bottom: 20px;
+    color: $at-text-55;
+}
+
+.at-lesson-list {
+    padding: 8px 6px;
+    margin-bottom: 22px;
+}
+
+.at-lesson-row {
+    display: block;
+    padding: 9px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: $at-text;
+    text-decoration: none;
+
+    i {
+        margin-right: 6px;
+    }
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+        background: rgba(233, 233, 237, .05);
+    }
+
+    &.is-current,
+    &.is-current:hover {
+        background: $at-accent-800;
+        color: $at-accent-100;
+    }
+
+    &.is-locked {
+        cursor: default;
+        color: $at-text-45;
+    }
+}
+
+// ---------------------------------------------------------------- Practice Lab.
+.at-practice-lead {
+    font-size: 14px;
+    opacity: .8;
+    margin-bottom: 24px !important;
+}
+
+.at-practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    max-width: 760px;
+}
+
+.at-practice-card {
+    padding: 26px;
+    text-align: center;
+    align-items: center;
+
+    > i {
+        font-size: 30px;
+        color: $at-accent;
+        margin-bottom: 12px;
+    }
+
+    h4 {
+        margin: 0 0 6px !important;
+        text-transform: uppercase;
+        font-size: 14px !important;
+    }
+
+    .btn {
+        margin-top: auto;
+    }
+}
+
+// ---------------------------------------------------------------- Analyse de graphique.
+.at-screen .at-analyse-market {
+    margin: 2px 0 16px;
+}
+
+.at-chartbox {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 22px;
+    border: 1px solid $at-divider;
+
+    iframe {
+        display: block;
+        width: 100%;
+        height: 400px;
+        border: 0;
+    }
+
+    &.at-chartbox-340 {
+        margin-bottom: 20px;
+
+        iframe {
+            height: 340px;
+        }
+    }
+}
+
+.at-analyse-instructions {
+    font-size: 14px;
+    opacity: .85;
+    max-width: 600px;
+    margin-bottom: 18px;
+}
+
+.at-answers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    margin: 14px 0;
+
+    span {
+        display: block;
+        font-size: 11px;
+        color: $at-text-55;
+    }
+}
+
+.at-criteria {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    margin: 14px 0;
+
+    > div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+}
+
+.at-analyse-score {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+// ---------------------------------------------------------------- Backtesting, stratégie.
+.at-strat-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.at-screen .at-strat-name {
+    margin: 0 0 2px;
+}
+
+.at-strat-meta {
+    font-size: 13px;
+    margin-bottom: 18px;
+    color: $at-text-55;
+}
+
+.at-strat-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.at-stat-mini {
+    padding: 14px;
+    text-align: center;
+
+    > div {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.55;
+    }
+
+    > span {
+        font-size: 11px;
+        color: $at-text-55;
+    }
+
+    &.is-profile > div {
+        font-size: 18px;
+    }
+}
+
+.at-equity {
+    padding: 14px;
+    margin-bottom: 20px;
+    color: $at-accent;
+}
+
+.at-candles {
+    padding: 14px;
+    margin-bottom: 20px;
+
+    svg {
+        display: block;
+    }
+
+    .is-up {
+        stroke: $at-success;
+        fill: $at-success;
+    }
+
+    .is-down {
+        stroke: $at-danger;
+        fill: $at-danger;
+    }
+
+    line {
+        stroke-width: 1;
+    }
+}
+
+.at-candles-grid {
+    stroke: $at-text-8;
+    stroke-width: 1;
+}
+
+.at-candles-label {
+    fill: $at-text-50;
+    font-size: 11px;
+    font-family: $at-font;
+}
+
+.at-strat-kv {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    margin-bottom: 22px;
+
+    > div {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        max-width: 320px;
+    }
+}
+
+.at-strat-verdict {
+    font-size: 13px;
+    opacity: .85;
+    max-width: 560px;
+    margin: -10px 0 22px !important;
+}
+
+.at-strat-owner-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.at-btn-tiny {
+    padding: 4px 6px;
+    font-size: 13px;
+}
+
+// ---------------------------------------------------------------- Journal, fiche de trade.
+.at-trade-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 13px;
+    margin-bottom: 22px;
+
+    strong {
+        font-weight: 600;
+    }
+}
+
+.at-trade-after {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 14px;
+    font-size: 13px;
+}
+
+.at-choice-group,
+.at-emotions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.at-choice,
+.at-emotion {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+    }
+}
+
+.at-choice {
+    .at-tag {
+        gap: 4px;
+        background: $at-neutral-800;
+        color: $at-neutral-300;
+    }
+
+    &.is-yes input:checked + .at-tag {
+        background: rgba($at-success, .22);
+        color: $at-success-tint;
+    }
+
+    &.is-no input:checked + .at-tag {
+        background: rgba($at-danger, .2);
+        color: $at-danger-tint;
+    }
+
+    input:focus-visible + .at-tag {
+        outline: 2px solid $at-accent;
+        outline-offset: 2px;
+    }
+}
+
+.at-emotion {
+    display: inline-flex;
+    padding: 2px;
+    border-radius: 6px;
+    color: $at-text-45;
+
+    i {
+        font-size: 18px;
+    }
+
+    &:hover {
+        color: $at-text;
+    }
+
+    &:has(input:checked) {
+        color: $at-accent;
+        box-shadow: inset 0 0 0 1px $at-accent;
+    }
+
+    &:has(input:focus-visible) {
+        outline: 2px solid $at-accent;
+        outline-offset: 2px;
+    }
+}
+
+.at-shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    max-width: 700px;
+
+    img {
+        display: block;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: $at-shadow-sm;
+    }
+}
+
+// ---------------------------------------------------------------- Outils.
+.at-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 560px;
+}
+
+.at-tool-card {
+    > i {
+        font-size: 24px;
+        margin-bottom: 8px;
+        color: $at-accent;
+    }
+
+    h4 {
+        margin: 0 0 4px !important;
+        font-size: 14px !important;
+    }
+}
+
+.at-calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 760px;
+    align-items: start;
+
+    form .btn {
+        margin-top: 4px;
+    }
+}
+
+.at-calc-results {
+    margin: 10px 0 0;
+
+    > div {
+        max-width: none;
+    }
+
+    .is-main span:last-child {
+        font-size: 20px;
+        font-weight: 600;
+        color: $at-accent;
+    }
+}
+
+// ---------------------------------------------------------------- Ressources, communauté.
+.at-search {
+    position: relative;
+    max-width: 400px;
+
+    i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $at-text-50;
+        pointer-events: none;
+    }
+
+    .at-input {
+        padding-left: 34px;
+        width: 100%;
+    }
+}
+
+.at-list-card {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+
+    .btn {
+        flex: none;
+    }
+}
+
+.at-list-card-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    > i {
+        font-size: 18px;
+        color: $at-accent;
+    }
+
+    &.is-community {
+        gap: 12px;
+
+        > i {
+            font-size: 20px;
+        }
+
+        .at-card-title {
+            margin: 0 0 5.6px !important;
+        }
+    }
+}
+
+.at-screen .at-list-card-title {
+    margin: 0 0 2px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+// ---------------------------------------------------------------- Profil, certification, projet final.
+.at-profile-formation {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.at-profile-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 26px;
+}
+
+.at-profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: $at-text-70;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-accent;
+        }
+    }
+}
+
+.at-cert-card {
+    padding: 36px;
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+
+    > * {
+        align-self: stretch;
+    }
+
+    > .btn {
+        align-self: center;
+    }
+}
+
+.at-cert-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: $at-accent;
+}
+
+.at-cert-sub {
+    font-size: 13px;
+    margin-bottom: 18px;
+    color: $at-text-60;
+}
+
+.at-cert-list {
+    text-align: left;
+    max-width: 280px;
+    margin: 0 auto 22px;
+}
+
+.at-cert-hint {
+    font-size: 12px;
+    margin: 8px 0 0 !important;
+    color: $at-text-50;
+}
+
+// ---------------------------------------------------------------- Form page (Moodle forms inside a card).
+.at-formcard {
+    max-width: 760px;
+    display: block;
+
+    .mform .fitem {
+        margin-bottom: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .at-tools-grid,
+    .at-field-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .at-trade-figures,
+    .at-strat-figures {
+        gap: 10px 18px;
+    }
+}

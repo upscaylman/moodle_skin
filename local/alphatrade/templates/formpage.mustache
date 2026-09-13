@@ -17,33 +17,18 @@
 {{!
     @template local_alphatrade/formpage
 
-    Generic Alpha Trade page wrapping a Moodle form.
+    Screen wrapping a Moodle form (add a trade, edit a chart, review...).
 
     Example context (json):
-    {
-        "backurl": "#",
-        "backlabel": "Backtesting Lab",
-        "eyebrow": "Backtesting Lab",
-        "title": "Nouvelle stratégie",
-        "lead": "",
-        "form": "<form></form>"
-    }
+    {"backurl": "#", "backlabel": "Journal", "eyebrow": "JOURNAL", "title": "Ajouter un trade", "lead": "Un trade, avant et après.", "form": "<form></form>", "deleteurl": ""}
 }}
-<div class="alpha-formpage">
-    {{#backurl}}
-        <a href="{{backurl}}" class="alpha-backlink">
-            <i class="ph ph-arrow-left" aria-hidden="true"></i>
-            <span>{{backlabel}}</span>
-        </a>
-    {{/backurl}}
-    <header class="alpha-pagehead">
-        <div>
-            {{#eyebrow}}<p class="alpha-eyebrow">{{eyebrow}}</p>{{/eyebrow}}
-            <h1 class="alpha-title">{{title}}</h1>
-            {{#lead}}<p class="alpha-lead">{{lead}}</p>{{/lead}}
-        </div>
-    </header>
-    <div class="alpha-card alpha-formcard">
+<div class="at-screen at-formpage">
+    {{#backurl}}<a href="{{backurl}}" class="at-back">&larr; {{backlabel}}</a>{{/backurl}}
+    {{#eyebrow}}<div class="at-eyebrow">{{eyebrow}}</div>{{/eyebrow}}
+    <h2 class="at-module-title">{{title}}</h2>
+    {{#lead}}<p class="at-module-desc">{{lead}}</p>{{/lead}}
+    <div class="at-card at-elev-sm at-pad-20 at-formcard">
         {{{form}}}
     </div>
+    {{#deleteurl}}<p class="at-mt-16"><a class="btn btn-ghost" href="{{deleteurl}}">{{#str}}delete{{/str}}</a></p>{{/deleteurl}}
 </div>

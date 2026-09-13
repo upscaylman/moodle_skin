@@ -28,7 +28,7 @@ class markets {
 
     /** @var string Default presets (maquette). */
     const DEFAULT = "EUR/USD|FX:EURUSD|EUR/USD\nGBP/USD|FX:GBPUSD|GBP/USD\nXAU/USD|OANDA:XAUUSD|XAU/USD\n" .
-        "BTC/USD|BINANCE:BTCUSDT|BTC/USD\nUS30|FOREXCOM:DJI|US30";
+        "BTC/USD|BINANCE:BTCUSDT|BTC/USD\nUS30|FOREXCOM:DJI|US30/USD";
 
     /** @var string[] Timeframe pills of the maquette (TradingView intervals). */
     const TIMEFRAMES = ['15' => 'M15', '60' => 'H1', '240' => 'H4', 'D' => 'D1'];

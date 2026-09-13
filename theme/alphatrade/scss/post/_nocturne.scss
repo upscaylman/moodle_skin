@@ -248,7 +248,11 @@ a {
     font-weight: 400;
 }
 
+// input.at-input: beats Moodle core "input[type=text] { width: 12.25em }".
 .at-input,
+input.at-input,
+textarea.at-input,
+select.at-input,
 .form-control,
 .custom-select,
 .form-select {

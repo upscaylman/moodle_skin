@@ -8,13 +8,14 @@ body.alpha-login {
         flex-direction: column;
     }
 
+    // Symmetric vertical padding keeps the card centered and leaves room for the absolute footer.
     #page.at-login-page {
         flex: 1 0 auto;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0;
-        padding: 24px;
+        padding: 72px 24px;
     }
 
     #region-main-box,

@@ -33,7 +33,9 @@
         "method": [{"number": 1, "title": "Comprendre", "desc": "Les mécanismes"}],
         "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "Enseigne"}],
         "faq": [{"question": "Signaux ?", "answer": "Non."}],
-        "hasform": true, "applyurl": "", "hasapplyurl": false, "formaction": "#", "sesskey": "x", "applied": false
+        "hasform": true, "applyurl": "", "hasapplyurl": false, "formaction": "#", "sesskey": "x", "applied": false, "programmepdfurl": "#",
+        "hastitles": true, "titles": [{"text": "Comprendre les marchés.", "first": true}, {"text": "Second titre", "first": false}],
+        "hasslides": true, "slides": [{"url": "hero-slide-1.png", "alt": "Image", "label": "Image 1", "index": 0, "first": true}]
     }
 }}
 {{> theme_boost/head }}
@@ -42,7 +44,8 @@
 {{> core/local/toast/wrapper}}
 <div id="page-wrapper" class="at-public">
     {{{ output.standard_top_of_body_html }}}
-    <div class="at-blob at-blob-page" aria-hidden="true"></div>
+    {{! Decorative gradient: a page layer behind the floating header, never inside it. }}
+    <div class="at-pub-glow" aria-hidden="true"></div>
 
     <header class="at-pub-header">
         <a class="at-pub-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
@@ -53,6 +56,12 @@
             <a class="btn btn-secondary" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
             <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
         </div>
+        <button type="button" class="btn btn-secondary btn-icon at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
+            <i class="ph ph-list" aria-hidden="true"></i>
+        </button>
+        <nav class="at-pub-menu" id="at-pub-menu" aria-label="{{sitename}}" hidden>
+            {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
+        </nav>
     </header>
 
     <main id="page" class="at-pub-main">
@@ -60,14 +69,24 @@
             <section class="at-pub-hero">
                 <div>
                     <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_hero_tag, theme_alphatrade{{/str}}</span>
-                    <h1>{{#str}}pub_hero_title, theme_alphatrade{{/str}}</h1>
+                    <h1 class="at-pub-rotator{{#hastitles}} is-rotating{{/hastitles}}">
+                        {{#titles}}<span class="at-pub-rotator-item{{#first}} is-active{{/first}}"{{^first}} aria-hidden="true"{{/first}}>{{text}}</span>{{/titles}}
+                    </h1>
                     <p>{{#str}}pub_hero_lead, theme_alphatrade{{/str}}</p>
                     <div class="at-pub-buttons">
                         <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
                         <a class="btn btn-secondary" href="{{programmeurl}}">{{#str}}pub_discover, theme_alphatrade{{/str}}</a>
+                        <a class="btn btn-secondary" href="{{programmepdfurl}}" download>{{#str}}pub_download_programme, theme_alphatrade{{/str}}</a>
                     </div>
                 </div>
-                <div class="at-pub-hero-img"><img src="{{heroimageurl}}" alt="{{#str}}pub_hero_alt, theme_alphatrade{{/str}}"></div>
+                <div class="at-pub-hero-img at-pub-carousel{{#hasslides}} is-rotating{{/hasslides}}">
+                    {{#slides}}<img class="at-pub-slide{{#first}} is-active{{/first}}" src="{{url}}" alt="{{alt}}"{{^first}} aria-hidden="true"{{/first}}>{{/slides}}
+                    {{#hasslides}}
+                        <div class="at-pub-dots" role="group" aria-label="{{#str}}pub_slides, theme_alphatrade{{/str}}">
+                            {{#slides}}<button type="button" class="at-pub-dot{{#first}} is-active{{/first}}" data-slide="{{index}}" aria-label="{{label}}"{{#first}} aria-current="true"{{/first}}></button>{{/slides}}
+                        </div>
+                    {{/hasslides}}
+                </div>
             </section>
 
             <section class="at-pub-band">
@@ -138,7 +157,10 @@
                         </div>
                     </div>
                 {{/months}}
-                <div class="at-pub-center"><a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a></div>
+                <div class="at-pub-center">
+                    <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
+                    <a class="btn btn-secondary" href="{{programmepdfurl}}" download>{{#str}}pub_download_programme, theme_alphatrade{{/str}}</a>
+                </div>
             </section>
         {{/isprogramme}}
 
@@ -245,4 +267,99 @@ M.util.js_pending('theme_boost/loader');
 require(['theme_boost/loader'], function() {
     M.util.js_complete('theme_boost/loader');
 });
+
+(function() {
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Mobile burger menu (< 860px): the 5 links, login and apply stay in the header.
+    var burger = document.querySelector('[data-action="at-pub-menu"]');
+    var menu = document.getElementById('at-pub-menu');
+    if (burger && menu) {
+        var setOpen = function(open) {
+            burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            menu.hidden = !open;
+            burger.querySelector('i').className = open ? 'ph ph-x' : 'ph ph-list';
+        };
+        burger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            setOpen(menu.hidden);
+        });
+        document.addEventListener('click', function(e) {
+            if (!menu.hidden && !menu.contains(e.target)) {
+                setOpen(false);
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !menu.hidden) {
+                setOpen(false);
+                burger.focus();
+            }
+        });
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 860 && !menu.hidden) {
+                setOpen(false);
+            }
+        });
+    }
+
+    // Cross-fade helper: one active item at a time, inactive items hidden from assistive technologies.
+    var show = function(items, index) {
+        items.forEach(function(item, i) {
+            item.classList.toggle('is-active', i === index);
+            if (i === index) {
+                item.removeAttribute('aria-hidden');
+            } else {
+                item.setAttribute('aria-hidden', 'true');
+            }
+        });
+    };
+
+    // Hero title alternating every 5 s.
+    var rotator = document.querySelector('.at-pub-rotator.is-rotating');
+    if (rotator && !reduced) {
+        var titles = Array.prototype.slice.call(rotator.querySelectorAll('.at-pub-rotator-item'));
+        var current = 0;
+        setInterval(function() {
+            current = (current + 1) % titles.length;
+            show(titles, current);
+        }, 5000);
+    }
+
+    // Hero carousel: cross-fade every 4.5 s, dots to navigate.
+    var carousel = document.querySelector('.at-pub-carousel.is-rotating');
+    if (carousel) {
+        var slides = Array.prototype.slice.call(carousel.querySelectorAll('.at-pub-slide'));
+        var dots = Array.prototype.slice.call(carousel.querySelectorAll('.at-pub-dot'));
+        var active = 0;
+        var timer = null;
+        var go = function(index) {
+            active = index;
+            show(slides, index);
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('is-active', i === index);
+                if (i === index) {
+                    dot.setAttribute('aria-current', 'true');
+                } else {
+                    dot.removeAttribute('aria-current');
+                }
+            });
+        };
+        var start = function() {
+            if (reduced) {
+                return;
+            }
+            clearInterval(timer);
+            timer = setInterval(function() {
+                go((active + 1) % slides.length);
+            }, 4500);
+        };
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                go(parseInt(dot.getAttribute('data-slide'), 10));
+                start();
+            });
+        });
+        start();
+    }
+})();
 {{/js}}

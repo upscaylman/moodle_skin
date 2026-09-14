@@ -31,6 +31,9 @@ class public_site {
     /** @var string[] Views of the public site. */
     const VIEWS = ['accueil', 'programme', 'methode', 'formateurs', 'faq', 'candidater'];
 
+    /** @var string Programme brochure served from theme/alphatrade/files (download buttons). */
+    const PROGRAMME_PDF = 'Alpha-Trade-Programme-de-Formation-Trading-et-Finance.pdf';
+
     /** @var string Current view. */
     protected $view;
 
@@ -59,6 +62,8 @@ class public_site {
      * @return array
      */
     public function export(): array {
+        global $OUTPUT;
+
         $str = function(string $key, $a = null): string {
             return get_string($key, 'theme_alphatrade', $a);
         };
@@ -140,7 +145,39 @@ class public_site {
             'formaction' => $hasform ? (new moodle_url('/local/alphatrade/apply.php'))->out(false) : '',
             'sesskey' => sesskey(),
             'applied' => optional_param('applied', 0, PARAM_BOOL),
+            'programmepdfurl' => (new moodle_url('/theme/alphatrade/files/' . self::PROGRAMME_PDF))->out(false),
         ];
+
+        // Hero title alternating between two texts (the second one is optional).
+        $titles = [];
+        foreach (['pub_hero_title', 'pub_hero_title2'] as $key) {
+            $text = trim($str($key));
+            if ($text !== '') {
+                $titles[] = ['text' => $text, 'first' => empty($titles)];
+            }
+        }
+        $data['titles'] = $titles;
+        $data['hastitles'] = count($titles) > 1;
+
+        // Hero carousel: pix/hero-slide-1.png, hero-slide-2.png when present, else the single hero image.
+        $slides = [];
+        foreach ([1, 2] as $number) {
+            if (file_exists(__DIR__ . "/../../pix/hero-slide-$number.png")) {
+                $slides[] = [
+                    'url' => $OUTPUT->image_url("hero-slide-$number", 'theme_alphatrade')->out(false),
+                    'alt' => $str('pub_hero_alt'),
+                    'label' => $str('pub_slide', $number),
+                    'index' => count($slides),
+                    'first' => empty($slides),
+                ];
+            }
+        }
+        if (!$slides) {
+            $slides[] = ['url' => $OUTPUT->image_url('hero', 'theme_alphatrade')->out(false), 'alt' => $str('pub_hero_alt'),
+                'label' => $str('pub_slide', 1), 'index' => 0, 'first' => true];
+        }
+        $data['slides'] = $slides;
+        $data['hasslides'] = count($slides) > 1;
         foreach (self::VIEWS as $view) {
             $data['is' . $view] = $view === $this->view;
         }

@@ -10,8 +10,8 @@ $at-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 .simplesearchform .input-group,
 .searchbar.input-group {
     position: relative;
-    width: 100%;
-    max-width: 340px;
+    width: 340px !important;
+    max-width: 100%;
 }
 
 .at-search .at-input,
@@ -51,6 +51,10 @@ $at-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 }
 
 // Admin pages: the header search sits under the page title, above the tabs (maquette order).
+.at-desktop-header:has(.header-actions-container .simplesearchform) {
+    margin-bottom: 22px;
+}
+
 .at-page-title #page-header {
     .d-flex.align-items-center {
         flex-wrap: wrap;
@@ -73,7 +77,15 @@ $at-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 // ---------------------------------------------------------------- Tabs (secondary navigation, settings tabs).
 // Underlined: selected = gold text + gold rule, others grey, hover = text colour, never a default link style.
 body.alpha-app .secondary-navigation {
-    margin: 4px 0 26px;
+    margin: 0 0 26px;
+    padding-bottom: 0;
+
+    .navigation {
+        margin: 0;
+        padding: 0 !important;
+        border-bottom: 0;
+        background: transparent;
+    }
 
     .navigation .nav-tabs {
         gap: 24px;

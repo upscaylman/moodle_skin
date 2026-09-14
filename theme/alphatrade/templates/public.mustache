@@ -49,13 +49,13 @@
     <div class="at-pub-glow" aria-hidden="true"></div>
 
     <header class="at-pub-header">
+        <button type="button" class="at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
+            <i class="ph ph-list" aria-hidden="true"></i>
+        </button>
         <a class="at-pub-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
         <nav class="at-pub-nav" aria-label="{{sitename}}">
             {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
         </nav>
-        <button type="button" class="at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
-            <i class="ph ph-list" aria-hidden="true"></i>
-        </button>
         <div class="at-pub-actions">
             <a class="btn btn-secondary" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
             <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
@@ -71,7 +71,7 @@
                 {{! Headline variants alternate every 5 s: the block re-enters with at-headline-fade (0.6 s). }}
                 <div class="at-pub-headline is-animating" data-headlines="{{headlinesjson}}">
                     {{#headline}}
-                        <span class="at-tag at-tag-outline at-pub-kicker" data-field="kicker">{{kicker}}</span>
+                        <span class="at-pub-chip" data-field="kicker">{{kicker}}</span>
                         <h1 data-field="title">{{title}}</h1>
                         <p data-field="subtitle">{{subtitle}}</p>
                     {{/headline}}

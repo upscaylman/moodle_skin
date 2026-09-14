@@ -46,12 +46,10 @@
     }
 }
 
-// Same rule as the sidebars for Moodle's own navigation rows (drawers, course index, tabs, list groups):
-// hover takes the card surface, never on the selected item.
+// Same rule as the sidebars for Moodle's own navigation rows (drawers, course index, list groups): hover takes
+// the card surface, never on the selected item. Tabs are underlined instead (see _settings).
 .drawer .list-group-item,
 .courseindex .courseindex-item,
-.nav-tabs .nav-link,
-.secondary-navigation .nav-link,
 .list-group-item-action {
     &:not(.active):not(.pageitem):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):hover,
     &:not(.active):not(.pageitem):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):focus {
@@ -306,33 +304,7 @@ $at-alerts: (
     color: $at-text;
 }
 
-// ---------------------------------------------------------------- Secondary navigation (course / admin tabs).
-body.alpha-app .secondary-navigation {
-    margin-bottom: 20px;
-
-    .navigation .nav-tabs {
-        border-bottom: 1px solid $at-divider;
-    }
-
-    .navigation .nav-tabs .nav-link {
-        color: $at-text;
-        font-size: 13px;
-        border: 0;
-        border-bottom: 2px solid transparent;
-        border-radius: 0;
-        background: transparent;
-
-        &:hover {
-            color: $at-accent;
-        }
-
-        &.active,
-        &.active_tree_node {
-            color: $at-accent;
-            border-bottom-color: $at-accent;
-        }
-    }
-}
+// Secondary navigation (course / admin tabs): see _settings.
 
 // ---------------------------------------------------------------- Messaging drawer, forum, misc.
 [data-region="right-hand-drawer"].drawer,

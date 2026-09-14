@@ -1,0 +1,127 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core/settings_link_page
+
+    Alpha Trade override (maquette Espace Admin, "Paramètres"): each tab pane is a two-column grid of groups, each
+    group a kicker chip followed by a plain list of setting links. Pane ids (#link{key}) are unchanged: the secondary
+    navigation tabs (or the tabs below when there is none) keep switching them.
+
+    Example context (json):
+    {
+        "node": {
+            "text": "Root of menu",
+            "key": "test0",
+            "display": true,
+            "children": [
+                {
+                    "text": "Child of menu",
+                    "key": "test1",
+                    "display": true,
+                    "action": "#",
+                    "children": []
+                }
+            ]
+        }
+    }
+}}
+{{^secondarynavigation}}
+    <ul class="nav nav-tabs at-settings-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#link{{node.key}}" data-toggle="tab" role="tab" aria-selected="true">{{node.text}}</a>
+        </li>
+        {{#node.children}}
+            {{#children.count}}
+                {{#display}}
+                    {{^is_short_branch}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#link{{key}}" data-toggle="tab" role="tab" aria-selected="false" tabindex="-1">{{text}}</a>
+                        </li>
+                    {{/is_short_branch}}
+                {{/display}}
+            {{/children.count}}
+        {{/node.children}}
+    </ul>
+{{/secondarynavigation}}
+<div class="tab-content at-settings">
+    <div class="tab-pane active" id="link{{node.key}}" {{^secondarynavigation}}role="tabpanel"{{/secondarynavigation}}>
+        <div class="at-settings-groups">
+            <section class="at-settings-group">
+                <h3 class="at-pub-chip at-settings-chip">{{#str}}general{{/str}}</h3>
+                <ul class="at-settings-links">
+                    {{#node.children}}
+                        {{^children.count}}
+                            {{#display}}
+                                <li><a class="at-settings-link" href="{{{action}}}">{{text}}</a></li>
+                            {{/display}}
+                        {{/children.count}}
+                    {{/node.children}}
+                </ul>
+            </section>
+            {{#node.children}}
+                {{#display}}
+                    {{#children.count}}
+                        {{#is_short_branch}}
+                            <section class="at-settings-group">
+                                <h3 class="at-pub-chip at-settings-chip">{{#action}}<a href="{{action}}">{{text}}</a>{{/action}}{{^action}}{{text}}{{/action}}</h3>
+                                <ul class="at-settings-links">
+                                    {{#children}}
+                                        {{> core/settings_link_page_single }}
+                                    {{/children}}
+                                </ul>
+                            </section>
+                        {{/is_short_branch}}
+                    {{/children.count}}
+                {{/display}}
+            {{/node.children}}
+        </div>
+    </div>
+    {{#node.children}}
+        {{#children.count}}
+            <div class="tab-pane" id="link{{key}}" {{^secondarynavigation}}role="tabpanel"{{/secondarynavigation}}>
+                <div class="at-settings-groups">
+                    <section class="at-settings-group">
+                        <h3 class="at-pub-chip at-settings-chip">{{#action}}<a href="{{action}}">{{text}}</a>{{/action}}{{^action}}{{text}}{{/action}}</h3>
+                        <ul class="at-settings-links">
+                            {{#children}}
+                                {{#display}}
+                                    {{^children.count}}
+                                        <li><a class="at-settings-link" href="{{{action}}}">{{text}}</a></li>
+                                    {{/children.count}}
+                                {{/display}}
+                            {{/children}}
+                        </ul>
+                    </section>
+                    {{#children}}
+                        {{#display}}
+                            {{#children.count}}
+                                <section class="at-settings-group">
+                                    <h3 class="at-pub-chip at-settings-chip">{{#action}}<a href="{{action}}">{{text}}</a>{{/action}}{{^action}}{{text}}{{/action}}</h3>
+                                    <ul class="at-settings-links">
+                                        {{#children}}
+                                            {{> core/settings_link_page_single }}
+                                        {{/children}}
+                                    </ul>
+                                </section>
+                            {{/children.count}}
+                        {{/display}}
+                    {{/children}}
+                </div>
+            </div>
+        {{/children.count}}
+    {{/node.children}}
+</div>

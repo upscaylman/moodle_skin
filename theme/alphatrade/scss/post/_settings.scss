@@ -1,0 +1,217 @@
+// Search bar, identical everywhere (Alpha Trade pages and Moodle's own search forms), and the Site administration
+// page (maquette Espace Admin, "Paramètres"): underlined tabs, kicker chips, plain link lists, two-column grid.
+
+// ---------------------------------------------------------------- Search bar.
+// Magnifying glass inside the field on the left, 340px max, no visible button (Enter searches; Moodle's submit
+// button stays for assistive technologies).
+$at-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath fill='%23e9e9ed' fill-opacity='0.5' d='M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z'/%3E%3C/svg%3E");
+
+.at-search,
+.simplesearchform .input-group,
+.searchbar.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+}
+
+.at-search .at-input,
+.simplesearchform .input-group > input.form-control,
+.searchbar.input-group > input.form-control {
+    width: 100% !important;
+    min-height: 36px;
+    padding-left: 34px !important;
+    border-radius: $at-radius-md !important;
+    background-image: $at-search-icon;
+    background-repeat: no-repeat;
+    background-position: 12px 50%;
+    background-size: 15px 15px;
+}
+
+.simplesearchform {
+    .input-group-append,
+    .search-icon {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        padding: 0;
+    }
+}
+
+.searchbar.input-group .btn-clear {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    z-index: 3;
+    padding: 2px 6px;
+    transform: translateY(-50%);
+}
+
+// Admin pages: the header search sits under the page title, above the tabs (maquette order).
+.at-page-title #page-header {
+    .d-flex.align-items-center {
+        flex-wrap: wrap;
+    }
+
+    .header-actions-container:has(.simplesearchform) {
+        flex-basis: 100%;
+        margin: 14px 0 0 !important;
+
+        .header-action {
+            margin: 0 !important;
+        }
+
+        .simplesearchform {
+            justify-content: flex-start !important;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Tabs (secondary navigation, settings tabs).
+// Underlined: selected = gold text + gold rule, others grey, hover = text colour, never a default link style.
+body.alpha-app .secondary-navigation {
+    margin: 4px 0 26px;
+
+    .navigation .nav-tabs {
+        gap: 24px;
+        border-bottom: 1px solid $at-divider;
+    }
+
+    .navigation .nav-tabs .nav-link {
+        margin-bottom: -1px;
+        padding: 12px 2px;
+        font-size: 13px;
+        font-weight: 400;
+        text-decoration: none;
+        color: $at-text-70;
+        background: transparent !important;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+
+        &:hover,
+        &:focus {
+            color: $at-text !important;
+            background: transparent !important;
+            text-decoration: none;
+        }
+
+        &.active,
+        &.active_tree_node {
+            font-weight: 600;
+            color: $at-accent-300 !important;
+            border-bottom-color: $at-accent;
+        }
+    }
+
+    @media (max-width: $at-mobile-break) {
+        .navigation .nav-tabs {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+    }
+}
+
+.at-settings-tabs.nav-tabs {
+    gap: 24px;
+    margin-bottom: 26px;
+    border-bottom: 1px solid $at-divider;
+
+    .nav-link {
+        margin-bottom: -1px;
+        padding: 12px 2px;
+        font-size: 13px;
+        color: $at-text-70;
+        background: transparent !important;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-text !important;
+        }
+
+        &.active {
+            font-weight: 600;
+            color: $at-accent-300 !important;
+            border-bottom-color: $at-accent;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Setting groups.
+.at-settings-groups {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px 40px;
+
+    @media (min-width: $at-mobile-break + 1) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.at-settings-group {
+    min-width: 0;
+}
+
+h3.at-settings-chip {
+    margin: 0 0 12px;
+    line-height: 1.55;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            color: $at-accent-100;
+            text-decoration: none;
+        }
+    }
+}
+
+.at-settings-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+
+    &.is-nested {
+        margin: 2px 0 6px 12px;
+        padding-left: 8px;
+        border-left: 1px solid $at-divider;
+    }
+}
+
+a.at-settings-link {
+    display: block;
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-decoration: none;
+    color: $at-text;
+    transition: background .12s ease;
+
+    &:hover,
+    &:focus-visible {
+        color: $at-text;
+        text-decoration: none;
+        background: $at-surface;
+    }
+}
+
+.at-settings-sublabel {
+    padding: 9px 10px 2px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: $at-text-50;
+}

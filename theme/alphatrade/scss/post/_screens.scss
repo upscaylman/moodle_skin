@@ -811,24 +811,7 @@
 }
 
 // ---------------------------------------------------------------- Ressources, communauté.
-.at-search {
-    position: relative;
-    max-width: 400px;
-
-    i {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: $at-text-50;
-        pointer-events: none;
-    }
-
-    .at-input {
-        padding-left: 34px;
-        width: 100%;
-    }
-}
+// .at-search: see _settings (search bar identical everywhere).
 
 .at-list-card {
     flex-wrap: wrap;

@@ -112,6 +112,22 @@ body.alpha-public {
     background: $at-surface !important;
 }
 
+// Burger menus (mobile app drawer, public site menu): the panel already has the card surface, so the hover takes
+// the page ground to stay visible. The selected item keeps its gold background and never gets a hover.
+.at-drawer .at-navbtn[data-hoverable="true"]:hover,
+.at-drawer .at-navbtn[data-hoverable="true"]:focus-visible,
+.at-drawer .at-hoverable:hover,
+.at-drawer .drawertoggle:hover,
+.at-pub-menu .at-navbtn[data-hoverable="true"]:hover,
+.at-pub-menu .at-navbtn[data-hoverable="true"]:focus-visible {
+    background: $at-bg !important;
+    color: $at-text !important;
+}
+
+.at-drawer .drawertoggle {
+    border-radius: 14px;
+}
+
 .at-sidebar-sep {
     border-top: 1px solid $at-divider;
     margin: 8px 0 4px;

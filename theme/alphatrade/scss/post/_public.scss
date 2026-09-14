@@ -250,8 +250,10 @@ body.alpha-public {
         display: none;
     }
 
+    // Items are .at-navbtn (selected: gold, hover: page ground, see _shell); taller rows for touch.
     a {
         padding: 12px 10px;
+        font-size: 15px;
         text-decoration: none;
     }
 }

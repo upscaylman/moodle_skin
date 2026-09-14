@@ -67,7 +67,7 @@
         </div>
     </header>
     <nav class="at-card at-elev-md at-pub-menu" id="at-pub-menu" aria-label="{{sitename}}" hidden>
-        {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
+        {{#nav}}<a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
     </nav>
 
     <main id="page" class="at-pub-main">

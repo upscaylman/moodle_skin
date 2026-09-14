@@ -1,5 +1,5 @@
 // Single dashboard /my/ (Home link): Alpha Trade dashboard, then the Timeline and Calendar blocks
-// (maquette Espace Admin, Dashboard). Blocks stacked full width: Timeline above Calendar, on every screen.
+// (maquette Espace Admin, Dashboard). Mobile first: blocks in one column, two columns on wide screens.
 
 body.alpha-dashboard:not(.editing) #block-region-content {
     position: relative;
@@ -16,6 +16,10 @@ body.alpha-dashboard:not(.editing) #block-region-content {
     // Skip-link targets Moodle prints between blocks: kept as anchors, out of the grid.
     > :not(.block) {
         position: absolute;
+    }
+
+    @media (min-width: 1100px) {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     }
 }
 

@@ -32,17 +32,32 @@
     font-size: 13px;
     color: $at-text;
 
-    &:hover,
-    &:focus {
-        background: rgba(233, 233, 237, .07);
-        color: $at-text;
-    }
-
     &.active,
     &:active,
     &[aria-current="true"] {
         background: $at-accent-800;
         color: $at-accent-100;
+    }
+
+    // Keyboard focus stays visible on the surface-coloured menu.
+    &:focus-visible {
+        outline: 2px solid $at-accent;
+        outline-offset: -2px;
+    }
+}
+
+// Same rule as the sidebars for Moodle's own navigation rows (drawers, course index, tabs, list groups,
+// dropdowns): hover takes the card surface, never on the selected item.
+.drawer .list-group-item,
+.courseindex .courseindex-item,
+.nav-tabs .nav-link,
+.secondary-navigation .nav-link,
+.list-group-item-action,
+.dropdown-item {
+    &:not(.active):not(.pageitem):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):hover,
+    &:not(.active):not(.pageitem):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):focus {
+        background-color: $at-surface !important;
+        color: $at-text !important;
     }
 }
 

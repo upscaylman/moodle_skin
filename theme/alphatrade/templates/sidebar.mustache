@@ -43,7 +43,7 @@
     {{/nav.isstudent}}
     <div class="at-navlist">
         {{#nav.main}}
-            <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}>
+            <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>
                 {{#svg}}<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{{svg}}}</svg>{{/svg}}
                 {{^svg}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/svg}}
                 <span>{{label}}</span>
@@ -60,14 +60,14 @@
     {{#nav.isstudent}}
         <div class="at-sidebar-sep"></div>
         {{#nav.secondary}}
-            <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}>
+            <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{{svg}}}</svg>
                 <span>{{label}}</span>
             </a>
         {{/nav.secondary}}
     {{/nav.isstudent}}
     {{^nav.isstudent}}
-        <a class="at-sidebar-user" href="{{profileurl}}">
+        <a class="at-sidebar-user at-hoverable" href="{{profileurl}}">
             <span class="at-avatar at-avatar-34">{{userinitials}}</span>
             <span class="at-sidebar-user-text">
                 <span class="at-sidebar-user-name">{{userfullname}}</span>

@@ -89,7 +89,6 @@ body.alpha-public {
     &:focus {
         color: $at-text;
         text-decoration: none;
-        background: rgba(233, 233, 237, .05);
     }
 
     &.is-active,
@@ -98,6 +97,19 @@ body.alpha-public {
         background: $at-accent-800;
         color: $at-accent-100;
     }
+}
+
+// Hover of the sidebars (student, trainer, admin): card surface, never the light default, and never on the
+// selected item (data-hoverable="false" keeps its gold background). Clickable rows without a selected state
+// (user block at the bottom of the sidebar) carry .at-hoverable.
+.at-navbtn[data-hoverable="true"]:hover,
+.at-navbtn[data-hoverable="true"]:focus-visible {
+    background: $at-surface !important;
+    color: $at-text !important;
+}
+
+.at-hoverable:hover {
+    background: $at-surface !important;
 }
 
 .at-sidebar-sep {
@@ -121,6 +133,7 @@ body.alpha-public {
     align-items: center;
     gap: 10px;
     padding: 12px 8px;
+    border-radius: 0 0 14px 14px;
     margin-top: 8px;
     border-top: 1px solid $at-divider;
     text-decoration: none;

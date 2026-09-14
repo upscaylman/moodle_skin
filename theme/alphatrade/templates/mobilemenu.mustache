@@ -30,11 +30,11 @@
     {{$drawercontent}}
         <div class="at-drawer-list">
             {{#nav.drawer}}
-                <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
+                <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
             {{/nav.drawer}}
             {{#nav.hasswitch}}
                 {{#nav.switch}}
-                    <a href="{{url}}" class="at-navbtn"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
+                    <a href="{{url}}" class="at-navbtn" data-hoverable="true"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>
                 {{/nav.switch}}
             {{/nav.hasswitch}}
         </div>

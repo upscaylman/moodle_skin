@@ -46,17 +46,26 @@
     }
 }
 
-// Same rule as the sidebars for Moodle's own navigation rows (drawers, course index, tabs, list groups,
-// dropdowns): hover takes the card surface, never on the selected item.
+// Same rule as the sidebars for Moodle's own navigation rows (drawers, course index, tabs, list groups):
+// hover takes the card surface, never on the selected item.
 .drawer .list-group-item,
 .courseindex .courseindex-item,
 .nav-tabs .nav-link,
 .secondary-navigation .nav-link,
-.list-group-item-action,
-.dropdown-item {
+.list-group-item-action {
     &:not(.active):not(.pageitem):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):hover,
     &:not(.active):not(.pageitem):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):focus {
         background-color: $at-surface !important;
+        color: $at-text !important;
+    }
+}
+
+// Dropdown menus are surface panels (like the burger menus): hover takes the page ground to stay visible,
+// never on the selected option.
+.dropdown-item {
+    &:not(.active):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):hover,
+    &:not(.active):not([aria-current="page"]):not([aria-current="true"]):not([data-hoverable="false"]):focus {
+        background-color: $at-bg !important;
         color: $at-text !important;
     }
 }

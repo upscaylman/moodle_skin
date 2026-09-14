@@ -2,6 +2,7 @@
 // (maquette Espace Admin, Dashboard). Mobile first: blocks in one column, two columns on wide screens.
 
 body.alpha-dashboard:not(.editing) #block-region-content {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 18px;
@@ -10,6 +11,11 @@ body.alpha-dashboard:not(.editing) #block-region-content {
 
     > .block {
         margin: 0 !important;
+    }
+
+    // Skip-link targets Moodle prints between blocks: kept as anchors, out of the grid.
+    > :not(.block) {
+        position: absolute;
     }
 
     @media (min-width: 1100px) {
@@ -113,7 +119,8 @@ body.alpha-dashboard:not(.editing) #block-region-content {
     }
 }
 
-// Filter menus: selected option gold (aria-current, set by Moodle's dropdown JS), hover on the others.
+// Filter menus: selected option gold (aria-current, set by Moodle's dropdown JS); hover on the others comes from
+// the dropdown rule in _native (page ground).
 .at-timeline .dropdown-menu {
     min-width: 190px;
     margin-top: 6px;
@@ -122,12 +129,6 @@ body.alpha-dashboard:not(.editing) #block-region-content {
         font-weight: 600;
         background: $at-accent-800 !important;
         color: $at-accent-100 !important;
-    }
-
-    .dropdown-item:not([aria-current="true"]):hover,
-    .dropdown-item:not([aria-current="true"]):focus {
-        background: $at-bg !important;
-        color: $at-text !important;
     }
 
     .dropdown-header {

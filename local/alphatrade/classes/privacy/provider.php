@@ -67,6 +67,7 @@ class provider implements
             'fullname' => 'privacy:metadata:application_fullname',
             'email' => 'privacy:metadata:application_email',
             'phone' => 'privacy:metadata:application_phone',
+            'level' => 'privacy:metadata:application_level',
             'motivation' => 'privacy:metadata:application_motivation',
         ], 'privacy:metadata:local_alphatrade_application');
         $collection->add_subsystem_link('core_files', [], 'privacy:metadata:core_files');

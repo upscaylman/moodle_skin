@@ -78,10 +78,21 @@ body.alpha-public {
     flex: none;
 }
 
-.at-pub-kicker {
+// Kicker of a page or section (DESIGN_SYSTEM.md "chip"): pill without border, light gold tint, uppercase.
+// Business status tags keep .at-tag.
+.at-pub-chip {
     display: inline-block;
     margin-bottom: 12px;
+    padding: 5px 14px;
+    border: 0;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
     white-space: nowrap;
+    color: $at-accent-300;
+    background: rgba($at-accent, .16);
 }
 
 .at-public {
@@ -107,20 +118,8 @@ body.alpha-public {
     margin: 0 auto;
     padding: 64px 40px;
 
-    // Hero kicker as a chip: pill, light gold tint, uppercase, no border.
     .at-pub-chip {
-        display: inline-block;
         margin-bottom: 18px;
-        padding: 5px 14px;
-        border: 0;
-        border-radius: 999px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: .05em;
-        text-transform: uppercase;
-        white-space: nowrap;
-        color: $at-accent-300;
-        background: rgba($at-accent, .16);
     }
 
     h1 {
@@ -611,6 +610,14 @@ body.alpha-public {
         color: $at-success;
         font-size: 20px;
     }
+}
+
+// Help under a form field (application motivation limit).
+.at-pub-hint {
+    margin-bottom: 20px;
+    font-size: 11px;
+    text-align: right;
+    color: $at-text-50;
 }
 
 .at-pub-member {

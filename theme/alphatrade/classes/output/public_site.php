@@ -146,6 +146,16 @@ class public_site {
     }
 
     /**
+     * Trading level options of the application form.
+     *
+     * @return array[] [value, label]
+     */
+    public static function levels(): array {
+        return array_map(fn($level) => ['value' => $level, 'label' => get_string('pub_level_' . $level, 'theme_alphatrade')],
+            ['beginner', 'intermediate', 'advanced']);
+    }
+
+    /**
      * Practical information from the theme settings, keyed by fact; unset values are skipped.
      *
      * @return array[] key => [key, icon, label, value, answer (placeholder of the FAQ answer)]
@@ -290,6 +300,7 @@ class public_site {
             'method' => self::method(),
             'team' => self::team(),
             'faq' => self::faq(),
+            'levels' => self::levels(),
             'facts' => array_values(self::facts()),
             'hasfacts' => !empty(self::facts()),
             'hasform' => $hasform,

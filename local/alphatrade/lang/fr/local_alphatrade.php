@@ -532,6 +532,7 @@ $string['notification_application_body'] = 'Nouvelle candidature depuis le site 
 Nom : {$a->fullname}
 E-mail : {$a->email}
 Téléphone : {$a->phone}
+Niveau : {$a->level}
 Motivation : {$a->motivation}';
 $string['messageprovider:newapplication'] = 'Nouvelle candidature depuis le site public';
 $string['ago_minutes'] = 'Il y a {$a} min';
@@ -606,3 +607,8 @@ $string['privacy:metadata:application_fullname'] = 'Nom du candidat';
 $string['privacy:metadata:application_email'] = 'E-mail du candidat';
 $string['privacy:metadata:application_phone'] = 'Téléphone du candidat';
 $string['privacy:metadata:application_motivation'] = 'Motivation rédigée par le candidat';
+$string['level'] = 'Niveau';
+$string['level_beginner'] = 'Débutant';
+$string['level_intermediate'] = 'Intermédiaire';
+$string['level_advanced'] = 'Avancé';
+$string['privacy:metadata:application_level'] = 'Niveau en trading déclaré par le candidat';

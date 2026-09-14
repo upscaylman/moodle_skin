@@ -50,7 +50,11 @@ if ($count >= 3) {
 $fullname = core_text::substr(trim(optional_param('fullname', '', PARAM_TEXT)), 0, 120);
 $email = core_text::substr(trim(optional_param('email', '', PARAM_EMAIL)), 0, 120);
 $phone = core_text::substr(trim(optional_param('phone', '', PARAM_TEXT)), 0, 40);
-$motivation = core_text::substr(trim(optional_param('motivation', '', PARAM_TEXT)), 0, 1000);
+$motivation = core_text::substr(trim(optional_param('motivation', '', PARAM_TEXT)), 0, 500);
+$level = optional_param('level', '', PARAM_ALPHA);
+if (!in_array($level, ['beginner', 'intermediate', 'advanced'])) {
+    $level = '';
+}
 
 if ($fullname === '' || $email === '' || !validate_email($email)) {
     redirect($formurl, get_string('apply_invalid', 'local_alphatrade'), null, \core\output\notification::NOTIFY_ERROR);
@@ -61,6 +65,7 @@ $application = (object) [
     'fullname' => $fullname,
     'email' => $email,
     'phone' => $phone,
+    'level' => $level,
     'motivation' => $motivation,
     'status' => 'new',
     'timecreated' => time(),
@@ -79,6 +84,7 @@ foreach (get_admins() as $admin) {
         'fullname' => $fullname,
         'email' => $email,
         'phone' => $phone !== '' ? $phone : '-',
+        'level' => $level !== '' ? get_string('level_' . $level, 'local_alphatrade') : '-',
         'motivation' => $motivation !== '' ? $motivation : '-',
     ]);
     $message->fullmessageformat = FORMAT_PLAIN;

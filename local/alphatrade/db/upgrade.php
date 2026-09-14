@@ -53,6 +53,7 @@ function xmldb_local_alphatrade_upgrade($oldversion) {
             $table->add_field('fullname', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
             $table->add_field('email', XMLDB_TYPE_CHAR, '100', null, XMLDB_NOTNULL, null, null);
             $table->add_field('phone', XMLDB_TYPE_CHAR, '40', null, null, null, null);
+            $table->add_field('level', XMLDB_TYPE_CHAR, '16', null, null, null, null);
             $table->add_field('motivation', XMLDB_TYPE_TEXT, null, null, null, null, null);
             $table->add_field('status', XMLDB_TYPE_CHAR, '16', null, XMLDB_NOTNULL, null, 'new');
             $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
@@ -62,6 +63,16 @@ function xmldb_local_alphatrade_upgrade($oldversion) {
         }
 
         upgrade_plugin_savepoint(true, 2026091400, 'local', 'alphatrade');
+    }
+
+    if ($oldversion < 2026091401) {
+        // Trading level declared in the application form.
+        $table = new xmldb_table('local_alphatrade_application');
+        $field = new xmldb_field('level', XMLDB_TYPE_CHAR, '16', null, null, null, null, 'phone');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_plugin_savepoint(true, 2026091401, 'local', 'alphatrade');
     }
 
     return true;

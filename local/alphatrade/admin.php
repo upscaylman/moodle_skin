@@ -107,6 +107,7 @@ if ($view === 'applications') {
             'name' => $application->fullname,
             'email' => $application->email,
             'phone' => $application->phone ?: '-',
+            'level' => !empty($application->level) ? get_string('level_' . $application->level, 'local_alphatrade') : '-',
             'motivation' => $application->motivation ?: '-',
             'received' => page::ago((int) $application->timecreated),
             'isnew' => $application->status === 'new',

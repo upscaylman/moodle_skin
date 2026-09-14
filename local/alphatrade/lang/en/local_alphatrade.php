@@ -532,6 +532,7 @@ $string['notification_application_body'] = 'New application from the public site
 Name: {$a->fullname}
 E-mail: {$a->email}
 Phone: {$a->phone}
+Level: {$a->level}
 Motivation: {$a->motivation}';
 $string['messageprovider:newapplication'] = 'New application from the public site';
 $string['ago_minutes'] = '{$a} min ago';
@@ -606,3 +607,8 @@ $string['privacy:metadata:application_fullname'] = 'Name of the applicant';
 $string['privacy:metadata:application_email'] = 'E-mail of the applicant';
 $string['privacy:metadata:application_phone'] = 'Phone of the applicant';
 $string['privacy:metadata:application_motivation'] = 'Motivation written by the applicant';
+$string['level'] = 'Level';
+$string['level_beginner'] = 'Beginner';
+$string['level_intermediate'] = 'Intermediate';
+$string['level_advanced'] = 'Advanced';
+$string['privacy:metadata:application_level'] = 'Trading level declared by the applicant';

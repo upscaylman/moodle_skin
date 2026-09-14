@@ -37,6 +37,7 @@
         "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "Enseigne"}],
         "faq": [{"question": "Signaux ?", "answer": "Non."}],
         "hasfacts": true, "facts": [{"key": "format", "icon": "ph-laptop", "label": "Format", "value": "En ligne"}],
+        "levels": [{"value": "beginner", "label": "Débutant"}],
         "hasform": true, "applyurl": "", "hasapplyurl": false, "formaction": "#", "sesskey": "x", "applied": false, "programmepdfurl": "#",
         "headline": {"kicker": "École de trading & investissement", "title": "Comprendre les marchés.", "subtitle": "Un programme intensif."},
         "headlinesjson": "[]",
@@ -147,7 +148,7 @@
 
         {{#isprogramme}}
             <section class="at-pub-page is-960">
-                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_programme_tag, theme_alphatrade{{/str}}</span>
+                <span class="at-pub-chip">{{#str}}pub_programme_tag, theme_alphatrade{{/str}}</span>
                 <h1>{{#str}}pub_programme_h1, theme_alphatrade{{/str}}</h1>
                 <p class="at-pub-lead">{{#str}}pub_programme_lead, theme_alphatrade{{/str}}</p>
                 {{#hasfacts}}
@@ -183,7 +184,7 @@
 
         {{#ismethode}}
             <section class="at-pub-page is-900">
-                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_nav_methode, theme_alphatrade{{/str}}</span>
+                <span class="at-pub-chip">{{#str}}pub_nav_methode, theme_alphatrade{{/str}}</span>
                 <h1>{{#str}}pub_method_h1, theme_alphatrade{{/str}}</h1>
                 <p class="at-pub-lead">{{#str}}pub_method_lead, theme_alphatrade{{/str}}</p>
                 <div class="at-pub-steps">
@@ -203,7 +204,7 @@
 
         {{#isformateurs}}
             <section class="at-pub-page is-900">
-                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_nav_formateurs, theme_alphatrade{{/str}}</span>
+                <span class="at-pub-chip">{{#str}}pub_nav_formateurs, theme_alphatrade{{/str}}</span>
                 <h1>{{#str}}pub_team_h1, theme_alphatrade{{/str}}</h1>
                 <p class="at-pub-lead">{{#str}}pub_team_lead, theme_alphatrade{{/str}}</p>
                 <div class="at-pub-grid is-320">
@@ -221,7 +222,7 @@
 
         {{#isfaq}}
             <section class="at-pub-page is-760">
-                <span class="at-tag at-tag-outline at-pub-kicker">FAQ</span>
+                <span class="at-pub-chip">FAQ</span>
                 <h1 class="at-pub-faq-h1">{{#str}}pub_faq_h1, theme_alphatrade{{/str}}</h1>
                 <div class="at-pub-faq">
                     {{#faq}}
@@ -236,7 +237,7 @@
 
         {{#iscandidater}}
             <section class="at-pub-page is-560">
-                <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
+                <span class="at-pub-chip">{{#str}}pub_apply, theme_alphatrade{{/str}}</span>
                 <h1 class="at-pub-apply-h1">{{#str}}pub_apply_h1, theme_alphatrade{{/str}}</h1>
                 <p class="at-pub-lead">{{#str}}pub_apply_lead, theme_alphatrade{{/str}}</p>
                 {{#applied}}
@@ -253,7 +254,14 @@
                             <div class="at-field at-mb-14"><label for="at-apply-name">{{#str}}pub_apply_name, theme_alphatrade{{/str}}</label><input class="at-input" id="at-apply-name" type="text" name="fullname" required maxlength="120" autocomplete="name" placeholder="{{#str}}pub_apply_name_ph, theme_alphatrade{{/str}}"></div>
                             <div class="at-field at-mb-14"><label for="at-apply-email">{{#str}}email{{/str}}</label><input class="at-input" id="at-apply-email" type="email" name="email" required maxlength="120" autocomplete="email" placeholder="vous@email.com"></div>
                             <div class="at-field at-mb-14"><label for="at-apply-phone">{{#str}}pub_apply_phone, theme_alphatrade{{/str}}</label><input class="at-input" id="at-apply-phone" type="tel" name="phone" maxlength="40" autocomplete="tel" placeholder="+33 6 00 00 00 00"></div>
-                            <div class="at-field at-mb-20"><label for="at-apply-why">{{#str}}pub_apply_why, theme_alphatrade{{/str}}</label><input class="at-input" id="at-apply-why" type="text" name="motivation" maxlength="1000" placeholder="{{#str}}pub_apply_why_ph, theme_alphatrade{{/str}}"></div>
+                            <div class="at-field at-mb-14" role="radiogroup" aria-labelledby="at-apply-level">
+                                <span class="at-label" id="at-apply-level">{{#str}}pub_apply_level, theme_alphatrade{{/str}}</span>
+                                <div class="at-radio-row at-mt-6">
+                                    {{#levels}}<label class="at-radio"><input type="radio" name="level" value="{{value}}"><span class="at-dot"></span>{{label}}</label>{{/levels}}
+                                </div>
+                            </div>
+                            <div class="at-field at-mb-6"><label for="at-apply-why">{{#str}}pub_apply_why, theme_alphatrade{{/str}}</label><textarea class="at-input" id="at-apply-why" name="motivation" rows="4" maxlength="500" aria-describedby="at-apply-why-max" placeholder="{{#str}}pub_apply_why_ph, theme_alphatrade{{/str}}"></textarea></div>
+                            <div class="at-pub-hint" id="at-apply-why-max">{{#str}}pub_apply_why_max, theme_alphatrade, 500{{/str}}</div>
                             <button type="submit" class="btn btn-primary btn-block">{{#str}}pub_apply_send, theme_alphatrade{{/str}}</button>
                         </form>
                     {{/hasform}}

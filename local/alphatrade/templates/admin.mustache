@@ -135,13 +135,14 @@
     {{#isapplications}}
         <div class="at-card at-elev-sm at-table-card">
             <table class="at-table">
-                <thead><tr><th>{{#str}}name{{/str}}</th><th>{{#str}}email{{/str}}</th><th>{{#str}}phone{{/str}}</th><th>{{#str}}motivation, local_alphatrade{{/str}}</th><th>{{#str}}received, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
+                <thead><tr><th>{{#str}}name{{/str}}</th><th>{{#str}}email{{/str}}</th><th>{{#str}}phone{{/str}}</th><th>{{#str}}level, local_alphatrade{{/str}}</th><th>{{#str}}motivation, local_alphatrade{{/str}}</th><th>{{#str}}received, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th><span class="sr-only">{{#str}}actions{{/str}}</span></th></tr></thead>
                 <tbody>
                     {{#rows}}
                         <tr>
                             <td>{{name}}</td>
                             <td><a href="mailto:{{email}}">{{email}}</a></td>
                             <td>{{phone}}</td>
+                            <td>{{level}}</td>
                             <td>{{motivation}}</td>
                             <td>{{received}}</td>
                             <td>

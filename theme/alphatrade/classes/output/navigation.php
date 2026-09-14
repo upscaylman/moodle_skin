@@ -148,7 +148,7 @@ class navigation {
      */
     protected function get_student_items(string $active): array {
         $urls = theme_alphatrade_has_app() ? [
-            'home' => '/local/alphatrade/index.php',
+            'home' => '/my/',
             'parcours' => '/local/alphatrade/parcours.php',
             'practice' => '/local/alphatrade/practice.php',
             'backtest' => '/local/alphatrade/backtesting.php',
@@ -236,7 +236,7 @@ class navigation {
      * @return moodle_url
      */
     protected function home_url(): moodle_url {
-        return theme_alphatrade_has_app() ? new moodle_url('/local/alphatrade/index.php') : new moodle_url('/my/');
+        return new moodle_url('/my/');
     }
 
     /**

@@ -52,6 +52,12 @@ $inprogramme = $programmeid && $PAGE->course->id == $programmeid;
 
 $extraclasses = ['uses-drawers', 'alpha-app'];
 
+// Single dashboard: Moodle's /my/ (Home link) carries the Alpha Trade dashboard above its Timeline and Calendar blocks.
+$isdashboard = strpos($PAGE->pagetype, 'my-index') === 0 && isloggedin() && !isguestuser();
+if ($isdashboard) {
+    $extraclasses[] = 'alpha-dashboard';
+}
+
 // Students of the programme navigate with Alpha Trade, not with Moodle's course index.
 $courseindex = core_course_drawer();
 if ($courseindex && !$caneditcourse && $inprogramme) {
@@ -141,6 +147,15 @@ if ($lesson) {
     $subtitle = $lesson['isquiz'] ? get_string('evaluation_sub', 'theme_alphatrade') : $lesson['modulename'] . '.';
 }
 
+$dashboard = '';
+if ($isdashboard) {
+    $title = get_string('nav_home', 'theme_alphatrade');
+    $subtitle = theme_alphatrade_has_app() ? get_string('sub_home', 'local_alphatrade') : '';
+    if (theme_alphatrade_has_app() && \local_alphatrade\local\dashboard::enabled()) {
+        $dashboard = $OUTPUT->render_from_template('local_alphatrade/dashboard', \local_alphatrade\local\dashboard::export($USER));
+    }
+}
+
 $searchurl = theme_alphatrade_has_app() ? new moodle_url('/local/alphatrade/resources.php') : new moodle_url('/course/search.php');
 
 $templatecontext = [
@@ -161,8 +176,10 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'isalphapage' => $isalphapage || $lesson,
-    'isnativepage' => !$isalphapage && !$lesson,
+    'isalphapage' => $isalphapage || $lesson || $isdashboard,
+    'isnativepage' => !$isalphapage && !$lesson && !$isdashboard,
+    'dashboard' => $dashboard,
+    'headingbutton' => $isdashboard && $PAGE->user_is_editing() ? $OUTPUT->page_heading_button() : '',
     'title' => $title,
     'subtitle' => $subtitle,
     'standalone' => $standalone,
@@ -170,8 +187,7 @@ $templatecontext = [
     'nav' => $nav,
     'logourl' => $OUTPUT->image_url('logo', 'theme_alphatrade')->out(false),
     'markurl' => $OUTPUT->image_url('mark', 'theme_alphatrade')->out(false),
-    'homeurl' => theme_alphatrade_has_app() ? (new moodle_url('/local/alphatrade/index.php'))->out(false)
-        : (new moodle_url('/my/'))->out(false),
+    'homeurl' => (new moodle_url('/my/'))->out(false),
     'searchurl' => $searchurl->out(false),
     'userfullname' => isloggedin() ? fullname($USER) : '',
     'userrole' => $nav['isteacher'] ? get_string('role_teacher', 'theme_alphatrade') : get_string('role_admin', 'theme_alphatrade'),

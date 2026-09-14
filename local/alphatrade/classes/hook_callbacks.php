@@ -29,7 +29,8 @@ use moodle_url;
 class hook_callbacks {
 
     /**
-     * Redirect Moodle's dashboard and the programme course page to their Alpha Trade equivalent.
+     * Redirect Moodle's messaging and the programme course page to their Alpha Trade equivalent.
+     * The dashboard is not redirected: /my/ itself shows the Alpha Trade dashboard (theme layout).
      *
      * @param \core\hook\output\before_http_headers $hook
      */
@@ -54,13 +55,8 @@ class hook_callbacks {
             }
         }
 
-        if (!in_array($PAGE->pagelayout, ['mydashboard', 'course'])) {
+        if ($PAGE->pagelayout !== 'course') {
             return;
-        }
-
-        if (!empty($config->redirectdashboard) && $PAGE->pagetype === 'my-index'
-                && !$PAGE->user_is_editing() && !is_siteadmin()) {
-            redirect(new moodle_url('/local/alphatrade/index.php'));
         }
 
         $programmeid = (int) ($config->programmecourse ?? 0);
@@ -86,14 +82,5 @@ class hook_callbacks {
             }
             redirect(new moodle_url('/local/alphatrade/parcours.php'));
         }
-    }
-
-    /**
-     * Offer the Alpha Trade dashboard in "Site administration > Appearance > Navigation > Start page for users".
-     *
-     * @param \core_user\hook\extend_default_homepage $hook
-     */
-    public static function extend_default_homepage(\core_user\hook\extend_default_homepage $hook): void {
-        $hook->add_option(new \core\url('/local/alphatrade/index.php'), get_string('dashboard', 'local_alphatrade'));
     }
 }

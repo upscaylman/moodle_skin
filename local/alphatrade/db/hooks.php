@@ -29,8 +29,4 @@ $callbacks = [
         'hook' => \core\hook\output\before_http_headers::class,
         'callback' => [\local_alphatrade\hook_callbacks::class, 'before_http_headers'],
     ],
-    [
-        'hook' => \core_user\hook\extend_default_homepage::class,
-        'callback' => [\local_alphatrade\hook_callbacks::class, 'extend_default_homepage'],
-    ],
 ];

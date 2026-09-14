@@ -1,0 +1,103 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_alphatrade/calendar_month_block
+
+    Month of the Calendar block (maquette Espace Admin, Dashboard "Calendrier"): title, previous / next buttons with
+    the month in the middle, weekday row, square day cells. Today is a solid gold circle, days with events get a dot
+    and link to the day view, days outside the month stay empty (no hover, no action).
+
+    Contract with core_calendar/calendar and view_manager (month navigation re-renders this template):
+    .calendarwrapper with its data attributes, .arrow_link with data-year / data-month, .calendar-controls .current,
+    [data-region="day"] with data-new-event-timestamp, [data-action="view-day-link"].
+
+    Example context (json):
+    {
+        "courseid": 1, "defaulteventcontext": 1, "view": "monthblock", "periodname": "Septembre 2026",
+        "date": {"mon": 9, "year": 2026, "mday": 14},
+        "previousperiod": {"year": 2026, "mon": 8}, "nextperiod": {"year": 2026, "mon": 10},
+        "previousperiodlink": "#", "nextperiodlink": "#", "previousperiodname": "Août", "nextperiodname": "Octobre",
+        "daynames": [{"shortname": "Lun", "fullname": "Lundi"}],
+        "weeks": [{"prepadding": [0], "postpadding": [], "days": [
+            {"mday": 14, "timestamp": 1789380000, "neweventtimestamp": 1789380000, "istoday": true, "hasevents": true,
+                "daytitle": "Lundi 14 septembre", "viewdaylinktitle": "Voir le jour"}
+        ]}]
+    }
+}}
+<div class="calendarwrapper at-cal"{{!
+    }}{{#courseid}} data-courseid="{{courseid}}"{{/courseid}}{{!
+    }}{{#categoryid}} data-categoryid="{{categoryid}}"{{/categoryid}}{{!
+    }} data-context-id="{{defaulteventcontext}}"{{!
+    }} data-month="{{date.mon}}"{{!
+    }} data-year="{{date.year}}"{{!
+    }} data-day="{{date.mday}}"{{!
+    }} data-view="{{view}}"{{!
+    }}>
+    <div class="at-block-head">
+        <h3 class="at-block-title" aria-hidden="true">{{#str}}pluginname, block_calendar_month{{/str}}</h3>
+        <div class="calendar-controls at-cal-controls">
+            <a href="{{previousperiodlink}}" class="arrow_link previous btn btn-icon btn-secondary"{{!
+                }} data-year="{{previousperiod.year}}" data-month="{{previousperiod.mon}}"{{!
+                }} title="{{#str}}monthprevwithname, calendar, {{previousperiodname}}{{/str}}"{{!
+                }} aria-label="{{#str}}monthprevwithname, calendar, {{previousperiodname}}{{/str}}">
+                <i class="ph ph-caret-left" aria-hidden="true"></i>
+            </a>
+            <span class="current at-cal-label">{{periodname}}</span>
+            <a href="{{nextperiodlink}}" class="arrow_link next btn btn-icon btn-secondary"{{!
+                }} data-year="{{nextperiod.year}}" data-month="{{nextperiod.mon}}"{{!
+                }} title="{{#str}}monthnextwithname, calendar, {{nextperiodname}}{{/str}}"{{!
+                }} aria-label="{{#str}}monthnextwithname, calendar, {{nextperiodname}}{{/str}}">
+                <i class="ph ph-caret-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    {{> core/overlay_loading}}
+    <table class="at-cal-grid calendartable">
+        <thead>
+            <tr>
+                {{#daynames}}
+                    <th scope="col"><span class="sr-only">{{fullname}}</span><span aria-hidden="true">{{shortname}}</span></th>
+                {{/daynames}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#weeks}}
+                <tr data-region="month-view-week">
+                    {{#prepadding}}<td class="at-cal-blank"></td>{{/prepadding}}
+                    {{#days}}
+                        <td class="at-cal-day{{#istoday}} today{{/istoday}}{{#hasevents}} hasevent{{/hasevents}}{{#defaulteventcontext}} clickable{{/defaulteventcontext}}"{{!
+                            }} data-region="day" data-day="{{mday}}" data-day-timestamp="{{timestamp}}"{{!
+                            }} data-new-event-timestamp="{{neweventtimestamp}}"{{#istoday}} aria-current="date"{{/istoday}}>
+                            <span class="sr-only">{{daytitle}}</span>
+                            {{#hasevents}}
+                                <a data-action="view-day-link" href="#" class="at-cal-num"{{!
+                                    }} title="{{viewdaylinktitle}}" aria-label="{{viewdaylinktitle}}"{{!
+                                    }} data-year="{{date.year}}" data-month="{{date.mon}}" data-day="{{mday}}"{{!
+                                    }} data-courseid="{{courseid}}" data-categoryid="{{categoryid}}" data-timestamp="{{timestamp}}">{{mday}}</a>
+                                <span class="at-cal-dot" aria-hidden="true"></span>
+                            {{/hasevents}}
+                            {{^hasevents}}
+                                <span class="at-cal-num" aria-hidden="true">{{mday}}</span>
+                            {{/hasevents}}
+                        </td>
+                    {{/days}}
+                    {{#postpadding}}<td class="at-cal-blank"></td>{{/postpadding}}
+                </tr>
+            {{/weeks}}
+        </tbody>
+    </table>
+</div>

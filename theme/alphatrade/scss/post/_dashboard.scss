@@ -1,0 +1,343 @@
+// Single dashboard /my/ (Home link): Alpha Trade dashboard, then the Timeline and Calendar blocks
+// (maquette Espace Admin, Dashboard). Mobile first: blocks in one column, two columns on wide screens.
+
+body.alpha-dashboard:not(.editing) #block-region-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    margin-top: 18px;
+
+    > .block {
+        margin: 0 !important;
+    }
+
+    @media (min-width: 1100px) {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    }
+}
+
+.at-heading-button {
+    margin-top: 10px;
+}
+
+// ---------------------------------------------------------------- Block card head: title + actions on one row.
+// The block's own title stays for assistive technologies; the visible one is part of the head row.
+.block_timeline,
+.block_calendar_month {
+    &.block.card > .card-body {
+        padding: 20px !important;
+    }
+
+    .card-title {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    .card-text.content {
+        margin-top: 0 !important;
+    }
+}
+
+.at-block-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.at-block-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: $at-heading-weight;
+    line-height: 1.2;
+    color: $at-text;
+}
+
+// ---------------------------------------------------------------- Timeline: filter chips, empty state.
+.at-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+// Chip toggles (tag look): the day range is the selected filter (gold), the sort is neutral. The block card is
+// already the surface colour, so hover uses the page ground (neutral chip) or a stronger gold (selected chip).
+.at-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border: 0;
+    border-radius: $at-radius-md * .75;
+    font-family: $at-font;
+    font-size: 11px;
+    line-height: 1.55;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    cursor: pointer;
+    color: $at-neutral-100;
+    background: $at-neutral-800;
+    transition: background .12s ease;
+
+    i.ph {
+        font-size: 10px;
+    }
+
+    &:hover,
+    &[aria-expanded="true"] {
+        background: $at-bg;
+        color: $at-neutral-100;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $at-accent;
+        outline-offset: 2px;
+    }
+
+    &.is-selected {
+        color: $at-accent-100;
+        background: $at-accent-800;
+
+        &:hover,
+        &[aria-expanded="true"] {
+            color: $at-accent-100;
+            background: $at-accent-700;
+        }
+    }
+}
+
+// Filter menus: selected option gold (aria-current, set by Moodle's dropdown JS), hover on the others.
+.at-timeline .dropdown-menu {
+    min-width: 190px;
+    margin-top: 6px;
+
+    .dropdown-item[aria-current="true"] {
+        font-weight: 600;
+        background: $at-accent-800 !important;
+        color: $at-accent-100 !important;
+    }
+
+    .dropdown-item:not([aria-current="true"]):hover,
+    .dropdown-item:not([aria-current="true"]):focus {
+        background: $at-bg !important;
+        color: $at-text !important;
+    }
+
+    .dropdown-header {
+        font-size: 11px;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: $at-text-50;
+    }
+}
+
+.at-empty:not(.hidden) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 28px 12px;
+    text-align: center;
+    color: $at-text-50;
+
+    i.ph {
+        font-size: 26px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 13px;
+    }
+}
+
+// Events of the timeline: rows on the card, hover on the page ground.
+.at-timeline {
+    .list-group-item {
+        border-color: $at-text-8;
+        background: transparent;
+    }
+
+    [data-region="event-list-item"],
+    .timeline-event-list-item {
+        border-radius: 10px;
+        transition: background .12s ease;
+
+        &:hover {
+            background: $at-bg !important;
+        }
+    }
+
+    .text-muted,
+    small {
+        color: $at-text-55 !important;
+    }
+}
+
+// ---------------------------------------------------------------- Calendar: navigable month grid.
+.at-cal-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .btn.btn-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+
+        i.ph {
+            font-size: 16px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background: $at-bg;
+            color: $at-text;
+        }
+    }
+}
+
+.at-cal-label {
+    min-width: 120px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: $at-text;
+}
+
+.at-cal {
+    position: relative;
+}
+
+.at-cal-grid {
+    width: calc(100% + 8px);
+    margin: 0 -4px;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 4px;
+
+    th {
+        padding: 4px 0;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .03em;
+        text-align: center;
+        text-transform: uppercase;
+        color: $at-text-55;
+        border: 0;
+        background: transparent;
+
+        @media (max-width: $at-mobile-break) {
+            font-size: 10px;
+        }
+    }
+
+    td {
+        position: relative;
+        padding: 0;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        vertical-align: middle;
+
+        // Square cells whatever the width.
+        &::before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+    }
+
+    .at-cal-blank {
+        pointer-events: none;
+    }
+
+    .at-cal-day {
+        cursor: pointer;
+        transition: background .12s ease, transform .12s ease;
+
+        // Hover only on days of the month (the card is the surface colour: page ground to stay visible).
+        &:hover {
+            background: $at-bg;
+            transform: translateY(-1px);
+        }
+    }
+
+    .at-cal-num {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        font-size: 13px;
+        line-height: 1;
+        text-decoration: none;
+        color: $at-text;
+        transform: translate(-50%, -50%);
+    }
+
+    a.at-cal-num:hover,
+    a.at-cal-num:focus-visible {
+        color: $at-text;
+        text-decoration: none;
+    }
+
+    a.at-cal-num:focus-visible {
+        outline: 2px solid $at-accent;
+        outline-offset: 1px;
+    }
+
+    // Today: solid gold circle (selected state, never a hover change).
+    .today .at-cal-num {
+        font-weight: 600;
+        color: $at-bg;
+        background: $at-accent;
+    }
+
+    .at-cal-dot {
+        position: absolute;
+        left: 50%;
+        bottom: 6px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: $at-accent;
+        transform: translateX(-50%);
+    }
+}
+
+// Footer links (Full calendar, Import or export calendars).
+.block_calendar_month .footer .bottom,
+.block_calendar_month .bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 12px;
+
+    .footer-link::after {
+        content: none;
+    }
+
+    a {
+        color: $at-accent;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-accent-400;
+            text-decoration: underline;
+        }
+    }
+}

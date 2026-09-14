@@ -148,21 +148,25 @@ class public_site {
             'programmepdfurl' => (new moodle_url('/theme/alphatrade/files/' . self::PROGRAMME_PDF))->out(false),
         ];
 
-        // Hero title alternating between two texts (the second one is optional).
-        $titles = [];
-        foreach (['pub_hero_title', 'pub_hero_title2'] as $key) {
-            $text = trim($str($key));
-            if ($text !== '') {
-                $titles[] = ['text' => $text, 'first' => empty($titles)];
+        // Hero headline: two variants (kicker, title, subtitle) alternating every 5 s in the browser.
+        $headlines = [];
+        foreach (['', '2'] as $suffix) {
+            $headline = [
+                'kicker' => $str('pub_hero_tag' . $suffix),
+                'title' => $str('pub_hero_title' . $suffix),
+                'subtitle' => $str('pub_hero_lead' . $suffix),
+            ];
+            if (trim($headline['title']) !== '') {
+                $headlines[] = $headline;
             }
         }
-        $data['titles'] = $titles;
-        $data['hastitles'] = count($titles) > 1;
+        $data['headline'] = $headlines[0];
+        $data['headlinesjson'] = json_encode($headlines, JSON_UNESCAPED_UNICODE);
 
-        // Hero carousel: pix/hero-slide-1.png, hero-slide-2.png when present, else the single hero image.
+        // Hero carousel: pix/hero-slide-1, hero-slide-2 (jpg or png) when present, else the single hero image.
         $slides = [];
         foreach ([1, 2] as $number) {
-            if (file_exists(__DIR__ . "/../../pix/hero-slide-$number.png")) {
+            if (glob(__DIR__ . "/../../pix/hero-slide-$number.{jpg,png}", GLOB_BRACE)) {
                 $slides[] = [
                     'url' => $OUTPUT->image_url("hero-slide-$number", 'theme_alphatrade')->out(false),
                     'alt' => $str('pub_hero_alt'),

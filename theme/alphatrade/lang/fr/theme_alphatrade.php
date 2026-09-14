@@ -199,4 +199,6 @@ $string['pub_menu'] = 'Menu';
 $string['pub_download_programme'] = 'Télécharger le programme';
 $string['pub_slides'] = 'Images de présentation';
 $string['pub_slide'] = 'Image {$a}';
-$string['pub_hero_title2'] = '';
+$string['pub_hero_title2'] = 'Alpha Trade Academy, l\'école qui forme des traders méthodiques.';
+$string['pub_hero_tag2'] = 'Alpha Trade Academy';
+$string['pub_hero_lead2'] = 'Une pédagogie qui relie théorie des marchés, psychologie et rigueur quantitative, pour transformer l\'intuition en méthode démontrable.';

@@ -23,7 +23,7 @@ const dynamic = {
         ...Array.from({ length: 8 }, (_, i) => i + 1).flatMap((n) => ['pub_step' + n, 'pub_step' + n + '_desc']),
         ...['nesrine', 'julien'].flatMap((k) => ['pub_team_' + k, 'pub_team_' + k + '_role', 'pub_team_' + k + '_bio']),
         ...['signals', 'experience', 'duration', 'project', 'admission'].flatMap((k) => ['pub_faq_' + k, 'pub_faq_' + k + '_answer']),
-        'pub_hero_title', 'pub_hero_title2', 'pub_hero_alt', 'pub_slide',
+        ...['', '2'].flatMap((n) => ['pub_hero_tag' + n, 'pub_hero_title' + n, 'pub_hero_lead' + n]), 'pub_hero_alt', 'pub_slide',
         'privacy:metadata', 'region-side-pre',
     ],
     local_alphatrade: [

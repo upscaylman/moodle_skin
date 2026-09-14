@@ -199,4 +199,6 @@ $string['pub_menu'] = 'Menu';
 $string['pub_download_programme'] = 'Download the programme';
 $string['pub_slides'] = 'Presentation images';
 $string['pub_slide'] = 'Image {$a}';
-$string['pub_hero_title2'] = '';
+$string['pub_hero_title2'] = 'Alpha Trade Academy, the school that trains methodical traders.';
+$string['pub_hero_tag2'] = 'Alpha Trade Academy';
+$string['pub_hero_lead2'] = 'A teaching approach that connects market theory, psychology and quantitative rigour, to turn intuition into a demonstrable method.';

@@ -34,7 +34,8 @@
         "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "Enseigne"}],
         "faq": [{"question": "Signaux ?", "answer": "Non."}],
         "hasform": true, "applyurl": "", "hasapplyurl": false, "formaction": "#", "sesskey": "x", "applied": false, "programmepdfurl": "#",
-        "hastitles": true, "titles": [{"text": "Comprendre les marchés.", "first": true}, {"text": "Second titre", "first": false}],
+        "headline": {"kicker": "École de trading & investissement", "title": "Comprendre les marchés.", "subtitle": "Un programme intensif."},
+        "headlinesjson": "[]",
         "hasslides": true, "slides": [{"url": "hero-slide-1.png", "alt": "Image", "label": "Image 1", "index": 0, "first": true}]
     }
 }}
@@ -52,33 +53,35 @@
         <nav class="at-pub-nav" aria-label="{{sitename}}">
             {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
         </nav>
+        <button type="button" class="at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
+            <i class="ph ph-list" aria-hidden="true"></i>
+        </button>
         <div class="at-pub-actions">
             <a class="btn btn-secondary" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
             <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
         </div>
-        <button type="button" class="btn btn-secondary btn-icon at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
-            <i class="ph ph-list" aria-hidden="true"></i>
-        </button>
-        <nav class="at-pub-menu" id="at-pub-menu" aria-label="{{sitename}}" hidden>
-            {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
-        </nav>
     </header>
+    <nav class="at-card at-elev-md at-pub-menu" id="at-pub-menu" aria-label="{{sitename}}" hidden>
+        {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
+    </nav>
 
     <main id="page" class="at-pub-main">
         {{#isaccueil}}
             <section class="at-pub-hero">
-                <div>
-                    <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_hero_tag, theme_alphatrade{{/str}}</span>
-                    <h1 class="at-pub-rotator{{#hastitles}} is-rotating{{/hastitles}}">
-                        {{#titles}}<span class="at-pub-rotator-item{{#first}} is-active{{/first}}"{{^first}} aria-hidden="true"{{/first}}>{{text}}</span>{{/titles}}
-                    </h1>
-                    <p>{{#str}}pub_hero_lead, theme_alphatrade{{/str}}</p>
+                {{! Headline variants alternate every 5 s: the block re-enters with at-headline-fade (0.6 s). }}
+                <div class="at-pub-headline is-animating" data-headlines="{{headlinesjson}}">
+                    {{#headline}}
+                        <span class="at-tag at-tag-outline at-pub-kicker" data-field="kicker">{{kicker}}</span>
+                        <h1 data-field="title">{{title}}</h1>
+                        <p data-field="subtitle">{{subtitle}}</p>
+                    {{/headline}}
                     <div class="at-pub-buttons">
                         <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
                         <a class="btn btn-secondary" href="{{programmeurl}}">{{#str}}pub_discover, theme_alphatrade{{/str}}</a>
-                        <a class="btn btn-secondary" href="{{programmepdfurl}}" download>{{#str}}pub_download_programme, theme_alphatrade{{/str}}</a>
+                        <a class="btn btn-ghost" href="{{programmepdfurl}}" download><i class="ph ph-download-simple" aria-hidden="true"></i>{{#str}}pub_download_programme, theme_alphatrade{{/str}}</a>
                     </div>
                 </div>
+                {{! Hero carousel: stacked images, opacity cross-fade (0.8 s) every 4.5 s. }}
                 <div class="at-pub-hero-img at-pub-carousel{{#hasslides}} is-rotating{{/hasslides}}">
                     {{#slides}}<img class="at-pub-slide{{#first}} is-active{{/first}}" src="{{url}}" alt="{{alt}}"{{^first}} aria-hidden="true"{{/first}}>{{/slides}}
                     {{#hasslides}}
@@ -159,7 +162,7 @@
                 {{/months}}
                 <div class="at-pub-center">
                     <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
-                    <a class="btn btn-secondary" href="{{programmepdfurl}}" download>{{#str}}pub_download_programme, theme_alphatrade{{/str}}</a>
+                    <a class="btn btn-secondary" href="{{programmepdfurl}}" download><i class="ph ph-download-simple" aria-hidden="true"></i>{{#str}}pub_download_programme, theme_alphatrade{{/str}}</a>
                 </div>
             </section>
         {{/isprogramme}}
@@ -278,7 +281,6 @@ require(['theme_boost/loader'], function() {
         var setOpen = function(open) {
             burger.setAttribute('aria-expanded', open ? 'true' : 'false');
             menu.hidden = !open;
-            burger.querySelector('i').className = open ? 'ph ph-x' : 'ph ph-list';
         };
         burger.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -314,15 +316,30 @@ require(['theme_boost/loader'], function() {
         });
     };
 
-    // Hero title alternating every 5 s.
-    var rotator = document.querySelector('.at-pub-rotator.is-rotating');
-    if (rotator && !reduced) {
-        var titles = Array.prototype.slice.call(rotator.querySelectorAll('.at-pub-rotator-item'));
-        var current = 0;
-        setInterval(function() {
-            current = (current + 1) % titles.length;
-            show(titles, current);
-        }, 5000);
+    // Hero headline (kicker + title + subtitle) alternating every 5 s, re-entering with at-headline-fade.
+    var headline = document.querySelector('.at-pub-headline[data-headlines]');
+    if (headline && !reduced) {
+        var variants = [];
+        try {
+            variants = JSON.parse(headline.getAttribute('data-headlines'));
+        } catch (e) {
+            variants = [];
+        }
+        if (variants.length > 1) {
+            var current = 0;
+            setInterval(function() {
+                current = (current + 1) % variants.length;
+                ['kicker', 'title', 'subtitle'].forEach(function(field) {
+                    var el = headline.querySelector('[data-field="' + field + '"]');
+                    if (el) {
+                        el.textContent = variants[current][field];
+                    }
+                });
+                headline.classList.remove('is-animating');
+                void headline.offsetWidth;
+                headline.classList.add('is-animating');
+            }, 5000);
+        }
     }
 
     // Hero carousel: cross-fade every 4.5 s, dots to navigate.

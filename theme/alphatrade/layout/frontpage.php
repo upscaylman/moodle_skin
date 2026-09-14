@@ -30,7 +30,18 @@ if ((isloggedin() && !isguestuser()) || !get_config('theme_alphatrade', 'publich
 }
 
 $publicsite = new \theme_alphatrade\output\public_site(optional_param('view', '', PARAM_ALPHA));
+$seo = new \theme_alphatrade\output\seo($publicsite);
+
+// Head computed here, in theme_boost/head order, so Moodle's site summary description and keywords can be replaced.
+$doctype = $OUTPUT->doctype();
+$htmlattributes = $OUTPUT->htmlattributes();
+$headhtml = \theme_alphatrade\output\seo::clean_head($OUTPUT->standard_head_html());
+
 $templatecontext = array_merge($publicsite->export(), [
+    'doctype' => $doctype,
+    'htmlattributes' => $htmlattributes,
+    'headhtml' => $headhtml,
+    'seo' => $seo->head(),
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'bodyattributes' => $OUTPUT->body_attributes(['alpha-public']),

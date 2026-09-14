@@ -24,6 +24,7 @@ const dynamic = {
         ...['nesrine', 'julien'].flatMap((k) => ['pub_team_' + k, 'pub_team_' + k + '_role', 'pub_team_' + k + '_bio']),
         ...['signals', 'experience', 'duration', 'project', 'admission'].flatMap((k) => ['pub_faq_' + k, 'pub_faq_' + k + '_answer']),
         ...['', '2'].flatMap((n) => ['pub_hero_tag' + n, 'pub_hero_title' + n, 'pub_hero_lead' + n]), 'pub_hero_alt', 'pub_slide',
+        ...['accueil', 'programme', 'methode', 'formateurs', 'faq', 'candidater'].flatMap((k) => ['seo_title_' + k, 'seo_desc_' + k]),
         'privacy:metadata', 'region-side-pre',
     ],
     local_alphatrade: [
@@ -87,6 +88,12 @@ for (const dir of Object.values(plugins)) {
         for (const pattern of patterns) {
             for (const match of source.matchAll(pattern)) {
                 used[match[2]].add(match[1]);
+            }
+        }
+        // Theme helper self::str('key'[, $a]) (theme_alphatrade unless a core component is given).
+        if (file.startsWith(plugins.theme_alphatrade)) {
+            for (const match of source.matchAll(/self::str\(\s*'([^']+)'\s*(?:\)|,(?![^)]*'moodle'))/g)) {
+                used.theme_alphatrade.add(match[1]);
             }
         }
         for (const match of source.matchAll(/addHelpButton\(\s*'[^']+'\s*,\s*'([^']+)'\s*,\s*'(local_alphatrade|theme_alphatrade)'/g)) {

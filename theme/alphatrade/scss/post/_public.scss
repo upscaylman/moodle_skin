@@ -93,7 +93,8 @@ body.alpha-public {
         color: $at-text;
     }
 
-    h4 { font-size: 20px; }
+    h4,
+    .at-pub-section h3 { font-size: 20px; }
 }
 
 // Home.

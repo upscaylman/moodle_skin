@@ -96,6 +96,15 @@ Les bougies réelles (vue "Bougies (marché réel)" d'une stratégie, vérificat
 
 Le formulaire "Candidater" du site public enregistre la candidature (`local_alphatrade_application`), notifie les administrateurs (préférence de notification "Nouvelle candidature") et limite à 3 envois par heure par adresse IP (+ champ piège anti-robots). Suivi dans Admin > Tableau de bord > Candidatures.
 
+## Référencement (SEO, GEO) et aperçus de liens
+
+- Chaque vue du site public a son titre, sa description et son URL canonique (chaînes `seo_*`, modifiables via la personnalisation de la langue). Moodle ne publie plus sa description (résumé du site) ni ses mots-clés sur l'accueil.
+- Aperçu WhatsApp, Facebook, LinkedIn, X : balises Open Graph et Twitter avec une image carrée `theme/alphatrade/files/share-logo.jpg` (600 px, affichée à côté du texte).
+- Données structurées schema.org (JSON-LD) : organisation, site, page, formateurs, programme (`Course`), méthode (`HowTo`), FAQ (`FAQPage`), fil d'Ariane.
+- `robots.txt` (moteurs et assistants IA autorisés, espaces privés de Moodle fermés), `sitemap.xml`, `llms.txt` et `llms-full.txt`, générés par `theme/alphatrade/seo.php`. Règle Apache de l'hôte canonique :
+  `RewriteRule ^/(robots\.txt|sitemap\.xml|llms\.txt|llms-full\.txt)$ /theme/alphatrade/seo.php?file=$1 [PT,L]`
+- Réglages du thème : téléphone, pays (code ISO), e-mail et profils officiels (`sameAs`), repris dans les données structurées et `llms.txt`.
+
 ## Système de design
 
 Tokens Nocturne dans `theme/alphatrade/scss/pre.scss`, composants dans `scss/post/_nocturne.scss`, écrans dans `_screens`, `_staff`, `_messaging`, `_billing`, `_login`, `_public`. Couleur d'accent réglable dans l'administration.

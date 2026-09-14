@@ -43,7 +43,19 @@ if ($ADMIN->fulltree) {
     $page->add($setting);
 
     $setting = new admin_setting_configtext('theme_alphatrade/contactemail',
-        get_string('contactemail', 'theme_alphatrade'), '', '', PARAM_EMAIL);
+        get_string('contactemail', 'theme_alphatrade'), get_string('contactemail_desc', 'theme_alphatrade'), '', PARAM_EMAIL);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/contactphone',
+        get_string('contactphone', 'theme_alphatrade'), get_string('contactphone_desc', 'theme_alphatrade'), '', PARAM_TEXT);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/country',
+        get_string('country', 'theme_alphatrade'), get_string('country_desc', 'theme_alphatrade'), '', PARAM_ALPHA, 4);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtextarea('theme_alphatrade/sameas',
+        get_string('sameas', 'theme_alphatrade'), get_string('sameas_desc', 'theme_alphatrade'), '', PARAM_RAW);
     $page->add($setting);
 
     $settings->add($page);

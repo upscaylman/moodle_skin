@@ -18,12 +18,15 @@
     @template theme_alphatrade/public
 
     Maquette "Alpha Trade - Site Public". Moodle's own site home content is rendered but hidden
-    (the layout must print main_content).
+    (the layout must print main_content). Head: theme_alphatrade/public_head (SEO and link previews).
 
     Example context (json):
     {
         "sitename": "Alpha Trade",
-        "output": {"doctype": "<!DOCTYPE html>", "page_title": "Alpha Trade", "favicon": "favicon.ico", "main_content": ""},
+        "output": {"favicon": "favicon.ico", "main_content": ""},
+        "doctype": "<!DOCTYPE html>", "htmlattributes": "lang=\"fr\"", "headhtml": "",
+        "seo": {"title": "Alpha Trade Academy", "description": "École de trading", "canonical": "#", "sitename": "Alpha Trade Academy",
+            "locale": "fr_FR", "image": "share-logo.jpg", "imagesize": 600, "imagealt": "Logo", "indexable": true, "llms": "#", "jsonld": "{}" },
         "bodyattributes": "", "markurl": "mark.png", "logourl": "logo.png", "heroimageurl": "hero.jpg", "loginurl": "#",
         "nav": [{"label": "Accueil", "url": "#", "active": true}],
         "homeurl": "#", "programmeurl": "#", "teamurl": "#", "candidaterurl": "#",
@@ -39,7 +42,7 @@
         "hasslides": true, "slides": [{"url": "hero-slide-1.png", "alt": "Image", "label": "Image 1", "index": 0, "first": true}]
     }
 }}
-{{> theme_boost/head }}
+{{> theme_alphatrade/public_head }}
 
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
@@ -83,7 +86,7 @@
                 </div>
                 {{! Hero carousel: stacked images, opacity cross-fade (0.8 s) every 4.5 s. }}
                 <div class="at-pub-hero-img at-pub-carousel{{#hasslides}} is-rotating{{/hasslides}}">
-                    {{#slides}}<img class="at-pub-slide{{#first}} is-active{{/first}}" src="{{url}}" alt="{{alt}}"{{^first}} aria-hidden="true"{{/first}}>{{/slides}}
+                    {{#slides}}<img class="at-pub-slide{{#first}} is-active{{/first}}" src="{{url}}" alt="{{alt}}"{{#first}} fetchpriority="high"{{/first}}{{^first}} aria-hidden="true"{{/first}} decoding="async">{{/slides}}
                     {{#hasslides}}
                         <div class="at-pub-dots" role="group" aria-label="{{#str}}pub_slides, theme_alphatrade{{/str}}">
                             {{#slides}}<button type="button" class="at-pub-dot{{#first}} is-active{{/first}}" data-slide="{{index}}" aria-label="{{label}}"{{#first}} aria-current="true"{{/first}}></button>{{/slides}}
@@ -112,7 +115,7 @@
                     {{#months}}
                         <div class="at-card at-elev-sm at-pad-22">
                             <span class="at-card-kicker">{{#str}}pub_month, theme_alphatrade, {{number}}{{/str}}</span>
-                            <h4 class="at-card-title at-mt-2">{{label}}</h4>
+                            <h3 class="at-card-title at-mt-2">{{label}}</h3>
                             <p class="at-card-body">{{summary}}</p>
                         </div>
                     {{/months}}
@@ -128,7 +131,7 @@
                     {{#team}}
                         <div class="at-card at-elev-sm at-pad-22 at-pub-person">
                             <span class="at-pub-initials" aria-hidden="true">{{initials}}</span>
-                            <div><h4 class="at-card-title">{{name}}</h4><div class="at-card-meta">{{role}}</div></div>
+                            <div><h3 class="at-card-title">{{name}}</h3><div class="at-card-meta">{{role}}</div></div>
                         </div>
                     {{/team}}
                 </div>
@@ -255,7 +258,7 @@
     </main>
 
     <footer id="page-footer" class="at-pub-footer">
-        <img src="{{logourl}}" alt="{{sitename}}">
+        <img src="{{logourl}}" alt="{{sitename}}" loading="lazy" decoding="async">
         <span>{{#str}}pub_tagline, theme_alphatrade{{/str}}</span>
         <div class="at-pub-footer-standard">
             {{{ output.standard_footer_html }}}

@@ -47,6 +47,90 @@ class public_site {
     }
 
     /**
+     * Current view.
+     *
+     * @return string
+     */
+    public function view(): string {
+        return $this->view;
+    }
+
+    /**
+     * Programme: 3 months, 12 modules.
+     *
+     * @return array
+     */
+    public static function months(): array {
+        $months = [];
+        $number = 0;
+        foreach ([1 => 3, 2 => 4, 3 => 5] as $month => $count) {
+            $modules = [];
+            for ($i = 0; $i < $count; $i++) {
+                $number++;
+                $modules[] = [
+                    'number' => sprintf('%02d', $number),
+                    'title' => get_string('pub_mod' . $number, 'theme_alphatrade'),
+                    'desc' => get_string('pub_mod' . $number . '_desc', 'theme_alphatrade'),
+                ];
+            }
+            $months[] = [
+                'number' => $month,
+                'label' => get_string('pub_month' . $month . '_theme', 'theme_alphatrade'),
+                'summary' => get_string('pub_month' . $month . '_summary', 'theme_alphatrade'),
+                'modules' => $modules,
+            ];
+        }
+        return $months;
+    }
+
+    /**
+     * Method: 8 steps.
+     *
+     * @return array
+     */
+    public static function method(): array {
+        $method = [];
+        for ($i = 1; $i <= 8; $i++) {
+            $method[] = ['number' => $i, 'title' => get_string('pub_step' . $i, 'theme_alphatrade'),
+                'desc' => get_string('pub_step' . $i . '_desc', 'theme_alphatrade')];
+        }
+        return $method;
+    }
+
+    /**
+     * Trainers.
+     *
+     * @return array
+     */
+    public static function team(): array {
+        $team = [];
+        foreach (['nesrine' => 'NM', 'julien' => 'JB'] as $key => $initials) {
+            $team[] = [
+                'key' => $key,
+                'initials' => $initials,
+                'name' => get_string('pub_team_' . $key, 'theme_alphatrade'),
+                'role' => get_string('pub_team_' . $key . '_role', 'theme_alphatrade'),
+                'bio' => get_string('pub_team_' . $key . '_bio', 'theme_alphatrade'),
+            ];
+        }
+        return $team;
+    }
+
+    /**
+     * Frequently asked questions.
+     *
+     * @return array
+     */
+    public static function faq(): array {
+        $faq = [];
+        foreach (['signals', 'experience', 'duration', 'project', 'admission'] as $key) {
+            $faq[] = ['question' => get_string('pub_faq_' . $key, 'theme_alphatrade'),
+                'answer' => get_string('pub_faq_' . $key . '_answer', 'theme_alphatrade')];
+        }
+        return $faq;
+    }
+
+    /**
      * URL of a view.
      *
      * @param string $view
@@ -80,46 +164,6 @@ class public_site {
             $pipeline[] = ['label' => $str('pub_pipe_' . $key), 'icon' => $icon, 'hasarrow' => $key !== 'build'];
         }
 
-        $months = [];
-        $number = 0;
-        foreach ([1 => 3, 2 => 4, 3 => 5] as $month => $count) {
-            $modules = [];
-            for ($i = 0; $i < $count; $i++) {
-                $number++;
-                $modules[] = [
-                    'number' => sprintf('%02d', $number),
-                    'title' => $str('pub_mod' . $number),
-                    'desc' => $str('pub_mod' . $number . '_desc'),
-                ];
-            }
-            $months[] = [
-                'number' => $month,
-                'label' => $str('pub_month' . $month . '_theme'),
-                'summary' => $str('pub_month' . $month . '_summary'),
-                'modules' => $modules,
-            ];
-        }
-
-        $method = [];
-        for ($i = 1; $i <= 8; $i++) {
-            $method[] = ['number' => $i, 'title' => $str('pub_step' . $i), 'desc' => $str('pub_step' . $i . '_desc')];
-        }
-
-        $team = [];
-        foreach (['nesrine' => 'NM', 'julien' => 'JB'] as $key => $initials) {
-            $team[] = [
-                'initials' => $initials,
-                'name' => $str('pub_team_' . $key),
-                'role' => $str('pub_team_' . $key . '_role'),
-                'bio' => $str('pub_team_' . $key . '_bio'),
-            ];
-        }
-
-        $faq = [];
-        foreach (['signals', 'experience', 'duration', 'project', 'admission'] as $key) {
-            $faq[] = ['question' => $str('pub_faq_' . $key), 'answer' => $str('pub_faq_' . $key . '_answer')];
-        }
-
         // Application: the Alpha Trade form when the app plugin is installed, else a URL or an e-mail.
         $hasform = theme_alphatrade_has_app();
         $applyurl = get_config('theme_alphatrade', 'applyurl');
@@ -135,10 +179,10 @@ class public_site {
             'teamurl' => self::url('formateurs'),
             'candidaterurl' => $hasform || !$applyurl ? self::url('candidater') : $applyurl,
             'pipeline' => $pipeline,
-            'months' => $months,
-            'method' => $method,
-            'team' => $team,
-            'faq' => $faq,
+            'months' => self::months(),
+            'method' => self::method(),
+            'team' => self::team(),
+            'faq' => self::faq(),
             'hasform' => $hasform,
             'applyurl' => $applyurl,
             'hasapplyurl' => !empty($applyurl),

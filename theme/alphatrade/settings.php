@@ -42,6 +42,28 @@ if ($ADMIN->fulltree) {
         get_string('applyurl', 'theme_alphatrade'), get_string('applyurl_desc', 'theme_alphatrade'), '', PARAM_URL);
     $page->add($setting);
 
+    $formats = [];
+    foreach (\theme_alphatrade\output\public_site::FORMATS as $format) {
+        $formats[$format] = get_string('pub_format_' . $format, 'theme_alphatrade');
+    }
+    $setting = new admin_setting_configselect('theme_alphatrade/courseformat',
+        get_string('courseformat', 'theme_alphatrade'), get_string('courseformat_desc', 'theme_alphatrade'), 'online',
+        ['' => get_string('none')] + $formats);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/cohortstart',
+        get_string('cohortstart', 'theme_alphatrade'), get_string('cohortstart_desc', 'theme_alphatrade'), '',
+        '/^(\d{4}-\d{2}-\d{2})?$/', 12);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtextarea('theme_alphatrade/prices',
+        get_string('prices', 'theme_alphatrade'), get_string('prices_desc', 'theme_alphatrade'), '', PARAM_TEXT, 30, 3);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/certificate',
+        get_string('certificate', 'theme_alphatrade'), get_string('certificate_desc', 'theme_alphatrade'), '', PARAM_TEXT);
+    $page->add($setting);
+
     $setting = new admin_setting_configtext('theme_alphatrade/contactemail',
         get_string('contactemail', 'theme_alphatrade'), get_string('contactemail_desc', 'theme_alphatrade'), '', PARAM_EMAIL);
     $page->add($setting);

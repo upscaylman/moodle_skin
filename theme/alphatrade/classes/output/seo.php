@@ -200,7 +200,7 @@ class seo {
                     $modules[] = $module['title'];
                 }
             }
-            $graph[] = [
+            $course = [
                 '@type' => 'Course',
                 '@id' => public_site::url('programme') . '#course',
                 'name' => self::str('seo_course_name'),
@@ -214,6 +214,27 @@ class seo {
                 'syllabusSections' => $sections,
                 'image' => self::share_image(),
             ];
+            $facts = public_site::facts();
+            if (!empty($facts['certificate'])) {
+                $course['educationalCredentialAwarded'] = $facts['certificate']['value'];
+            }
+            $instance = array_filter([
+                'courseMode' => public_site::course_format(),
+                'startDate' => public_site::cohort_start() ? gmdate('Y-m-d', public_site::cohort_start()) : '',
+            ]);
+            if ($instance) {
+                $course['hasCourseInstance'] = ['@type' => 'CourseInstance', 'inLanguage' => $language] + $instance;
+            }
+            foreach (public_site::prices() as $price) {
+                $course['offers'][] = [
+                    '@type' => 'Offer',
+                    'category' => 'Paid',
+                    'price' => $price['amount'],
+                    'priceCurrency' => $price['currency'],
+                    'url' => public_site::url('candidater'),
+                ];
+            }
+            $graph[] = $course;
         }
 
         if ($view === 'methode') {
@@ -288,6 +309,14 @@ class seo {
 
         $md = ['# ' . self::str('seo_sitename'), '', '> ' . self::str('seo_org_desc'), ''];
         $md[] = self::str('pub_tagline');
+        $md[] = '';
+
+        $md[] = '## ' . self::str('seo_practical');
+        $md[] = '';
+        $md[] = '- ' . self::str('pub_nav_programme') . ' : ' . self::str('pub_programme_h1');
+        foreach (public_site::facts() as $fact) {
+            $md[] = '- ' . $fact['label'] . ' : ' . $fact['value'];
+        }
         $md[] = '';
 
         $contact = self::contact();

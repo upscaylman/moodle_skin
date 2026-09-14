@@ -36,6 +36,7 @@
         "method": [{"number": 1, "title": "Comprendre", "desc": "Les mécanismes"}],
         "team": [{"initials": "NM", "name": "Nesrine Moussa", "role": "Théorie des marchés · Psychologie", "bio": "Enseigne"}],
         "faq": [{"question": "Signaux ?", "answer": "Non."}],
+        "hasfacts": true, "facts": [{"key": "format", "icon": "ph-laptop", "label": "Format", "value": "En ligne"}],
         "hasform": true, "applyurl": "", "hasapplyurl": false, "formaction": "#", "sesskey": "x", "applied": false, "programmepdfurl": "#",
         "headline": {"kicker": "École de trading & investissement", "title": "Comprendre les marchés.", "subtitle": "Un programme intensif."},
         "headlinesjson": "[]",
@@ -149,6 +150,16 @@
                 <span class="at-tag at-tag-outline at-pub-kicker">{{#str}}pub_programme_tag, theme_alphatrade{{/str}}</span>
                 <h1>{{#str}}pub_programme_h1, theme_alphatrade{{/str}}</h1>
                 <p class="at-pub-lead">{{#str}}pub_programme_lead, theme_alphatrade{{/str}}</p>
+                {{#hasfacts}}
+                    <dl class="at-pub-facts">
+                        {{#facts}}
+                            <div class="at-card at-elev-sm at-pub-fact">
+                                <i class="ph {{icon}}" aria-hidden="true"></i>
+                                <div><dt>{{label}}</dt><dd>{{value}}</dd></div>
+                            </div>
+                        {{/facts}}
+                    </dl>
+                {{/hasfacts}}
                 {{#months}}
                     <div class="at-pub-month">
                         <div class="at-eyebrow">{{#str}}pub_month_upper, theme_alphatrade, {{number}}{{/str}}</div>

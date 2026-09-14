@@ -404,6 +404,42 @@ body.alpha-public {
     margin: 0 0 36px;
 }
 
+// Practical facts (format, next cohort, price, certification) under the programme lead.
+.at-pub-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: -12px 0 36px;
+}
+
+.at-pub-fact.at-card {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+
+    i {
+        flex: none;
+        font-size: 20px;
+        color: $at-accent;
+    }
+
+    dt {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: $at-text-50;
+    }
+
+    dd {
+        margin: 3px 0 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: $at-text;
+    }
+}
+
 .at-pub-month {
     margin-bottom: 32px;
 }

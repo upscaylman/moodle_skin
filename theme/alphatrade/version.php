@@ -25,11 +25,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_alphatrade';
-$plugin->version = 2026091401;
+$plugin->version = 2026091402;
 $plugin->requires = 2024100700; // Moodle 4.5 LTS (Bootstrap 4).
 $plugin->supported = [405, 405];
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.3.1';
+$plugin->release = '0.3.2';
 $plugin->dependencies = [
     'theme_boost' => 2024100700,
 ];

@@ -34,6 +34,12 @@ class public_site {
     /** @var string Programme brochure served from theme/alphatrade/files (download buttons). */
     const PROGRAMME_PDF = 'Alpha-Trade-Programme-de-Formation-Trading-et-Finance.pdf';
 
+    /** @var string[] Practical facts, in display order. */
+    const FACTS = ['format', 'start', 'price', 'certificate'];
+
+    /** @var string[] Course formats (schema.org courseMode values). */
+    const FORMATS = ['online', 'onsite', 'blended'];
+
     /** @var string Current view. */
     protected $view;
 
@@ -117,17 +123,118 @@ class public_site {
     }
 
     /**
-     * Frequently asked questions.
+     * Frequently asked questions. Practical questions (format, price, next cohort, certification) only when set.
      *
      * @return array
      */
     public static function faq(): array {
+        $facts = self::facts();
         $faq = [];
-        foreach (['signals', 'experience', 'duration', 'project', 'admission'] as $key) {
-            $faq[] = ['question' => get_string('pub_faq_' . $key, 'theme_alphatrade'),
-                'answer' => get_string('pub_faq_' . $key . '_answer', 'theme_alphatrade')];
+        foreach (['signals', 'experience', 'duration', 'format', 'price', 'start', 'certificate', 'project', 'admission'] as $key) {
+            if (in_array($key, self::FACTS)) {
+                if (empty($facts[$key])) {
+                    continue;
+                }
+                $answerkey = $key === 'format' ? 'pub_faq_format_' . self::course_format() . '_answer' : 'pub_faq_' . $key . '_answer';
+                $answer = get_string($answerkey, 'theme_alphatrade', $facts[$key]['answer'] ?? null);
+            } else {
+                $answer = get_string('pub_faq_' . $key . '_answer', 'theme_alphatrade');
+            }
+            $faq[] = ['question' => get_string('pub_faq_' . $key, 'theme_alphatrade'), 'answer' => $answer];
         }
         return $faq;
+    }
+
+    /**
+     * Practical information from the theme settings, keyed by fact; unset values are skipped.
+     *
+     * @return array[] key => [key, icon, label, value, answer (placeholder of the FAQ answer)]
+     */
+    public static function facts(): array {
+        $facts = [];
+        if ($format = self::course_format()) {
+            $facts['format'] = ['icon' => 'ph-laptop', 'value' => get_string('pub_format_' . $format, 'theme_alphatrade')];
+        }
+        if ($start = self::cohort_start()) {
+            $date = self::format_date($start);
+            $facts['start'] = ['icon' => 'ph-calendar-blank', 'value' => get_string('pub_fact_start_value', 'theme_alphatrade', $date),
+                'answer' => $date];
+        }
+        if ($prices = self::prices()) {
+            $labels = array_column($prices, 'label');
+            $facts['price'] = ['icon' => 'ph-tag', 'value' => implode(' / ', $labels),
+                'answer' => implode(' ' . get_string('pub_or', 'theme_alphatrade') . ' ', $labels)];
+        }
+        $certificate = trim((string) get_config('theme_alphatrade', 'certificate'));
+        if ($certificate !== '') {
+            $facts['certificate'] = ['icon' => 'ph-certificate', 'value' => $certificate, 'answer' => $certificate];
+        }
+        foreach ($facts as $key => $fact) {
+            $facts[$key] += ['key' => $key, 'label' => get_string('pub_fact_' . $key, 'theme_alphatrade')];
+        }
+        return $facts;
+    }
+
+    /**
+     * Course format setting (online, onsite, blended) or ''.
+     *
+     * @return string
+     */
+    public static function course_format(): string {
+        $format = (string) get_config('theme_alphatrade', 'courseformat');
+        return in_array($format, self::FORMATS) ? $format : '';
+    }
+
+    /**
+     * Next cohort start (noon UTC) from the YYYY-MM-DD setting, 0 when unset.
+     *
+     * @return int
+     */
+    public static function cohort_start(): int {
+        $date = trim((string) get_config('theme_alphatrade', 'cohortstart'));
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            return 0;
+        }
+        return (int) strtotime($date . ' 12:00:00 UTC');
+    }
+
+    /**
+     * Prices from the setting, one "amount CURRENCY" per line (740 EUR).
+     *
+     * @return array[] [amount (dot decimal), currency (ISO 4217), label]
+     */
+    public static function prices(): array {
+        $symbols = ['EUR' => '€', 'USD' => '$', 'GBP' => '£'];
+        $prices = [];
+        foreach (preg_split('/\R/', (string) get_config('theme_alphatrade', 'prices')) as $line) {
+            if (!preg_match('/^\s*(\d+(?:[.,]\d{1,2})?)\s*([A-Za-z]{3})\s*$/', $line, $match)) {
+                continue;
+            }
+            $amount = str_replace(',', '.', $match[1]);
+            $currency = strtoupper($match[2]);
+            $decimals = strpos($amount, '.') === false ? 0 : 2;
+            $prices[] = [
+                'amount' => $amount,
+                'currency' => $currency,
+                'label' => number_format((float) $amount, $decimals, get_string('decsep', 'langconfig'),
+                    get_string('thousandssep', 'langconfig')) . "\u{00A0}" . ($symbols[$currency] ?? $currency),
+            ];
+        }
+        return $prices;
+    }
+
+    /**
+     * Date in the current language ("1er octobre 2026" in French).
+     *
+     * @param int $time
+     * @return string
+     */
+    protected static function format_date(int $time): string {
+        $date = userdate($time, get_string('strftimedate', 'langconfig'), 'UTC');
+        if (strpos(current_language(), 'fr') === 0 && gmdate('j', $time) === '1') {
+            $date = preg_replace('/^0?1\s/u', "1er\u{00A0}", $date);
+        }
+        return $date;
     }
 
     /**
@@ -183,6 +290,8 @@ class public_site {
             'method' => self::method(),
             'team' => self::team(),
             'faq' => self::faq(),
+            'facts' => array_values(self::facts()),
+            'hasfacts' => !empty(self::facts()),
             'hasform' => $hasform,
             'applyurl' => $applyurl,
             'hasapplyurl' => !empty($applyurl),

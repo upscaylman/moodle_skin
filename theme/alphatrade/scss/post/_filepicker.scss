@@ -23,6 +23,11 @@
     box-shadow: $at-shadow-lg;
     transform: translate(-50%, -50%);
 
+    // Close / Escape: YUI adds this class; core's display:none is less specific than the display:flex above.
+    &.moodle-dialogue-hidden {
+        display: none !important;
+    }
+
     .moodle-dialogue-wrap {
         display: flex;
         flex-direction: column;

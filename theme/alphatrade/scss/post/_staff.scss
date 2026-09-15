@@ -222,13 +222,4 @@ a.at-kpi:hover {
     margin-top: auto;
 }
 
-// Admin space: the maquette header has no actions (bell, avatar).
-body.alpha-app.alpha-staff[class*="alpha-nav-admin"] .at-desktop-header .at-header-actions {
-    display: none;
-}
-
-@media (max-width: $at-mobile-break) {
-    body.alpha-app.alpha-staff[class*="alpha-nav-admin"] .at-desktop-header {
-        display: none;
-    }
-}
+// Admin space: shared header actions like every other page (see _notifications).

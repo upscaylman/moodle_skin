@@ -39,18 +39,5 @@
             {{{ output.full_header }}}
         {{/isnativepage}}
     </div>
-    <div id="usernavigation" class="at-header-actions">
-        {{#nav.isstudent}}
-            <a class="btn btn-icon btn-secondary at-header-search" href="{{searchurl}}" aria-label="{{#str}}search{{/str}}">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
-            </a>
-        {{/nav.isstudent}}
-        {{{ output.navbar_plugin_output }}}
-        <div class="usermenu-container" data-region="usermenu">
-            {{#usermenu}}
-                {{> core/user_menu }}
-            {{/usermenu}}
-        </div>
-        <div class="at-editswitch">{{{ output.edit_switch }}}</div>
-    </div>
+    {{> theme_alphatrade/header_actions }}
 </div>

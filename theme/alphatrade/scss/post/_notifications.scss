@@ -1,0 +1,259 @@
+// Shared header actions and the notifications centre (maquettes Portail Etudiant / Espace Enseignant / Espace Admin):
+// dropdown card 360px, header with mark all read / preferences / close, rows with icon, title, time and link, "See all".
+
+// ---------------------------------------------------------------- Header icon buttons (search, bell): hover on the card surface.
+.at-header-actions {
+    .at-header-search:hover,
+    .at-header-search:focus-visible,
+    .popover-region-toggle:hover,
+    .popover-region-toggle:focus-visible,
+    .popover-region:not(.collapsed) .popover-region-toggle {
+        background: $at-surface;
+        color: $at-text;
+    }
+
+    .popover-region-notifications .count-container {
+        top: -4px;
+        right: -4px;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 3px;
+        border-radius: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 16px;
+        text-align: center;
+    }
+}
+
+// Standalone pages (Messagerie, Paiement): the same actions at the right of the floating navbar (surface colour, so the
+// hover takes the page ground).
+.at-floatnav .at-header-actions {
+    margin-left: auto;
+
+    .at-header-search:hover,
+    .popover-region-toggle:hover,
+    .popover-region:not(.collapsed) .popover-region-toggle {
+        background: $at-bg;
+    }
+
+    a:hover {
+        color: inherit;
+    }
+}
+
+// ---------------------------------------------------------------- Notifications centre.
+.popover-region-notifications .popover-region-container {
+    top: calc(100% + 10px);
+    right: 0;
+    left: auto;
+    z-index: 100;
+    width: 360px;
+    max-width: min(360px, 90vw);
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 12px;
+    background: $at-surface;
+    box-shadow: $at-shadow-md;
+}
+
+.popover-region-notifications:not(.collapsed) .popover-region-container {
+    height: auto;
+}
+
+.popover-region-notifications {
+    .popover-region-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: auto;
+        padding: 16px 18px;
+        border-bottom: 1px solid $at-divider;
+        background: $at-surface;
+    }
+
+    .popover-region-header-text {
+        margin: 0;
+        font-size: 16px;
+        font-weight: $at-heading-weight;
+        line-height: 1.3;
+        color: $at-text;
+    }
+
+    // Mark all as read, notification preferences (gear), close: 32px icon buttons, in this order.
+    .popover-region-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        > a,
+        > button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 1px solid $at-divider;
+            border-radius: $at-radius-md;
+            color: $at-text;
+            background: transparent;
+            text-decoration: none;
+
+            &:hover,
+            &:focus-visible {
+                color: $at-text;
+                background: $at-bg;
+            }
+
+            .icon {
+                margin: 0;
+                font-size: 14px;
+                color: inherit;
+            }
+        }
+    }
+
+    .popover-region-content-container {
+        height: auto;
+        max-height: 420px;
+        overflow-y: auto;
+        background: $at-surface;
+    }
+
+    .empty-message {
+        padding: 28px 18px;
+        font-size: 13px;
+        text-align: center;
+        color: $at-text-50;
+    }
+
+    .see-all-link {
+        display: block;
+        text-decoration: none;
+
+        .popover-region-footer-container {
+            height: auto;
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid $at-divider;
+            background: $at-surface;
+            transition: background .12s ease;
+        }
+
+        .popover-region-seeall-text {
+            font-size: 13px;
+            color: $at-accent;
+        }
+
+        &:hover .popover-region-footer-container,
+        &:focus-visible .popover-region-footer-container {
+            background: $at-bg;
+        }
+    }
+}
+
+// Rows: the whole row is clickable (title link stretched), hover on the page ground (the card is the surface colour).
+.popover-region-notifications .content-item-container.at-notif,
+.at-notif {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid $at-divider;
+    background: transparent;
+    transition: background .12s ease;
+
+    &.unread {
+        background: transparent;
+    }
+
+    &:hover,
+    &:focus-within {
+        background: $at-bg;
+    }
+}
+
+.at-notif-icon {
+    flex: none;
+    margin-top: 2px;
+    font-size: 16px;
+    color: $at-accent;
+
+    &[data-eventtype="newapplication"] { @extend .ph-user-plus; }
+    &[data-eventtype="newlogin"] { @extend .ph-sign-in; }
+    &[data-component="mod_assign"] { @extend .ph-file-text; }
+    &[data-eventtype="analysisreviewed"] { @extend .ph-chart-bar; }
+    &[data-component="mod_forum"] { @extend .ph-chats-circle; }
+    &[data-eventtype="availableupdate"],
+    &[data-eventtype="notices"] { @extend .ph-info; }
+}
+
+.at-notif-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    flex: 1;
+}
+
+.at-notif-title {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: $at-text;
+    text-decoration: none;
+
+    .unread & {
+        font-weight: 600;
+    }
+
+    &:hover,
+    &:focus {
+        color: $at-text;
+        text-decoration: none;
+    }
+
+    // Stretched link: the row is the click target.
+    &.context-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+    }
+}
+
+.at-notif-time {
+    margin: 2px 0 4px;
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+.at-notif .view-more {
+    position: relative;
+    z-index: 1;
+    font-size: 12px;
+    color: $at-accent;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: $at-accent-400;
+        text-decoration: none;
+    }
+}
+
+@media (max-width: $at-mobile-break) {
+    .at-floatnav .at-header-actions {
+        position: static;
+        height: auto;
+    }
+
+    .popover-region-notifications .popover-region-container {
+        position: fixed;
+        top: $at-mob-top-height;
+        right: 8px;
+        max-width: calc(100vw - 16px);
+    }
+}

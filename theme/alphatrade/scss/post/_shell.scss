@@ -349,11 +349,6 @@ body.alpha-app {
         }
     }
 
-    .popover-region-container {
-        top: 44px;
-        right: 0;
-    }
-
     .usermenu {
         .dropdown-toggle {
             display: flex;
@@ -424,10 +419,6 @@ body.alpha-app {
         .alpha-username {
             font-size: 13px;
             color: $at-text;
-
-            .alpha-staff & {
-                display: none;
-            }
         }
 
         .dropdown-menu {

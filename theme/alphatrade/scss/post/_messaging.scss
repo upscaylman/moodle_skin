@@ -38,10 +38,13 @@ body.alpha-messaging {
     }
 }
 
+// Air under the floating navbar (as on the public site), then the list / thread columns down to the bottom of the screen.
 .at-msg {
     flex: 1;
     display: flex;
     min-height: 0;
+    margin-top: 16px;
+    border-top: 1px solid $at-divider;
 }
 
 .at-msg-list {

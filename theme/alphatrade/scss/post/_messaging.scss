@@ -15,16 +15,16 @@ body.alpha-messaging {
     // gives #page and #page-content "flex: 1 0 auto", which let a long conversation grow the page to its content
     // height and pushed the compose bar thousands of pixels down. Only the bubbles scroll.
     #page-wrapper #page.at-standalone-page,
-    #page-wrapper .at-standalone-page #page-content,
-    #page-wrapper .at-standalone-page #region-main-box,
-    #page-wrapper .at-standalone-page #region-main,
-    #page-wrapper .at-standalone-page div[role="main"] {
+    #page-wrapper #page.at-standalone-page #page-content,
+    #page-wrapper #page.at-standalone-page #region-main-box,
+    #page-wrapper #page.at-standalone-page #region-main,
+    #page-wrapper #page.at-standalone-page div[role="main"] {
         flex: 1 1 0%;
         min-height: 0;
     }
 
     // Notifications tab: its list scrolls in the main region (the thread view fits it exactly, nothing scrolls there).
-    #page-wrapper .at-standalone-page div[role="main"] {
+    #page-wrapper #page.at-standalone-page div[role="main"] {
         overflow-y: auto;
     }
 

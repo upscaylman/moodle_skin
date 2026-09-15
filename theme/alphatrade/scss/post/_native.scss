@@ -176,6 +176,160 @@
     }
 }
 
+// ---------------------------------------------------------------- Block drawer (right): page-ground panel, blocks as surface cards.
+.drawer.drawer-right {
+    box-shadow: none;
+
+    .drawerheader {
+        justify-content: flex-end;
+        height: auto;
+        padding: 30px 20px 14px;
+    }
+
+    // Close: the same 36px bordered icon button as the header actions (panel on the page ground: hover = surface).
+    .drawertoggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin: 0;
+        padding: 0;
+        border: 1px solid $at-divider;
+        border-radius: $at-radius-md;
+        color: $at-text;
+        background: transparent;
+
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            background: $at-surface;
+        }
+    }
+
+    .drawercontent {
+        padding: 0 20px 24px;
+    }
+
+    .block.card {
+        margin-bottom: 16px !important;
+        border: 0;
+        border-radius: 12px;
+        background: $at-surface;
+        box-shadow: $at-shadow-sm;
+
+        > .card-body {
+            padding: 18px !important;
+        }
+
+        // Block title as the maquette card kicker.
+        .card-title {
+            margin: 0;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: $at-accent;
+        }
+
+        .content {
+            margin-top: 12px !important;
+            font-size: 13px;
+            color: $at-text-70;
+        }
+
+        // Link lists (bookmarks, events key...): plain rows, hover on the page ground (the card is the surface).
+        ul,
+        ol {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li > a,
+        .calendar_filters a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: $at-radius-md;
+            color: $at-text;
+            text-decoration: none;
+
+            &:hover,
+            &:focus-visible {
+                color: $at-text;
+                text-decoration: none;
+                background: $at-bg;
+            }
+        }
+
+        // Block action link ("Bookmark this page"): secondary button across the card.
+        .footer {
+            margin-top: 10px;
+
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 8px 12px;
+                border: 1px solid $at-divider;
+                border-radius: $at-radius-md;
+                font-size: 13px;
+                color: $at-text;
+                text-decoration: none;
+
+                &:hover,
+                &:focus-visible {
+                    color: $at-text;
+                    background: $at-bg;
+                }
+            }
+        }
+
+        .content > .footer:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+// Open the block drawer: a surface tab on the right edge, below the page header (desktop).
+@media (min-width: #{$at-mobile-break + 1}) {
+    body.alpha-app .drawer-toggles .drawer-right-toggle {
+        top: 120px;
+        right: 0;
+    }
+}
+
+body.alpha-app .drawer-toggles .drawer-right-toggle .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 44px;
+    padding: 0 !important;
+    border: 1px solid $at-divider;
+    border-right: 0;
+    border-radius: 12px 0 0 12px;
+    color: $at-text;
+    background: $at-surface;
+    box-shadow: $at-shadow-sm;
+
+    &:hover,
+    &:focus-visible {
+        color: $at-accent;
+        background: $at-surface;
+    }
+
+    .at-drawer-right-icon {
+        font-size: 18px;
+        transform: scaleX(-1);
+    }
+}
+
 // ---------------------------------------------------------------- Status badges (colour + text).
 .badge {
     font-size: 11px;

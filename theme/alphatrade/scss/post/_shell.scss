@@ -225,13 +225,23 @@ body.alpha-app {
     }
 }
 
+// Title on the left takes the remaining width and wraps inside itself; the actions (search, bell, avatar, edit mode)
+// never drop under it, whatever the width of the content column (block drawer open, narrow window).
 .at-desktop-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
     margin-bottom: 26px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+
+    > .at-page-title {
+        flex: 1 1 auto;
+    }
+
+    > .at-header-actions {
+        flex: none;
+    }
 
     .alpha-staff & {
         margin-bottom: 28px;

@@ -10,9 +10,15 @@ body {
         border-radius: $at-radius-md;
         font-family: $at-font;
 
-        &:focus-within {
+        &:focus-within,
+        &:has(.tox-edit-focus) {
             border-color: $at-accent;
         }
+    }
+
+    // TinyMCE's own focus outline inside the editing area (white on oxide-dark): the gold frame replaces it.
+    .tox .tox-edit-area::before {
+        border: 0;
     }
 
     .tox:not(.tox-tinymce-inline) .tox-editor-header {
@@ -61,6 +67,15 @@ body {
 
     .tox .tox-tbtn svg {
         fill: currentColor;
+    }
+
+    // Moodle plugin icons drawn as images inside the SVG (H5P): dark on dark otherwise, shown in the text colour.
+    .tox .tox-tbtn svg[data-buttonsource="moodle"] image {
+        filter: brightness(0) invert(.92);
+    }
+
+    .tox .tox-tbtn--disabled svg[data-buttonsource="moodle"] image {
+        opacity: .4;
     }
 
     .tox .tox-tbtn:hover,

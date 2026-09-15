@@ -1,0 +1,662 @@
+// File picker (repository/filepicker.js + core/filemanager_modal_generallayout), restyled once for every use on the
+// site (file uploads, images, resources). Maquette Espace Admin, "Importer des cohortes": dialog always inside the
+// viewport, sources on the left with the active one as a gold pill, search + toolbar + breadcrumb + folder grid on
+// the right. Mobile: the sources become a horizontal scrollable row.
+
+// ---------------------------------------------------------------- Dialog: never wider or taller than the viewport.
+// The JS gives the dialog 873 x 558px inline and a content taller than that: size and centre it here instead.
+.moodle-dialogue-base .moodle-dialogue.filepicker {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    display: flex;
+    flex-direction: column;
+    width: min(900px, calc(100vw - 48px)) !important;
+    height: min(640px, 88vh) !important;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    margin: 0 !important;
+    overflow: hidden;
+    border: 0;
+    border-radius: 14px;
+    background: $at-surface;
+    box-shadow: $at-shadow-lg;
+    transform: translate(-50%, -50%);
+
+    .moodle-dialogue-wrap {
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .moodle-dialogue-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: none;
+        margin: 0;
+        padding: 18px 22px;
+        border-bottom: 1px solid $at-divider;
+        cursor: default !important;
+        background: transparent;
+
+        h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: $at-heading-weight;
+            color: $at-text;
+        }
+
+        h5:empty {
+            display: none;
+        }
+
+        .closebutton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            margin: 0;
+            padding: 0;
+            border: 1px solid $at-divider;
+            border-radius: $at-radius-md;
+            color: $at-text;
+            background: transparent;
+            opacity: 1;
+
+            &:hover,
+            &:focus-visible {
+                background: $at-bg;
+            }
+        }
+    }
+
+    .moodle-dialogue-bd {
+        display: flex;
+        flex: 1;
+        min-height: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .moodle-dialogue-ft:empty {
+        display: none;
+    }
+}
+
+.moodle-dialogue-base .moodle-dialogue-lightbox {
+    background: rgba(0, 0, 0, .6) !important;
+    opacity: 1 !important;
+}
+
+// ---------------------------------------------------------------- Layout: sources | main.
+.at-fp-container.container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.file-picker.at-fp {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+}
+
+.at-fp-sources.fp-repo-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: none;
+    gap: 2px;
+    width: 220px;
+    height: auto !important;
+    margin: 0;
+    padding: 14px 10px;
+    overflow-y: auto;
+    border-right: 1px solid $at-divider;
+    scrollbar-width: thin;
+
+    .fp-repo {
+        width: 100%;
+        margin: 0;
+    }
+
+    .fp-repo .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 9px 12px;
+        border: 0;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.4;
+        text-decoration: none;
+        white-space: nowrap;
+        color: $at-text;
+        background: transparent;
+
+        // Phosphor icon per repository type (the repository PNG stays for the other types' alt text).
+        &::before {
+            content: "\e24a";
+            flex: none;
+            font-family: "Phosphor" !important;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        &:has(img[src*="repository_contentbank"])::before { content: "\e1de"; }
+        &:has(img[src*="repository_local"])::before { content: "\e2a0"; }
+        &:has(img[src*="repository_recent"])::before { content: "\e1a0"; }
+        &:has(img[src*="repository_upload"])::before { content: "\e4c0"; }
+        &:has(img[src*="repository_url"])::before { content: "\e2e6"; }
+        &:has(img[src*="repository_user"])::before { content: "\e308"; }
+        &:has(img[src*="repository_wikimedia"])::before { content: "\e288"; }
+
+        .fp-repo-icon {
+            display: none;
+        }
+
+        .fp-repo-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        // The panel is the surface colour: hover on the page ground, never on the active source.
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            background: $at-bg;
+        }
+    }
+
+    .fp-repo.active .nav-link,
+    .fp-repo .nav-link.active {
+        font-weight: 600;
+        color: $at-accent-100;
+        background: $at-accent-800;
+    }
+}
+
+.at-fp-main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+.file-picker.at-fp .fp-repo-items {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+}
+
+// ---------------------------------------------------------------- Search, toolbar, view switch, breadcrumb.
+.at-fp-navbar.fp-navbar {
+    flex: none;
+    padding: 16px 20px 0;
+    border: 0;
+    background: transparent;
+}
+
+.at-fp-toolbar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.file-picker.at-fp .fp-toolbar {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    float: none;
+
+    > div {
+        float: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .disabled {
+        display: none;
+    }
+
+    .fp-tb-search {
+        flex: 1;
+        min-width: 160px;
+
+        form,
+        .input-group {
+            display: flex;
+            width: 100%;
+            margin: 0;
+        }
+
+        input[type="text"],
+        input[type="search"],
+        .form-control {
+            width: 100% !important;
+            min-height: 36px;
+            padding-left: 34px !important;
+            border-radius: $at-radius-md !important;
+            background-image: $at-search-icon;
+            background-repeat: no-repeat;
+            background-position: 12px 50%;
+            background-size: 15px 15px;
+        }
+
+        .btn,
+        button[type="submit"] {
+            display: none;
+        }
+    }
+
+    .btn-icon,
+    .fp-tb-back .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-decoration: none;
+
+        i.ph {
+            font-size: 16px;
+        }
+    }
+
+    .fp-tb-back .btn {
+        height: 36px;
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .fp-tb-message {
+        font-size: 12px;
+        color: $at-text-55;
+    }
+}
+
+.file-picker.at-fp .btn-icon.btn-secondary:hover,
+.file-picker.at-fp .btn-icon.btn-secondary:focus-visible,
+.file-picker.at-fp .fp-tb-back .btn:hover {
+    color: $at-text;
+    background: $at-bg;
+}
+
+// Grid / list switch (tree view kept in the markup, hidden as in the maquette).
+.at-fp-viewbar.fp-viewbar {
+    display: flex;
+    flex: none;
+    float: none;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid $at-divider;
+    border-radius: $at-radius-md;
+
+    &.disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
+
+    .btn-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 34px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        color: $at-text-60;
+        background: transparent;
+        text-decoration: none;
+
+        i.ph {
+            font-size: 16px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            background: $at-bg;
+        }
+
+        &.checked {
+            color: $at-accent-100;
+            background: $at-accent-800;
+        }
+    }
+
+    .fp-vb-tree {
+        display: none;
+    }
+}
+
+.file-picker.at-fp .fp-pathbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 14px;
+    padding: 0;
+    font-size: 12px;
+    color: $at-text-55;
+
+    &::before {
+        content: "\e24a";
+        font-family: "Phosphor" !important;
+        font-size: 14px;
+    }
+
+    .fp-path-folder {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        & + .fp-path-folder::before {
+            content: "/";
+            color: $at-text-35;
+        }
+    }
+
+    .fp-path-folder-name {
+        color: $at-text-55;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            text-decoration: none;
+        }
+    }
+
+    .fp-path-folder.last .fp-path-folder-name {
+        color: $at-text;
+    }
+}
+
+// ---------------------------------------------------------------- Content: folder / file grid, list, forms.
+.file-picker.at-fp .fp-content {
+    flex: 1;
+    min-height: 0;
+    height: auto !important;
+    margin: 0;
+    padding: 0 20px 16px;
+    overflow-y: auto;
+    border: 0;
+    background: transparent;
+}
+
+.file-picker.at-fp .fp-iconview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 16px;
+
+    .fp-file {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: auto !important;
+        min-width: 0;
+        margin: 0;
+        padding: 10px 6px;
+        border: 0;
+        border-radius: 10px;
+        text-align: center;
+        text-decoration: none;
+        color: $at-text;
+        background: transparent;
+        transition: background .12s ease;
+
+        // The dialog is the surface colour: hover on the page ground.
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            background: $at-bg;
+        }
+
+        > div:first-child {
+            width: 64px;
+            height: 64px;
+        }
+
+        .fp-thumbnail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px !important;
+            height: 64px !important;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid $at-divider;
+            border-radius: 8px;
+            background: transparent;
+
+            img {
+                max-width: 48px !important;
+                max-height: 48px !important;
+                margin: 0;
+                object-fit: contain;
+            }
+        }
+
+        &.fp-folder .fp-thumbnail {
+            img {
+                display: none;
+            }
+
+            &::before {
+                content: "\e24a";
+                font-family: "Phosphor" !important;
+                font-size: 26px;
+                color: $at-accent-300;
+            }
+        }
+
+        .fp-reficons1,
+        .fp-reficons2 {
+            width: 64px;
+            height: 64px;
+        }
+
+        .fp-filename-field {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .fp-filename {
+            width: auto !important;
+            max-width: 90px;
+            margin: 0 auto;
+            padding: 0;
+            overflow: hidden;
+            font-size: 12px;
+            line-height: 1.35;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: $at-text;
+            background: transparent;
+        }
+    }
+}
+
+// List / tree views (YUI tables): plain rows, hover on the page ground.
+.file-picker.at-fp .fp-tableview,
+.file-picker.at-fp .fp-treeview {
+    font-size: 13px;
+    color: $at-text;
+
+    table,
+    .yui3-datatable-table {
+        width: 100%;
+        border: 0;
+        background: transparent;
+    }
+
+    th,
+    .yui3-datatable-header {
+        padding: 8px 10px;
+        border: 0;
+        border-bottom: 1px solid $at-divider;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: $at-text-55;
+        background: transparent;
+    }
+
+    td,
+    .yui3-datatable-cell {
+        padding: 8px 10px;
+        border: 0;
+        background: transparent !important;
+    }
+
+    tr:hover td,
+    .ygtvitem:hover {
+        background: $at-bg !important;
+    }
+
+    a {
+        color: $at-text;
+        text-decoration: none;
+    }
+}
+
+.file-picker.at-fp .fp-nextpage {
+    grid-column: 1 / -1;
+    padding: 10px 0;
+    text-align: center;
+}
+
+// Upload / URL / login forms of the repositories.
+.file-picker.at-fp .fp-upload-form,
+.file-picker.at-fp .fp-login-form,
+.file-picker.at-fp .fp-content-center {
+    max-width: 460px;
+    margin: 0;
+
+    label {
+        font-size: 12px;
+        color: $at-text-70;
+    }
+
+    .fp-file .px-3 {
+        padding: 0 !important;
+    }
+
+    .mdl-align,
+    .fp-upload-btn,
+    .fp-login-submit {
+        margin-top: 8px;
+    }
+}
+
+// ---------------------------------------------------------------- "Select this file" dialog: same card, buttons in a footer.
+.moodle-dialogue-base .moodle-dialogue:has(.fp-select) {
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100vh - 16px);
+    overflow: auto;
+    border: 0;
+    border-radius: 14px;
+    background: $at-surface;
+    box-shadow: $at-shadow-lg;
+
+    .moodle-dialogue-wrap {
+        border: 0;
+        background: transparent;
+    }
+
+    .moodle-dialogue-hd {
+        padding: 18px 22px;
+        border-bottom: 1px solid $at-divider;
+        cursor: default !important;
+
+        h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+    }
+
+    .fp-select .container {
+        padding: 16px 22px 0;
+    }
+
+    // Cancel / Select this file, right-aligned under a rule (confirm last, as the maquette footer).
+    .fp-select-buttons {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        gap: 10px;
+        width: 100%;
+        margin-top: 6px;
+        padding: 14px 0 16px;
+        border-top: 1px solid $at-divider;
+    }
+}
+
+// ---------------------------------------------------------------- Mobile: sources as a horizontal scrollable row.
+@media (max-width: $at-mobile-break) {
+    .moodle-dialogue-base .moodle-dialogue.filepicker {
+        width: calc(100vw - 16px) !important;
+        height: calc(100vh - 16px) !important;
+    }
+
+    .file-picker.at-fp {
+        flex-direction: column;
+    }
+
+    .at-fp-sources.fp-repo-area {
+        flex-direction: row;
+        width: 100%;
+        padding: 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: 0;
+        border-bottom: 1px solid $at-divider;
+
+        .fp-repo {
+            flex: none;
+            width: auto;
+        }
+    }
+
+    .at-fp-toolbar-row {
+        flex-wrap: wrap;
+    }
+
+    .at-fp-navbar.fp-navbar {
+        padding: 14px 14px 0;
+    }
+
+    .file-picker.at-fp .fp-content {
+        padding: 0 14px 14px;
+    }
+}

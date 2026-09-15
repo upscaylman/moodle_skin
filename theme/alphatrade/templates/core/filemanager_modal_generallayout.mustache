@@ -1,0 +1,77 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core/filemanager_modal_generallayout
+
+    Alpha Trade override of the file picker (maquette Espace Admin, "Importer des cohortes"), used by every file
+    picker of the site: sources on the left (active one as a gold pill), search + toolbar + breadcrumb + file grid on
+    the right. Same classes as core (fp-repo, fp-tb-*, fp-vb-*, fp-pathbar, fp-content) for repository/filepicker.js;
+    the bootstrap grid is replaced by the layout in _filepicker.scss and the toolbar icons are Phosphor.
+
+    Example context (json):
+    {}
+}}
+<div class="container at-fp-container">
+    <div tabindex="0" class="file-picker fp-generallayout at-fp" role="dialog" aria-live="assertive">
+        <div class="fp-repo-area at-fp-sources nav nav-pills" role="tablist">
+            <div class="fp-repo nav-item" role="tab" aria-selected="false" tabindex="-1">
+                <a href="#" class="nav-link" tabindex="-1"><img class="fp-repo-icon" alt=" " width="16" height="16" /><span class="fp-repo-name"></span></a>
+            </div>
+        </div>
+        <div class="at-fp-main">
+            <div class="fp-repo-items" tabindex="0">
+                <div class="fp-navbar at-fp-navbar">
+                    <div class="at-fp-toolbar-row">
+                        <div class="fp-toolbar">
+                            <div class="fp-tb-back">
+                                <a href="#" class="btn btn-secondary btn-sm"><i class="ph ph-arrow-left" aria-hidden="true"></i>{{#str}}back, repository{{/str}}</a>
+                            </div>
+                            <div class="fp-tb-search">
+                                <form></form>
+                            </div>
+                            <div class="fp-tb-refresh">
+                                <a title="{{#str}}refresh, repository{{/str}}" aria-label="{{#str}}refresh, repository{{/str}}" class="btn btn-icon btn-secondary" href="#"><i class="ph ph-arrows-clockwise" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="fp-tb-logout">
+                                <a title="{{#str}}logout, repository{{/str}}" aria-label="{{#str}}logout, repository{{/str}}" class="btn btn-icon btn-secondary" href="#"><i class="ph ph-sign-out" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="fp-tb-manage">
+                                <a title="{{#str}}manageurl, repository{{/str}}" aria-label="{{#str}}manageurl, repository{{/str}}" class="btn btn-icon btn-secondary" href="#"><i class="ph ph-gear-six" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="fp-tb-uploadfile">
+                                <a title="{{#str}}upload{{/str}}" aria-label="{{#str}}upload{{/str}}" class="btn btn-icon btn-secondary" href="#"><i class="ph ph-upload-simple" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="fp-tb-help">
+                                <a title="{{#str}}help, repository{{/str}}" aria-label="{{#str}}help, repository{{/str}}" class="btn btn-icon btn-secondary" href="#"><i class="ph ph-question" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="fp-tb-message"></div>
+                        </div>
+                        <div class="fp-viewbar at-fp-viewbar btn-group">
+                            <a role="button" title="{{#str}}displayicons, repository{{/str}}" aria-label="{{#str}}displayicons, repository{{/str}}" class="fp-vb-icons btn btn-icon" href="#"><i class="ph ph-squares-four" aria-hidden="true"></i></a>
+                            <a role="button" title="{{#str}}displaydetails, repository{{/str}}" aria-label="{{#str}}displaydetails, repository{{/str}}" class="fp-vb-details btn btn-icon" href="#"><i class="ph ph-list" aria-hidden="true"></i></a>
+                            <a role="button" title="{{#str}}displaytree, repository{{/str}}" aria-label="{{#str}}displaytree, repository{{/str}}" class="fp-vb-tree btn btn-icon" href="#"><i class="ph ph-tree-structure" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <div class="fp-pathbar">
+                        <span class="fp-path-folder"><a class="fp-path-folder-name aalink" href="#"></a></span>
+                    </div>
+                </div>
+                <div class="fp-content"></div>
+            </div>
+        </div>
+    </div>
+</div>

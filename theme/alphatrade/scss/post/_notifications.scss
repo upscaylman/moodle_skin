@@ -265,6 +265,31 @@
         height: auto;
     }
 
+    // Floating navbar on a phone: icon links (labels kept for assistive technologies), no text title, so the shared
+    // actions fit; the decorative blob never widens the page.
+    .at-floatnav {
+        gap: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .at-floatnav-brand {
+        display: none;
+    }
+
+    .at-floatnav-link > span:not(.at-tag) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    #page-wrapper.at-standalone {
+        overflow-x: clip;
+    }
+
     .popover-region-notifications .popover-region-container {
         position: fixed;
         top: $at-mob-top-height;

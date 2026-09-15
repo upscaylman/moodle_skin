@@ -37,23 +37,23 @@
         "viewmoreurl": "http://www.moodle.com"
     }
 }}
-<div class="content-item-container notification at-notif {{^read}}unread{{/read}}"
+<div class="content-item-container notification at-popnotif {{^read}}unread{{/read}}"
     data-region="notification-content-item-container"
     data-id="{{id}}"
     role="listitem">
-    <i class="ph ph-bell at-notif-icon" data-component="{{component}}" data-eventtype="{{eventtype}}" aria-hidden="true"></i>
-    <div class="at-notif-body">
+    <i class="ph ph-bell at-popnotif-icon" data-component="{{component}}" data-eventtype="{{eventtype}}" aria-hidden="true"></i>
+    <div class="at-popnotif-body">
         {{#contexturl}}
-            <a class="context-link at-notif-title" href="{{{.}}}" data-action="content-item-link"{{!
+            <a class="context-link at-popnotif-title" href="{{{.}}}" data-action="content-item-link"{{!
                 }}{{#read}} aria-label="{{subject}}"{{/read}}{{!
                 }}{{^read}} aria-label="{{#str}} unreadnotification, message, {{subject}} {{/str}}"{{/read}}>{{shortenedsubject}}</a>
         {{/contexturl}}
         {{^contexturl}}
-            <span class="at-notif-title" tabindex="0"{{!
+            <span class="at-popnotif-title" tabindex="0"{{!
                 }}{{#read}} aria-label="{{subject}}"{{/read}}{{!
                 }}{{^read}} aria-label="{{#str}} unreadnotification, message, {{subject}} {{/str}}"{{/read}}>{{shortenedsubject}}</span>
         {{/contexturl}}
-        <span class="timestamp at-notif-time">{{timecreatedpretty}}</span>
+        <span class="timestamp at-popnotif-time">{{timecreatedpretty}}</span>
         {{#viewmoreurl}}
             <a href="{{{.}}}" class="view-more" data-action="view-more">{{#str}} viewfullnotification, message {{/str}}</a>
         {{/viewmoreurl}}

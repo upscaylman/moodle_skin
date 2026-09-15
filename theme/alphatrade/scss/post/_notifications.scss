@@ -155,14 +155,21 @@
     }
 }
 
-// Rows: the whole row is clickable (title link stretched), hover on the page ground (the card is the surface colour).
-.popover-region-notifications .content-item-container.at-notif,
-.at-notif {
+// Rows (the class .at-notif belongs to the Messagerie notifications list): the whole row is clickable (title link
+// stretched), hover on the page ground (the card is the surface colour). Boost's absolute link, hover colours and
+// unread tint are neutralised.
+.popover-region-notifications .content-item-container.at-popnotif {
     position: relative;
     display: flex;
     gap: 12px;
+    width: 100%;
+    margin: 0;
     padding: 14px 18px;
+    border: 0;
     border-bottom: 1px solid $at-divider;
+    border-radius: 0;
+    box-shadow: none;
+    color: $at-text;
     background: transparent;
     transition: background .12s ease;
 
@@ -171,12 +178,40 @@
     }
 
     &:hover,
-    &:focus-within {
+    &:focus-within,
+    &.unread:hover {
+        color: $at-text;
         background: $at-bg;
+    }
+
+    .view-more,
+    &:hover .view-more {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        z-index: 1;
+        font-size: 12px;
+        line-height: 1.4;
+        color: $at-accent;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            color: $at-accent-400;
+            text-decoration: none;
+        }
+    }
+
+    .timestamp,
+    &:hover .timestamp {
+        margin: 2px 0 4px;
+        font-size: 12px;
+        line-height: 1.3;
+        color: $at-text-55;
     }
 }
 
-.at-notif-icon {
+.at-popnotif-icon {
     flex: none;
     margin-top: 2px;
     font-size: 16px;
@@ -191,15 +226,15 @@
     &[data-eventtype="notices"] { @extend .ph-info; }
 }
 
-.at-notif-body {
+.at-popnotif-body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 0;
     flex: 1;
+    min-width: 0;
 }
 
-.at-notif-title {
+.at-popnotif-title {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.4;
@@ -221,26 +256,6 @@
         content: "";
         position: absolute;
         inset: 0;
-    }
-}
-
-.at-notif-time {
-    margin: 2px 0 4px;
-    font-size: 12px;
-    color: $at-text-55;
-}
-
-.at-notif .view-more {
-    position: relative;
-    z-index: 1;
-    font-size: 12px;
-    color: $at-accent;
-    text-decoration: none;
-
-    &:hover,
-    &:focus-visible {
-        color: $at-accent-400;
-        text-decoration: none;
     }
 }
 

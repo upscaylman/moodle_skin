@@ -176,19 +176,22 @@
             text-overflow: ellipsis;
         }
 
-        // The panel is the surface colour: hover on the page ground, never on the active source.
-        &:hover,
-        &:focus-visible {
-            color: $at-text;
-            background: $at-bg;
-        }
+    }
+
+    // The panel is the surface colour: hover on the page ground, never on the active source. !important: Boost's
+    // mobile .nav-pills rules (pills drawn as blue buttons below 768px) are more specific.
+    .fp-repo:not(.active) .nav-link:not(.active):hover,
+    .fp-repo:not(.active) .nav-link:not(.active):focus-visible {
+        color: $at-text !important;
+        background: $at-bg !important;
     }
 
     .fp-repo.active .nav-link,
     .fp-repo .nav-link.active {
         font-weight: 600;
-        color: $at-accent-100;
-        background: $at-accent-800;
+        border-color: transparent !important;
+        color: $at-accent-100 !important;
+        background: $at-accent-800 !important;
     }
 }
 
@@ -372,10 +375,14 @@
         font-size: 14px;
     }
 
+    // One Phosphor folder before the path (core draws a PNG folder before each segment).
     .fp-path-folder {
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        height: auto;
+        margin: 0;
+        background: none;
 
         & + .fp-path-folder::before {
             content: "/";
@@ -384,6 +391,7 @@
     }
 
     .fp-path-folder-name {
+        margin: 0;
         color: $at-text-55;
         text-decoration: none;
 
@@ -445,23 +453,32 @@
             height: 64px;
         }
 
-        .fp-thumbnail {
+        // Core: 110px thumbnail (min-width/min-height), framed image with a shadow, own hover.
+        .fp-thumbnail,
+        .fp-thumbnail:hover {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 64px !important;
             height: 64px !important;
+            min-width: 0;
+            min-height: 0;
             margin: 0;
             padding: 0;
             overflow: hidden;
+            line-height: 1;
             border: 1px solid $at-divider;
             border-radius: 8px;
             background: transparent;
+            box-shadow: none;
 
             img {
                 max-width: 48px !important;
                 max-height: 48px !important;
                 margin: 0;
+                padding: 0;
+                border: 0;
+                box-shadow: none;
                 object-fit: contain;
             }
         }
@@ -485,14 +502,20 @@
             height: 64px;
         }
 
+        // Core places the name absolutely under a 110px thumbnail: back in the flow, still truncated on hover.
         .fp-filename-field {
+            position: static;
             width: 100%;
+            height: auto;
             min-width: 0;
+            margin: 0;
+            overflow: hidden;
         }
 
         .fp-filename {
             width: auto !important;
-            max-width: 90px;
+            min-width: 0;
+            max-width: 100%;
             margin: 0 auto;
             padding: 0;
             overflow: hidden;

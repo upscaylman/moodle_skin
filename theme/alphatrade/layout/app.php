@@ -87,12 +87,14 @@ if ($isadminpage) {
     $blockdraweropen = false;
 }
 
-// Moodle titles admin pages with the site name: show the page name instead (last breadcrumb item).
-if (!$isalphapage && $isadminpage && in_array($PAGE->heading, [format_string($SITE->fullname), format_string($SITE->shortname)], true)) {
-    $breadcrumb = $PAGE->navbar->get_items();
-    $current = $breadcrumb ? end($breadcrumb) : null;
-    if ($current && trim(strip_tags($current->get_content())) !== '') {
-        $PAGE->set_heading($current->get_content(), false);
+// Moodle titles admin pages with the site name: show the page name instead, the first part of the window title
+// ("Browse list of users | Accounts | Users | Administration | Site"). The breadcrumb is not read here: building it
+// from the layout duplicates its last item.
+$sitenames = [format_string($SITE->fullname), format_string($SITE->shortname)];
+if (!$isalphapage && $isadminpage && in_array($PAGE->heading, $sitenames, true)) {
+    $pagename = trim(explode(moodle_page::TITLE_SEPARATOR, $PAGE->title)[0]);
+    if ($pagename !== '' && !in_array($pagename, $sitenames, true)) {
+        $PAGE->set_heading($pagename, false);
     }
 }
 

@@ -78,14 +78,17 @@ if ($isalphapage && !$PAGE->user_is_editing()) {
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
-// Admin pages keep their full width for tables and forms: the block drawer (Admin bookmarks) starts closed there,
-// whatever the saved preference. Its toggle stays at the right edge of the page.
-if ($PAGE->pagelayout === 'admin') {
+// Site administration pages (admin layout, and site-level reports such as Config changes) keep their full width for
+// tables and forms: the block drawer (Admin bookmarks) starts closed there, whatever the saved preference. Its toggle
+// stays at the right edge of the page.
+$isadminpage = $PAGE->pagelayout === 'admin'
+    || ($PAGE->pagelayout === 'report' && $PAGE->context->contextlevel == CONTEXT_SYSTEM);
+if ($isadminpage) {
     $blockdraweropen = false;
 }
 
 // Moodle titles admin pages with the site name: show the page name instead (last breadcrumb item).
-if (!$isalphapage && $PAGE->pagelayout === 'admin' && in_array($PAGE->heading, [format_string($SITE->fullname), format_string($SITE->shortname)], true)) {
+if (!$isalphapage && $isadminpage && in_array($PAGE->heading, [format_string($SITE->fullname), format_string($SITE->shortname)], true)) {
     $breadcrumb = $PAGE->navbar->get_items();
     $current = $breadcrumb ? end($breadcrumb) : null;
     if ($current && trim(strip_tags($current->get_content())) !== '') {

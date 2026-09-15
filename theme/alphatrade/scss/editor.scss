@@ -1,0 +1,118 @@
+// TinyMCE editing area (iframe), declared by $THEME->editor_scss: the text reads like the rest of the page, on the
+// surface colour of the form fields, in Inter, with the theme's links, quotes, tables and code. Like Boost's own
+// editor stylesheet it gives the content access to Bootstrap, here with the Nocturne variables.
+
+$alpha-accent: #c99a3e;
+
+@import "pre";
+
+/* Give editor access to all of bootstrap (Boost's copy, the parent theme). */
+@import "../../boost/scss/bootstrap/bootstrap";
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('[[font:theme|InterVariable.woff2]]') format('woff2');
+}
+
+html,
+body {
+    background: $at-surface;
+}
+
+body {
+    margin: 12px 14px;
+    font-family: $at-font;
+    font-size: 14px;
+    line-height: 1.6;
+    color: $at-text;
+    caret-color: $at-accent;
+}
+
+::selection {
+    color: $at-text;
+    background: rgba($at-accent, .35);
+}
+
+a {
+    color: $at-accent;
+
+    &:hover {
+        color: $at-accent-2;
+    }
+}
+
+h3,
+h4,
+h5,
+h6 {
+    margin: 1em 0 .5em;
+    font-weight: $at-heading-weight;
+    color: $at-text;
+}
+
+p {
+    margin: 0 0 .75em;
+}
+
+blockquote {
+    margin: 0 0 1em;
+    padding: 2px 0 2px 14px;
+    border-left: 3px solid $at-accent-700;
+    color: $at-text-70;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid $at-divider;
+}
+
+table {
+    border-collapse: collapse;
+
+    td,
+    th {
+        padding: 6px 10px;
+        border: 1px solid $at-divider;
+    }
+
+    th {
+        font-weight: 600;
+    }
+}
+
+pre {
+    padding: 12px;
+    border-radius: $at-radius-md;
+    color: $at-accent-300;
+    background: $at-bg;
+}
+
+code {
+    padding: 1px 5px;
+    border-radius: $at-radius-sm;
+    color: $at-accent-300;
+    background: $at-text-8;
+}
+
+pre code {
+    padding: 0;
+    background: transparent;
+}
+
+code[data-mce-selected="inline-boundary"]:not(pre code) {
+    border: thin solid $at-divider;
+    background-color: $at-text-8 !important; /* stylelint-disable-line declaration-no-important */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+// Placeholder text of an empty editor.
+.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+    color: $at-text-45;
+}

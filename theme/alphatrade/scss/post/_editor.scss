@@ -1,0 +1,272 @@
+// TinyMCE interface (toolbar, menus, status bar, dialogs) on TinyMCE's "oxide-dark" skin, switched on by
+// theme_alphatrade/editor_skin, with the Nocturne colours: surface chrome like the form fields, hover on the page
+// ground, active or selected tools in gold. The skin stylesheet is injected after the theme's CSS, hence the "body"
+// in front of each selector. The editing area itself: scss/editor.scss.
+
+body {
+    // Editor frame: same border and radius as the form fields, gold border while typing.
+    .tox-tinymce {
+        border: 1px solid $at-divider;
+        border-radius: $at-radius-md;
+        font-family: $at-font;
+
+        &:focus-within {
+            border-color: $at-accent;
+        }
+    }
+
+    .tox:not(.tox-tinymce-inline) .tox-editor-header {
+        border-bottom: 1px solid $at-divider;
+        background-color: $at-surface;
+    }
+
+    .tox .tox-menubar,
+    .tox .tox-toolbar-overlord,
+    .tox .tox-toolbar,
+    .tox .tox-toolbar__primary,
+    .tox .tox-toolbar__overflow {
+        background-color: $at-surface;
+    }
+
+    // Separator lines between wrapped toolbar rows.
+    .tox .tox-toolbar,
+    .tox .tox-toolbar__primary,
+    .tox .tox-toolbar__overflow {
+        background-image: repeating-linear-gradient($at-divider 0 1px, transparent 1px 39px);
+    }
+
+    .tox .tox-edit-area__iframe {
+        background-color: $at-surface;
+    }
+
+    // Menu bar and toolbar buttons.
+    .tox .tox-mbtn,
+    .tox .tox-tbtn,
+    .tox .tox-tbtn:focus,
+    .tox .tox-mbtn:focus:not(:disabled),
+    .tox .tox-tbtn--disabled,
+    .tox .tox-tbtn--disabled:hover,
+    .tox .tox-tbtn:disabled,
+    .tox .tox-tbtn:disabled:hover,
+    .tox .tox-mbtn[disabled] {
+        background: transparent;
+        color: $at-text;
+    }
+
+    .tox .tox-tbtn--disabled,
+    .tox .tox-tbtn:disabled,
+    .tox .tox-mbtn[disabled] {
+        color: $at-text-35;
+    }
+
+    .tox .tox-tbtn svg {
+        fill: currentColor;
+    }
+
+    .tox .tox-tbtn:hover,
+    .tox .tox-mbtn:hover:not(:disabled):not(.tox-mbtn--active),
+    .tox .tox-split-button:focus .tox-tbtn:hover {
+        color: $at-text;
+        background: $at-bg;
+    }
+
+    .tox .tox-split-button:hover {
+        box-shadow: 0 0 0 1px $at-divider inset;
+    }
+
+    .tox .tox-tbtn:active,
+    .tox .tox-tbtn--active,
+    .tox .tox-tbtn--enabled,
+    .tox .tox-tbtn--enabled:hover,
+    .tox .tox-tbtn--enabled:focus,
+    .tox .tox-mbtn--active,
+    .tox .tox-mbtn:not(:disabled).tox-mbtn--active:focus {
+        color: $at-accent-100;
+        background: $at-accent-800;
+    }
+
+    .tox .tox-tbtn.tox-tbtn--active,
+    .tox .tox-tbtn.tox-tbtn--enabled,
+    .tox .tox-tbtn.tox-tbtn--enabled:hover,
+    .tox .tox-tbtn.tox-tbtn--enabled:focus {
+        outline: 0;
+    }
+
+    // Keyboard focus rings in gold.
+    .tox .tox-tbtn:focus::after,
+    .tox .tox-mbtn:focus:not(:disabled)::after,
+    .tox .tox-tbtn--enabled:focus::after,
+    .tox .tox-split-button:focus::after,
+    .tox .tox-statusbar a:focus-visible::after,
+    .tox .tox-statusbar__path-item:focus-visible::after,
+    .tox .tox-collection--toolbar .tox-collection__item--active:focus::after {
+        box-shadow: 0 0 0 2px rgba($at-accent, .6);
+    }
+
+    // Status bar (element path, word count, resize handle).
+    .tox .tox-statusbar {
+        border-top: 1px solid $at-divider;
+        font-size: 12px;
+        color: $at-text-55;
+        background-color: $at-surface;
+    }
+
+    .tox .tox-statusbar a,
+    .tox .tox-statusbar__path-item,
+    .tox .tox-statusbar__wordcount {
+        color: $at-text-55;
+    }
+
+    .tox .tox-statusbar a:hover:not(:disabled):not([aria-disabled=true]),
+    .tox .tox-statusbar__path-item:hover:not(:disabled):not([aria-disabled=true]),
+    .tox .tox-statusbar__wordcount:hover:not(:disabled):not([aria-disabled=true]) {
+        color: $at-text;
+    }
+
+    .tox .tox-statusbar__resize-handle svg {
+        fill: $at-text-45;
+    }
+
+    // Menus and dropdowns (rendered in TinyMCE's sink at the end of the page): surface panels, hover on the page
+    // ground, the checked option in gold.
+    .tox .tox-menu,
+    .tox.tox-tinymce-aux .tox-toolbar__overflow {
+        border: 0;
+        border-radius: $at-radius-md;
+        background-color: $at-surface;
+        box-shadow: $at-shadow-md;
+    }
+
+    .tox .tox-collection__item {
+        color: $at-text;
+    }
+
+    .tox .tox-collection--list .tox-collection__item--active,
+    .tox .tox-collection--toolbar .tox-collection__item--active,
+    .tox .tox-collection--toolbar .tox-collection__item--active:hover,
+    .tox .tox-collection--toolbar .tox-collection__item--active:focus,
+    .tox .tox-collection--grid .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
+        color: $at-text;
+        background-color: $at-bg;
+    }
+
+    .tox .tox-collection--list .tox-collection__item--enabled,
+    .tox .tox-collection--toolbar .tox-collection__item--enabled,
+    .tox .tox-collection--toolbar .tox-collection__item--enabled.tox-collection__item--active,
+    .tox .tox-collection--grid .tox-collection__item--enabled {
+        color: $at-accent-100;
+        background-color: $at-accent-800;
+    }
+
+    .tox .tox-collection__item--state-disabled {
+        color: $at-text-35;
+    }
+
+    .tox .tox-collection__group {
+        border-color: $at-divider;
+    }
+
+    // Tooltips.
+    .tox .tox-tooltip__body {
+        border-radius: 6px;
+        color: $at-text;
+        background-color: $at-neutral-800;
+    }
+
+    .tox .tox-tooltip--down .tox-tooltip__arrow { border-top-color: $at-neutral-800; }
+    .tox .tox-tooltip--up .tox-tooltip__arrow { border-bottom-color: $at-neutral-800; }
+    .tox .tox-tooltip--right .tox-tooltip__arrow { border-left-color: $at-neutral-800; }
+    .tox .tox-tooltip--left .tox-tooltip__arrow { border-right-color: $at-neutral-800; }
+
+    // TinyMCE's own dialogs (table properties, source code, special characters...): the theme's modal card.
+    .tox .tox-dialog-wrap__backdrop {
+        background-color: rgba(0, 0, 0, .6);
+    }
+
+    .tox .tox-dialog {
+        border: 0;
+        border-radius: $at-radius-lg;
+        background-color: $at-surface;
+        box-shadow: $at-shadow-lg;
+    }
+
+    .tox .tox-dialog__header,
+    .tox .tox-dialog__footer {
+        color: $at-text;
+        background-color: $at-surface;
+    }
+
+    .tox .tox-dialog__footer {
+        border-top: 1px solid $at-divider;
+    }
+
+    .tox .tox-dialog__title {
+        font-family: $at-font;
+        font-size: 18px;
+        font-weight: $at-heading-weight;
+    }
+
+    .tox .tox-dialog__body,
+    .tox .tox-label,
+    .tox .tox-form__group h2 {
+        color: $at-text;
+    }
+
+    .tox .tox-textfield,
+    .tox .tox-textarea,
+    .tox .tox-listbox--select,
+    .tox .tox-selectfield select,
+    .tox .tox-toolbar-textfield {
+        border: 1px solid $at-divider;
+        border-radius: $at-radius-md;
+        color: $at-text;
+        background-color: $at-bg;
+
+        &:focus {
+            border-color: $at-accent;
+            box-shadow: none;
+        }
+    }
+
+    // Dialog buttons: the theme's primary (gold outline) and secondary (divider outline) buttons.
+    .tox .tox-button,
+    .tox .tox-button:focus:not(:disabled),
+    .tox .tox-button:hover:not(:disabled),
+    .tox .tox-button:active:not(:disabled) {
+        border: 1px solid $at-accent;
+        border-radius: $at-radius-md;
+        color: $at-accent;
+        background-color: transparent;
+    }
+
+    .tox .tox-button:hover:not(:disabled),
+    .tox .tox-button:focus:not(:disabled) {
+        background-color: rgba($at-accent, .12);
+    }
+
+    .tox .tox-button--secondary,
+    .tox .tox-button--secondary:focus:not(:disabled),
+    .tox .tox-button--secondary:hover:not(:disabled),
+    .tox .tox-button--secondary:active:not(:disabled) {
+        border-color: $at-divider;
+        color: $at-text;
+        background-color: transparent;
+    }
+
+    .tox .tox-button--secondary:hover:not(:disabled),
+    .tox .tox-button--secondary:focus:not(:disabled) {
+        background-color: $at-bg;
+    }
+
+    .tox .tox-button--naked,
+    .tox .tox-button--naked:hover:not(:disabled),
+    .tox .tox-button--naked:focus:not(:disabled) {
+        border-color: transparent;
+        color: $at-text;
+        background-color: transparent;
+    }
+
+    .tox .tox-button--naked:hover:not(:disabled) {
+        background-color: $at-bg;
+    }
+}

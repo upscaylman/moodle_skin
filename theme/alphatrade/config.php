@@ -31,6 +31,8 @@ $THEME->name = 'alphatrade';
 $THEME->parents = ['boost'];
 $THEME->sheets = [];
 $THEME->editor_sheets = [];
+// TinyMCE editing area in the dark theme (scss/editor.scss); the editor's toolbar and menus: scss/post/_editor.scss.
+$THEME->editor_scss = ['editor'];
 $THEME->scss = function($theme) {
     return theme_alphatrade_get_main_scss_content($theme);
 };

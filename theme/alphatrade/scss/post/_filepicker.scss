@@ -690,18 +690,170 @@
     }
 
     .moodle-dialogue-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
         padding: 18px 22px;
         border-bottom: 1px solid $at-divider;
         cursor: default !important;
 
         h3 {
+            min-width: 0;
             margin: 0;
+            overflow: hidden;
             font-size: 18px;
+            font-weight: $at-heading-weight;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: $at-text;
+        }
+
+        .closebutton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+            width: 36px;
+            height: 36px;
+            margin: 0;
+            padding: 0;
+            border: 1px solid $at-divider;
+            border-radius: $at-radius-md;
+            color: $at-text;
+            background: transparent;
+            opacity: 1;
+
+            &:hover,
+            &:focus-visible {
+                background: $at-bg;
+            }
+        }
+    }
+
+    .moodle-dialogue-bd {
+        padding: 0;
+    }
+
+    // File preview first, then the options, the buttons last as the footer.
+    .file-picker.fp-select {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fp-select-loading {
+        order: 0;
+        padding: 20px 0;
+    }
+
+    .fp-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        order: 1;
+        padding: 18px 22px 0;
+
+        hr {
+            display: none;
+        }
+
+        .fp-thumbnail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+            float: none;
+            width: 64px;
+            height: 64px;
+            min-width: 0;
+            min-height: 0;
+            margin: 0;
+            line-height: 1;
+            border: 1px solid $at-divider;
+            border-radius: 8px;
+            background: transparent;
+
+            img {
+                max-width: 44px !important;
+                max-height: 44px !important;
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+        }
+
+        .fp-fileinfo {
+            display: grid;
+            gap: 2px;
+            min-width: 0;
+            margin: 0;
+            font-size: 12px;
+            color: $at-text-55;
+
+            div {
+                padding: 0;
+            }
+
+            .fp-value {
+                margin-left: 6px;
+                color: $at-text;
+            }
         }
     }
 
     .fp-select .container {
-        padding: 16px 22px 0;
+        order: 2;
+        max-width: none;
+        padding: 18px 22px 0;
+
+        .row {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        fieldset {
+            gap: 6px;
+            margin-bottom: 16px !important;
+        }
+
+        .form-check-label {
+            font-size: 14px;
+            color: $at-text;
+        }
+
+        .form-check-input {
+            accent-color: $at-accent;
+        }
+
+        // Labels above their fields, as in the upload form.
+        .fp-saveas,
+        .fp-setauthor,
+        .fp-setlicense {
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px !important;
+
+            label,
+            .col-form-label {
+                padding: 0;
+                font-size: 12px;
+                color: $at-text-70;
+            }
+
+            [class*="col-"] {
+                flex: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .form-control,
+            .form-select,
+            select {
+                width: 100%;
+                max-width: none;
+            }
+        }
     }
 
     // Cancel / Select this file, right-aligned under a rule (confirm last, as the maquette footer).
@@ -710,10 +862,15 @@
         flex-direction: row-reverse;
         justify-content: flex-start;
         gap: 10px;
+        float: none;
         width: 100%;
-        margin-top: 6px;
-        padding: 14px 0 16px;
+        margin: 4px 0 0;
+        padding: 14px 0 18px;
         border-top: 1px solid $at-divider;
+    }
+
+    .mb-3.row:has(> .fp-select-buttons) {
+        margin-bottom: 0 !important;
     }
 }
 

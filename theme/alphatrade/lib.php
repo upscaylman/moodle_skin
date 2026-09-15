@@ -61,7 +61,7 @@ function theme_alphatrade_get_pre_scss($theme) {
  * @return string
  */
 function theme_alphatrade_get_extra_scss($theme) {
-    $files = ['fonts', 'icons', 'nocturne', 'shell', 'native', 'quiz', 'screens', 'staff', 'login', 'public', 'messaging', 'billing', 'dashboard', 'settings', 'notifications'];
+    $files = ['fonts', 'icons', 'nocturne', 'shell', 'native', 'quiz', 'screens', 'staff', 'login', 'public', 'messaging', 'billing', 'dashboard', 'settings', 'notifications', 'preferences'];
     $scss = '';
     foreach ($files as $file) {
         $scss .= file_get_contents(__DIR__ . "/scss/post/_{$file}.scss") . "\n";

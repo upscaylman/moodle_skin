@@ -1,0 +1,273 @@
+// Notification preferences, /message/notificationpreferences.php (maquette Espace Admin, "Préférences de notification"),
+// reached from the gear of the notifications centre: breadcrumb, profile header, "Disable notifications" check box,
+// preferences table in a card grouped by component, Web / E-mail / Mobile gold toggles. Moodle's markup and JS unchanged.
+
+$at-check-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath fill='%23181a1e' d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+
+#page-message-notificationpreferences {
+    // ---------------------------------------------------------------- Breadcrumb and profile header.
+    .at-page-title #page-header {
+        .breadcrumb {
+            margin-bottom: 22px;
+            font-size: 13px;
+
+            .breadcrumb-item + .breadcrumb-item::before {
+                color: $at-text-45;
+            }
+
+            a {
+                color: $at-accent;
+                text-decoration: none;
+            }
+
+            span {
+                color: $at-text-60;
+            }
+        }
+
+        .page-context-header {
+            gap: 16px;
+            margin-bottom: 8px !important;
+        }
+
+        .page-header-image {
+            margin: 0;
+            padding: 0;
+
+            .userinitials,
+            .userpicture {
+                width: 56px;
+                height: 56px;
+                min-width: 56px;
+                margin: 0;
+                border-radius: 50%;
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 56px;
+                color: $at-accent-100;
+                background: $at-accent-800;
+                object-fit: cover;
+            }
+        }
+
+        .page-header-headings h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        // Your own page: no "Message" (to yourself) button in the maquette.
+        .header-button-group {
+            display: none !important;
+        }
+    }
+
+    .preferences-page-container > h2 {
+        margin: 24px 0 20px;
+        font-size: 26px;
+        font-weight: $at-heading-weight;
+        letter-spacing: -.015em;
+        color: $at-text;
+    }
+
+    // ---------------------------------------------------------------- "Disable notifications".
+    [data-region="disable-notification-container"] {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 26px;
+
+        label {
+            margin: 0;
+            font-size: 14px;
+            color: $at-text;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            flex: none;
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            border: 1px solid $at-divider;
+            border-radius: 4px;
+            background: transparent no-repeat center / 12px 12px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+
+            &:checked {
+                border-color: $at-accent;
+                background-color: $at-accent;
+                background-image: $at-check-icon;
+            }
+
+            &:focus-visible {
+                outline: 2px solid $at-accent;
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------- Preferences table in a card.
+    .preferences-container {
+        overflow-x: auto;
+        border-radius: 12px;
+        background: $at-surface;
+        box-shadow: $at-shadow-sm;
+    }
+
+    .preference-table {
+        width: 100%;
+        min-width: 520px;
+        margin: 0;
+        border: 0;
+        border-collapse: collapse;
+        background: transparent;
+
+        th,
+        td {
+            border: 0;
+            padding: 12px 16px;
+            vertical-align: middle;
+        }
+
+        thead th {
+            padding-top: 14px;
+            padding-bottom: 14px;
+            text-align: center;
+            border-bottom: 1px solid $at-divider;
+
+            &:first-child {
+                text-align: left;
+            }
+
+            // Processor settings (E-mail, Mobile): plain label + gear, no underline.
+            a {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                color: $at-text-60;
+                text-decoration: none;
+
+                &:hover,
+                &:focus-visible {
+                    color: $at-text;
+                    text-decoration: none;
+                }
+
+                .icon {
+                    margin: 0;
+                    font-size: 11px;
+                    color: inherit;
+                }
+            }
+        }
+
+        // Group (component) rows: bold title, air above.
+        tbody tr:not(.preference-row) th {
+            padding-top: 20px;
+            padding-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-transform: none;
+            color: $at-text;
+            background: transparent;
+        }
+
+        tbody tr:not(.preference-row):not(:first-child) th {
+            border-top: 1px solid $at-divider;
+        }
+
+        // Setting rows: hover on the page ground (the card is the surface colour).
+        .preference-row {
+            transition: background .12s ease;
+
+            &:hover {
+                background: $at-bg;
+            }
+
+            .preference-name {
+                font-size: 14px;
+                font-weight: 400;
+                color: $at-text;
+            }
+
+            td {
+                text-align: center;
+            }
+
+            form,
+            .preference-state {
+                display: flex;
+                justify-content: center;
+                margin: 0;
+            }
+
+            .dimmed_text {
+                font-size: 12px;
+                color: $at-text-50;
+            }
+        }
+
+        // Toggles: 36 x 20 pill, gold when on, neutral when off, 16px knob.
+        .custom-switch {
+            display: inline-flex;
+            width: 36px;
+            height: 20px;
+            min-height: 20px;
+            margin: 0;
+            padding: 0;
+
+            .custom-control-label {
+                position: relative;
+                width: 36px;
+                height: 20px;
+                margin: 0;
+                cursor: pointer;
+
+                &::before {
+                    top: 0;
+                    left: 0;
+                    width: 36px;
+                    height: 20px;
+                    border: 0;
+                    border-radius: 999px;
+                    background: $at-neutral-700;
+                    box-shadow: none;
+                }
+
+                &::after {
+                    top: 2px;
+                    left: 2px;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background: $at-bg;
+                    transform: none;
+                    transition: transform .15s ease;
+                }
+            }
+
+            .custom-control-input:checked ~ .custom-control-label {
+                &::before {
+                    background: $at-accent;
+                }
+
+                &::after {
+                    background: $at-bg;
+                    transform: translateX(16px);
+                }
+            }
+
+            .custom-control-input:focus-visible ~ .custom-control-label::before {
+                box-shadow: 0 0 0 2px rgba($at-accent, .45);
+            }
+
+            .custom-control-input:disabled ~ .custom-control-label {
+                cursor: not-allowed;
+                opacity: .5;
+            }
+        }
+    }
+}

@@ -26,9 +26,9 @@
     }
 }
 
-// Standalone pages (Messagerie, Paiement): the same actions at the right of the floating navbar (surface colour, so the
-// hover takes the page ground).
-.at-floatnav .at-header-actions {
+// Standalone pages (Messagerie, Paiement): the same actions at the right of the public-site navbar (surface colour, so
+// the hover takes the page ground).
+.at-pub-header .at-header-actions {
     margin-left: auto;
 
     .at-header-search:hover,
@@ -260,30 +260,11 @@
 }
 
 @media (max-width: $at-mobile-break) {
-    .at-floatnav .at-header-actions {
+    // Navbar on a phone: links in the burger panel, the shared actions stay in the header; the decorative gradient never
+    // widens the page.
+    .at-pub-header .at-header-actions {
         position: static;
         height: auto;
-    }
-
-    // Floating navbar on a phone: icon links (labels kept for assistive technologies), no text title, so the shared
-    // actions fit; the decorative blob never widens the page.
-    .at-floatnav {
-        gap: 10px;
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-
-    .at-floatnav-brand {
-        display: none;
-    }
-
-    .at-floatnav-link > span:not(.at-tag) {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
     }
 
     #page-wrapper.at-standalone {

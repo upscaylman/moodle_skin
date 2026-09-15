@@ -60,7 +60,11 @@ body.alpha-public {
     gap: 26px;
     margin-right: auto;
 
+    // Site-style pages add an icon and a count to their links (Messagerie: Messages, Notifications).
     a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         text-decoration: none;
 
         &:hover,

@@ -17,15 +17,15 @@
 {{!
     @template theme_alphatrade/standalone
 
-    "Site" pages of the maquettes (Messagerie, Paiement): floating rounded navbar with the
-    decorative gradient behind the logo, no sidebar.
+    "Site" pages of the maquettes (Messagerie, Paiement, reçu): the navbar and the decorative gradient of the public site
+    (theme_alphatrade/pub_header) with the page links (tabs), the shared header actions on the right, no sidebar.
 
     Example context (json):
     {
         "sitename": "Alpha Trade",
         "output": {"doctype": "<!DOCTYPE html>", "page_title": "Messagerie", "favicon": "favicon.ico", "main_content": "<p>Contenu</p>"},
-        "bodyattributes": "", "title": "Messagerie", "homeurl": "#", "logourl": "logo.png", "markurl": "mark.png",
-        "standalone": {"ismessaging": true, "links": [{"label": "Messages", "url": "#", "icon": "ph-chat-circle-text", "badge": "", "active": true}]}
+        "bodyattributes": "", "title": "Messagerie", "homeurl": "#", "markurl": "mark.png", "searchurl": "#",
+        "haspubnav": true, "pubnav": [{"label": "Messages", "url": "#", "icon": "ph-chat-circle-text", "badge": "", "active": true}]
     }
 }}
 {{> theme_boost/head }}
@@ -34,25 +34,9 @@
 {{> core/local/toast/wrapper}}
 <div id="page-wrapper" class="at-standalone">
     {{{ output.standard_top_of_body_html }}}
-    {{^standalone.ismessaging}}<div class="at-blob at-blob-page" aria-hidden="true"></div>{{/standalone.ismessaging}}
-    <header class="at-floatnav{{#standalone.ismessaging}} at-floatnav-messaging{{/standalone.ismessaging}} d-print-none">
-        {{#standalone.ismessaging}}
-            <a class="at-floatnav-logo" href="{{homeurl}}">
-                <span class="at-blob at-blob-logo" aria-hidden="true"></span>
-                <img src="{{logourl}}" alt="{{sitename}}">
-            </a>
-        {{/standalone.ismessaging}}
-        {{^standalone.ismessaging}}
-            <a class="at-floatnav-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
-        {{/standalone.ismessaging}}
-        <span class="at-floatnav-brand">{{title}}</span>
-        {{#standalone.links}}
-            <a href="{{url}}" class="at-floatnav-link{{#active}} is-active{{/active}}"{{#active}} aria-current="page"{{/active}}>
-                <i class="ph {{icon}}" aria-hidden="true"></i><span>{{label}}</span>{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}
-            </a>
-        {{/standalone.links}}
-        {{> theme_alphatrade/header_actions }}
-    </header>
+    {{< theme_alphatrade/pub_header }}
+        {{$actions}}{{> theme_alphatrade/header_actions }}{{/actions}}
+    {{/ theme_alphatrade/pub_header }}
     <div id="page" class="at-standalone-page">
         <div id="page-content">
             <div id="region-main-box">

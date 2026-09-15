@@ -229,13 +229,6 @@ body.alpha-messaging {
 }
 
 @media (max-width: 760px) {
-    // Maquette: compact navbar, icons only (labels hidden in _notifications.scss), one line.
-    .at-floatnav-messaging {
-        flex-wrap: nowrap;
-        gap: 14px;
-        padding: 10px 14px;
-    }
-
     .at-msg-list {
         width: 100%;
         border-right: 0;

@@ -28,7 +28,7 @@
         "seo": {"title": "Alpha Trade Academy", "description": "École de trading", "canonical": "#", "sitename": "Alpha Trade Academy",
             "locale": "fr_FR", "image": "share-logo.jpg", "imagesize": 600, "imagealt": "Logo", "indexable": true, "llms": "#", "jsonld": "{}" },
         "bodyattributes": "", "markurl": "mark.png", "logourl": "logo.png", "heroimageurl": "hero.jpg", "loginurl": "#",
-        "nav": [{"label": "Accueil", "url": "#", "active": true}],
+        "haspubnav": true, "pubnav": [{"label": "Accueil", "url": "#", "active": true}],
         "homeurl": "#", "programmeurl": "#", "teamurl": "#", "candidaterurl": "#",
         "isaccueil": true, "isprogramme": false, "ismethode": false, "isformateurs": false, "isfaq": false, "iscandidater": false,
         "pipeline": [{"label": "Comprendre", "icon": "ph-book-open", "hasarrow": true}],
@@ -50,25 +50,14 @@
 {{> core/local/toast/wrapper}}
 <div id="page-wrapper" class="at-public">
     {{{ output.standard_top_of_body_html }}}
-    {{! Decorative gradient: a page layer behind the floating header, never inside it. }}
-    <div class="at-pub-glow" aria-hidden="true"></div>
-
-    <header class="at-pub-header">
-        <button type="button" class="at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
-            <i class="ph ph-list" aria-hidden="true"></i>
-        </button>
-        <a class="at-pub-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
-        <nav class="at-pub-nav" aria-label="{{sitename}}">
-            {{#nav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
-        </nav>
-        <div class="at-pub-actions">
-            <a class="btn btn-secondary" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
-            <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
-        </div>
-    </header>
-    <nav class="at-card at-elev-md at-pub-menu" id="at-pub-menu" aria-label="{{sitename}}" hidden>
-        {{#nav}}<a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>{{label}}</a>{{/nav}}
-    </nav>
+    {{< theme_alphatrade/pub_header }}
+        {{$actions}}
+            <div class="at-pub-actions">
+                <a class="btn btn-secondary" href="{{loginurl}}">{{#str}}pub_login, theme_alphatrade{{/str}}</a>
+                <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}}</a>
+            </div>
+        {{/actions}}
+    {{/ theme_alphatrade/pub_header }}
 
     <main id="page" class="at-pub-main">
         {{#isaccueil}}
@@ -295,36 +284,6 @@ require(['theme_boost/loader'], function() {
 
 (function() {
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Mobile burger menu (< 860px): the 5 links, login and apply stay in the header.
-    var burger = document.querySelector('[data-action="at-pub-menu"]');
-    var menu = document.getElementById('at-pub-menu');
-    if (burger && menu) {
-        var setOpen = function(open) {
-            burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-            menu.hidden = !open;
-        };
-        burger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            setOpen(menu.hidden);
-        });
-        document.addEventListener('click', function(e) {
-            if (!menu.hidden && !menu.contains(e.target)) {
-                setOpen(false);
-            }
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !menu.hidden) {
-                setOpen(false);
-                burger.focus();
-            }
-        });
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 860 && !menu.hidden) {
-                setOpen(false);
-            }
-        });
-    }
 
     // Cross-fade helper: one active item at a time, inactive items hidden from assistive technologies.
     var show = function(items, index) {

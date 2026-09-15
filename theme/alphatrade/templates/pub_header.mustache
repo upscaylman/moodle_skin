@@ -1,0 +1,86 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_alphatrade/pub_header
+
+    Floating navbar of the maquette "Alpha Trade - Site Public", shared by the public site and the site-style pages
+    (Messagerie, Paiement, reçu): decorative gradient as a page layer behind the header, sticky rounded surface header,
+    gold mark, links, actions on the right (block "actions"). Below 860px the links move to a burger panel opened by a
+    38px button placed before the logo; the actions stay in the header.
+
+    Links: pubnav [{label, url, active, icon (optional), badge (optional)}], haspubnav.
+
+    Example context (json):
+    {
+        "sitename": "Alpha Trade", "homeurl": "#", "markurl": "mark.png", "haspubnav": true,
+        "pubnav": [{"label": "Messages", "url": "#", "active": true, "icon": "ph-chat-circle-text", "badge": ""}]
+    }
+}}
+{{! Decorative gradient: a page layer behind the floating header, never inside it. }}
+<div class="at-pub-glow" aria-hidden="true"></div>
+
+<header class="at-pub-header d-print-none">
+    {{#haspubnav}}
+        <button type="button" class="at-pub-burger" data-action="at-pub-menu" aria-expanded="false" aria-controls="at-pub-menu" aria-label="{{#str}}pub_menu, theme_alphatrade{{/str}}">
+            <i class="ph ph-list" aria-hidden="true"></i>
+        </button>
+    {{/haspubnav}}
+    <a class="at-pub-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
+    <nav class="at-pub-nav" aria-label="{{sitename}}">
+        {{#pubnav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{#icon}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/icon}}{{label}}{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}</a>{{/pubnav}}
+    </nav>
+    {{$actions}}{{/actions}}
+</header>
+{{#haspubnav}}
+    <nav class="at-card at-elev-md at-pub-menu d-print-none" id="at-pub-menu" aria-label="{{sitename}}" hidden>
+        {{#pubnav}}<a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>{{#icon}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/icon}}{{label}}{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}</a>{{/pubnav}}
+    </nav>
+{{/haspubnav}}
+{{#js}}
+(function() {
+    // Mobile burger menu (< 860px): the links open in a panel under the header, the actions stay in the header.
+    var burger = document.querySelector('[data-action="at-pub-menu"]');
+    var menu = document.getElementById('at-pub-menu');
+    if (!burger || !menu) {
+        return;
+    }
+    var setOpen = function(open) {
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.hidden = !open;
+    };
+    burger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setOpen(menu.hidden);
+    });
+    document.addEventListener('click', function(e) {
+        if (!menu.hidden && !menu.contains(e.target)) {
+            setOpen(false);
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !menu.hidden) {
+            setOpen(false);
+            burger.focus();
+        }
+    });
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 860 && !menu.hidden) {
+            setOpen(false);
+        }
+    });
+})();
+{{/js}}

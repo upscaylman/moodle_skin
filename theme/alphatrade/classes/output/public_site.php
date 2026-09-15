@@ -290,7 +290,8 @@ class public_site {
         }
 
         $data = [
-            'nav' => $nav,
+            'pubnav' => $nav,
+            'haspubnav' => true,
             'homeurl' => self::url('accueil'),
             'programmeurl' => self::url('programme'),
             'teamurl' => self::url('formateurs'),

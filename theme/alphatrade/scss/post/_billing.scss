@@ -83,9 +83,13 @@
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .at-standalone .at-floatnav:not(.at-floatnav-messaging) {
+    body:not(.alpha-messaging) .at-standalone .at-pub-header {
         margin: 12px 12px 0;
-        padding: 10px 14px;
+    }
+
+    body:not(.alpha-messaging) .at-standalone .at-pub-menu.at-card {
+        left: 12px;
+        right: 12px;
     }
 
     .at-billing {
@@ -98,8 +102,9 @@
 }
 
 @media print {
-    .at-floatnav,
-    .at-blob,
+    .at-pub-header,
+    .at-pub-glow,
+    .at-pub-menu,
     .at-standalone-footer {
         display: none !important;
     }

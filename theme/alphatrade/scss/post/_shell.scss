@@ -661,94 +661,9 @@ body.alpha-app {
     background: $at-bg;
 }
 
-.at-blob {
-    position: absolute;
-    pointer-events: none;
-    background: $at-blob;
-}
-
-.at-blob-page {
-    left: 8px;
-    top: -40px;
-    width: 420px;
-    height: 360px;
-    filter: blur(60px);
-    z-index: 0;
-}
-
-.at-blob-logo {
-    left: -120px;
-    top: -110px;
-    width: 280px;
-    height: 240px;
-    filter: blur(45px);
-    z-index: 0;
-}
-
-.at-floatnav {
-    position: sticky;
-    top: 16px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: $at-space-4;
-    margin: 16px 24px 0;
-    padding: $at-space-3 $at-space-4;
-    border: 1px solid $at-divider;
-    border-radius: 20px;
-    background: $at-surface;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, .4);
-
-    a {
-        color: $at-text;
-        text-decoration: none;
-        font-size: 14px;
-
-        &:hover {
-            color: $at-accent;
-        }
-    }
-}
-
-.at-floatnav-messaging {
-    position: relative;
-    top: auto;
-    background: transparent;
-}
-
-.at-floatnav-logo {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    margin-right: 10px;
-
-    img {
-        position: relative;
-        z-index: 1;
-        height: 26px;
-        width: auto;
-        object-fit: contain;
-    }
-}
-
-.at-floatnav-mark img {
-    height: 32px;
-    width: auto;
-    object-fit: contain;
-    margin-right: 10px;
-}
-
-.at-floatnav-brand {
-    font-family: $at-font;
-    font-weight: $at-heading-weight;
-    font-size: 15px;
-    margin-right: auto;
-}
-
-.at-floatnav-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+// Navbar and gradient: theme_alphatrade/pub_header, styled in _public.scss (same as the public site).
+.at-standalone .at-pub-header {
+    flex: none;
 }
 
 #page-wrapper #page.at-standalone-page {

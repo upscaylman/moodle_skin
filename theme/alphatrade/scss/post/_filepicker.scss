@@ -709,6 +709,10 @@
             color: $at-text;
         }
 
+        h5:empty {
+            display: none;
+        }
+
         .closebutton {
             display: inline-flex;
             align-items: center;

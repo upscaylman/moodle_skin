@@ -63,7 +63,7 @@
     region.addEventListener('mouseleave', function() {
         clearTimeout(timer);
         timer = setTimeout(function() {
-            if (openedbyhover && isopen() && !region.contains(document.activeElement)) {
+            if (openedbyhover && isopen()) {
                 toggle.click();
             }
             openedbyhover = false;

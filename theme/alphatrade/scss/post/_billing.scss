@@ -76,9 +76,24 @@
     font-weight: 600;
 }
 
+// Maquette Paiement below 700px: every grid on one column, tighter navbar and page padding.
 @media (max-width: 700px) {
-    .at-billing-grid {
+    .at-billing-grid,
+    .at-offers {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .at-standalone .at-floatnav:not(.at-floatnav-messaging) {
+        margin: 12px 12px 0;
+        padding: 10px 14px;
+    }
+
+    .at-billing {
+        padding: 24px 16px 48px;
+    }
+
+    .at-receipt {
+        padding: 22px 18px;
     }
 }
 

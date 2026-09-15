@@ -1,8 +1,12 @@
 // "Alpha Trade - Messagerie": conversation list, thread, notifications.
 
 body.alpha-messaging {
+    // Full-height app: 100dvh is the visible viewport of a phone. 100vh is taller than the screen there (browser
+    // bars hidden), which pushed the compose bar, last child of the thread, under the browser toolbar.
     #page-wrapper.at-standalone {
         height: 100vh;
+        height: 100dvh;
+        min-height: 0;
         display: flex;
         flex-direction: column;
     }
@@ -49,10 +53,16 @@ body.alpha-messaging {
     text-decoration: none;
     border-bottom: 1px solid $at-text-6;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
         color: $at-text;
         text-decoration: none;
-        background: rgba(233, 233, 237, .04);
+    }
+
+    // Same hover as the other rows of the interface: surface colour, never on the open conversation.
+    &:not(.is-active):hover,
+    &:not(.is-active):focus-visible {
+        background: $at-surface;
     }
 
     &.is-active,
@@ -119,14 +129,18 @@ body.alpha-messaging {
     color: $at-text-45;
 }
 
+// Thread: head, scrolling bubbles, compose bar as the last flex child. Only the bubbles scroll; nothing clips the
+// compose bar and no fixed height is set on the column.
 .at-msg-thread {
     flex: 1;
     min-width: 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
 }
 
 .at-msg-thread-head {
+    flex: none;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -149,7 +163,8 @@ body.alpha-messaging {
 }
 
 .at-msg-bubbles {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
     padding: 20px;
     display: flex;
@@ -182,14 +197,21 @@ body.alpha-messaging {
 }
 
 .at-msg-compose {
+    flex: none;
     display: flex;
     gap: 10px;
     padding: 14px 20px;
     border-top: 1px solid $at-divider;
     margin: 0;
+    background: $at-bg;
 
     .at-input {
         flex: 1;
+        min-width: 0;
+    }
+
+    .btn {
+        flex: none;
     }
 }
 
@@ -198,9 +220,32 @@ body.alpha-messaging {
 }
 
 @media (max-width: 760px) {
+    // Maquette: compact navbar, icons only (labels hidden in _notifications.scss), one line.
+    .at-floatnav-messaging {
+        flex-wrap: nowrap;
+        gap: 14px;
+        padding: 10px 14px;
+    }
+
     .at-msg-list {
         width: 100%;
         border-right: 0;
+    }
+
+    .at-msg-thread-head {
+        padding: 12px 14px;
+    }
+
+    .at-msg-bubbles {
+        padding: 16px 14px;
+    }
+
+    .at-msg-bubble {
+        max-width: 85%;
+    }
+
+    .at-msg-compose {
+        padding: 12px 14px;
     }
 
     .at-msg-thread {

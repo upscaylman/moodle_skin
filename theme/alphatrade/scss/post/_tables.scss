@@ -1,0 +1,205 @@
+// Native tables that ship their own light colours in the plugin's own CSS, which the theme variables cannot reach:
+// YUI datatables (Events list, file picker list view) and the grade reports. Their stylesheets load after the theme,
+// so every rule here repeats the plugin's selector with one more level ("body") to win without !important.
+// Look: the table of the maquettes, like .generaltable in _native.scss - no card, horizontal separators only,
+// uppercase head, hover on the surface colour.
+
+// ---------------------------------------------------------------- YUI datatables (yui3-skin-sam).
+body .yui3-skin-sam .yui3-datatable-table {
+    width: 100%;
+    border: 0;
+    border-collapse: collapse;
+    font-family: $at-font;
+    font-size: 14px;
+    color: $at-text;
+    background: transparent;
+}
+
+// The table is often wider than the content column: it scrolls in its own box, never the page.
+body .yui3-datatable-content,
+body .yui3-skin-sam .yui3-datatable-content {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+body .yui3-skin-sam .yui3-datatable-header {
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid $at-divider;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: left;
+    color: $at-text-60;
+    background: transparent;
+    background-image: none;
+    text-shadow: none;
+}
+
+body .yui3-skin-sam .yui3-datatable-cell {
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid $at-text-8;
+    vertical-align: top;
+    color: $at-text;
+    background-color: transparent;
+}
+
+// Striping and the sorted column of the sam skin (light blues) replaced by a row hover and a light gold tint.
+body .yui3-skin-sam .yui3-datatable-even .yui3-datatable-cell,
+body .yui3-skin-sam .yui3-datatable-odd .yui3-datatable-cell,
+body .yui3-skin-sam .yui3-datatable-data .yui3-datatable-even .yui3-datatable-sorted,
+body .yui3-skin-sam .yui3-datatable-data .yui3-datatable-odd .yui3-datatable-sorted {
+    background-color: transparent;
+}
+
+body .yui3-skin-sam .yui3-datatable-data .yui3-datatable-even:hover .yui3-datatable-cell,
+body .yui3-skin-sam .yui3-datatable-data .yui3-datatable-odd:hover .yui3-datatable-cell {
+    background-color: $at-surface;
+}
+
+body .yui3-skin-sam .yui3-datatable-data .yui3-datatable-even .yui3-datatable-sorted,
+body .yui3-skin-sam .yui3-datatable-data .yui3-datatable-odd .yui3-datatable-sorted,
+body .yui3-skin-sam .yui3-datatable-columns .yui3-datatable-sorted {
+    background-color: rgba($at-accent, .06);
+}
+
+// Sortable head: hover on the page ground, gold label once sorted.
+body .yui3-skin-sam .yui3-datatable-sortable-column:hover,
+body .yui3-skin-sam .yui3-datatable-columns .yui3-datatable-sorted:hover {
+    color: $at-text;
+    background-color: $at-bg;
+    background-image: none;
+}
+
+body .yui3-skin-sam .yui3-datatable-columns .yui3-datatable-sorted {
+    color: $at-accent;
+}
+
+body .yui3-skin-sam .yui3-datatable-sort-liner,
+body .yui3-skin-sam .yui3-datatable-sort-liner:hover {
+    color: inherit;
+    background: transparent;
+    text-decoration: none;
+}
+
+// Sort arrow: a dark PNG sprite, inverted to read on the dark ground.
+body .yui3-skin-sam .yui3-datatable-sort-indicator {
+    filter: invert(1);
+    opacity: .8;
+}
+
+body .yui3-skin-sam .yui3-datatable-message-content {
+    border: 0;
+    border-bottom: 1px solid $at-text-8;
+    color: $at-text-60;
+    background: transparent;
+}
+
+body .yui3-skin-sam .yui3-datatable-caption {
+    color: $at-text-60;
+    font: 14px $at-font;
+}
+
+// The file picker keeps its own compact list (see _filepicker.scss), only the colours come from here.
+.file-picker .yui3-skin-sam .yui3-datatable-header,
+.file-picker .yui3-skin-sam .yui3-datatable-cell {
+    padding: 8px 10px;
+}
+
+// ---------------------------------------------------------------- Grade report of one user (grade/report/user).
+// Its CSS paints the container, the head, the rows and the category cells in #f8f9fa and white.
+body.path-grade-report-user .user-report-container,
+body .grade-report-user .user-report-container {
+    margin: 0 0 24px;
+    padding: 0;
+    background-color: transparent;
+}
+
+body.path-grade-report-user .user-grade,
+body .grade-report-user .user-grade {
+    border: 0;
+    background: transparent;
+}
+
+body.path-grade-report-user .user-grade thead th,
+body .grade-report-user .user-grade thead th {
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid $at-divider;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: $at-text-60;
+    background-color: transparent;
+}
+
+body.path-grade-report-user .user-grade td,
+body .grade-report-user .user-grade td,
+body.path-grade-report-user .user-grade tbody tr,
+body .grade-report-user .user-grade tbody tr,
+body.path-grade-report-user .user-grade .baggt,
+body.path-grade-report-user .user-grade .baggb,
+body .grade-report-user .user-grade .baggt,
+body .grade-report-user .user-grade .baggb {
+    color: $at-text;
+    background-color: transparent;
+}
+
+body.path-grade-report-user .user-grade tbody tr:hover,
+body .grade-report-user .user-grade tbody tr:hover {
+    color: $at-text;
+    background-color: $at-surface;
+}
+
+body.path-grade-report-user .user-grade tbody tr.spacer:hover,
+body .grade-report-user .user-grade tbody tr.spacer:hover {
+    background-color: transparent;
+}
+
+// Item rows and category rows: white in core, here the page ground with the theme's separators.
+body.path-grade-report-user .user-grade td.item,
+body .grade-report-user .user-grade td.item,
+body.path-grade-report-user .user-grade th.column-itemname:not(.header, .category, .baggt, .baggb),
+body .grade-report-user .user-grade th.column-itemname:not(.header, .category, .baggt, .baggb) {
+    color: $at-text;
+    background-color: transparent;
+    border-top-color: $at-text-8;
+    border-bottom-color: $at-text-8;
+}
+
+body.path-grade-report-user .user-grade th.category,
+body .grade-report-user .user-grade th.category {
+    color: $at-text;
+    background-color: $at-surface;
+    border: 0;
+    border-radius: $at-radius-md;
+}
+
+body.path-grade-report-user .user-grade th.category a.toggle-category,
+body .grade-report-user .user-grade th.category a.toggle-category {
+    color: $at-text;
+    text-decoration: none;
+}
+
+// Aggregation rows (course total): the gold label of the maquette.
+body.path-grade-report-user .user-grade .baggt,
+body.path-grade-report-user .user-grade .baggb,
+body .grade-report-user .user-grade .baggt,
+body .grade-report-user .user-grade .baggb {
+    border: 0;
+    border-top: 1px solid $at-divider;
+}
+
+body.path-grade-report-user .user-grade .baggt .gradeitemheader,
+body .grade-report-user .user-grade .baggt .gradeitemheader {
+    color: $at-text;
+}
+
+// Single view report: the same light container.
+body.path-grade-report-singleview .reporttable,
+body.path-grade-report-singleview .gradeparent {
+    background-color: transparent;
+}

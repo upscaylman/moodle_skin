@@ -102,11 +102,7 @@ body .yui3-skin-sam .yui3-datatable-caption {
     font: 14px $at-font;
 }
 
-// The file picker keeps its own compact list (see _filepicker.scss), only the colours come from here.
-.file-picker .yui3-skin-sam .yui3-datatable-header,
-.file-picker .yui3-skin-sam .yui3-datatable-cell {
-    padding: 8px 10px;
-}
+// The file picker list view keeps its own compact rules (_filepicker.scss), which stay more specific.
 
 // ---------------------------------------------------------------- Grade report of one user (grade/report/user).
 // Its CSS paints the container, the head, the rows and the category cells in #f8f9fa and white.

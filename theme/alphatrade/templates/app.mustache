@@ -163,29 +163,30 @@ require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
 });
 {{#courseindex}}
 // Sommaire de cours : un seul groupe ouvert, celui de la lecon en cours. Le tiroir natif les
-// deplie tous, ce qui donne une liste a plat de plusieurs ecrans de haut. L'etat passe par la
-// mutation Moodle (comme un clic sur un chevron) : le composant reactif et la preference de
-// l'utilisateur restent la source de verite.
-window.__atci = 'inline';
+// deplie tous, ce qui donne une liste a plat de plusieurs ecrans de haut. Le pli est pose dans
+// l'etat du course index (la mutation exacte d'un clic sur un chevron) avant que le composant
+// ne dessine la liste, et la preference de l'utilisateur reste la source de verite ensuite.
 require(['core_courseformat/courseeditor'], function(CourseEditor) {
-    window.__atci = 'required';
-    var index = document.getElementById('courseindex');
-    var editor = index ? CourseEditor.getCurrentCourseEditor() : null;
+    var editor = document.getElementById('courseindex') ? CourseEditor.getCurrentCourseEditor() : null;
     if (!editor || !editor.getInitialStatePromise) {
         return;
     }
-    window.__atci = 'editor';
-    editor.getInitialStatePromise().then(function() {
-        window.__atci = 'state';
-        var current = index.querySelector('.courseindex-item.pageitem');
-        var opened = current ? current.closest('.courseindex-section') : index.querySelector('.courseindex-section');
-        var expand = [];
-        var collapse = [];
-        index.querySelectorAll('.courseindex-section').forEach(function(section) {
-            if (!section.dataset.id) {
-                return;
-            }
-            (section === opened ? expand : collapse).push(section.dataset.id);
+    editor.getInitialStatePromise().then(function(state) {
+        var cmid = window.M && M.cfg ? String(M.cfg.contextInstanceId) : '';
+        var cm = cmid && state.cm ? (state.cm.get(cmid) || state.cm.get(Number(cmid))) : null;
+        var opened = cm ? String(cm.sectionid) : '';
+        var sections = [];
+        state.section.forEach(function(section) {
+            sections.push(String(section.id));
+        });
+        if (!opened && sections.length) {
+            opened = sections[0];
+        }
+        var expand = sections.filter(function(id) {
+            return id === opened;
+        });
+        var collapse = sections.filter(function(id) {
+            return id !== opened;
         });
         if (expand.length) {
             editor.dispatch('sectionIndexCollapsed', expand, false);
@@ -193,22 +194,8 @@ require(['core_courseformat/courseeditor'], function(CourseEditor) {
         if (collapse.length) {
             editor.dispatch('sectionIndexCollapsed', collapse, true);
         }
-        // Le composant de section ne relit pas l'etat au montage : il ne synchronise le pli
-        // qu'au clic. L'etat vient d'etre pose, on aligne le DOM servi par le serveur dessus.
-        index.querySelectorAll('.courseindex-section').forEach(function(section) {
-            var body = section.querySelector('.courseindex-item-content');
-            var chevron = section.querySelector('.courseindex-chevron');
-            if (!body || !chevron) {
-                return;
-            }
-            var isopen = section === opened;
-            body.classList.toggle('show', isopen);
-            chevron.setAttribute('aria-expanded', isopen ? 'true' : 'false');
-            section.setAttribute('aria-expanded', isopen ? 'true' : 'false');
-        });
         return true;
-    }).catch(function(e) {
-        window.__atci = 'error: ' + e;
+    }).catch(function() {
         return false;
     });
 });

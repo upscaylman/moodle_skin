@@ -171,7 +171,9 @@ require(['core_courseformat/courseeditor'], function(CourseEditor) {
     if (!editor || !editor.getInitialStatePromise) {
         return;
     }
+    window.__atci = {stage: 'required'};
     editor.getInitialStatePromise().then(function(state) {
+        window.__atci.stage = 'state';
         var cmid = window.M && M.cfg ? String(M.cfg.contextInstanceId) : '';
         var cm = cmid && state.cm ? (state.cm.get(cmid) || state.cm.get(Number(cmid))) : null;
         var opened = cm ? String(cm.sectionid) : '';
@@ -188,6 +190,7 @@ require(['core_courseformat/courseeditor'], function(CourseEditor) {
         var collapse = sections.filter(function(id) {
             return id !== opened;
         });
+        window.__atci = {stage: 'computed', cmid: cmid, opened: opened, sections: sections, expand: expand, collapse: collapse};
         if (expand.length) {
             editor.dispatch('sectionIndexCollapsed', expand, false);
         }
@@ -195,7 +198,8 @@ require(['core_courseformat/courseeditor'], function(CourseEditor) {
             editor.dispatch('sectionIndexCollapsed', collapse, true);
         }
         return true;
-    }).catch(function() {
+    }).catch(function(e) {
+        window.__atci = {stage: 'error', message: '' + e};
         return false;
     });
 });

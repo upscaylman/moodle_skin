@@ -373,7 +373,7 @@ body.alpha-public {
     flex: none;
     border-radius: 50%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 25%;
 }
 
 .at-pub-initials {
@@ -578,7 +578,7 @@ body.alpha-public {
 
 img.at-pub-photo {
     object-fit: cover;
-    object-position: center top;
+    object-position: center 25%;
 }
 
 .at-pub-photo {
@@ -1033,7 +1033,7 @@ img.at-pub-photo {
 
 .at-pub-coursehead {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
     gap: 24px;
     align-items: stretch;
     width: 100%;
@@ -1042,16 +1042,20 @@ img.at-pub-photo {
 
 .at-pub-coursemedia {
     position: relative;
+    // Pas d'aspect-ratio : la colonne des chiffres donne la hauteur de la rangée, et un ratio
+    // recalculerait la largeur à partir de cette hauteur, débordant sur la colonne voisine.
+    width: 100%;
+    min-width: 0;
+    min-height: 240px;
     overflow: hidden;
     border-radius: $at-radius-lg;
     background: $at-surface;
-    aspect-ratio: 16 / 10;
 
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center top;
+        object-position: center 35%;
     }
 }
 
@@ -1074,6 +1078,7 @@ img.at-pub-photo {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    min-width: 0;
     margin: 0;
 }
 

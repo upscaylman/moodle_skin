@@ -89,7 +89,7 @@
                     <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
                         <button class="btn icon-no-margin" data-toggler="drawers" data-action="toggle" data-target="theme_boost-drawers-courseindex" data-toggle="tooltip" data-placement="right" title="{{#str}}opendrawerindex, core{{/str}}">
                             <span class="sr-only">{{#str}}opendrawerindex, core{{/str}}</span>
-                            {{#pix}} t/index_drawer, moodle {{/pix}}
+                            <i class="ph ph-sidebar-simple" aria-hidden="true"></i>
                         </button>
                     </div>
                 {{/courseindex}}
@@ -161,4 +161,29 @@ require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
     Drawer.init();
     M.util.js_complete('theme_boost/loader');
 });
+{{#courseindex}}
+// Sommaire de cours : un seul groupe ouvert au chargement, celui de la lecon en cours. Le tiroir
+// natif les deplie tous, ce qui donne une liste a plat de plusieurs ecrans de haut. L'etat est
+// change dans le DOM seulement : le clic de l'etudiant reprend la main et Moodle le memorise.
+(function() {
+    var index = document.getElementById('courseindex');
+    if (!index) {
+        return;
+    }
+    var sections = index.querySelectorAll('.courseindex-section');
+    var current = index.querySelector('.courseindex-item.pageitem');
+    var open = current ? current.closest('.courseindex-section') : sections[0];
+    sections.forEach(function(section) {
+        var body = section.querySelector('.courseindex-sectioncontent') || section.querySelector('.collapse');
+        var chevron = section.querySelector('.courseindex-chevron');
+        if (!body || !chevron) {
+            return;
+        }
+        var expanded = section === open;
+        body.classList.toggle('show', expanded);
+        chevron.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        section.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+})();
+{{/courseindex}}
 {{/js}}

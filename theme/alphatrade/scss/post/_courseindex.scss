@@ -1,0 +1,362 @@
+// Sommaire de cours (course index de Moodle). Le tiroir natif est dense : libellés coupés en une
+// ligne par text-truncate, pastilles de complétion minuscules, aucun survol, tout déplié.
+// Handoff : panneau carte de 250px qui reste à l'écran, accordéon par groupe, libellés sur deux
+// lignes, item courant en pilule or pleine. La mécanique Moodle (ouverture/fermeture, composant
+// réactif, préférences) n'est pas touchée : seul l'habillage change.
+
+$at-ci-width: 250px;
+$at-ci-gap: 18px;
+
+body.alpha-app {
+    // Le tiroir devient une carte flottante, pas une colonne pleine hauteur.
+    .drawer.drawer-left:not(.at-drawer) {
+        top: 20px;
+        left: $at-sidebar-width + $at-ci-gap;
+        width: $at-ci-width;
+        height: auto;
+        max-height: calc(100vh - 150px);
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        border: 0;
+        border-radius: $at-radius-lg;
+        background: $at-surface;
+        box-shadow: $at-shadow-sm;
+        overflow: hidden;
+    }
+
+    &.alpha-staff .drawer.drawer-left:not(.at-drawer) {
+        left: $at-sidebar-width-staff + $at-ci-gap;
+    }
+
+    #page.drawers.show-drawer-left {
+        margin-left: $at-sidebar-width + $at-ci-gap * 2 + $at-ci-width;
+    }
+
+    &.alpha-staff #page.drawers.show-drawer-left {
+        margin-left: $at-sidebar-width-staff + $at-ci-gap * 2 + $at-ci-width;
+    }
+
+    .drawer.drawer-left:not(.at-drawer) .drawerheader {
+        flex: none;
+        gap: 2px;
+        min-height: 0;
+        padding: 10px 10px 0;
+    }
+
+    .drawer.drawer-left:not(.at-drawer) .drawercontent {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 6px 8px 12px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: $at-neutral-700 transparent;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            background: $at-neutral-700;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    }
+}
+
+// Le bouton d'ouverture/repli du panneau, en haut du contenu, à gauche du fil d'ariane.
+body.alpha-app .drawer-toggles {
+    .drawer-left-toggle {
+        position: static;
+        margin-bottom: 6px;
+    }
+
+    .drawer-left-toggle button,
+    .drawer-right-toggle button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 1px solid $at-divider;
+        border-radius: $at-radius-md;
+        font-size: 17px;
+        color: $at-text-70;
+        background: transparent;
+
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            background: $at-surface;
+        }
+    }
+}
+
+.courseindex {
+    font-family: $at-font;
+
+    // Groupe (Général, Module 0...) : ligne cliquable qui plie et déplie ses items.
+    .courseindex-section-title {
+        align-items: center;
+        gap: 4px;
+        padding: 7px 8px;
+        border-radius: $at-radius-md;
+
+        &:hover {
+            background: $at-bg;
+        }
+
+        .courseindex-chevron {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+            width: 18px;
+            color: $at-text-55;
+
+            &:hover {
+                color: $at-accent;
+            }
+        }
+
+        .courseindex-link,
+        .courseindex-name {
+            overflow: hidden;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .06em;
+            line-height: 1.3;
+            text-transform: uppercase;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: $at-text-70;
+            text-decoration: none;
+        }
+    }
+
+    // Item de leçon, quiz ou exercice.
+    .courseindex-item {
+        gap: 8px;
+        align-items: flex-start;
+        margin: 1px 0;
+        padding: 7px 8px;
+        border-radius: $at-radius-md;
+        border-left: 0;
+
+        &:hover {
+            background: $at-bg;
+        }
+
+        &.pageitem {
+            background: $at-accent-800;
+
+            &:hover {
+                background: $at-accent-800;
+            }
+
+            .courseindex-link {
+                color: $at-accent-100;
+            }
+
+            .completioninfo .icon {
+                color: $at-accent-200;
+            }
+        }
+    }
+
+    // Libellé : deux lignes puis ellipsis, jamais une seule ligne tronquée net.
+    .courseindex-link.text-truncate,
+    .courseindex-item .courseindex-link {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal;
+        font-size: 12.5px;
+        line-height: 1.35;
+        color: $at-text-70;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-text;
+        }
+    }
+
+    // Pastilles d'état : terminé en vert, en cours en or, verrouillé en gris.
+    .completioninfo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: 15px;
+        margin-top: 1px;
+
+        .icon {
+            width: auto;
+            height: auto;
+            margin: 0;
+            font-size: 13px;
+            color: $at-accent;
+        }
+
+        &.completion_complete .icon {
+            color: $at-success;
+        }
+    }
+
+    .courseindex-locked {
+        flex: none;
+        margin-top: 1px;
+        color: $at-text-45;
+
+        .icon {
+            width: auto;
+            height: auto;
+            margin: 0;
+            font-size: 12px;
+        }
+    }
+
+    // Repères natifs qui n'ont pas leur place dans le panneau carte.
+    .courseindex-item.dimmed .courseindex-link {
+        color: $at-text-45;
+    }
+
+    .courseindex-sectioncontent {
+        padding-left: 10px;
+    }
+}
+
+@media (max-width: $at-mobile-break) {
+    // Pas de place pour le panneau : le tiroir reprend le comportement plein écran de Moodle et
+    // le bouton de repli disparaît.
+    body.alpha-app {
+        .drawer.drawer-left:not(.at-drawer) {
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 320px;
+            height: 100vh;
+            max-height: none;
+            border-radius: 0;
+        }
+
+        .drawer-toggles .drawer-left-toggle {
+            display: none;
+        }
+
+        #page.drawers.show-drawer-left {
+            margin-left: 0;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Contenu de leçon.
+// Le programme en détail (écran Module) : des cartes lisibles plutôt qu'un tableau-tableur
+// en colonnes serrées. Pastille de numéro, titre, formateur et semaines, durée en chip.
+.at-modcards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 14px 0 18px;
+}
+
+.at-modcard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: $at-radius-md;
+    background: $at-surface;
+    box-shadow: $at-shadow-sm;
+}
+
+.at-modcard-n {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: $at-accent-100;
+    background: $at-accent-800;
+}
+
+.at-modcard-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+
+.at-modcard-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: $at-text;
+}
+
+.at-modcard-meta {
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+.at-modcard-time {
+    flex: none;
+    font-variant-numeric: tabular-nums;
+}
+
+// Les autres tableaux du contenu de cours : lisibles, et jamais plus larges que l'écran.
+.alpha-lesson #region-main table.generaltable,
+.alpha-lesson #region-main table.table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 13.5px;
+
+    th,
+    td {
+        padding: 9px 12px;
+        border: 0;
+        border-bottom: 1px solid $at-divider;
+        vertical-align: top;
+        text-align: left;
+        color: $at-text-70;
+        background: transparent;
+    }
+
+    th {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: $at-text-55;
+    }
+
+    tbody tr:hover td {
+        background: $at-surface;
+    }
+}
+
+@media (max-width: $at-mobile-break) {
+    .at-modcard {
+        flex-wrap: wrap;
+
+        .at-modcard-time {
+            margin-left: 46px;
+        }
+    }
+}

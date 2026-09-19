@@ -40,6 +40,9 @@ class public_site {
     /** @var string[] Course formats (schema.org courseMode values). */
     const FORMATS = ['online', 'onsite', 'blended'];
 
+    /** @var string Serveur Discord par défaut, tant que le réglage n'a pas été enregistré. */
+    const DISCORD_URL = 'https://discord.gg/hYUxjtkt7';
+
     /** @var string Current view. */
     protected $view;
 
@@ -50,6 +53,19 @@ class public_site {
      */
     public function __construct(string $view) {
         $this->view = in_array($view, self::VIEWS) ? $view : 'accueil';
+    }
+
+    /**
+     * Réglage du thème, avec sa valeur par défaut tant que la page de réglages n'a jamais été
+     * enregistrée (Moodle n'écrit les valeurs par défaut qu'à ce moment-là).
+     *
+     * @param string $name
+     * @param string $default
+     * @return string
+     */
+    protected static function setting(string $name, string $default): string {
+        $value = get_config('theme_alphatrade', $name);
+        return $value === false ? $default : (string) $value;
     }
 
     /**
@@ -362,7 +378,7 @@ class public_site {
         }
         // Communauté : le serveur Discord, seul lien externe de la nav et seule couleur de marque
         // tierce du site (violet Discord), assumée telle quelle.
-        $discordurl = get_config('theme_alphatrade', 'discordurl');
+        $discordurl = self::setting('discordurl', self::DISCORD_URL);
         if ($discordurl) {
             $nav[] = ['label' => $str('pub_nav_communaute'), 'url' => $discordurl, 'active' => false,
                 'external' => true, 'discord' => true, 'icon' => 'ph-discord-logo'];
@@ -421,8 +437,8 @@ class public_site {
         ];
 
         // Hello bar : bandeau d'offre au-dessus de l'en-tête, refermable par le visiteur.
-        if (get_config('theme_alphatrade', 'hellobar')) {
-            $hellourl = get_config('theme_alphatrade', 'hellobarurl') ?: $data['candidaterurl'];
+        if (self::setting('hellobar', '1')) {
+            $hellourl = self::setting('hellobarurl', '') ?: $data['candidaterurl'];
             $data['hellobar'] = ['text' => $str('pub_hellobar'), 'cta' => $str('pub_hellobar_cta'), 'url' => $hellourl];
         }
 

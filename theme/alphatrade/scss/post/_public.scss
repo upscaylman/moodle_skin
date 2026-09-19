@@ -64,8 +64,13 @@ body.alpha-public {
     a {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 7px;
+        color: $at-cream;
         text-decoration: none;
+
+        i {
+            font-size: 16px;
+        }
 
         &:hover,
         &[aria-current="page"] {

@@ -373,8 +373,11 @@ class public_site {
         };
 
         $nav = [];
-        foreach (['accueil', 'programme', 'methode', 'formateurs', 'faq'] as $view) {
-            $nav[] = ['label' => $str('pub_nav_' . $view), 'url' => self::url($view), 'active' => $view === $this->view];
+        $navicons = ['accueil' => 'ph-house', 'programme' => 'ph-graduation-cap', 'methode' => 'ph-target',
+            'formateurs' => 'ph-users-three', 'faq' => 'ph-question'];
+        foreach ($navicons as $view => $icon) {
+            $nav[] = ['label' => $str('pub_nav_' . $view), 'url' => self::url($view), 'icon' => $icon,
+                'active' => $view === $this->view];
         }
         // Communauté : le serveur Discord, seul lien externe de la nav et seule couleur de marque
         // tierce du site (violet Discord), assumée telle quelle.

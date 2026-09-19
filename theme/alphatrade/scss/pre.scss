@@ -68,8 +68,8 @@ $at-shadow-sm: 0 0 0 1px #3f424d;
 $at-shadow-md: 0 0 0 1px #595d6c, 0 6px 18px rgba(0, 0, 0, .55);
 $at-shadow-lg: 0 0 0 1px #9397ab, 0 16px 40px rgba(0, 0, 0, .65);
 
-// Creme reserve : token du design system, non applique sur les ecrans actuels (l'essai de fond
-// creme sur les sections Mois et Formateurs a ete repris, le fond sombre reste la regle).
+// Creme du design system : couleur de texte des liens de la navbar publique. Comme fond, il a
+// ete essaye sur les sections Mois et Formateurs puis repris : le fond sombre reste la regle.
 $at-cream: #f9f6f0;
 
 // Decorative gradient (logo / floating navbar only).

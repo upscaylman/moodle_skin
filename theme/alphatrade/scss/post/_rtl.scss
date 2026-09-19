@@ -1,0 +1,88 @@
+// Arabe : Moodle pose dir="rtl" sur la page, ce qui retourne déjà les rangées flex, les grilles et
+// l'alignement du texte. Restent les positions et marges physiques de la coquille, qui doivent être
+// reflétées explicitement : barre latérale, tiroirs, décalage du contenu.
+
+[dir="rtl"] {
+    .at-sidebar {
+        left: auto;
+        right: 0;
+        border-right: 0;
+        border-left: 1px solid $at-divider;
+        text-align: right;
+    }
+
+    .at-navgroup-label,
+    .at-sidebar-user-text {
+        text-align: right;
+    }
+
+    body.alpha-app #page.drawers,
+    &.alpha-app #page.drawers {
+        margin-left: 0;
+        margin-right: $at-sidebar-width;
+    }
+
+    &.alpha-staff #page.drawers {
+        margin-right: $at-sidebar-width-staff;
+    }
+
+    // Sommaire de cours : le panneau passe à droite du contenu.
+    body.alpha-app .drawer.drawer-left:not(.at-drawer),
+    &.alpha-app .drawer.drawer-left:not(.at-drawer) {
+        left: auto;
+        right: $at-sidebar-width + 18px;
+    }
+
+    &.alpha-staff .drawer.drawer-left:not(.at-drawer) {
+        left: auto;
+        right: $at-sidebar-width-staff + 18px;
+    }
+
+    &.alpha-app #page.drawers.show-drawer-left {
+        margin-left: 0;
+        margin-right: $at-sidebar-width + 286px;
+    }
+
+    &.alpha-app.alpha-staff #page.drawers.show-drawer-left {
+        margin-right: $at-sidebar-width-staff + 286px;
+    }
+
+    &.alpha-app #page.drawers.show-drawer-right {
+        margin-right: $at-sidebar-width;
+        margin-left: $drawer-right-width;
+    }
+
+    .drawer.drawer-right {
+        right: auto;
+        left: 0;
+    }
+
+    .courseindex .courseindex-sectioncontent {
+        padding-left: 0;
+        padding-right: 10px;
+    }
+
+    // Les flèches de navigation des leçons pointent dans le sens de la lecture.
+    .at-lesson-top a::first-letter,
+    .at-lesson-next::first-letter {
+        unicode-bidi: isolate;
+    }
+}
+
+@media (max-width: $at-mobile-break) {
+    [dir="rtl"] {
+        body.alpha-app #page.drawers,
+        &.alpha-app #page.drawers,
+        &.alpha-staff #page.drawers,
+        &.alpha-app #page.drawers.show-drawer-left,
+        &.alpha-app #page.drawers.show-drawer-right {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .drawer.drawer-left:not(.at-drawer) {
+            left: auto;
+            right: 0;
+        }
+    }
+}

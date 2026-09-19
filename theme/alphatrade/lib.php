@@ -61,12 +61,48 @@ function theme_alphatrade_get_pre_scss($theme) {
  * @return string
  */
 function theme_alphatrade_get_extra_scss($theme) {
-    $files = ['fonts', 'icons', 'nocturne', 'shell', 'native', 'quiz', 'screens', 'staff', 'login', 'public', 'messaging', 'billing', 'dashboard', 'settings', 'notifications', 'preferences', 'filepicker', 'editor', 'tables', 'pillars', 'courseindex'];
+    $files = ['fonts', 'icons', 'nocturne', 'shell', 'native', 'quiz', 'screens', 'staff', 'login', 'public', 'messaging', 'billing', 'dashboard', 'settings', 'notifications', 'preferences', 'filepicker', 'editor', 'tables', 'pillars', 'courseindex', 'rtl'];
     $scss = '';
     foreach ($files as $file) {
         $scss .= file_get_contents(__DIR__ . "/scss/post/_{$file}.scss") . "\n";
     }
     return $scss;
+}
+
+/**
+ * Langues de l'interface, pour le sélecteur du bandeau (app, site public, connexion).
+ * Une seule langue installée : rien à afficher, le sélecteur disparaît.
+ *
+ * @return array
+ */
+function theme_alphatrade_languages(): array {
+    global $PAGE;
+
+    $translations = get_string_manager()->get_list_of_translations();
+    if (count($translations) < 2) {
+        return ['haslangs' => false, 'langs' => [], 'currentlang' => '', 'currentlangname' => ''];
+    }
+    $current = current_language();
+    $base = $PAGE->url ?: new moodle_url('/');
+    $langs = [];
+    foreach ($translations as $code => $name) {
+        $url = new moodle_url($base);
+        $url->param('lang', $code);
+        $langs[] = [
+            'code' => $code,
+            'short' => core_text::strtoupper(explode('_', $code)[0]),
+            // Moodle encadre le code de marques de direction : elles n'ont pas leur place ici.
+            'name' => trim(preg_replace('/\s*\x{200E}?\(.*$/u', '', $name)),
+            'url' => $url->out(false),
+            'active' => $code === $current,
+        ];
+    }
+    return [
+        'haslangs' => true,
+        'langs' => $langs,
+        'currentlang' => core_text::strtoupper(explode('_', $current)[0]),
+        'currentlangname' => $translations[$current] ?? $current,
+    ];
 }
 
 /**

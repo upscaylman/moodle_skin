@@ -1,0 +1,771 @@
+<?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Arabic strings for local_alphatrade.
+ *
+ * @package   local_alphatrade
+ * @copyright 2026 Alpha Trade
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+$string['pluginname'] = 'Alpha Trade';
+$string['local/alphatrade:managecharts'] = 'إنشاء وتعديل تمارين تحليل الرسوم البيانية';
+$string['local/alphatrade:reviewanalysis'] = 'تصحيح تحاليل الرسوم البيانية';
+$string['local/alphatrade:viewstudentdata'] = 'الاطلاع على اختبارات الطلبة ودفاترهم وتحاليلهم';
+$string['local/alphatrade:viewteacher'] = 'الدخول إلى فضاء المكون';
+$string['messageprovider:analysisreviewed'] = 'تم تصحيح تحليل الرسم البياني';
+$string['notification_reviewed_body'] = 'تم تصحيح تحليلك "{$a->chart}": {$a->score} / 100. اطلع على التصحيح: {$a->url}';
+$string['notification_reviewed_subject'] = 'التصحيح متوفر: {$a}';
+$string['privacy:metadata:asset'] = 'الأصل المتداول';
+$string['privacy:metadata:assetclass'] = 'صنف الأصل';
+$string['privacy:metadata:bias'] = 'التحيز المختار في التحليل';
+$string['privacy:metadata:chartid'] = 'تمرين التحليل المرتبط';
+$string['privacy:metadata:core_files'] = 'لقطات الشاشة المرفقة بصفقات الدفتر';
+$string['privacy:metadata:core_message'] = 'الإشعارات المرسلة عند تصحيح تحليل';
+$string['privacy:metadata:description'] = 'قواعد الاستراتيجية';
+$string['privacy:metadata:direction'] = 'اتجاه الصفقة (شراء أو بيع)';
+$string['privacy:metadata:emotion'] = 'الحالة النفسية المصرح بها';
+$string['privacy:metadata:entry'] = 'سعر الدخول';
+$string['privacy:metadata:feedback'] = 'ملاحظات المكون';
+$string['privacy:metadata:followedplan'] = 'هل تم اتباع خطة التداول';
+$string['privacy:metadata:liquidity'] = 'تحليل السيولة';
+$string['privacy:metadata:local_alphatrade_analysis'] = 'تحاليل الرسوم البيانية التي يرسلها الطالب';
+$string['privacy:metadata:local_alphatrade_bttrade'] = 'الصفقات التاريخية المدخلة في مخبر الاختبار التاريخي';
+$string['privacy:metadata:local_alphatrade_journal'] = 'مدخلات دفتر التداول';
+$string['privacy:metadata:local_alphatrade_strategy'] = 'استراتيجيات مخبر الاختبار التاريخي';
+$string['privacy:metadata:market'] = 'السوق (الرمز)';
+$string['privacy:metadata:marketcontext'] = 'سياق السوق قبل الصفقة';
+$string['privacy:metadata:name'] = 'اسم الاستراتيجية';
+$string['privacy:metadata:notes'] = 'ملاحظات الصفقة';
+$string['privacy:metadata:period'] = 'الفترة المختبرة';
+$string['privacy:metadata:reason'] = 'سبب الدخول';
+$string['privacy:metadata:resultr'] = 'النتيجة بوحدة R';
+$string['privacy:metadata:review'] = 'المراجعة بعد الصفقة';
+$string['privacy:metadata:riskpct'] = 'المخاطرة بنسبة مئوية من رأس المال';
+$string['privacy:metadata:scenario'] = 'السيناريو المقترح';
+$string['privacy:metadata:score'] = 'النتيجة من 100';
+$string['privacy:metadata:setup'] = 'الإعداد المستعمل';
+$string['privacy:metadata:status'] = 'حالة التصحيح';
+$string['privacy:metadata:stoploss'] = 'وقف الخسارة';
+$string['privacy:metadata:strategyid'] = 'استراتيجية الصفقة';
+$string['privacy:metadata:structure'] = 'تحليل البنية';
+$string['privacy:metadata:takeprofit'] = 'جني الأرباح';
+$string['privacy:metadata:timecreated'] = 'تاريخ الإنشاء';
+$string['privacy:metadata:timeframe'] = 'الإطار الزمني';
+$string['privacy:metadata:timemodified'] = 'تاريخ التعديل';
+$string['privacy:metadata:timereviewed'] = 'تاريخ التصحيح';
+$string['privacy:metadata:tradedate'] = 'تاريخ الصفقة';
+$string['privacy:metadata:userid'] = 'الطالب صاحب البيانات';
+
+// الإعدادات.
+$string['analysisforum'] = 'منتدى « تحاليل السوق »';
+$string['casessection'] = 'قسم دراسات الحالة (رقم)';
+$string['certificatecm'] = 'نشاط الشهادة (cmid)';
+$string['certificatecm_desc'] = 'معرف النشاط الذي يصدر الشهادة (مثال mod_customcert). 0: لا شيء.';
+$string['challengessection'] = 'قسم التحديات (رقم)';
+$string['inactivedays'] = 'تنبيه الخمول (أيام)';
+$string['inactivedays_desc'] = 'بعد هذه المدة يظهر الطالب متوقفا في فضاء المكون.';
+$string['minbacktesttrades'] = 'الحد الأدنى للصفقات المختبرة (الشهادة)';
+$string['monthsplit'] = 'الوحدات في كل شهر';
+$string['monthsplit_desc'] = 'عدد الوحدات في كل شهر، مفصولة بفواصل. مثال: 3,4,5.';
+$string['practicecourse'] = 'مقرر « التمرن »';
+$string['practicecourse_desc'] = 'المقرر الذي يحتوي دراسات الحالة والتحديات (قسم لكل منهما).';
+$string['programmecourse'] = 'مقرر البرنامج';
+$string['programmecourse_desc'] = 'البرنامج في ثلاثة أشهر: كل قسم وحدة، وكل نشاط درس، والاختبارات تقييمات. فعل تتبع الإنجاز.';
+$string['programmeweeks'] = 'مدة البرنامج (أسابيع)';
+$string['projectsection'] = 'قسم المشروع النهائي (رقم)';
+$string['projectsection_desc'] = 'القسم الذي يحتوي مراحل Alpha Trading System. 0: الوحدة الأخيرة.';
+$string['qaforum'] = 'منتدى « الأسئلة والأجوبة »';
+$string['redirectcourse'] = 'إعادة توجيه مقرر البرنامج';
+$string['redirectcourse_desc'] = 'الطلبة الذين يفتحون صفحة المقرر يصلون إلى « تكويني » (المكونون يحتفظون بصفحة مودل).';
+$string['redirectdashboard'] = 'لوحة قيادة ألفا تريد في ‎/my/‎';
+$string['redirectdashboard_desc'] = 'لوحة قيادة مودل (‎/my/‎، رابط الرئيسية) تعرض لوحة ألفا تريد فوق كتلتي الخط الزمني والرزنامة. صفحة واحدة مهما كان طريق الوصول إليها.';
+$string['resourcescourse'] = 'مقرر « الموارد »';
+$string['resourcescourse_desc'] = 'المقرر الذي تشكل أنشطته المكتبة (PDF، فيديوهات، قوائم تحقق، قوالب).';
+$string['settings_behaviour'] = 'السلوك';
+$string['settings_programme'] = 'البرنامج';
+$string['settings_programme_desc'] = 'يبقى مودل المحرك الخفي: هذه الإعدادات تربط فضاءات ألفا تريد بمقررات مودل وأنشطته.';
+$string['settings_spaces'] = 'التمرن والموارد والمجتمع';
+
+// كلمات عامة.
+$string['add'] = 'إضافة';
+$string['all'] = 'الكل';
+$string['backtoparcours'] = 'العودة إلى البرنامج';
+$string['configureprogramme'] = 'إعداد البرنامج';
+$string['continue'] = 'متابعة';
+$string['date'] = 'التاريخ';
+$string['deleted'] = 'تم حذف العنصر.';
+$string['download'] = 'تحميل';
+$string['feedback'] = 'ملاحظات';
+$string['hidden'] = 'مخفي';
+$string['invalidnumber'] = 'رقم غير صالح.';
+$string['new'] = 'جديد';
+$string['noprogramme'] = 'لم يتم إعداد البرنامج بعد.';
+$string['open'] = 'فتح';
+$string['progress'] = 'التقدم';
+$string['result'] = 'النتيجة';
+$string['results'] = 'النتائج';
+$string['start'] = 'البداية';
+$string['state'] = 'الحالة';
+$string['status'] = 'الحالة';
+$string['status_current'] = 'قيد الإنجاز';
+$string['status_done'] = 'منجز';
+$string['status_locked'] = 'مقفل';
+$string['status_todo'] = 'للإنجاز';
+$string['use'] = 'استعمال';
+
+// لوحة القيادة.
+$string['backtestedtrades'] = 'الصفقات المختبرة';
+$string['badges'] = 'الشارات';
+$string['continuelesson'] = 'متابعة الدرس';
+$string['greeting'] = 'مرحبا {$a}';
+$string['openmodule'] = 'فتح الوحدة';
+$string['programmedone'] = 'انتهى البرنامج';
+$string['programmedone_title'] = 'كل الدروس مصادق عليها. حان وقت المشروع النهائي.';
+$string['streak'] = 'المواظبة';
+$string['weekcounter'] = 'الأسبوع {$a->week} / {$a->weeks}';
+$string['yourparcours'] = 'برنامجك';
+$string['yourprogress'] = 'تقدمك';
+
+// المسار والوحدات.
+$string['editinmoodle'] = 'التعديل في مودل';
+$string['evaluation'] = 'تقييم';
+$string['lessoncounter'] = 'الدرس {$a->index} / {$a->count}';
+$string['lessons'] = 'الدروس';
+$string['modulelabel'] = 'الوحدة {$a}';
+$string['modulelocked'] = 'وحدة مقفلة';
+$string['modulemeta'] = '{$a->lessons} دروس · {$a->percent} %';
+$string['modules'] = 'الوحدات';
+$string['monthlabel'] = 'الشهر {$a}';
+$string['nextlesson'] = 'الدرس التالي';
+$string['nextmodule'] = 'الوحدة التالية';
+$string['parcours'] = 'تكويني';
+$string['programmetitle'] = 'برنامج مكثف - ثلاثة أشهر';
+$string['quizzes'] = 'التقييمات';
+$string['startevaluation'] = 'بدء التقييم';
+
+// تحليل الرسوم البيانية.
+$string['analysis_bias'] = 'التحيز';
+$string['analysis_liquidity'] = 'السيولة';
+$string['analysis_liquidity_ph'] = 'مناطق السيولة، القمم والقيعان المتساوية، الكنس...';
+$string['analysis_reviewed'] = 'مصحح: {$a} / 100';
+$string['analysis_scenario'] = 'السيناريو';
+$string['analysis_scenario_ph'] = 'الشروط، الدخول، الإبطال، الهدف.';
+$string['analysis_structure'] = 'البنية';
+$string['analysis_structure_ph'] = 'الاتجاه، HH / HL، BOS، CHoCH...';
+$string['analysis_submitted'] = 'مرسل';
+$string['analysis_todo'] = 'للإنجاز';
+$string['analysisincomplete'] = 'املأ على الأقل البنية والتحيز والسيناريو.';
+$string['analysisnumber'] = 'تحليل {$a}';
+$string['analysissaved'] = 'تم إرسال التحليل.';
+$string['bias_bearish'] = 'هابط';
+$string['bias_bullish'] = 'صاعد';
+$string['bias_neutral'] = 'محايد';
+$string['chartnotavailable'] = 'هذا التمرين غير متوفر.';
+$string['charttitle'] = 'عنوان التمرين';
+$string['confirmdeletechart'] = 'حذف التمرين "{$a}" وكل تحاليل الطلبة؟';
+$string['correct'] = 'تصحيح';
+$string['correctionsubtitle'] = 'تحليل المكون';
+$string['correctiontitle'] = 'تصحيح ألفا تريد';
+$string['crit_partial'] = 'جزئي';
+$string['crit_right'] = 'صحيح';
+$string['crit_wrong'] = 'للمراجعة';
+$string['critbias'] = 'التحيز';
+$string['critentry'] = 'الدخول';
+$string['critliquidity'] = 'السيولة';
+$string['critstructure'] = 'البنية';
+$string['editanalysis'] = 'تعديل تحليلي';
+$string['filter_all'] = 'الكل';
+$string['filter_reviewed'] = 'مصحح';
+$string['filter_submitted'] = 'للتصحيح';
+$string['instructions'] = 'التعليمات';
+$string['invalidsymbol'] = 'رمز غير صالح. الصيغة المنتظرة: EXCHANGE:SYMBOL، مثال FX:EURUSD.';
+$string['newchart'] = 'تمرين جديد';
+$string['nocharts'] = 'لا يوجد تمرين تحليل بعد.';
+$string['nopracticeitems'] = 'لا يوجد نشاط متاح بعد.';
+$string['noreviews'] = 'لا يوجد تحليل لعرضه.';
+$string['practice_cases'] = 'دراسات الحالة';
+$string['practice_cases_desc'] = 'اتخذ قرارا وبرره.';
+$string['practice_challenges'] = 'التحديات';
+$string['practice_challenges_desc'] = 'اختبر مستواك.';
+$string['practice_charts'] = 'الرسوم البيانية';
+$string['practice_charts_desc'] = 'حلل وضعيات السوق.';
+$string['practice_title'] = 'حان دورك في التحليل.';
+$string['practicelab'] = 'مخبر التمرن';
+$string['referencecorrection'] = 'التصحيح المرجعي';
+$string['referencecorrection_help'] = 'تحليل المكون، يعرض على الطالب بمجرد تصحيح عمله.';
+$string['reviews'] = 'الأعمال في انتظار التصحيح';
+$string['reviewsaved'] = 'تم حفظ التصحيح وإشعار الطالب.';
+$string['savereview'] = 'حفظ التصحيح';
+$string['scoreout100'] = 'النتيجة من 100';
+$string['scorerange'] = 'يجب أن تكون النتيجة بين 0 و100.';
+$string['seechallenges'] = 'اطلع على التحديات';
+$string['sortorder'] = 'الترتيب';
+$string['student'] = 'طالب';
+$string['studentanalysis'] = 'تحليل الطالب';
+$string['submitanalysis'] = 'إرسال تحليلي';
+$string['submittedon'] = 'أرسل في {$a}';
+$string['symbol'] = 'رمز TradingView';
+$string['symbol_help'] = 'صيغة EXCHANGE:SYMBOL كما تظهر في TradingView، مثال FX:EURUSD، OANDA:XAUUSD، BINANCE:BTCUSDT، CAPITALCOM:US500.';
+$string['timeframe'] = 'الإطار الزمني';
+
+// مخبر الاختبار التاريخي.
+$string['addtrade'] = 'إضافة صفقة';
+$string['backtesting'] = 'الاختبار التاريخي';
+$string['confirmdeletestrategy'] = 'حذف الاستراتيجية "{$a}" وكل صفقاتها؟';
+$string['curve'] = 'المنحنى';
+$string['direction'] = 'الاتجاه';
+$string['direction_long'] = 'شراء';
+$string['direction_short'] = 'بيع';
+$string['editstrategy'] = 'تعديل الاستراتيجية';
+$string['entry'] = 'الدخول';
+$string['equitycurve'] = 'منحنى رأس المال';
+$string['invalidresultr'] = 'أدخل النتيجة بوحدة R، مثال 2 أو -1.';
+$string['market'] = 'السوق';
+$string['mystrategies'] = 'استراتيجياتي';
+$string['newstrategy'] = 'استراتيجية جديدة';
+$string['nostrategies'] = 'لا توجد استراتيجية بعد. ابدأ بتحديد قواعدك.';
+$string['notes'] = 'ملاحظات';
+$string['period'] = 'الفترة المختبرة';
+$string['period_ph'] = 'مثال: من جانفي 2023 إلى جوان 2025';
+$string['resultr'] = 'النتيجة (R)';
+$string['resultr_help'] = 'النتيجة معبرا عنها بمضاعف المخاطرة: ‎+2‎ لربح ضعفي المخاطرة، ‎-1‎ عند بلوغ وقف الخسارة، 0 عند التعادل.';
+$string['savestrategy'] = 'حفظ الاستراتيجية';
+$string['savetrade'] = 'حفظ';
+$string['stoploss'] = 'وقف الخسارة';
+$string['strategy'] = 'الاستراتيجية';
+$string['strategyname'] = 'اسم الاستراتيجية';
+$string['strategyname_ph'] = 'مثال: Alpha Setup #01';
+$string['strategyrules'] = 'قواعد الاستراتيجية';
+$string['takeprofit'] = 'جني الأرباح';
+$string['tradedate'] = 'تاريخ الصفقة';
+$string['tradesaved'] = 'تم حفظ الصفقة.';
+$string['verdict_negative'] = 'التوقع الرياضي سلبي على العينة المختبرة: الاستراتيجية لا تظهر أفضلية إحصائية في وضعها الحالي.';
+$string['verdict_positive'] = 'استراتيجيتك تظهر توقعا رياضيا إيجابيا على العينة المختبرة.';
+$string['verdict_small'] = 'العينة الحالية غير كافية لإثبات أفضلية إحصائية.';
+
+// دفتر التداول.
+$string['asset'] = 'الأصل';
+$string['assetclass'] = 'صنف الأصل';
+$string['assetclass_crypto'] = 'العملات المشفرة';
+$string['assetclass_forex'] = 'الفوركس';
+$string['assetclass_gold'] = 'الذهب';
+$string['assetclass_indices'] = 'المؤشرات';
+$string['assetclass_other'] = 'أخرى';
+$string['assetclass_stocks'] = 'الأسهم';
+$string['confirmdeletetrade'] = 'حذف هذه الصفقة من الدفتر؟';
+$string['edittrade'] = 'تعديل الصفقة';
+$string['emotion'] = 'الحالة النفسية';
+$string['emotion_calm'] = 'هادئ';
+$string['emotion_confident'] = 'واثق';
+$string['emotion_frustrated'] = 'محبط';
+$string['emotion_stressed'] = 'متوتر';
+$string['journal'] = 'الدفتر';
+$string['journal_after'] = 'بعد الصفقة';
+$string['journal_before'] = 'قبل الصفقة';
+$string['journal_context'] = 'ما كان السياق؟';
+$string['journal_followedplan'] = 'هل اتبعت خطتي؟';
+$string['journal_form_lead'] = 'صفقة واحدة، قبل وبعد: هنا يلتقي علم النفس بالأرقام.';
+$string['journal_reason'] = 'لماذا دخلت؟';
+$string['journal_review'] = 'المراجعة';
+$string['journal_title'] = 'دفتر التداول';
+$string['journal_trade'] = 'الصفقة';
+$string['nojournal'] = 'لا توجد صفقة مطابقة. أضف صفقتك الأولى إلى الدفتر.';
+$string['riskpct'] = 'المخاطرة (%)';
+$string['screenshot'] = 'لقطة شاشة';
+$string['setup'] = 'الإعداد';
+$string['setup_ph'] = 'مثال: Sweep + BOS';
+$string['weeksummary'] = 'هذا الأسبوع - {$a->trades} صفقات · {$a->r} · {$a->winrate} % نسبة نجاح';
+
+// الأدوات.
+$string['breakevenwinrate'] = 'نسبة النجاح عند التعادل';
+$string['calculate'] = 'احسب';
+$string['calculator_empty'] = 'املأ الحقول للحصول على النتيجة.';
+$string['invalidstop'] = 'يجب أن يختلف وقف الخسارة عن سعر الدخول وأن يكون في الجهة الصحيحة من الصفقة.';
+$string['positionsize'] = 'حجم المركز';
+$string['riskamount'] = 'المبلغ المعرض للمخاطرة (1R)';
+$string['riskwarning'] = 'مخاطرة تفوق 2 % في الصفقة: تأكد من توافقها مع خطتك.';
+$string['rrratio'] = 'نسبة المخاطرة إلى العائد';
+$string['stopdistance'] = 'مسافة وقف الخسارة';
+$string['tool_field_capital'] = 'رأس المال';
+$string['tool_field_entry'] = 'سعر الدخول';
+$string['tool_field_pointvalue'] = 'قيمة النقطة الواحدة لوحدة واحدة';
+$string['tool_field_pointvalue_help'] = 'الربح أو الخسارة عند تحرك السعر بنقطة واحدة لوحدة واحدة (1 للأسهم، قيمة البيب ضرب 10000 للوت في الفوركس...).';
+$string['tool_field_riskpct'] = 'المخاطرة في الصفقة (%)';
+$string['tool_field_stoploss'] = 'وقف الخسارة';
+$string['tool_field_takeprofit'] = 'الهدف (جني الأرباح)';
+$string['tool_position'] = 'حجم المركز';
+$string['tool_position_desc'] = 'حجم المركز انطلاقا من المخاطرة ومسافة وقف الخسارة.';
+$string['tool_risk'] = 'حاسبة المخاطرة';
+$string['tool_risk_desc'] = 'المبلغ المعرض للمخاطرة في كل صفقة حسب رأس مالك.';
+$string['tool_rr'] = 'المخاطرة / العائد';
+$string['tool_rr_desc'] = 'نسبة المخاطرة إلى العائد ونسبة النجاح الدنيا للتعادل.';
+$string['tool_stats'] = 'الإحصائيات';
+$string['tool_stats_desc'] = 'إحصائيات استراتيجياتك في مخبر الاختبار التاريخي.';
+$string['tools'] = 'الأدوات';
+$string['tools_title'] = 'أدوات ألفا تريد';
+
+// الموارد.
+$string['noresources'] = 'لا يوجد مورد مطابق.';
+$string['resources'] = 'الموارد';
+$string['resourcesnotconfigured'] = 'لم يتم إعداد المكتبة بعد.';
+$string['restype_checklist'] = 'قائمة تحقق';
+$string['restype_pdf'] = 'PDF';
+$string['restype_template'] = 'قالب';
+$string['restype_video'] = 'فيديو';
+$string['restypes_checklist'] = 'قوائم التحقق';
+$string['restypes_pdf'] = 'PDF';
+$string['restypes_template'] = 'القوالب';
+$string['restypes_video'] = 'الفيديوهات';
+$string['searchresources'] = 'ابحث عن مورد';
+
+// المجتمع.
+$string['community'] = 'المجتمع';
+$string['community_analyses'] = 'تحاليل السوق';
+$string['community_analyses_desc'] = 'شارك تحاليلك المعللة';
+$string['community_announcements'] = 'إعلانات ألفا تريد';
+$string['community_announcements_desc'] = 'معلومات رسمية من المكونين';
+$string['community_qa'] = 'الأسئلة والأجوبة';
+$string['community_qa_desc'] = 'اطرح أسئلتك على المكونين والطلبة';
+$string['discussioncount'] = '{$a} نقاشات';
+$string['nocommunity'] = 'لم يتم إعداد فضاءات المجتمع بعد.';
+$string['nosignals'] = 'ألفا تريد لا يقدم إشارات تداول.';
+
+// الشهادة والملف الشخصي.
+$string['certification'] = 'الشهادة';
+$string['cond_backtest'] = 'الاختبار التاريخي منجز';
+$string['cond_challenges'] = 'التحديات منجزة';
+$string['cond_lessons'] = 'الدروس منجزة';
+$string['cond_project'] = 'المشروع النهائي مصادق عليه';
+$string['cond_quizzes'] = 'الاختبارات ناجحة';
+$string['continueproject'] = 'متابعة مشروعي';
+$string['downloadcertificate'] = 'تحميل شهادتي';
+$string['finalproject'] = 'المشروع النهائي';
+$string['profile'] = 'الملف الشخصي والتقدم';
+$string['tradesof'] = '{$a->done} / {$a->min} صفقات';
+$string['yourresults'] = 'نتائجك';
+
+// فضاء المكون.
+$string['alert_inactive'] = 'لا نشاط منذ {$a} يوما';
+$string['alert_neveraccessed'] = 'لم يفتح البرنامج أبدا';
+$string['alert_notstarted'] = '« {$a->done} » منجز، « {$a->next} » لم يبدأ بعد';
+$string['alert_quizfailures'] = '{$a->count} محاولات فاشلة في « {$a->quiz} »';
+$string['currentmodule'] = 'الوحدة الحالية';
+$string['kpi_active'] = 'الطلبة النشطون';
+$string['kpi_tograde'] = 'أعمال في انتظار التصحيح';
+$string['noalerts'] = 'لا تنبيه بيداغوجي: كل الطلبة يتقدمون.';
+$string['nostrategiesstudents'] = 'لم ينشئ أي طالب استراتيجية بعد.';
+$string['nostudents'] = 'لا يوجد طالب مسجل في البرنامج.';
+$string['pedagogicalalerts'] = 'التنبيهات البيداغوجية';
+$string['samplesmall'] = 'عينة صغيرة';
+$string['student_blocked'] = 'متوقف';
+$string['student_late'] = 'متأخر';
+$string['student_ok'] = 'في المسار';
+$string['students'] = 'الطلبة';
+
+// العناوين الفرعية للصفحات.
+$string['sub_home'] = 'مسارك في ألفا تريد.';
+$string['sub_parcours'] = 'برنامج مكثف في ثلاثة أشهر.';
+$string['sub_practice'] = 'من الملاحظة إلى التحليل.';
+$string['sub_analyse'] = 'مخبر التمرن.';
+$string['sub_backtest'] = 'اختبر استراتيجياتك على بيانات تاريخية.';
+$string['sub_strategy'] = 'التفاصيل والإحصائيات.';
+$string['sub_journal'] = 'سجل كل صفقة.';
+$string['sub_trade'] = 'قبل / بعد الصفقة.';
+$string['sub_tools'] = 'حاسبات ألفا تريد.';
+$string['sub_resources'] = 'مكتبة ألفا تريد.';
+$string['sub_community'] = 'إعلانات وأسئلة وتحاليل.';
+$string['sub_profile'] = 'التقدم والشارات.';
+$string['sub_certification'] = 'نهاية البرنامج.';
+$string['sub_project'] = 'Alpha Trading System.';
+$string['sub_chartedit'] = 'تمرين مخبر التمرن.';
+$string['sub_teacher'] = 'نظرة عامة على مقرراتك وطلبتك.';
+$string['sub_teacherstudents'] = 'التقدم والتنبيهات البيداغوجية.';
+$string['sub_teacherbacktests'] = 'نتائج الاختبارات التاريخية لطلبتك.';
+$string['sub_reviews'] = 'قائمة التصحيح، كل الأفواج.';
+$string['sub_review'] = 'تصحيح تحليل رسم بياني.';
+$string['sub_admin'] = 'نظرة عامة على منصة ألفا تريد.';
+$string['sub_adminusers'] = 'إدارة حسابات الطلبة والمكونين والمديرين.';
+$string['sub_admincourses'] = 'إنشاء ونشر وتنظيم وحدات البرنامج.';
+$string['sub_admincohorts'] = 'متابعة الأفواج وتقدمها.';
+$string['sub_adminreports'] = 'التفاعل والنتائج على كامل المنصة.';
+$string['sub_adminapplications'] = 'الترشحات المرسلة من الموقع العمومي.';
+
+// الشاشات.
+$string['streakdays'] = '{$a} أيام';
+$string['lessonnumbered'] = 'الدرس {$a->number} - {$a->name}';
+$string['lessonsshort'] = '{$a->done} / {$a->total} دروس';
+$string['objectives_upper'] = 'الأهداف';
+$string['questioncounter'] = 'السؤال {$a->index} / {$a->total}';
+$string['practice_analysis'] = 'تحليل رسم بياني';
+$string['youranalysis_upper'] = 'تحليلك';
+$string['analysis_waiting_title'] = 'في انتظار المكون';
+$string['strategydefaultname'] = 'Alpha Setup #{$a}';
+$string['createstrategy'] = 'إنشاء الاستراتيجية';
+$string['verifyall'] = 'المقارنة بالسوق الحقيقي';
+$string['verifymarket'] = 'المقارنة بالسوق الحقيقي';
+$string['verifydone'] = 'تمت المقارنة: {$a->confirmed} مؤكدة، {$a->mismatch} للمراجعة، {$a->open} لا تزال مفتوحة، {$a->nodata} بدون بيانات.';
+$string['verify_confirmed'] = 'مؤكدة من السوق ({$a})';
+$string['verify_mismatch'] = 'مختلفة عن السوق ({$a})';
+$string['verify_open'] = 'الصفقة لا تزال مفتوحة في السوق';
+$string['verify_nodata'] = 'لا توجد بيانات سوق لهذا التاريخ';
+$string['evolution_upper'] = 'التطور';
+$string['statistics_upper'] = 'الإحصائيات';
+$string['trades_upper'] = 'الصفقات';
+$string['trades_lower'] = 'صفقات';
+$string['candles_real'] = 'الشموع (السوق الحقيقي)';
+$string['lastprice'] = 'آخر سعر';
+$string['resultr_long'] = 'النتيجة (بوحدة R)';
+$string['resultr_ph'] = 'مثال: 2 أو -1';
+$string['savetrade_long'] = 'حفظ الصفقة';
+$string['readonlystrategy'] = 'اختبار تاريخي مستورد - للقراءة فقط. أنشئ استراتيجية جديدة لتسجيل صفقاتك.';
+$string['direction_long_short'] = 'Long';
+$string['direction_short_short'] = 'Short';
+$string['all_f'] = 'الكل';
+$string['tradesheet'] = 'بطاقة الصفقة';
+$string['journal_before_upper'] = 'قبل الصفقة';
+$string['journal_after_upper'] = 'بعد الصفقة';
+$string['journal_review_q'] = 'ماذا تعلمت؟';
+$string['emotion_state'] = 'الحالة النفسية:';
+$string['emotion_neutral'] = 'محايد';
+$string['emotion_disappointed'] = 'خائب الأمل';
+$string['risk'] = 'المخاطرة';
+$string['save'] = 'حفظ';
+$string['formation'] = 'التكوين';
+$string['badge_done'] = 'محصل عليها';
+$string['badge_current'] = 'قيد الإنجاز';
+$string['badge_locked'] = 'مقفلة';
+$string['viewcertification'] = 'عرض شهادتي';
+$string['certification_sub'] = 'شهادة نهاية البرنامج';
+$string['certification_text'] = 'أتم البرنامج المكثف: الاستثمار · تحليل ICT/SMC · التداول الكمي';
+$string['certificatelocked'] = 'متاحة بمجرد استيفاء كل الشروط.';
+$string['certificatenotconfigured'] = 'كل الشروط مستوفاة: سيصدر الفريق شهادتك.';
+$string['finalproject_upper'] = 'المشروع النهائي';
+$string['project_lead'] = 'ابن منهجك الخاص واختبره ووثقه.';
+$string['noproject'] = 'لم يتم إعداد المشروع النهائي بعد.';
+$string['viewreport'] = 'عرض تقريري';
+$string['noresultsyet'] = 'لا يوجد اختبار تاريخي بعد: ستظهر إحصائياتك هنا.';
+$string['latestposts'] = 'آخر المشاركات';
+$string['reply'] = 'رد';
+
+// فضاء المكون والإدارة.
+$string['hello_name'] = 'مرحبا، {$a}';
+$string['kpi_avgcompletion'] = 'معدل الإنجاز';
+$string['kpi_unreadmessages'] = 'رسائل غير مقروءة';
+$string['kpi_withbacktest'] = 'طلبة لديهم اختبار تاريخي';
+$string['kpi_avgexpectancy'] = 'معدل التوقع الرياضي';
+$string['kpi_avgwinrate'] = 'معدل نسبة النجاح';
+$string['kpi_users'] = 'المستخدمون';
+$string['kpi_teachers'] = 'المكونون';
+$string['kpi_globalcompletion'] = 'الإنجاز الإجمالي';
+$string['kpi_activeweek'] = 'نشطون هذا الأسبوع';
+$string['kpi_dropout'] = 'الانقطاع (30 يوما)';
+$string['kpi_quizavg'] = 'معدل نتائج الاختبارات';
+$string['toreviewfirst'] = 'للتصحيح أولا';
+$string['seeall'] = 'عرض الكل';
+$string['assignment'] = 'العمل';
+$string['submitted'] = 'أرسل';
+$string['recentactivity'] = 'النشاط الأخير';
+$string['noactivity'] = 'لا نشاط حديث.';
+$string['activity_completed'] = '{$a->name} أتم « {$a->activity} »';
+$string['correctanalysis'] = 'تصحيح تحليل رسم بياني';
+$string['studentbacktests'] = 'اختبارات الطلبة';
+$string['toreview'] = 'للمراجعة';
+$string['validated'] = 'مصادق عليه';
+$string['admin_home'] = 'الإدارة';
+$string['admin_users'] = 'المستخدمون';
+$string['admin_courses'] = 'المقررات';
+$string['admin_cohorts'] = 'الأفواج';
+$string['admin_reports'] = 'التقارير';
+$string['admin_applications'] = 'الترشحات';
+$string['enrolments6months'] = 'التسجيلات - آخر ستة أشهر';
+$string['newusers'] = 'مستخدمون جدد';
+$string['applications'] = 'الترشحات';
+$string['searchusers'] = 'ابحث بالاسم أو بالبريد الإلكتروني...';
+$string['adduser'] = 'إضافة مستخدم';
+$string['role'] = 'الدور';
+$string['role_student'] = 'طالب';
+$string['role_teacher'] = 'مكون';
+$string['role_admin'] = 'مدير';
+$string['cohort'] = 'الفوج';
+$string['activeuser'] = 'نشط';
+$string['suspended'] = 'موقوف';
+$string['createcourse'] = 'إنشاء مقرر';
+$string['coursemeta'] = 'الفئة: {$a->category} · {$a->count} مسجلا · {$a->state}';
+$string['published'] = 'منشور';
+$string['draft'] = 'مسودة';
+$string['duplicate'] = 'نسخ';
+$string['publish'] = 'نشر';
+$string['startdate'] = 'البداية';
+$string['completion'] = 'الإنجاز';
+$string['manage'] = 'إدارة';
+$string['nocohorts'] = 'لا يوجد فوج بعد.';
+$string['averagegrade'] = 'المعدل';
+$string['motivation'] = 'الدافع';
+$string['received'] = 'ورد في';
+$string['application_new'] = 'جديد';
+$string['application_contacted'] = 'تم الاتصال';
+$string['application_archived'] = 'مؤرشف';
+$string['application_markcontacted'] = 'وضع علامة تم الاتصال';
+$string['application_archive'] = 'أرشفة';
+$string['noapplications'] = 'لا يوجد ترشح بعد.';
+$string['apply_invalid'] = 'أدخل اسمك وعنوان بريد إلكتروني صالح.';
+$string['apply_throttled'] = 'عدد كبير من الترشحات من هذا الاتصال. حاول لاحقا.';
+$string['notification_application_subject'] = 'ترشح جديد: {$a}';
+$string['messageprovider:newapplication'] = 'ترشح جديد من الموقع العمومي';
+$string['notification_application_body'] = 'ترشح جديد من الموقع العمومي.
+
+الاسم: {$a->fullname}
+البريد الإلكتروني: {$a->email}
+الهاتف: {$a->phone}
+المستوى: {$a->level}
+الدافع: {$a->motivation}';
+$string['ago_minutes'] = 'منذ {$a} دقيقة';
+$string['ago_hours'] = 'منذ {$a} ساعة';
+$string['ago_yesterday'] = 'أمس';
+$string['ago_days'] = 'منذ {$a} أيام';
+$string['yesterday_at'] = 'أمس، {$a}';
+
+// المراسلة.
+$string['messaging'] = 'المراسلة';
+$string['conversations'] = 'المحادثات';
+$string['noconversations'] = 'لا توجد محادثة بعد.';
+$string['selectconversation'] = 'اختر محادثة.';
+$string['nomessagesyet'] = 'لا توجد رسالة بعد. اكتب الأولى.';
+$string['writemessage'] = 'اكتب رسالة...';
+$string['send'] = 'إرسال';
+$string['cannotsendmessage'] = 'لا يمكنك إرسال رسالة في هذه المحادثة.';
+$string['preview_from'] = '{$a->name}: {$a->text}';
+$string['markallread'] = 'وضع علامة مقروء على الكل';
+$string['nonotifications'] = 'لا يوجد إشعار.';
+$string['unread'] = 'غير مقروء';
+$string['redirectmessages'] = 'مراسلة ألفا تريد';
+$string['redirectmessages_desc'] = 'فتح مراسلة ألفا تريد بدل صفحتي الرسائل والإشعارات في مودل.';
+
+// الدفع والفوترة.
+$string['billing'] = 'الفوترة';
+$string['billing_title'] = 'الدفع والفوترة';
+$string['billing_sub'] = 'أدر اشتراكك ووسيلة الدفع وفواتيرك.';
+$string['currentplan'] = 'الاشتراك الحالي';
+$string['plan_paid'] = '{$a->amount} دفعت في {$a->date}.';
+$string['plan_until'] = 'الدخول متاح إلى غاية {$a}.';
+$string['plan_enrolled'] = 'تسجيلك نشط.';
+$string['paymentsdone'] = '{$a} عملية دفع منجزة';
+$string['expired'] = 'منتهي';
+$string['noplan'] = 'لا يوجد اشتراك نشط.';
+$string['paymentmethod'] = 'وسيلة الدفع';
+$string['method_text'] = 'آخر دفع في {$a->date} عبر {$a->gateway}.';
+$string['nomethod'] = 'لا يوجد دفع بعد.';
+$string['nocarddata'] = 'لا تخزن أي بيانات بطاقة في ألفا تريد.';
+$string['billinghistory'] = 'سجل الفوترة';
+$string['amount'] = 'المبلغ';
+$string['paid'] = 'مدفوع';
+$string['receipt'] = 'الوصل';
+$string['nopayments'] = 'لا يوجد دفع بعد.';
+$string['addmodule'] = 'إضافة وحدة';
+$string['programme'] = 'البرنامج';
+$string['option'] = 'خيار';
+$string['addtoaccount'] = 'إضافة إلى حسابي';
+$string['paymentreceived'] = 'تم استلام الدفع. جاري تفعيل دخولك.';
+$string['issuer'] = 'صادر عن';
+$string['billedto'] = 'فوتر لفائدة';
+$string['total'] = 'المجموع';
+$string['print'] = 'طباعة';
+
+// بيانات السوق.
+$string['settings_marketdata'] = 'بيانات السوق (London Strategic Edge)';
+$string['settings_marketdata_desc'] = 'الشموع الحقيقية يجلبها خادم مودل. مفتاح الواجهة لا يصل إلى المتصفح أبدا.';
+$string['markets'] = 'الأسواق';
+$string['markets_desc'] = 'سوق واحد في كل سطر: التسمية|رمز TradingView|رمز London Strategic Edge.';
+$string['lse_apikey'] = 'مفتاح الواجهة';
+$string['lse_apikey_desc'] = 'مفتاح مجاني من londonstrategicedge.com. يمكن أيضا ضبطه عبر متغير البيئة ALPHATRADE_LSE_API_KEY.';
+$string['lse_baseurl'] = 'عنوان الواجهة الأساسي';
+$string['lse_cachettl'] = 'مدة التخزين المؤقت (ثوان)';
+$string['lse_ratelimit'] = 'الطلبات لكل مستخدم في الساعة';
+$string['lse_ratelimit_desc'] = 'يحمي حصة الواجهة. الأجوبة المخزنة مؤقتا لا تحتسب.';
+$string['marketdata_notconfigured'] = 'لم يتم إعداد بيانات السوق الحقيقية.';
+$string['marketdata_badtimeframe'] = 'هذا الإطار الزمني غير متوفر لبيانات السوق.';
+$string['marketdata_error'] = 'بيانات السوق غير متوفرة ({$a}). حاول لاحقا.';
+$string['marketdata_ratelimited'] = 'عدد كبير من طلبات بيانات السوق. حاول بعد بضع دقائق.';
+$string['cachedef_marketdata'] = 'بيانات السوق (الشموع)';
+$string['cachedef_ratelimit'] = 'عدادات طلبات بيانات السوق';
+$string['cachedef_applications'] = 'تحديد وتيرة استمارة الترشح';
+$string['privacy:metadata:verifiedr'] = 'النتيجة المعاد حسابها من بيانات السوق الحقيقية';
+$string['privacy:metadata:verifystatus'] = 'حالة المقارنة بالسوق';
+$string['privacy:metadata:timeverified'] = 'وقت المقارنة بالسوق';
+$string['privacy:metadata:local_alphatrade_application'] = 'الترشحات المرسلة من الزوار عبر الموقع العمومي (غير مرتبطة بحساب).';
+$string['privacy:metadata:application_fullname'] = 'اسم المترشح';
+$string['privacy:metadata:application_email'] = 'بريد المترشح الإلكتروني';
+$string['privacy:metadata:application_phone'] = 'هاتف المترشح';
+$string['privacy:metadata:application_motivation'] = 'الدافع الذي كتبه المترشح';
+$string['level'] = 'المستوى';
+$string['level_beginner'] = 'مبتدئ';
+$string['level_intermediate'] = 'متوسط';
+$string['level_advanced'] = 'متقدم';
+$string['privacy:metadata:application_level'] = 'مستوى التداول الذي صرح به المترشح';
+
+// الأركان: الفيديوهات، البث المباشر، التمارين، النتائج.
+$string['videos'] = 'الفيديوهات';
+$string['sub_videos'] = 'كل فيديوهات البرنامج، وحدة بوحدة.';
+$string['videos_count'] = '{$a} فيديوهات متاحة';
+$string['videos_empty'] = 'لا يوجد فيديو بعد';
+$string['videos_empty_desc'] = 'فيديوهات الدروس قيد الإنتاج. ستظهر هنا بمجرد نشرها من طرف مكون، وتبقى متاحة من كل درس.';
+$string['gotoparcours'] = 'الذهاب إلى تكويني';
+$string['gotomodule'] = 'فتح الوحدة';
+$string['watched'] = 'شوهد';
+$string['towatch'] = 'للمشاهدة';
+$string['locked'] = 'مقفل';
+$string['live'] = 'البث المباشر';
+$string['sub_live'] = 'الحصص المباشرة والمواعيد القادمة والإعادات.';
+$string['live_now'] = 'مباشر الآن';
+$string['live_onair'] = 'على الهواء';
+$string['live_join'] = 'الالتحاق بالبث';
+$string['live_next'] = 'الحصص القادمة';
+$string['live_past'] = 'الحصص السابقة';
+$string['live_replay'] = 'إعادة';
+$string['live_link'] = 'رابط الحصة';
+$string['live_calendar'] = 'عرض في الرزنامة';
+$string['live_empty'] = 'لا يوجد بث مبرمج';
+$string['live_empty_desc'] = 'تعلن الحصص المباشرة في رزنامة البرنامج وعلى Discord. يظهر رابط الالتحاق هنا بمجرد برمجة حصة.';
+$string['exercices'] = 'التمارين';
+$string['sub_exercices'] = 'للإنجاز، في انتظار التصحيح، منجزة.';
+$string['ex_group_todo'] = 'للإنجاز';
+$string['ex_group_waiting'] = 'في انتظار التصحيح';
+$string['ex_group_done'] = 'منجزة';
+$string['ex_todo'] = 'للإنجاز';
+$string['ex_waiting'] = 'مرسل';
+$string['ex_graded'] = 'مصحح';
+$string['ex_passed'] = 'ناجح';
+$string['ex_retry'] = 'للإعادة';
+$string['ex_empty_todo'] = 'لا شيء للإنجاز الآن. واصل برنامجك.';
+$string['resultats'] = 'نتائجي';
+$string['sub_resultats'] = 'تقدمك وحدة بوحدة ونتائجك.';
+$string['res_overall'] = 'التقدم الإجمالي';
+$string['res_modules'] = 'الوحدات';
+$string['res_lessons'] = 'الدروس';
+$string['res_quizzes'] = 'التقييمات';
+$string['res_week'] = 'الأسبوع';
+$string['res_progress'] = 'التقدم وحدة بوحدة';
+$string['res_activities'] = 'أنشطة';
+$string['res_done'] = 'منجزة';
+$string['res_current'] = 'قيد الإنجاز';
+$string['res_grades'] = 'نتائجي';
+$string['res_activity'] = 'النشاط';
+$string['res_grade'] = 'النتيجة';
+$string['res_percent'] = 'النسبة';
+$string['res_empty'] = 'لا توجد نتيجة بعد. ستظهر هنا أول أنشطتك المقيمة.';
+
+// فضاء الشريك.
+$string['partner_home'] = 'الرئيسية';
+$string['sub_partnerhome'] = 'من هم طلبتي، وأين وصلوا، ومن يحتاج انتباها.';
+$string['partner_students'] = 'طلبتي';
+$string['sub_partnerstudents'] = 'الطلبة الذين تتابعهم وتقدمهم.';
+$string['partner_courses'] = 'تكويناتي';
+$string['sub_partnercourses'] = 'التكوينات المرخص لك بمتابعتها.';
+$string['partner_progress'] = 'التقدم';
+$string['sub_partnerprogress'] = 'تقدم المجموعة، وحدة بوحدة.';
+$string['partner_kpi_students'] = 'طلبة متابعون';
+$string['partner_kpi_average'] = 'معدل التقدم';
+$string['partner_kpi_watch'] = 'للمتابعة';
+$string['partner_kpi_done'] = 'أتموا البرنامج';
+$string['partner_watchlist'] = 'طلبة يحتاجون متابعة';
+$string['partner_allstudents'] = 'كل طلبتي';
+$string['partner_nowatch'] = 'لا يوجد طالب متوقف منذ {$a} أيام أو أكثر.';
+$string['partner_studentcount'] = '{$a} طلبة متابعون';
+$string['partner_nostudent'] = 'لا يوجد طالب مسند';
+$string['partner_nostudent_desc'] = 'يسند إليك الطلبة عبر فوج. اطلب من مدير إضافتك إلى فوج دفعتك.';
+$string['partner_programme'] = 'البرنامج';
+$string['partner_programme_desc'] = 'تتابع {$a} طلبة في هذا البرنامج، للقراءة فقط.';
+$string['partner_seeprogramme'] = 'عرض البرنامج';
+$string['partner_seeprogress'] = 'عرض التقدم';
+$string['partner_groupprogress'] = 'تقدم المجموعة';
+$string['partner_moduledone'] = '{$a->done} من {$a->count} طلبة أتموا';
+$string['partner_bystudent'] = 'طالبا بطالب';
+$string['partner_student'] = 'الطالب';
+$string['partner_modules'] = 'الوحدات';
+$string['partner_percent'] = 'التقدم';
+$string['partner_lastaccess'] = 'آخر دخول';
+$string['partner_towatch'] = 'للمتابعة';
+
+// شاشة الإنشاء.
+$string['create_title'] = 'إنشاء';
+$string['sub_create'] = 'أضف محتوى إلى وحدة من البرنامج.';
+$string['create_inmodule'] = 'الإضافة إلى الوحدة';
+$string['create_choose'] = 'اختيار';
+$string['create_seemodule'] = 'عرض الوحدة';
+$string['create_lesson'] = 'درس';
+$string['create_lesson_desc'] = 'صفحة درس: الهدف، المحتوى، النقاط الأساسية.';
+$string['create_video'] = 'فيديو';
+$string['create_video_desc'] = 'رابط فيديو يظهر في فضاء الفيديوهات.';
+$string['create_support'] = 'سند';
+$string['create_support_desc'] = 'ملف PDF أو ملف مرفق بالوحدة.';
+$string['create_exercise'] = 'تمرين';
+$string['create_exercise_desc'] = 'عمل يسلم ويصحح، بنص وملفات.';
+$string['create_quiz'] = 'اختبار';
+$string['create_quiz_desc'] = 'تقييم بعتبة نجاح.';
+$string['create_forum'] = 'نقاش';
+$string['create_forum_desc'] = 'منتدى مرتبط بالوحدة.';
+$string['create_live'] = 'حصة مباشرة';
+$string['create_live_desc'] = 'برمج حصة في رزنامة البرنامج.';
+$string['create_hint'] = 'إعادة الترتيب والإخفاء يتمان في صفحة المقرر:';
+$string['create_editcourse'] = 'فتح المقرر';
+$string['create_nomodule'] = 'لا تحتوي المنصة على وحدات بعد.';
+
+// وجهات نظر الإدارة.
+$string['contents_module'] = 'الوحدة';
+$string['contents_items'] = 'الأنشطة';
+$string['contents_published'] = 'منشور';
+$string['contents_draft'] = '{$a} مخفية';
+$string['contents_add'] = 'إضافة محتوى';
+$string['contents_lessons'] = 'الدروس';
+$string['contents_quizzes'] = 'الاختبارات';
+$string['contents_assigns'] = 'الأعمال المسلمة';
+$string['contents_medias'] = 'الوسائط';
+$string['assess_activity'] = 'التقييم';
+$string['assess_submitted'] = 'مصحح';
+$string['assess_pass'] = 'عتبة النجاح';
+$string['assess_count'] = 'أنشطة مقيمة';
+$string['assess_students'] = 'الطلبة';
+$string['assess_empty'] = 'لا يوجد نشاط مقيم بعد.';
+$string['cert_eligible'] = 'مؤهل';
+$string['cert_inprogress'] = 'قيد الإنجاز';
+$string['cert_eligiblecount'] = 'مؤهلون';
+$string['cert_studentcount'] = 'الطلبة';
+$string['cert_empty'] = 'لا يوجد طالب مسجل بعد.';
+$string['admin_contents'] = 'المحتويات';
+$string['admin_assessments'] = 'التقييمات';
+$string['admin_certifications'] = 'الشهادات';
+$string['sub_admincontents'] = 'كل ما هو منشور في البرنامج، وحدة بوحدة.';
+$string['sub_adminassessments'] = 'الاختبارات والأعمال المقيمة، مع المشاركة والمعدلات.';
+$string['sub_admincertifications'] = 'من هو مؤهل للشهادة، ومن لا يزال في الطريق.';
+$string['role_partner'] = 'شريك';
+$string['role_partner_desc'] = 'يتابع مجموعة من الطلبة للقراءة فقط: التقدم والنتائج والنشاط، دون تعديل ولا تصحيح.';
+
+// مصطلحات التداول.
+$string['winrate'] = 'نسبة النجاح';
+$string['expectancy'] = 'التوقع الرياضي';
+$string['drawdown'] = 'التراجع الأقصى';
+$string['profitfactor'] = 'عامل الربح';
+$string['avgwin'] = 'متوسط الربح';
+$string['avgloss'] = 'متوسط الخسارة';
+$string['maxconsecutivelosses'] = 'أقصى خسائر متتالية';
+$string['directionlong'] = 'Long';
+$string['directionshort'] = 'Short';
+$string['trades'] = 'الصفقات';
+$string['noprogrammecourse'] = 'لم يتم إعداد مقرر البرنامج بعد.';

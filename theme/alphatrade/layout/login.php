@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $bodyattributes = $OUTPUT->body_attributes(['alpha-login']);
 
-$templatecontext = [
+$templatecontext = theme_alphatrade_languages() + [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'bodyattributes' => $bodyattributes,

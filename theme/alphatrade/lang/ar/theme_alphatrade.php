@@ -1,0 +1,289 @@
+<?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Arabic strings for the Alpha Trade theme.
+ *
+ * @package   theme_alphatrade
+ * @copyright 2026 Alpha Trade
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+$string['accentcolor'] = 'لون التمييز';
+$string['accentcolor_desc'] = 'ذهبي مطفأ يستعمل للأزرار والروابط والحالات النشطة. أبقه غير مشبع.';
+$string['applyurl'] = 'رابط « الترشح »';
+$string['applyurl_desc'] = 'صفحة أو استمارة الترشح. إذا ترك فارغا: رابط بريد التواصل، وإلا التسجيل الذاتي في مودل إن كان مفعلا.';
+$string['choosereadme'] = 'ألفا تريد يكسو مودل حتى يستعمل الطالب ألفا تريد لا مودل: خلفية داكنة، ذهبي مطفأ، تنقل مختصر، أيقونات Phosphor.';
+$string['configtitle'] = 'Alpha Trade';
+$string['contactemail'] = 'بريد التواصل (الموقع العمومي)';
+$string['evaluation'] = 'تقييم';
+$string['footerbrand'] = 'Alpha Trade - Alpha Capital Academy';
+$string['forgotpassword'] = 'هل نسيت كلمة السر؟';
+$string['generalsettings'] = 'الإعدادات العامة';
+$string['lessondone'] = 'انتهى الدرس';
+$string['loginemail'] = 'عنوان البريد الإلكتروني';
+$string['loginemailplaceholder'] = 'you@email.com';
+$string['loginsubmit'] = 'تسجيل الدخول';
+$string['logintagline'] = 'ادخل إلى فضاء تكوينك.';
+$string['loginusername'] = 'اسم المستخدم أو البريد الإلكتروني';
+$string['mainnav'] = 'التنقل الرئيسي';
+$string['markdone'] = 'وضع علامة تم';
+$string['menu'] = 'القائمة';
+$string['nav_backtest'] = 'الاختبار التاريخي';
+$string['nav_community'] = 'المجتمع';
+$string['nav_home'] = 'الرئيسية';
+$string['nav_journal'] = 'دفتر التداول';
+$string['nav_parcours'] = 'تكويني';
+$string['nav_practice'] = 'التمرن';
+$string['nav_profile'] = 'ملفي الشخصي';
+$string['nav_resources'] = 'الموارد';
+$string['nav_reviews'] = 'في انتظار التصحيح';
+$string['nav_studentbacktests'] = 'اختبارات الطلبة';
+$string['nav_teacher'] = 'الرئيسية';
+$string['nav_tools'] = 'الأدوات';
+$string['nosignals'] = 'ألفا تريد لا يقدم إشارات تداول.';
+$string['notmember'] = 'ليس لديك حساب بعد؟';
+$string['or'] = 'أو';
+$string['pluginname'] = 'Alpha Trade';
+$string['privacy:metadata'] = 'قالب ألفا تريد لا يخزن أي بيانات شخصية.';
+$string['publichome'] = 'موقع عمومي للزوار';
+$string['publichome_desc'] = 'الزوار غير المسجلين يرون موقع ألفا تريد العمومي (الرئيسية، البرنامج، المنهج، المكونون، الأسئلة الشائعة) بدل صفحة مودل الرئيسية.';
+$string['region-side-pre'] = 'يمين';
+$string['tabbar'] = 'تنقل سريع';
+
+// الموقع العمومي.
+$string['pub_apply'] = 'الترشح';
+$string['pub_apply_lead'] = 'بعض المعلومات لدراسة ترشحك.';
+$string['pub_faq_signals'] = 'هل يقدم ألفا تريد إشارات تداول؟';
+$string['pub_faq_signals_answer'] = 'لا. ألفا تريد يعلم منهجا وأدوات تحليل - أنت من يتخذ قراراته ويوثقها، لا إشارات تتبعها.';
+$string['pub_hero_lead'] = 'برنامج مكثف في ثلاثة أشهر يربط نظرية الأسواق بعلم نفس المتداول والصرامة الكمية - لبناء منهج يمكنك إثباته، لا مجرد حدس.';
+$string['pub_hero_title'] = 'افهم الأسواق. تحكم في سلوكك. أثبت منهجك.';
+$string['pub_login'] = 'تسجيل الدخول';
+$string['pub_method_lead'] = 'ألفا تريد ليس تكوينا يعد بنتيجة. إنه مسار يبني، خطوة بخطوة، منهجا يمكنك اختباره والدفاع عنه.';
+$string['pub_month'] = 'الشهر {$a}';
+$string['pub_month1_theme'] = 'الفهم';
+$string['pub_month2_theme'] = 'التحليل';
+$string['pub_month3_theme'] = 'القياس';
+$string['pub_nav_faq'] = 'الأسئلة الشائعة';
+$string['pub_nav_programme'] = 'البرنامج';
+$string['pub_programme_lead'] = 'مسار منظم ينطلق من الأساسيات ليصل إلى نظام تداول كامل ومختبر.';
+$string['pub_programme_title'] = 'برنامج في ثلاثة أشهر';
+$string['pub_team_julien'] = 'Julien Bouvier';
+$string['pub_team_julien_bio'] = 'يدرس تحليل بنية السوق (ICT/SMC) وبناء الإعدادات والتداول الكمي: الاختبار التاريخي والإحصاء والمتانة.';
+$string['pub_team_julien_role'] = 'الاستثمار · ICT/SMC · التداول الكمي';
+$string['pub_team_lead'] = 'المتداول المنضبط منهج وبيانات. كل من مكونينا يغطي أحد هذين الركنين.';
+$string['pub_team_nesrine'] = 'Nesrine Moussa';
+$string['pub_team_nesrine_bio'] = 'تدرس أساسيات الأسواق المالية وعلم نفس المتداول: الانحيازات المعرفية والانضباط وإدارة عدم اليقين.';
+$string['pub_team_nesrine_role'] = 'نظرية الأسواق · علم النفس';
+$string['pub_team_title'] = 'مكونان، بعدان متكاملان';
+
+// الشاشات والفضاءات.
+$string['space_student'] = 'فضاء الطالب';
+$string['space_teacher'] = 'فضاء المكون';
+$string['space_admin'] = 'الإدارة';
+$string['role_teacher'] = 'مكون';
+$string['role_admin'] = 'مدير عام';
+$string['lesson'] = 'درس';
+$string['evaluation_sub'] = 'تحقق من مكتسباتك.';
+$string['evaluation_upper'] = 'تقييم';
+$string['nav_teachercourses'] = 'تكويناتي';
+$string['nav_gradebook'] = 'النتائج';
+$string['nav_teachercommunity'] = 'المجتمع';
+$string['nav_adminhome'] = 'لوحة القيادة';
+$string['nav_adminusers'] = 'المستخدمون';
+$string['nav_admincourses'] = 'التكوينات';
+$string['nav_admincohorts'] = 'الأفواج';
+$string['nav_adminreports'] = 'التقارير';
+$string['nav_adminsettings'] = 'الإعدادات';
+$string['login_title'] = 'تسجيل الدخول';
+$string['contactteam'] = 'اتصل بالفريق البيداغوجي';
+$string['pub_nav_accueil'] = 'الرئيسية';
+$string['pub_nav_methode'] = 'منهجنا';
+$string['pub_nav_formateurs'] = 'المكونون';
+$string['pub_discover'] = 'اكتشف البرنامج';
+$string['pub_hero_tag'] = 'مدرسة التداول والاستثمار';
+$string['pub_hero_alt'] = 'قاعة تداول ألفا تريد';
+$string['pub_pipe_understand'] = 'الفهم';
+$string['pub_pipe_analyse'] = 'التحليل';
+$string['pub_pipe_test'] = 'الاختبار';
+$string['pub_pipe_measure'] = 'القياس';
+$string['pub_pipe_build'] = 'البناء';
+$string['pub_programme_link'] = 'اطلع على البرنامج الكامل';
+$string['pub_month_upper'] = 'الشهر {$a}';
+$string['pub_month1_summary'] = 'أساسيات الأسواق، علم نفس المتداول، إدارة المخاطر.';
+$string['pub_month2_summary'] = 'بنية السوق، السيولة، ICT/SMC، بناء الإعدادات.';
+$string['pub_month3_summary'] = 'التداول الكمي، الاختبار التاريخي، الإحصاء، المشروع النهائي.';
+$string['pub_team_link'] = 'تعرف على المكونين';
+$string['pub_cta_title'] = 'مستعد لتنظيم مقاربتك للأسواق؟';
+$string['pub_cta_lead'] = 'باب الترشح للفوج القادم مفتوح.';
+$string['pub_programme_tag'] = 'برنامج مكثف';
+$string['pub_programme_h1'] = 'ثلاثة أشهر، اثنتا عشرة وحدة';
+$string['pub_mod1'] = 'أساسيات الأسواق';
+$string['pub_mod1_desc'] = 'الأسواق، الأصول، العرض والطلب، السيولة، التقلب، الأوامر.';
+$string['pub_mod2'] = 'علم نفس المتداول';
+$string['pub_mod2_desc'] = 'الانحيازات المعرفية، الانفعالات، الانضباط، خطة التداول.';
+$string['pub_mod3'] = 'إدارة المخاطر';
+$string['pub_mod3_desc'] = 'المخاطرة في كل صفقة، حجم المركز، انضباط رأس المال.';
+$string['pub_mod4'] = 'بنية السوق';
+$string['pub_mod4_desc'] = 'الاتجاه، النطاق، HH/HL/LH/LL.';
+$string['pub_mod5'] = 'السيولة';
+$string['pub_mod5_desc'] = 'سيولة الشراء والبيع، القمم والقيعان المتساوية، الكنس.';
+$string['pub_mod6'] = 'ICT / SMC';
+$string['pub_mod6_desc'] = 'BOS، CHoCH، كتل الأوامر، FVG، premium/discount.';
+$string['pub_mod7'] = 'بناء الإعدادات';
+$string['pub_mod7_desc'] = 'قائمة تحقق في ثماني خطوات، من البنية إلى الدخول.';
+$string['pub_mod8'] = 'التداول الكمي';
+$string['pub_mod8_desc'] = 'الفرضيات، القواعد، نسبة النجاح، العائد على المخاطرة، التوقع الرياضي.';
+$string['pub_mod9'] = 'الاختبار التاريخي';
+$string['pub_mod9_desc'] = 'سلسلة صفقات تاريخية، إحصائيات آلية.';
+$string['pub_mod10'] = 'الإحصاء والتحسين';
+$string['pub_mod10_desc'] = 'عامل الربح، التراجع الأقصى، المتانة، الإفراط في التوفيق.';
+$string['pub_mod11'] = 'بناء النظام';
+$string['pub_mod11_desc'] = 'جمع القواعد وإدارة المخاطر والتوثيق في نظام واحد.';
+$string['pub_mod12'] = 'المشروع النهائي';
+$string['pub_mod12_desc'] = 'Alpha Trading System - منهج مختبر وموثق.';
+$string['pub_method_h1'] = 'قرر بالبيانات، لا بالحدس.';
+$string['pub_step1'] = 'افهم';
+$string['pub_step1_desc'] = 'كيف تعمل الأسواق والأصول والمخاطر.';
+$string['pub_step2'] = 'تحكم';
+$string['pub_step2_desc'] = 'في سلوكك أنت أمام عدم اليقين.';
+$string['pub_step3'] = 'حلل';
+$string['pub_step3_desc'] = 'بنية سوق ما وسيولته.';
+$string['pub_step4'] = 'تمرن';
+$string['pub_step4_desc'] = 'على حالات حقيقية، دون المخاطرة برأس المال.';
+$string['pub_step5'] = 'اختبر تاريخيا';
+$string['pub_step5_desc'] = 'فرضياتك على بيانات تاريخية.';
+$string['pub_step6'] = 'قس';
+$string['pub_step6_desc'] = 'نسبة النجاح، التوقع الرياضي، التراجع الأقصى - بصرامة إحصائية.';
+$string['pub_step7'] = 'ابن';
+$string['pub_step7_desc'] = 'نظام تداول موثق، لا حدسا.';
+$string['pub_step8'] = 'دافع عن منهجك';
+$string['pub_step8_desc'] = 'اعرض نتائجك وبررها أمام مكون.';
+$string['pub_method_warning'] = 'ألفا تريد لا يقدم إشارات تداول ولا يعد بأي نتيجة مالية. هدفنا أن نعلمك كيف تبني منهجك الخاص وتثبته.';
+$string['pub_team_h1'] = 'بعدان متكاملان';
+$string['pub_faq_h1'] = 'الأسئلة الشائعة';
+$string['pub_faq_experience'] = 'هل أحتاج خبرة في التداول؟';
+$string['pub_faq_experience_answer'] = 'لا. الشهر الأول يرسي أسس الأسواق والأصول والمخاطر قبل أي تحليل فني.';
+$string['pub_faq_duration'] = 'ما مدة البرنامج؟';
+$string['pub_faq_duration_answer'] = 'ثلاثة أشهر، في اثنتي عشرة وحدة موزعة على: الفهم، التحليل، القياس.';
+$string['pub_faq_project'] = 'ما هو المشروع النهائي « Alpha Trading System »؟';
+$string['pub_faq_project_answer'] = 'مشروع تبني فيه منهج تداولك الخاص وتختبره تاريخيا وتوثقه، من السوق المختار إلى الإحصائيات والتقرير النهائي.';
+$string['pub_faq_admission'] = 'كيف يتم القبول؟';
+$string['pub_faq_admission_answer'] = 'ترسل ترشحك، ثم يعود إليك الفريق البيداغوجي لتأكيد مكانك في الفوج القادم.';
+$string['pub_apply_h1'] = 'انضم إلى الفوج القادم';
+$string['pub_apply_name'] = 'الاسم الكامل';
+$string['pub_apply_name_ph'] = 'اسمك';
+$string['pub_apply_phone'] = 'الهاتف';
+$string['pub_apply_why'] = 'لماذا ألفا تريد؟';
+$string['pub_apply_why_ph'] = 'ما الذي يدفعك للالتحاق بالبرنامج';
+$string['pub_apply_send'] = 'إرسال ترشحي';
+$string['pub_apply_done'] = 'شكرا، تم إرسال ترشحك. سيعود إليك الفريق البيداغوجي.';
+$string['pub_member'] = 'عضو بالفعل؟';
+$string['pub_tagline'] = 'افهم الأسواق. تحكم في سلوكك. أثبت منهجك.';
+$string['pub_menu'] = 'القائمة';
+$string['pub_download_programme'] = 'تحميل البرنامج';
+$string['pub_slides'] = 'صور العرض';
+$string['pub_slide'] = 'صورة {$a}';
+$string['pub_hero_title2'] = 'Alpha Trade Academy، المدرسة التي تكون متداولين منهجيين.';
+$string['pub_hero_tag2'] = 'Alpha Trade Academy';
+$string['pub_hero_lead2'] = 'مقاربة بيداغوجية تربط نظرية الأسواق بعلم النفس والصرامة الكمية، لتحويل الحدس إلى منهج قابل للإثبات.';
+
+// تحسين الظهور في محركات البحث.
+$string['contactemail_desc'] = 'يظهر في البيانات المهيكلة (محركات البحث، المساعدات الذكية) وفي llms.txt.';
+$string['contactphone'] = 'هاتف التواصل (الموقع العمومي)';
+$string['contactphone_desc'] = 'بصيغة دولية، مثال ‎+216 00 000 000. يظهر في البيانات المهيكلة وفي llms.txt.';
+$string['country'] = 'البلد (رمز ISO)';
+$string['country_desc'] = 'رمز من حرفين للبلد الذي تعمل فيه المدرسة، مثال TN.';
+$string['sameas'] = 'الحسابات الرسمية';
+$string['sameas_desc'] = 'رابط واحد في كل سطر (LinkedIn، Instagram، Facebook، YouTube...). يساعد محركات البحث والمساعدات الذكية على ربط الموقع بالعلامة.';
+$string['seo_sitename'] = 'Alpha Trade Academy';
+$string['seo_title_accueil'] = 'Alpha Trade Academy - مدرسة التداول والاستثمار';
+$string['seo_desc_accueil'] = 'مدرسة تداول عن بعد: برنامج مكثف في ثلاثة أشهر (96 ساعة، 12 وحدة) يربط نظرية الأسواق بعلم نفس المتداول والتداول الكمي.';
+$string['seo_title_programme'] = 'تكوين في التداول: برنامج في اثنتي عشرة وحدة';
+$string['seo_desc_programme'] = 'تكوين في التداول عن بعد في ثلاثة أشهر: أساسيات الأسواق، علم نفس المتداول، إدارة المخاطر، ICT/SMC، التداول الكمي، الاختبار التاريخي ومشروع نهائي.';
+$string['seo_title_methode'] = 'منهجنا في التداول في ثماني خطوات';
+$string['seo_desc_methode'] = 'افهم، حلل، اختبر تاريخيا، قس، ابن ودافع عن منهجك: ثماني خطوات للقرار بالبيانات، دون إشارات تداول ودون وعد بالأرباح.';
+$string['seo_title_formateurs'] = 'المكونون: Nesrine Moussa وJulien Bouvier';
+$string['seo_desc_formateurs'] = 'Nesrine Moussa تدرس نظرية الأسواق وعلم نفس المتداول، وJulien Bouvier يدرس تحليل ICT/SMC والتداول الكمي.';
+$string['seo_title_faq'] = 'الأسئلة الشائعة حول التكوين في التداول';
+$string['seo_desc_faq'] = 'السعر، الصيغة عن بعد، الشهادة، الفوج القادم، المتطلبات والقبول: أجوبة عن الأسئلة الشائعة حول ألفا تريد.';
+$string['seo_title_candidater'] = 'الترشح للفوج القادم';
+$string['seo_desc_candidater'] = 'ترشح للفوج القادم في ألفا تريد: ثلاثة أشهر لبناء منهج تداولك الخاص واختباره وإثباته.';
+$string['seo_org_desc'] = 'Alpha Trade Academy مدرسة للتداول والاستثمار مقرها تونس. برنامجها المكثف عن بعد في ثلاثة أشهر يربط نظرية الأسواق بعلم نفس المتداول والتداول الكمي، دون إشارات تداول ودون وعد بالأرباح.';
+$string['seo_course_name'] = 'البرنامج المكثف ألفا تريد: التداول والاستثمار';
+$string['seo_share_alt'] = 'شعار ألفا تريد';
+$string['seo_contact'] = 'التواصل';
+$string['seo_website'] = 'الموقع';
+$string['seo_pages'] = 'الصفحات';
+$string['seo_documents'] = 'الوثائق';
+$string['seo_llms_full'] = 'المحتوى العمومي الكامل (البرنامج، المنهج، المكونون، الأسئلة الشائعة)';
+$string['seo_about'] = 'حول';
+$string['courseformat'] = 'صيغة التكوين';
+$string['courseformat_desc'] = 'تظهر في المعلومات العملية للبرنامج وفي الأسئلة الشائعة وفي البيانات المهيكلة.';
+$string['cohortstart'] = 'انطلاق الفوج القادم';
+$string['cohortstart_desc'] = 'التاريخ بصيغة YYYY-MM-DD، مثال 2026-10-01. إذا ترك فارغا لا يظهر.';
+$string['prices'] = 'الأسعار';
+$string['prices_desc'] = 'سعر واحد في كل سطر: المبلغ ثم رمز العملة ISO، مثال 740 EUR ثم 2500 TND. إذا ترك فارغا لا يظهر.';
+$string['certificate'] = 'الشهادة';
+$string['certificate_desc'] = 'اسم الشهادة والجهة المانحة. إذا ترك فارغا لا يظهر.';
+$string['pub_fact_format'] = 'الصيغة';
+$string['pub_fact_start'] = 'الفوج القادم';
+$string['pub_fact_start_value'] = 'ابتداء من {$a}';
+$string['pub_fact_price'] = 'السعر';
+$string['pub_fact_certificate'] = 'الشهادة';
+$string['pub_format_online'] = 'عن بعد';
+$string['pub_format_onsite'] = 'حضوري';
+$string['pub_format_blended'] = 'عن بعد وحضوري';
+$string['pub_or'] = 'أو';
+$string['pub_faq_format'] = 'هل التكوين عن بعد أم حضوري؟';
+$string['pub_faq_format_online_answer'] = 'يجري التكوين عن بعد، على منصة ألفا تريد.';
+$string['pub_faq_format_onsite_answer'] = 'يجري التكوين حضوريا.';
+$string['pub_faq_format_blended_answer'] = 'يجمع التكوين بين حصص عن بعد على منصة ألفا تريد وحصص حضورية.';
+$string['pub_faq_price'] = 'كم يكلف التكوين؟';
+$string['pub_faq_price_answer'] = 'سعر البرنامج في ثلاثة أشهر هو {$a}.';
+$string['pub_faq_start'] = 'متى ينطلق الفوج القادم؟';
+$string['pub_faq_start_answer'] = 'ينطلق الفوج القادم ابتداء من {$a}. باب الترشح مفتوح.';
+$string['pub_faq_certificate'] = 'ما الشهادة المرتبطة بالتكوين؟';
+$string['pub_faq_certificate_answer'] = 'الشهادة المرتبطة: {$a}.';
+$string['seo_practical'] = 'معلومات عملية';
+$string['pub_apply_level'] = 'مستواك في التداول والمالية والاستثمار';
+$string['pub_level_beginner'] = 'مبتدئ';
+$string['pub_level_intermediate'] = 'متوسط';
+$string['pub_level_advanced'] = 'متقدم';
+$string['pub_apply_why_max'] = '{$a} حرفا على الأكثر';
+
+// الأركان الستة والفضاءات الأربعة.
+$string['nav_videos'] = 'الفيديوهات';
+$string['nav_live'] = 'البث المباشر';
+$string['nav_exercices'] = 'التمارين';
+$string['nav_resultats'] = 'نتائجي';
+$string['nav_toolsgroup'] = 'أدوات البرنامج';
+$string['nav_teacherstudents'] = 'طلبتي';
+$string['nav_create'] = 'إنشاء';
+$string['nav_partner'] = 'الرئيسية';
+$string['nav_partnerstudents'] = 'طلبتي';
+$string['nav_partnercourses'] = 'تكويناتي';
+$string['nav_partnerprogress'] = 'التقدم';
+$string['nav_admincategories'] = 'الفئات';
+$string['nav_admincontents'] = 'المحتويات';
+$string['nav_adminassessments'] = 'التقييمات';
+$string['nav_admincertifications'] = 'الشهادات';
+$string['nav_adminstats'] = 'الإحصائيات';
+$string['nav_adminlog'] = 'سجل النشاط';
+$string['space_partner'] = 'فضاء الشريك';
+$string['privacy:metadata:space'] = 'الفضاء (طالب، مكون، شريك، إدارة) الذي كنت فيه آخر مرة، حتى تحتفظ الصفحات المشتركة بين عدة فضاءات بالتنقل الصحيح.';

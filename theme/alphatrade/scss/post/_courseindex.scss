@@ -384,3 +384,89 @@ body.alpha-app .drawer-toggles {
         }
     }
 }
+
+// ---------------------------------------------------------------- Sélecteur de langue.
+// Présent dans le bandeau de toutes les pages : app, site public, connexion.
+.at-langmenu {
+    position: relative;
+
+    .at-langbtn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        width: auto;
+        min-width: 34px;
+        height: 34px;
+        padding: 0 9px;
+        font-size: 15px;
+        line-height: 1;
+        color: $at-text-70;
+
+        &:hover,
+        &:focus-visible,
+        &[aria-expanded="true"] {
+            color: $at-text;
+        }
+    }
+
+    .at-langbtn-code {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: .04em;
+    }
+
+    .at-langlist {
+        min-width: 170px;
+        padding: 6px;
+        border: 0;
+        border-radius: $at-radius-md;
+        background: $at-surface;
+    }
+
+    .at-langitem {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 9px;
+        border-radius: $at-radius-sm;
+        font-size: 13px;
+        color: $at-text-70;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus-visible {
+            color: $at-text;
+            background: $at-bg;
+        }
+
+        &.is-active {
+            color: $at-accent-100;
+            background: $at-accent-800;
+        }
+    }
+
+    .at-langitem-code {
+        flex: none;
+        width: 22px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .06em;
+        color: $at-text-45;
+    }
+
+    .at-langitem.is-active .at-langitem-code {
+        color: $at-accent-300;
+    }
+}
+
+.at-login-lang {
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 18px 0;
+}
+
+.at-pub-header .at-langmenu .at-langbtn {
+    border: 1px solid $at-divider;
+    border-radius: $at-radius-md;
+    background: transparent;
+}

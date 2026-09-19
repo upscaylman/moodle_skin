@@ -181,7 +181,7 @@ if (!$nav['isstudent']) {
     $searchurl = !empty($nav['isadmin']) ? new moodle_url('/admin/search.php') : new moodle_url('/course/search.php');
 }
 
-$templatecontext = [
+$templatecontext = theme_alphatrade_languages() + [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'sidepreblocks' => $blockshtml,

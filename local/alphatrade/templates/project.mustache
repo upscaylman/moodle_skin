@@ -47,7 +47,7 @@
     <div class="at-card at-elev-sm at-pad-20 at-mb-22 at-max-480">
         <span class="at-card-kicker">{{#str}}yourresults, local_alphatrade{{/str}}</span>
         {{#result}}
-            <p class="at-card-body at-mt-6">{{stats.trades}} {{#str}}trades_lower, local_alphatrade{{/str}} · {{stats.winrate}} win rate · {{stats.expectancy}} expectancy</p>
+            <p class="at-card-body at-mt-6">{{stats.trades}} {{#str}}trades_lower, local_alphatrade{{/str}} · {{stats.winrate}} {{#str}}winrate, local_alphatrade{{/str}} · {{stats.expectancy}} {{#str}}expectancy, local_alphatrade{{/str}}</p>
             <a class="btn btn-secondary" href="{{url}}">{{#str}}viewreport, local_alphatrade{{/str}} &rarr;</a>
         {{/result}}
         {{^result}}

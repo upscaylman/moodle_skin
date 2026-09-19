@@ -39,9 +39,9 @@
     {{#stats}}
         <div class="at-strat-stats">
             <div class="at-card at-elev-sm at-stat-mini"><div>{{trades}}</div><span>{{#str}}trades_upper, local_alphatrade{{/str}}</span></div>
-            <div class="at-card at-elev-sm at-stat-mini"><div>{{winrate}}</div><span>WIN RATE</span></div>
-            <div class="at-card at-elev-sm at-stat-mini"><div>{{expectancy}}</div><span>EXPECTANCY</span></div>
-            <div class="at-card at-elev-sm at-stat-mini"><div>{{maxdrawdown}}</div><span>DRAWDOWN</span></div>
+            <div class="at-card at-elev-sm at-stat-mini"><div>{{winrate}}</div><span>{{#str}}winrate, local_alphatrade{{/str}}</span></div>
+            <div class="at-card at-elev-sm at-stat-mini"><div>{{expectancy}}</div><span>{{#str}}expectancy, local_alphatrade{{/str}}</span></div>
+            <div class="at-card at-elev-sm at-stat-mini"><div>{{maxdrawdown}}</div><span>{{#str}}drawdown, local_alphatrade{{/str}}</span></div>
         </div>
     {{/stats}}
 
@@ -80,10 +80,10 @@
     {{#stats}}
         <h5 class="at-mb-10">{{#str}}statistics_upper, local_alphatrade{{/str}}</h5>
         <div class="at-strat-kv">
-            <div><span>Profit Factor</span><span>{{profitfactor}}</span></div>
-            <div><span>Average Win</span><span>{{avgwin}}</span></div>
-            <div><span>Average Loss</span><span>{{avgloss}}</span></div>
-            <div><span>Max consecutive losses</span><span>{{maxconsecutivelosses}}</span></div>
+            <div><span>{{#str}}profitfactor, local_alphatrade{{/str}}</span><span>{{profitfactor}}</span></div>
+            <div><span>{{#str}}avgwin, local_alphatrade{{/str}}</span><span>{{avgwin}}</span></div>
+            <div><span>{{#str}}avgloss, local_alphatrade{{/str}}</span><span>{{avgloss}}</span></div>
+            <div><span>{{#str}}maxconsecutivelosses, local_alphatrade{{/str}}</span><span>{{maxconsecutivelosses}}</span></div>
         </div>
         <p class="at-strat-verdict">{{verdict}}</p>
     {{/stats}}
@@ -122,13 +122,13 @@
                 <div class="at-field at-mb-10">
                     <span class="at-label">{{#str}}direction, local_alphatrade{{/str}}</span>
                     <div class="at-radio-row">
-                        <label class="at-radio"><input type="radio" name="direction" value="long" checked><span class="at-dot"></span>Long</label>
-                        <label class="at-radio"><input type="radio" name="direction" value="short"><span class="at-dot"></span>Short</label>
+                        <label class="at-radio"><input type="radio" name="direction" value="long" checked><span class="at-dot"></span>{{#str}}directionlong, local_alphatrade{{/str}}</label>
+                        <label class="at-radio"><input type="radio" name="direction" value="short"><span class="at-dot"></span>{{#str}}directionshort, local_alphatrade{{/str}}</label>
                     </div>
                 </div>
                 <div class="at-field at-mb-10"><label for="at-tr-r">{{#str}}resultr_long, local_alphatrade{{/str}}</label><input class="at-input" id="at-tr-r" type="text" inputmode="decimal" name="resultr" required placeholder="{{#str}}resultr_ph, local_alphatrade{{/str}}"></div>
                 <div class="at-field-row at-mb-14">
-                    <div class="at-field"><label for="at-tr-entry">Entry</label><input class="at-input" id="at-tr-entry" type="text" inputmode="decimal" name="entry"></div>
+                    <div class="at-field"><label for="at-tr-entry">{{#str}}entry, local_alphatrade{{/str}}</label><input class="at-input" id="at-tr-entry" type="text" inputmode="decimal" name="entry"></div>
                     <div class="at-field"><label for="at-tr-sl">SL</label><input class="at-input" id="at-tr-sl" type="text" inputmode="decimal" name="stoploss"></div>
                     <div class="at-field"><label for="at-tr-tp">TP</label><input class="at-input" id="at-tr-tp" type="text" inputmode="decimal" name="takeprofit"></div>
                 </div>

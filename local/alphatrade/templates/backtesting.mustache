@@ -77,7 +77,7 @@
                 <div class="at-card at-elev-sm at-pad-20">
                     <h4 class="at-card-title">{{name}}</h4>
                     <div class="at-card-meta at-mb-10">{{market}} · {{timeframe}}</div>
-                    <div class="at-strat-figures"><span>{{stats.trades}} {{#str}}trades_lower, local_alphatrade{{/str}}</span><span>{{stats.expectancy}} expectancy</span><span>{{stats.winrate}} win rate</span><span>{{stats.maxdrawdown}} drawdown</span></div>
+                    <div class="at-strat-figures"><span>{{stats.trades}} {{#str}}trades_lower, local_alphatrade{{/str}}</span><span>{{stats.expectancy}} {{#str}}expectancy, local_alphatrade{{/str}}</span><span>{{stats.winrate}} {{#str}}winrate, local_alphatrade{{/str}}</span><span>{{stats.maxdrawdown}} {{#str}}drawdown, local_alphatrade{{/str}}</span></div>
                     <a class="btn btn-secondary" href="{{url}}">{{#str}}open, local_alphatrade{{/str}}</a>
                 </div>
             {{/cards}}

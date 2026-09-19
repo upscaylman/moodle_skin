@@ -37,7 +37,7 @@ $doctype = $OUTPUT->doctype();
 $htmlattributes = $OUTPUT->htmlattributes();
 $headhtml = \theme_alphatrade\output\seo::clean_head($OUTPUT->standard_head_html());
 
-$templatecontext = array_merge($publicsite->export(), [
+$templatecontext = array_merge($publicsite->export(), theme_alphatrade_languages(), [
     'doctype' => $doctype,
     'htmlattributes' => $htmlattributes,
     'headhtml' => $headhtml,

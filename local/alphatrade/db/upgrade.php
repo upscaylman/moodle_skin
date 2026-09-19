@@ -75,5 +75,30 @@ function xmldb_local_alphatrade_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026091401, 'local', 'alphatrade');
     }
 
+    if ($oldversion < 2026091902) {
+        // Rôle Partenaire : il suit ses élèves en lecture seule et ne corrige jamais
+        // (architecture, § rôles). Créé ici pour que l'espace Partenaire soit attribuable.
+        if (!$DB->record_exists('role', ['shortname' => 'alphapartner'])) {
+            $roleid = create_role(get_string('role_partner', 'local_alphatrade'), 'alphapartner',
+                get_string('role_partner_desc', 'local_alphatrade'));
+            set_role_contextlevels($roleid, [CONTEXT_SYSTEM, CONTEXT_COURSECAT, CONTEXT_COURSE]);
+            $systemid = context_system::instance()->id;
+            $capabilities = [
+                'local/alphatrade:viewpartner',
+                'moodle/course:view',
+                'moodle/course:viewparticipants',
+                'moodle/user:viewdetails',
+                'moodle/grade:viewall',
+                'report/progress:view',
+            ];
+            foreach ($capabilities as $capability) {
+                if (get_capability_info($capability)) {
+                    assign_capability($capability, CAP_ALLOW, $roleid, $systemid, true);
+                }
+            }
+        }
+        upgrade_plugin_savepoint(true, 2026091902, 'local', 'alphatrade');
+    }
+
     return true;
 }

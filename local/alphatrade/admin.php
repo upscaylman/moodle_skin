@@ -34,7 +34,8 @@ $view = in_array($view, ['users', 'courses', 'cohorts', 'reports', 'applications
 $search = trim(optional_param('q', '', PARAM_TEXT));
 
 $keys = ['' => 'adminhome', 'users' => 'adminusers', 'courses' => 'admincourses', 'cohorts' => 'admincohorts',
-    'reports' => 'adminreports', 'applications' => 'adminhome'];
+    'reports' => 'adminstats', 'applications' => 'adminhome', 'contents' => 'admincontents',
+    'assessments' => 'adminassessments', 'certifications' => 'admincertifications'];
 page::setup('/local/alphatrade/admin.php', $keys[$view], get_string('admin_' . ($view ?: 'home'), 'local_alphatrade'),
     array_filter(['view' => $view, 'q' => $search]), get_string('sub_admin' . $view, 'local_alphatrade'));
 require_capability('moodle/site:config', context_system::instance());

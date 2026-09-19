@@ -121,7 +121,7 @@ class navigation {
         $variant = 'student';
         if (in_array($active, self::TEACHER_KEYS) && $this->can_teach()) {
             $variant = 'teacher';
-        } else if (in_array($active, self::PARTNER_KEYS) && $this->is_partner()) {
+        } else if (in_array($active, self::PARTNER_KEYS) && $this->can_follow()) {
             $variant = 'partner';
         } else if ((in_array($active, self::ADMIN_KEYS) || $this->page->pagelayout === 'admin') && $this->is_admin()) {
             $variant = 'admin';
@@ -174,8 +174,15 @@ class navigation {
             $data['secondary'] = [];
             $data['tabbar'] = array_slice($items, 0, 5);
             $data['drawer'] = array_slice($items, 5);
+            // The other spaces this user holds, the current one excluded.
+            $keys = ['teacher' => self::TEACHER_KEYS, 'partner' => self::PARTNER_KEYS, 'admin' => self::ADMIN_KEYS];
             $data['switch'] = [$this->item('home', 'ph-student', $this->home_url(), $active,
                 get_string('space_student', 'theme_alphatrade'))];
+            foreach ($this->get_switch($active) as $tag) {
+                if (!in_array($tag['key'], $keys[$variant])) {
+                    $data['switch'][] = $tag;
+                }
+            }
             $data['hasswitch'] = true;
         }
         $data['hasdrawer'] = !empty($data['drawer']);
@@ -371,13 +378,24 @@ class navigation {
      * @return bool
      */
     protected function is_partner(): bool {
+        $programmeid = (int) get_config('local_alphatrade', 'programmecourse');
+        $context = $programmeid ? context_course::instance($programmeid, IGNORE_MISSING) : null;
+        return $this->can_follow() && $context && !has_capability('local/alphatrade:viewteacher', $context);
+    }
+
+    /**
+     * Allowed to open the partner space? Partners get it as their own space; trainers and admins
+     * only see it while they are actually on one of its pages.
+     *
+     * @return bool
+     */
+    protected function can_follow(): bool {
         if (!theme_alphatrade_has_app() || !isloggedin() || isguestuser()) {
             return false;
         }
         $programmeid = (int) get_config('local_alphatrade', 'programmecourse');
         $context = $programmeid ? context_course::instance($programmeid, IGNORE_MISSING) : null;
-        return $context && has_capability('local/alphatrade:viewpartner', $context)
-            && !has_capability('local/alphatrade:viewteacher', $context);
+        return $context && has_capability('local/alphatrade:viewpartner', $context);
     }
 
     /**

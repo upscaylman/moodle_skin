@@ -118,11 +118,11 @@
                 <div class="at-pub-grid">
                     {{#monthcards}}
                         <div class="at-card at-elev-sm at-pub-monthcard">
-                            <span class="at-pub-monthicon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
-                            <div class="at-pub-monthhead">
-                                <span class="at-card-kicker">{{#str}}pub_month, theme_alphatrade, {{number}}{{/str}}</span>
+                            <div class="at-pub-monthtop">
+                                <span class="at-pub-monthicon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
                                 <span class="at-tag at-tag-neutral">{{level}}</span>
                             </div>
+                            <span class="at-card-kicker">{{#str}}pub_month, theme_alphatrade, {{number}}{{/str}}</span>
                             <h3 class="at-card-title">{{label}}</h3>
                             <p class="at-card-body">{{summary}}</p>
                             <a class="btn btn-secondary at-pub-monthbtn" href="{{url}}">{{#str}}pub_seecourse, theme_alphatrade{{/str}} &rarr;</a>
@@ -369,12 +369,11 @@
                 <a href="{{faqurl}}">{{#str}}pub_nav_faq, theme_alphatrade{{/str}}</a>
                 {{#hasdiscord}}<a class="at-pub-discord" href="{{discordurl}}" target="_blank" rel="noopener"><i class="ph ph-discord-logo" aria-hidden="true"></i>{{#str}}pub_nav_communaute, theme_alphatrade{{/str}}</a>{{/hasdiscord}}
             </div>
-            {{#hasinstagram}}
-                <div class="at-pub-footer-col">
-                    <div class="at-pub-footer-title">{{#str}}pub_footer_follow, theme_alphatrade{{/str}}</div>
-                    <a href="{{instagramurl}}" target="_blank" rel="noopener"><i class="ph ph-instagram-logo" aria-hidden="true"></i>Instagram</a>
-                </div>
-            {{/hasinstagram}}
+            <div class="at-pub-footer-col">
+                <div class="at-pub-footer-title">{{#str}}pub_footer_follow, theme_alphatrade{{/str}}</div>
+                {{#hasinstagram}}<a href="{{instagramurl}}" target="_blank" rel="noopener"><i class="ph ph-instagram-logo" aria-hidden="true"></i>Instagram</a>{{/hasinstagram}}
+                {{^hasinstagram}}<span class="at-pub-footer-soon"><i class="ph ph-instagram-logo" aria-hidden="true"></i>Instagram</span>{{/hasinstagram}}
+            </div>
             <div class="at-pub-footer-col">
                 <div class="at-pub-footer-title">{{#str}}pub_footer_contact, theme_alphatrade{{/str}}</div>
                 {{#hascontactemail}}<a href="mailto:{{contactemail}}"><i class="ph ph-envelope-simple" aria-hidden="true"></i>{{contactemail}}</a>{{/hascontactemail}}

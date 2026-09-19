@@ -724,12 +724,25 @@ img.at-pub-photo {
 }
 
 .at-pub-footer-title {
-    margin-bottom: 2px;
-    font-size: 10px;
+    margin-bottom: 6px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: .1em;
+    letter-spacing: .06em;
     text-transform: uppercase;
+    color: $at-text;
+}
+
+// Instagram tant que l'adresse du compte n'est pas renseignee dans les reglages.
+.at-pub-footer-soon {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
     color: $at-text-45;
+
+    i {
+        font-size: 15px;
+    }
 }
 
 .at-pub-footer-standard {
@@ -963,11 +976,13 @@ img.at-pub-photo {
     background: $at-bg;
 }
 
-.at-pub-monthhead {
+// Icone a gauche, badge de niveau a sa hauteur tout a droite.
+.at-pub-monthtop {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    width: 100%;
 }
 
 .at-pub-monthbtn {

@@ -782,6 +782,18 @@ img.at-pub-photo {
     }
 }
 
+// Petits écrans : le sélecteur de langue se réduit à son icône, sinon l'en-tête déborde.
+@media (max-width: 640px) {
+    .at-pub-header .at-langbtn-code {
+        display: none;
+    }
+
+    .at-pub-header .at-langbtn {
+        min-width: 34px;
+        padding: 0 8px;
+    }
+}
+
 // Small phones: "Se connecter" and "Candidater" stay visible, only tighter.
 @media (max-width: 480px) {
     .at-pub-header {
@@ -802,6 +814,15 @@ img.at-pub-photo {
             font-size: 13px;
         }
     }
+
+    // Les deux boutons restent visibles : c'est la marge du logo qui cède en premier.
+    .at-pub-mark {
+        margin-right: 0;
+    }
+
+    .at-pub-header .at-langmenu {
+        margin-left: auto;
+    }
 }
 
 // ---------------------------------------------------------------- Bandeau d'offre (hello bar).
@@ -809,6 +830,9 @@ img.at-pub-photo {
 // seul bloc de la page qui sort du fond #181a1e, pour qu'on le remarque sans crier.
 .at-pub-hello {
     position: relative;
+    // Le dégradé décoratif est un calque de page posé tout en haut : le bandeau passe devant,
+    // sinon son fond noir se teinte de violet.
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;

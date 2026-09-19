@@ -68,13 +68,19 @@ body.alpha-app {
 }
 
 // Le bouton d'ouverture/repli du panneau, en haut du contenu, à gauche du fil d'ariane.
+body.alpha-app #page.drawers.show-drawer-left .drawer-toggles .drawer-left-toggle,
+body.alpha-app #page.drawers .drawer-toggles .drawer-left-toggle {
+    display: block;
+}
+
 body.alpha-app .drawer-toggles {
     .drawer-left-toggle {
         position: static;
         margin-bottom: 6px;
     }
 
-    // Moodle masque le bouton quand le tiroir est ouvert : ici il sert a replier le panneau.
+    // Moodle masque le bouton quand le tiroir est ouvert : ici il sert à replier le panneau,
+    // et il doit donc rester visible dans les deux états.
     .drawer-left-toggle.open-nav {
         display: block;
     }
@@ -193,8 +199,10 @@ body.alpha-app .drawer-toggles {
 
     // Pastilles d'état en Phosphor (le sommaire natif sert des icônes Font Awesome) :
     // terminé en vert, à faire en or, verrouillé en gris.
-    .completioninfo .icon,
-    .courseindex-locked .icon {
+    // Le sommaire natif pose display sur ses icônes avec un sélecteur d'identifiant : le même
+    // niveau est nécessaire pour les remplacer par les icônes Phosphor du thème.
+    &#courseindex .completioninfo .icon,
+    &#courseindex .courseindex-locked .icon {
         display: none;
     }
 
@@ -260,7 +268,8 @@ body.alpha-app .drawer-toggles {
             border-radius: 0;
         }
 
-        .drawer-toggles .drawer-left-toggle {
+        #page.drawers .drawer-toggles .drawer-left-toggle,
+        #page.drawers.show-drawer-left .drawer-toggles .drawer-left-toggle {
             display: none;
         }
 

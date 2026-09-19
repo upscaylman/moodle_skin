@@ -24,6 +24,7 @@
  */
 
 require(__DIR__ . '/../../config.php');
+require_once($CFG->libdir . '/gradelib.php');
 
 use local_alphatrade\local\page;
 use local_alphatrade\local\programme;

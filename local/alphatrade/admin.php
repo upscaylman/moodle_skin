@@ -29,7 +29,8 @@ use local_alphatrade\local\page;
 use local_alphatrade\local\programme;
 
 $view = optional_param('view', '', PARAM_ALPHA);
-$view = in_array($view, ['users', 'courses', 'cohorts', 'reports', 'applications']) ? $view : '';
+$view = in_array($view, ['users', 'courses', 'cohorts', 'reports', 'applications',
+    'contents', 'assessments', 'certifications']) ? $view : '';
 $search = trim(optional_param('q', '', PARAM_TEXT));
 
 $keys = ['' => 'adminhome', 'users' => 'adminusers', 'courses' => 'admincourses', 'cohorts' => 'admincohorts',
@@ -313,12 +314,125 @@ if ($view === 'reports') {
     $data['hasrows'] = !empty($data['rows']);
 }
 
+// Contenus : tout ce qui est publié dans le programme, module par module.
+if ($view === 'contents') {
+    $course = programme::get_course();
+    $data['rows'] = [];
+    if ($course) {
+        $modinfo = get_fast_modinfo($course, -1);
+        $counts = ['page' => 0, 'quiz' => 0, 'assign' => 0, 'resource' => 0, 'url' => 0];
+        foreach ($modinfo->get_section_info_all() as $sectioninfo) {
+            if ($sectioninfo->section == 0) {
+                continue;
+            }
+            $items = [];
+            foreach ($modinfo->sections[$sectioninfo->section] ?? [] as $cmid) {
+                $cm = $modinfo->get_cm($cmid);
+                if (!empty($cm->deletioninprogress) || $cm->modname === 'label') {
+                    continue;
+                }
+                $items[] = $cm;
+                if (isset($counts[$cm->modname])) {
+                    $counts[$cm->modname]++;
+                }
+            }
+            $hidden = count(array_filter($items, function($cm) {
+                return !$cm->visible;
+            }));
+            $data['rows'][] = [
+                'name' => get_section_name($course, $sectioninfo),
+                'count' => count($items),
+                'completion' => $hidden ? get_string('contents_draft', 'local_alphatrade', $hidden)
+                    : get_string('contents_published', 'local_alphatrade'),
+                'average' => '',
+                'url' => (new moodle_url('/local/alphatrade/module.php', ['section' => $sectioninfo->section]))->out(false),
+            ];
+        }
+        $data['kpis'] = [
+            ['label' => get_string('contents_lessons', 'local_alphatrade'), 'value' => $counts['page']],
+            ['label' => get_string('contents_quizzes', 'local_alphatrade'), 'value' => $counts['quiz']],
+            ['label' => get_string('contents_assigns', 'local_alphatrade'), 'value' => $counts['assign']],
+            ['label' => get_string('contents_medias', 'local_alphatrade'), 'value' => $counts['resource'] + $counts['url']],
+        ];
+    }
+    $data['hasrows'] = !empty($data['rows']);
+    $data['addurl'] = (new moodle_url('/local/alphatrade/create.php'))->out(false);
+}
+
+// Évaluations : quiz et devoirs notés du programme, avec la participation et la moyenne.
+if ($view === 'assessments') {
+    $course = programme::get_course();
+    $data['rows'] = [];
+    if ($course) {
+        $context = context_course::instance($course->id);
+        $students = count(get_enrolled_users($context, 'mod/quiz:attempt', 0, 'u.id', null, 0, 0, true));
+        $items = grade_item::fetch_all(['courseid' => $course->id, 'itemtype' => 'mod']) ?: [];
+        core_collator::asort_objects_by_property($items, 'sortorder', core_collator::SORT_NUMERIC);
+        foreach ($items as $item) {
+            $grades = grade_grade::fetch_all(['itemid' => $item->id]) ?: [];
+            $values = [];
+            foreach ($grades as $grade) {
+                if ($grade->finalgrade !== null) {
+                    $values[] = (float) $grade->finalgrade;
+                }
+            }
+            $average = $values ? array_sum($values) / count($values) : null;
+            $data['rows'][] = [
+                'name' => $item->get_name(),
+                'count' => count($values) . ($students ? ' / ' . $students : ''),
+                'completion' => $item->gradepass > 0 ? format_float((float) $item->gradepass, 1) . ' / '
+                    . format_float((float) $item->grademax, 1) : '-',
+                'average' => $average === null ? '-' : format_float($average, 1) . ' / '
+                    . format_float((float) $item->grademax, 1),
+            ];
+        }
+        $data['kpis'] = [
+            ['label' => get_string('assess_count', 'local_alphatrade'), 'value' => count($items)],
+            ['label' => get_string('assess_students', 'local_alphatrade'), 'value' => $students],
+        ];
+    }
+    $data['hasrows'] = !empty($data['rows']);
+    $data['addurl'] = (new moodle_url('/local/alphatrade/create.php'))->out(false);
+}
+
+// Certifications : qui est éligible (modules terminés + projet rendu), qui ne l'est pas encore.
+if ($view === 'certifications') {
+    $course = programme::get_course();
+    $data['rows'] = [];
+    $eligible = 0;
+    if ($course) {
+        $context = context_course::instance($course->id);
+        foreach (get_enrolled_users($context, 'mod/quiz:attempt', 0, 'u.*', 'u.lastname', 0, 0, true) as $user) {
+            $studentprogramme = new programme($course, $user->id);
+            $summary = $studentprogramme->get_summary();
+            $iscomplete = $summary['iscomplete'];
+            $eligible += $iscomplete ? 1 : 0;
+            $data['rows'][] = [
+                'name' => fullname($user),
+                'count' => $summary['modulesdone'] . ' / ' . $summary['modulestotal'],
+                'completion' => $summary['percent'] . ' %',
+                'average' => $iscomplete ? get_string('cert_eligible', 'local_alphatrade')
+                    : get_string('cert_inprogress', 'local_alphatrade'),
+                'url' => (new moodle_url('/user/view.php', ['id' => $user->id, 'course' => $course->id]))->out(false),
+            ];
+        }
+        $data['kpis'] = [
+            ['label' => get_string('cert_eligiblecount', 'local_alphatrade'), 'value' => $eligible],
+            ['label' => get_string('cert_studentcount', 'local_alphatrade'), 'value' => count($data['rows'])],
+        ];
+    }
+    $data['hasrows'] = !empty($data['rows']);
+}
+
 $data['isdashboard'] = $view === '';
 $data['isusers'] = $view === 'users';
 $data['iscourses'] = $view === 'courses';
 $data['iscohorts'] = $view === 'cohorts';
 $data['isreports'] = $view === 'reports';
 $data['isapplications'] = $view === 'applications';
+$data['iscontents'] = $view === 'contents';
+$data['isassessments'] = $view === 'assessments';
+$data['iscertifications'] = $view === 'certifications';
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/admin', $data);

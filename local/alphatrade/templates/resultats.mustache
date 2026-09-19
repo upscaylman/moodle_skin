@@ -1,0 +1,111 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/resultats
+
+    Mes résultats : progression par module et notes du programme.
+
+    Example context (json):
+    {
+        "percent": 40, "week": 2, "weeks": 12, "modulesdone": 1, "modulestotal": 7,
+        "lessonsdone": 4, "lessonstotal": 16, "quizzesdone": 3, "quizzestotal": 10,
+        "hasmodules": true, "modules": [{"number": "01", "name": "Module 0", "url": "#", "percent": 100,
+            "trackeddone": 6, "trackedcount": 6, "isdone": true, "islocked": false, "iscurrent": false}],
+        "hasgrades": true, "grades": [{"name": "Quiz 0.1", "grade": "5,0", "max": "5,0", "percent": 100, "hasgrade": true}],
+        "hastotal": true, "total": {"name": "Total du cours", "grade": "12,0", "max": "20,0", "percent": 60, "hasgrade": true}
+    }
+}}
+<div class="at-screen at-resultats">
+    <div class="at-card at-elev-sm at-pad-22 at-mb-18">
+        <span class="at-card-kicker">{{#str}}res_overall, local_alphatrade{{/str}}</span>
+        <div class="at-row-between at-wrap at-gap-10 at-mt-2">
+            <div class="at-res-figure">{{percent}} %</div>
+            <div class="at-res-stats">
+                <span>{{#str}}res_modules, local_alphatrade{{/str}} <b>{{modulesdone}} / {{modulestotal}}</b></span>
+                <span>{{#str}}res_lessons, local_alphatrade{{/str}} <b>{{lessonsdone}} / {{lessonstotal}}</b></span>
+                <span>{{#str}}res_quizzes, local_alphatrade{{/str}} <b>{{quizzesdone}} / {{quizzestotal}}</b></span>
+                <span>{{#str}}res_week, local_alphatrade{{/str}} <b>{{week}} / {{weeks}}</b></span>
+            </div>
+        </div>
+        <div class="at-progress at-mt-4"><span style="width: {{percent}}%"></span></div>
+    </div>
+
+    {{#hasmodules}}
+        <section class="at-mb-18">
+            <h3 class="at-eyebrow at-mb-12">{{#str}}res_progress, local_alphatrade{{/str}}</h3>
+            <div class="at-stack-14">
+                {{#modules}}
+                    <div class="at-card at-elev-sm at-pad-22 at-resmod{{#iscurrent}} is-current{{/iscurrent}}">
+                        <div class="at-row-between at-wrap at-gap-10">
+                            <div class="at-resmod-head">
+                                {{#islocked}}<span class="at-resmod-name">{{name}}</span>{{/islocked}}
+                                {{^islocked}}<a class="at-resmod-name" href="{{url}}">{{name}}</a>{{/islocked}}
+                                <span class="at-resmod-meta">{{trackeddone}} / {{trackedcount}} {{#str}}res_activities, local_alphatrade{{/str}}</span>
+                            </div>
+                            <div class="at-row-gap-10">
+                                {{#isdone}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}res_done, local_alphatrade{{/str}}</span>{{/isdone}}
+                                {{#iscurrent}}<span class="at-tag at-tag-accent">{{#str}}res_current, local_alphatrade{{/str}}</span>{{/iscurrent}}
+                                {{#islocked}}<span class="at-tag at-tag-neutral"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{#str}}locked, local_alphatrade{{/str}}</span>{{/islocked}}
+                                <span class="at-resmod-percent">{{percent}} %</span>
+                            </div>
+                        </div>
+                        <div class="at-progress at-mt-4"><span style="width: {{percent}}%"></span></div>
+                    </div>
+                {{/modules}}
+            </div>
+        </section>
+    {{/hasmodules}}
+
+    <section>
+        <h3 class="at-eyebrow at-mb-12">{{#str}}res_grades, local_alphatrade{{/str}}</h3>
+        {{#hasgrades}}
+            <div class="at-card at-elev-sm at-table-card">
+                <table class="at-table">
+                    <thead><tr>
+                        <th>{{#str}}res_activity, local_alphatrade{{/str}}</th>
+                        <th>{{#str}}res_grade, local_alphatrade{{/str}}</th>
+                        <th>{{#str}}res_percent, local_alphatrade{{/str}}</th>
+                    </tr></thead>
+                    <tbody>
+                        {{#grades}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{#hasgrade}}{{grade}} / {{max}}{{/hasgrade}}{{^hasgrade}}<span class="at-muted">—</span>{{/hasgrade}}</td>
+                                <td>{{#hasgrade}}{{percent}} %{{/hasgrade}}{{^hasgrade}}<span class="at-muted">—</span>{{/hasgrade}}</td>
+                            </tr>
+                        {{/grades}}
+                        {{#hastotal}}
+                            {{#total}}
+                                <tr class="at-table-total">
+                                    <td><b>{{name}}</b></td>
+                                    <td><b>{{#hasgrade}}{{grade}} / {{max}}{{/hasgrade}}{{^hasgrade}}—{{/hasgrade}}</b></td>
+                                    <td><b>{{#hasgrade}}{{percent}} %{{/hasgrade}}{{^hasgrade}}—{{/hasgrade}}</b></td>
+                                </tr>
+                            {{/total}}
+                        {{/hastotal}}
+                    </tbody>
+                </table>
+            </div>
+        {{/hasgrades}}
+        {{^hasgrades}}
+            <div class="at-card at-elev-sm at-pad-22 at-empty-card">
+                <i class="ph ph-chart-bar at-empty-icon" aria-hidden="true"></i>
+                <p class="at-card-body at-m-0">{{#str}}res_empty, local_alphatrade{{/str}}</p>
+            </div>
+        {{/hasgrades}}
+    </section>
+</div>

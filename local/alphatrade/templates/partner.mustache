@@ -1,0 +1,150 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/partner
+
+    Espace Partenaire : accueil, mes élèves, mes formations, progression. Lecture seule.
+
+    Example context (json):
+    {
+        "isdashboard": true, "isstudents": false, "iscourses": false, "isprogress": false,
+        "coursename": "Programme certifiant", "courseurl": "#", "studentsurl": "#", "progressurl": "#",
+        "countstudents": 12, "countactive": 9, "countwatch": 2, "countdone": 1, "average": 46, "inactivedays": 7,
+        "hasstudents": true, "haswatch": true,
+        "students": [{"id": 5, "fullname": "Claire Moreau", "initials": "CM", "percent": 40, "modulesdone": 2,
+            "modulestotal": 7, "current": "Module 1", "hascurrent": true, "lastaccess": "16/09/26", "days": 1,
+            "towatch": false, "profileurl": "#"}],
+        "watch": [], "modules": [{"number": "01", "name": "Module 0", "done": 8, "count": 12, "percent": 72}]
+    }
+}}
+<div class="at-screen at-partner">
+    {{#isdashboard}}
+        <div class="at-statgrid at-mb-18">
+            <div class="at-card at-elev-sm at-pad-22">
+                <span class="at-card-kicker">{{#str}}partner_kpi_students, local_alphatrade{{/str}}</span>
+                <div class="at-res-figure">{{countstudents}}</div>
+            </div>
+            <div class="at-card at-elev-sm at-pad-22">
+                <span class="at-card-kicker">{{#str}}partner_kpi_average, local_alphatrade{{/str}}</span>
+                <div class="at-res-figure">{{average}} %</div>
+            </div>
+            <div class="at-card at-elev-sm at-pad-22">
+                <span class="at-card-kicker">{{#str}}partner_kpi_watch, local_alphatrade{{/str}}</span>
+                <div class="at-res-figure">{{countwatch}}</div>
+            </div>
+            <div class="at-card at-elev-sm at-pad-22">
+                <span class="at-card-kicker">{{#str}}partner_kpi_done, local_alphatrade{{/str}}</span>
+                <div class="at-res-figure">{{countdone}}</div>
+            </div>
+        </div>
+
+        <section class="at-mb-18">
+            <div class="at-row-between at-mb-12">
+                <h3 class="at-eyebrow at-m-0">{{#str}}partner_watchlist, local_alphatrade{{/str}}</h3>
+                <a href="{{studentsurl}}" class="at-small">{{#str}}partner_allstudents, local_alphatrade{{/str}} &rarr;</a>
+            </div>
+            {{#haswatch}}
+                <div class="at-stack-14">
+                    {{#watch}}
+                        {{> local_alphatrade/partner_student }}
+                    {{/watch}}
+                </div>
+            {{/haswatch}}
+            {{^haswatch}}
+                <div class="at-card at-elev-sm at-pad-22 at-empty-card">
+                    <i class="ph ph-check-circle at-empty-icon" aria-hidden="true"></i>
+                    <p class="at-card-body at-m-0">{{#str}}partner_nowatch, local_alphatrade, {{inactivedays}}{{/str}}</p>
+                </div>
+            {{/haswatch}}
+        </section>
+    {{/isdashboard}}
+
+    {{#isstudents}}
+        {{#hasstudents}}
+            <p class="at-muted at-small at-mb-18">{{#str}}partner_studentcount, local_alphatrade, {{countstudents}}{{/str}}</p>
+            <div class="at-stack-14">
+                {{#students}}
+                    {{> local_alphatrade/partner_student }}
+                {{/students}}
+            </div>
+        {{/hasstudents}}
+        {{^hasstudents}}
+            <div class="at-card at-elev-sm at-pad-22 at-empty-card">
+                <i class="ph ph-users-four at-empty-icon" aria-hidden="true"></i>
+                <h3 class="at-card-title">{{#str}}partner_nostudent, local_alphatrade{{/str}}</h3>
+                <p class="at-card-body">{{#str}}partner_nostudent_desc, local_alphatrade{{/str}}</p>
+            </div>
+        {{/hasstudents}}
+    {{/isstudents}}
+
+    {{#iscourses}}
+        <div class="at-card at-elev-sm at-pad-22 at-mb-18">
+            <span class="at-card-kicker">{{#str}}partner_programme, local_alphatrade{{/str}}</span>
+            <h3 class="at-card-title at-mt-2">{{coursename}}</h3>
+            <p class="at-card-body">{{#str}}partner_programme_desc, local_alphatrade, {{countstudents}}{{/str}}</p>
+            <div class="at-row-gap-10">
+                <a class="btn btn-secondary" href="{{courseurl}}">{{#str}}partner_seeprogramme, local_alphatrade{{/str}}</a>
+                <a class="btn btn-ghost" href="{{progressurl}}">{{#str}}partner_seeprogress, local_alphatrade{{/str}}</a>
+            </div>
+        </div>
+    {{/iscourses}}
+
+    {{#isprogress}}
+        <section class="at-mb-18">
+            <h3 class="at-eyebrow at-mb-12">{{#str}}partner_groupprogress, local_alphatrade{{/str}}</h3>
+            <div class="at-stack-14">
+                {{#modules}}
+                    <div class="at-card at-elev-sm at-pad-22 at-resmod">
+                        <div class="at-row-between at-wrap at-gap-10">
+                            <div class="at-resmod-head">
+                                <span class="at-resmod-name">{{name}}</span>
+                                <span class="at-resmod-meta">{{#str}}partner_moduledone, local_alphatrade, {"done": "{{done}}", "count": "{{count}}"}{{/str}}</span>
+                            </div>
+                            <span class="at-resmod-percent">{{percent}} %</span>
+                        </div>
+                        <div class="at-progress at-mt-4"><span style="width: {{percent}}%"></span></div>
+                    </div>
+                {{/modules}}
+            </div>
+        </section>
+        {{#hasstudents}}
+            <section>
+                <h3 class="at-eyebrow at-mb-12">{{#str}}partner_bystudent, local_alphatrade{{/str}}</h3>
+                <div class="at-card at-elev-sm at-table-card">
+                    <table class="at-table">
+                        <thead><tr>
+                            <th>{{#str}}partner_student, local_alphatrade{{/str}}</th>
+                            <th>{{#str}}partner_modules, local_alphatrade{{/str}}</th>
+                            <th>{{#str}}partner_percent, local_alphatrade{{/str}}</th>
+                            <th>{{#str}}partner_lastaccess, local_alphatrade{{/str}}</th>
+                        </tr></thead>
+                        <tbody>
+                            {{#students}}
+                                <tr>
+                                    <td>{{fullname}}</td>
+                                    <td>{{modulesdone}} / {{modulestotal}}</td>
+                                    <td>{{percent}} %</td>
+                                    <td>{{lastaccess}}{{#towatch}} <span class="at-tag at-tag-warning">{{#str}}partner_towatch, local_alphatrade{{/str}}</span>{{/towatch}}</td>
+                                </tr>
+                            {{/students}}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        {{/hasstudents}}
+    {{/isprogress}}
+</div>

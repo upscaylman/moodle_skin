@@ -15,18 +15,25 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Alpha Trade app: student portal pages, programme mapping, practice and backtesting data.
+ * Pilier Exercices : à faire, en attente de correction, terminés - devoirs et quiz du
+ * programme (architecture Alpha Trade § 9).
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require(__DIR__ . '/../../config.php');
 
-$plugin->component = 'local_alphatrade';
-$plugin->version = 2026091901;
-$plugin->requires = 2024100700; // Moodle 4.5 LTS.
-$plugin->supported = [405, 405];
-$plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.3.0';
+use local_alphatrade\local\page;
+use local_alphatrade\local\pillars;
+
+page::setup('/local/alphatrade/exercices.php', 'exercices', get_string('exercices', 'local_alphatrade'), [],
+    get_string('sub_exercices', 'local_alphatrade'));
+
+$data = pillars::exercises($USER->id);
+$data['parcoursurl'] = (new moodle_url('/local/alphatrade/parcours.php'))->out(false);
+
+echo $OUTPUT->header();
+echo $OUTPUT->render_from_template('local_alphatrade/exercices', $data);
+echo $OUTPUT->footer();

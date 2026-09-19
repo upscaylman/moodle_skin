@@ -1,0 +1,45 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/partner_student
+
+    One student row of the partner space: progress, current module, last activity.
+
+    Example context (json):
+    {"fullname": "Claire Moreau", "initials": "CM", "percent": 40, "modulesdone": 2, "modulestotal": 7,
+     "current": "Module 1 — Fondamentaux", "hascurrent": true, "lastaccess": "16/09/26", "towatch": false,
+     "profileurl": "#"}
+}}
+<div class="at-card at-elev-sm at-pad-22 at-pstudent{{#towatch}} is-watch{{/towatch}}">
+    <div class="at-row-between at-wrap at-gap-10">
+        <div class="at-pstudent-head">
+            <span class="at-avatar" aria-hidden="true">{{initials}}</span>
+            <div>
+                <a class="at-pstudent-name" href="{{profileurl}}">{{fullname}}</a>
+                <div class="at-pstudent-meta">
+                    {{#hascurrent}}{{current}} · {{/hascurrent}}{{modulesdone}} / {{modulestotal}} {{#str}}res_modules, local_alphatrade{{/str}}
+                </div>
+            </div>
+        </div>
+        <div class="at-row-gap-10">
+            {{#towatch}}<span class="at-tag at-tag-warning"><i class="ph ph-warning-circle" aria-hidden="true"></i>{{#str}}partner_towatch, local_alphatrade{{/str}}</span>{{/towatch}}
+            <span class="at-pstudent-meta">{{#str}}partner_lastaccess, local_alphatrade{{/str}} {{lastaccess}}</span>
+            <span class="at-resmod-percent">{{percent}} %</span>
+        </div>
+    </div>
+    <div class="at-progress at-mt-4"><span style="width: {{percent}}%"></span></div>
+</div>

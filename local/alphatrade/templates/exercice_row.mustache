@@ -1,0 +1,39 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/exercice_row
+
+    One exercise row of the Exercices screen (devoir or quiz).
+
+    Example context (json):
+    {"name": "Exercice 1.1 — Cartographie des actifs", "url": "#", "modulename": "Module 1 — Fondamentaux",
+     "modulenumber": "02", "islocked": false, "isquiz": false, "icon": "ph-clipboard-text",
+     "status": "À faire", "grade": "12,0 / 20,0"}
+}}
+<div class="at-card at-elev-sm at-pad-22 at-exrow{{#islocked}} is-locked{{/islocked}}">
+    <span class="at-exrow-icon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
+    <div class="at-exrow-body">
+        {{#islocked}}<span class="at-exrow-name">{{name}}</span>{{/islocked}}
+        {{^islocked}}<a class="at-exrow-name" href="{{url}}">{{name}}</a>{{/islocked}}
+        <span class="at-exrow-meta">{{#str}}modulelabel, local_alphatrade, {{modulenumber}}{{/str}} · {{modulename}}</span>
+    </div>
+    <div class="at-exrow-side">
+        {{#grade}}<span class="at-exrow-grade">{{grade}}</span>{{/grade}}
+        {{#islocked}}<span class="at-tag at-tag-neutral"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{#str}}locked, local_alphatrade{{/str}}</span>{{/islocked}}
+        {{^islocked}}<span class="at-tag at-tag-neutral">{{status}}</span>{{/islocked}}
+    </div>
+</div>

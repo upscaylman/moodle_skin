@@ -50,6 +50,21 @@
             </a>
         {{/nav.main}}
     </div>
+    {{#nav.hastools}}
+        {{! Programme tools, under the six piliers of the architecture. }}
+        <div class="at-navgroup" aria-label="{{nav.toolslabel}}">
+            <span class="at-navgroup-label">{{nav.toolslabel}}</span>
+            <div class="at-navlist">
+                {{#nav.tools}}
+                    <a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>
+                        {{#svg}}<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{{svg}}}</svg>{{/svg}}
+                        {{^svg}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/svg}}
+                        <span>{{label}}</span>
+                    </a>
+                {{/nav.tools}}
+            </div>
+        </div>
+    {{/nav.hastools}}
     {{#nav.hasswitch}}
         <div class="at-sidebar-switch">
             {{#nav.switch}}

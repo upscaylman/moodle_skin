@@ -1,0 +1,98 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/live
+
+    Pilier Live : sessions en cours, prochaines et passées, lues depuis le calendrier du cours.
+
+    Example context (json):
+    {
+        "hascurrent": false, "current": [],
+        "hasnext": true, "next": [{"name": "Live liquidité intraday", "date": "Mercredi 24 septembre, 19:00",
+            "time": "19:00", "duration": "1 h", "joinurl": "#", "calendarurl": "#", "description": "<p>Session live</p>"}],
+        "haspast": false, "past": [], "calendarurl": "#"
+    }
+}}
+<div class="at-screen at-live">
+    {{#hascurrent}}
+        <section class="at-mb-18">
+            <h3 class="at-eyebrow at-mb-12">{{#str}}live_now, local_alphatrade{{/str}}</h3>
+            {{#current}}
+                <div class="at-card at-elev-md at-pad-22 at-live-card is-live">
+                    <div class="at-row-between at-wrap at-gap-10">
+                        <div>
+                            <span class="at-tag at-tag-danger"><i class="ph-fill ph-broadcast" aria-hidden="true"></i>{{#str}}live_onair, local_alphatrade{{/str}}</span>
+                            <h3 class="at-card-title at-mt-2">{{name}}</h3>
+                            <div class="at-card-meta">{{date}}{{#duration}} · {{duration}}{{/duration}}</div>
+                        </div>
+                        {{#joinurl}}<a class="btn btn-primary" href="{{joinurl}}" target="_blank" rel="noopener">{{#str}}live_join, local_alphatrade{{/str}}</a>{{/joinurl}}
+                    </div>
+                    {{{description}}}
+                </div>
+            {{/current}}
+        </section>
+    {{/hascurrent}}
+
+    <section class="at-mb-18">
+        <h3 class="at-eyebrow at-mb-12">{{#str}}live_next, local_alphatrade{{/str}}</h3>
+        {{#hasnext}}
+            <div class="at-stack-14">
+                {{#next}}
+                    <div class="at-card at-elev-sm at-pad-22 at-live-card">
+                        <div class="at-row-between at-wrap at-gap-10">
+                            <div>
+                                <h4 class="at-card-title">{{name}}</h4>
+                                <div class="at-card-meta"><i class="ph ph-calendar-blank" aria-hidden="true"></i>{{date}}{{#duration}} · {{duration}}{{/duration}}</div>
+                            </div>
+                            <div class="at-row-gap-10">
+                                <a class="btn btn-ghost" href="{{calendarurl}}">{{#str}}live_calendar, local_alphatrade{{/str}}</a>
+                                {{#joinurl}}<a class="btn btn-secondary" href="{{joinurl}}" target="_blank" rel="noopener">{{#str}}live_link, local_alphatrade{{/str}}</a>{{/joinurl}}
+                            </div>
+                        </div>
+                    </div>
+                {{/next}}
+            </div>
+        {{/hasnext}}
+        {{^hasnext}}
+            <div class="at-card at-elev-sm at-pad-22 at-empty-card">
+                <i class="ph ph-broadcast at-empty-icon" aria-hidden="true"></i>
+                <h3 class="at-card-title">{{#str}}live_empty, local_alphatrade{{/str}}</h3>
+                <p class="at-card-body">{{#str}}live_empty_desc, local_alphatrade{{/str}}</p>
+                <a class="btn btn-secondary" href="{{calendarurl}}">{{#str}}live_calendar, local_alphatrade{{/str}}</a>
+            </div>
+        {{/hasnext}}
+    </section>
+
+    {{#haspast}}
+        <section>
+            <h3 class="at-eyebrow at-mb-12">{{#str}}live_past, local_alphatrade{{/str}}</h3>
+            <div class="at-stack-14">
+                {{#past}}
+                    <div class="at-card at-elev-sm at-pad-22 at-live-card is-past">
+                        <div class="at-row-between at-wrap at-gap-10">
+                            <div>
+                                <h4 class="at-card-title">{{name}}</h4>
+                                <div class="at-card-meta">{{date}}</div>
+                            </div>
+                            {{#joinurl}}<a class="btn btn-ghost" href="{{joinurl}}" target="_blank" rel="noopener"><i class="ph ph-play-circle" aria-hidden="true"></i>{{#str}}live_replay, local_alphatrade{{/str}}</a>{{/joinurl}}
+                        </div>
+                    </div>
+                {{/past}}
+            </div>
+        </section>
+    {{/haspast}}
+</div>

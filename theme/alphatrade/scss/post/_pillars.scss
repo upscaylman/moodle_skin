@@ -1,0 +1,338 @@
+// Screens added to complete the four navigation trees of the architecture: Vidéos, Live, Exercices,
+// Mes résultats (élève), Créer (enseignant) and the partner space. Built from the existing Nocturne
+// blocks (cards, tags, progress, tables); only the layouts specific to these screens live here.
+
+// ---------------------------------------------------------------- Sidebar: programme tools group.
+.at-navgroup {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid $at-divider;
+}
+
+.at-navgroup-label {
+    display: block;
+    margin: 0 12px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: $at-text-45;
+}
+
+// ---------------------------------------------------------------- Empty states, shared by the new screens.
+.at-empty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.at-empty-icon {
+    font-size: 26px;
+    color: $at-accent-300;
+}
+
+// ---------------------------------------------------------------- Vidéos.
+.at-videogrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 14px;
+}
+
+.at-video {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    color: $at-text;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+    }
+
+    &.at-video-locked {
+        opacity: .55;
+    }
+}
+
+.at-video-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 92px;
+    border-radius: $at-radius-md;
+    font-size: 26px;
+    color: $at-accent-300;
+    background: $at-bg;
+}
+
+.at-video-name {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.at-video-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+// ---------------------------------------------------------------- Live.
+.at-live-card {
+    &.is-live {
+        border-left: 3px solid $at-danger;
+    }
+
+    &.is-past {
+        opacity: .8;
+    }
+
+    .at-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+}
+
+// ---------------------------------------------------------------- Exercices.
+.at-exrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    &.is-locked {
+        opacity: .6;
+    }
+}
+
+.at-exrow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: $at-radius-md;
+    font-size: 18px;
+    color: $at-accent-300;
+    background: $at-bg;
+}
+
+.at-exrow-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.at-exrow-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: $at-text;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-accent;
+        text-decoration: none;
+    }
+}
+
+.at-exrow-meta {
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+.at-exrow-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+}
+
+.at-exrow-grade {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: $at-text;
+}
+
+// ---------------------------------------------------------------- Mes résultats and partner progress.
+.at-res-figure {
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    color: $at-text;
+}
+
+.at-res-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    font-size: 13px;
+    color: $at-text-60;
+
+    b {
+        color: $at-text;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.at-resmod {
+    &.is-current {
+        border-left: 3px solid $at-accent;
+    }
+}
+
+.at-resmod-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.at-resmod-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: $at-text;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-accent;
+        text-decoration: none;
+    }
+}
+
+.at-resmod-meta {
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+.at-resmod-percent {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: $at-text;
+}
+
+.at-table .at-table-total td {
+    border-top: 1px solid $at-divider;
+}
+
+// ---------------------------------------------------------------- Partner space.
+.at-statgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+}
+
+.at-pstudent {
+    &.is-watch {
+        border-left: 3px solid $at-warning;
+    }
+}
+
+.at-pstudent-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.at-pstudent-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: $at-text;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-accent;
+        text-decoration: none;
+    }
+}
+
+.at-pstudent-meta {
+    font-size: 12px;
+    color: $at-text-55;
+}
+
+// ---------------------------------------------------------------- Créer (enseignant).
+.at-create-picker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+
+    .at-input {
+        flex: 0 1 320px;
+    }
+}
+
+.at-create-label {
+    margin: 0;
+    font-size: 13px;
+    color: $at-text-70;
+}
+
+.at-creategrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 14px;
+}
+
+.at-createcard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: $at-text;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-text;
+        text-decoration: none;
+    }
+}
+
+.at-createcard-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: $at-radius-md;
+    font-size: 20px;
+    color: $at-accent-300;
+    background: $at-bg;
+}
+
+.at-createcard-title {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.at-createcard-text {
+    font-size: 13px;
+    color: $at-text-55;
+}
+
+@media (max-width: $at-mobile-break) {
+    .at-res-figure {
+        font-size: 28px;
+    }
+
+    .at-exrow {
+        flex-wrap: wrap;
+
+        .at-exrow-side {
+            width: 100%;
+            justify-content: flex-start;
+        }
+    }
+}

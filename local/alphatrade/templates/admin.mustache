@@ -131,6 +131,55 @@
         </div>
     {{/isreports}}
 
+    {{! Contenus : ce qui est publié dans le programme, module par module. }}
+    {{#iscontents}}
+        <div class="at-kpis is-reports">
+            {{#kpis}}<div class="at-card at-elev-sm at-kpi"><span class="at-card-kicker">{{label}}</span><div class="at-kpi-value is-sm">{{value}}</div></div>{{/kpis}}
+        </div>
+        <div class="at-row-end at-mb-14"><a class="btn btn-primary" href="{{addurl}}">{{#str}}contents_add, local_alphatrade{{/str}}</a></div>
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}contents_module, local_alphatrade{{/str}}</th><th>{{#str}}contents_items, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th><th></th></tr></thead>
+                <tbody>
+                    {{#rows}}<tr><td>{{name}}</td><td>{{count}}</td><td>{{completion}}</td><td><a href="{{url}}">{{#str}}gotomodule, local_alphatrade{{/str}}</a></td></tr>{{/rows}}
+                    {{^hasrows}}<tr><td colspan="4" class="at-muted">{{#str}}noprogramme, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/iscontents}}
+
+    {{! Évaluations : quiz et devoirs notés, participation et moyenne. }}
+    {{#isassessments}}
+        <div class="at-kpis is-reports">
+            {{#kpis}}<div class="at-card at-elev-sm at-kpi"><span class="at-card-kicker">{{label}}</span><div class="at-kpi-value is-sm">{{value}}</div></div>{{/kpis}}
+        </div>
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}assess_activity, local_alphatrade{{/str}}</th><th>{{#str}}assess_submitted, local_alphatrade{{/str}}</th><th>{{#str}}assess_pass, local_alphatrade{{/str}}</th><th>{{#str}}averagegrade, local_alphatrade{{/str}}</th></tr></thead>
+                <tbody>
+                    {{#rows}}<tr><td>{{name}}</td><td>{{count}}</td><td>{{completion}}</td><td>{{average}}</td></tr>{{/rows}}
+                    {{^hasrows}}<tr><td colspan="4" class="at-muted">{{#str}}assess_empty, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/isassessments}}
+
+    {{! Certifications : éligibilité de chaque élève. }}
+    {{#iscertifications}}
+        <div class="at-kpis is-reports">
+            {{#kpis}}<div class="at-card at-elev-sm at-kpi"><span class="at-card-kicker">{{label}}</span><div class="at-kpi-value is-sm">{{value}}</div></div>{{/kpis}}
+        </div>
+        <div class="at-card at-elev-sm at-table-card">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}partner_student, local_alphatrade{{/str}}</th><th>{{#str}}res_modules, local_alphatrade{{/str}}</th><th>{{#str}}completion, local_alphatrade{{/str}}</th><th>{{#str}}status, local_alphatrade{{/str}}</th></tr></thead>
+                <tbody>
+                    {{#rows}}<tr><td><a href="{{url}}">{{name}}</a></td><td>{{count}}</td><td>{{completion}}</td><td>{{average}}</td></tr>{{/rows}}
+                    {{^hasrows}}<tr><td colspan="4" class="at-muted">{{#str}}cert_empty, local_alphatrade{{/str}}</td></tr>{{/hasrows}}
+                </tbody>
+            </table>
+        </div>
+    {{/iscertifications}}
+
     {{#isapplications}}
         <div class="at-card at-elev-sm at-table-card">
             <table class="at-table">

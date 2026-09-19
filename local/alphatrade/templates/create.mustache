@@ -1,0 +1,67 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade/create
+
+    Espace Enseignant, écran « Créer » : choix du module puis du type de contenu.
+
+    Example context (json):
+    {
+        "hasmodules": true, "section": 2, "formurl": "#", "moduleurl": "#", "courseurl": "#", "liveurl": "#",
+        "modules": [{"sectionnum": 1, "number": "01", "name": "Module 0", "itemcount": 10, "selected": false}],
+        "cards": [{"title": "Leçon", "text": "Une page de cours", "icon": "ph-article", "url": "#"}]
+    }
+}}
+<div class="at-screen at-create">
+    {{#hasmodules}}
+        <form class="at-card at-elev-sm at-pad-22 at-mb-18 at-create-picker" method="get" action="{{formurl}}">
+            <label class="at-create-label" for="at-create-section">{{#str}}create_inmodule, local_alphatrade{{/str}}</label>
+            <select class="at-input" id="at-create-section" name="section" onchange="this.form.submit()">
+                {{#modules}}
+                    <option value="{{sectionnum}}"{{#selected}} selected{{/selected}}>{{name}} ({{itemcount}})</option>
+                {{/modules}}
+            </select>
+            <noscript><button type="submit" class="btn btn-secondary">{{#str}}create_choose, local_alphatrade{{/str}}</button></noscript>
+            <a class="btn btn-ghost" href="{{moduleurl}}">{{#str}}create_seemodule, local_alphatrade{{/str}}</a>
+        </form>
+
+        <div class="at-creategrid">
+            {{#cards}}
+                <a class="at-card at-elev-sm at-pad-22 at-createcard at-hoverable" href="{{url}}">
+                    <span class="at-createcard-icon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
+                    <span class="at-createcard-title">{{title}}</span>
+                    <span class="at-createcard-text">{{text}}</span>
+                </a>
+            {{/cards}}
+            <a class="at-card at-elev-sm at-pad-22 at-createcard at-hoverable" href="{{liveurl}}">
+                <span class="at-createcard-icon" aria-hidden="true"><i class="ph ph-broadcast"></i></span>
+                <span class="at-createcard-title">{{#str}}create_live, local_alphatrade{{/str}}</span>
+                <span class="at-createcard-text">{{#str}}create_live_desc, local_alphatrade{{/str}}</span>
+            </a>
+        </div>
+
+        <p class="at-muted at-small at-mt-4">{{#str}}create_hint, local_alphatrade{{/str}}
+            <a href="{{courseurl}}">{{#str}}create_editcourse, local_alphatrade{{/str}}</a>
+        </p>
+    {{/hasmodules}}
+    {{^hasmodules}}
+        <div class="at-card at-elev-sm at-pad-22 at-empty-card">
+            <i class="ph ph-plus-circle at-empty-icon" aria-hidden="true"></i>
+            <p class="at-card-body at-m-0">{{#str}}create_nomodule, local_alphatrade{{/str}}</p>
+        </div>
+    {{/hasmodules}}
+</div>

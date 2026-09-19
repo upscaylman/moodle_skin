@@ -25,6 +25,15 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = [
+    // Partner space: follows the assigned students, read only - never corrects, never edits.
+    'local/alphatrade:viewpartner' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ],
+    ],
     // Teacher space: dashboard, pedagogical alerts, students' progress.
     'local/alphatrade:viewteacher' => [
         'riskbitmask' => RISK_PERSONAL,

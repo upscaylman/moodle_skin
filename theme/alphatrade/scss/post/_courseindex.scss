@@ -469,8 +469,9 @@ body.alpha-app .drawer-toggles {
     z-index: 3;
 }
 
-// Moodle propose son propre selecteur de langue au pied du formulaire : un seul suffit.
-.at-login-card .langmenu {
+// Moodle pose son propre sélecteur de langue au pied du formulaire de connexion (un menu
+// d'action sans classe propre) : le nôtre est en haut de page, un seul suffit.
+.at-login-card .loginform .action-menu-trigger {
     display: none;
 }
 

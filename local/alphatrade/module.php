@@ -37,8 +37,9 @@ if (!$module) {
     redirect(new moodle_url('/local/alphatrade/parcours.php'));
 }
 
-$label = get_string('modulelabel', 'local_alphatrade', $module['number']);
-page::set_header($label, $module['name'] . '.');
+$parts = programme::module_parts($module);
+$label = $parts['label'];
+page::set_header($label, $parts['title'] . '.');
 
 $rows = [];
 $lessonnumbers = [];
@@ -65,7 +66,7 @@ $description = trim(html_entity_decode(strip_tags($module['description']), ENT_Q
 $data = [
     'parcoursurl' => (new moodle_url('/local/alphatrade/parcours.php'))->out(false),
     'label' => core_text::strtoupper($label),
-    'name' => $module['name'],
+    'name' => $parts['title'],
     'description' => $description,
     'percent' => $module['percent'],
     'lessonsprogress' => get_string('lessonsshort', 'local_alphatrade',

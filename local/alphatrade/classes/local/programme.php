@@ -80,6 +80,34 @@ class programme {
     protected $modules = null;
 
     /**
+     * Titre d'affichage d'un module : « Module 02 - <nom> », sans repeter le numero
+     * quand le nom de section le porte deja (nos sections s'appellent « Module 1 - ... »).
+     * Le nom fait foi : la numerotation pedagogique (Module 0) ne suit pas la position (01).
+     *
+     * @param array $module as returned by get_modules()
+     * @return string
+     */
+    public static function module_title(array $module): string {
+        $parts = self::module_parts($module);
+        return $parts['label'] . ' - ' . $parts['title'];
+    }
+
+    /**
+     * Le module coupe en deux : son numero affichable et son titre. Nos sections s'appellent
+     * « Module 1 - Fondamentaux » ; le numero pedagogique porte par le nom fait foi, il ne suit
+     * pas la position (le Module 0 est la premiere section). Sans numero dans le nom, la position sert.
+     *
+     * @param array $module as returned by get_modules()
+     * @return array{label: string, title: string}
+     */
+    public static function module_parts(array $module): array {
+        return [
+            'label' => $module['label'] ?? get_string('modulelabel', 'local_alphatrade', $module['number']),
+            'title' => (string) $module['name'],
+        ];
+    }
+
+    /**
      * The configured programme course, if any.
      *
      * @return stdClass|null
@@ -472,10 +500,20 @@ class programme {
             $availableinfo = \core_availability\info::format_info($section->availableinfo, $this->course);
         }
 
+        // Nos sections s'appellent « Module 1 - Fondamentaux » : le numero pedagogique du nom
+        // fait foi (le Module 0 est la premiere section), sinon la position sert de numero.
+        $label = '';
+        if (preg_match('/^(module\s*(\d+))\s*[-\x{2013}\x{2014}:.]?\s*(.+)$/iu', trim($name), $matches)) {
+            $label = trim($matches[1]);
+            $number = $matches[2];
+            $name = trim($matches[3]);
+        }
+
         return [
             'id' => $section->id,
             'sectionnum' => $section->section,
-            'number' => sprintf('%02d', $number),
+            'number' => $label === '' ? sprintf('%02d', $number) : $number,
+            'label' => $label === '' ? get_string('modulelabel', 'local_alphatrade', sprintf('%02d', $number)) : $label,
             'name' => $name,
             'description' => $description,
             'objectives' => $objectives,

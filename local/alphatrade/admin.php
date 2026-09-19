@@ -306,7 +306,7 @@ if ($view === 'reports') {
                                             WHERE q.id $insql AND q.grade > 0", $params);
             }
             $data['rows'][] = [
-                'name' => get_string('modulelabel', 'local_alphatrade', $module['number']) . ' - ' . $module['name'],
+                'name' => programme::module_title($module),
                 'count' => $total,
                 'completion' => (int) round(100 * ($done[$module['sectionnum']] ?? 0) / $total) . ' %',
                 'average' => $avg === null || $avg === false ? '-' : format_float((float) $avg, 1),

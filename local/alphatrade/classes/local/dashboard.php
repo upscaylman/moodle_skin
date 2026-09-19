@@ -83,7 +83,7 @@ class dashboard {
                     : get_string('lessonnumbered', 'local_alphatrade', ['number' => $number, 'name' => $item['name']]);
             }
             $data['continue'] = [
-                'title' => get_string('modulelabel', 'local_alphatrade', $module['number']) . ' - ' . $module['name'],
+                'title' => programme::module_title($module),
                 'item' => $itemlabel,
                 'url' => $item ? $item['url'] : $module['url'],
                 'cta' => $item && $item['isquiz'] ? get_string('startevaluation', 'local_alphatrade')
@@ -101,6 +101,7 @@ class dashboard {
         $data['modules'] = array_map(function($module) {
             return [
                 'number' => $module['number'],
+                'label' => $module['label'],
                 'name' => $module['name'],
                 'url' => $module['url'],
                 'islocked' => $module['islocked'],

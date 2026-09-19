@@ -75,6 +75,7 @@ class pillars {
                 $modules[] = [
                     'number' => $module['number'],
                     'name' => $module['name'],
+                    'moduletitle' => programme::module_title($module),
                     'url' => $module['url'],
                     'videos' => $videos,
                     'videocount' => count($videos),
@@ -202,6 +203,7 @@ class pillars {
                     'url' => $item['url'],
                     'modulename' => $module['name'],
                     'modulenumber' => $module['number'],
+                    'moduletitle' => programme::module_title($module),
                     'islocked' => $item['islocked'],
                     'isquiz' => $item['modname'] === 'quiz',
                     'icon' => $item['modname'] === 'quiz' ? 'ph-exam' : 'ph-clipboard-text',
@@ -292,7 +294,7 @@ class pillars {
         foreach ($programme->get_modules() as $module) {
             $modules[] = [
                 'number' => $module['number'],
-                'name' => $module['name'],
+                'name' => programme::module_title($module),
                 'url' => $module['url'],
                 'percent' => $module['percent'],
                 'trackeddone' => $module['trackeddone'],

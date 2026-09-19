@@ -48,7 +48,7 @@ foreach ($programme->get_modules() as $module) {
     $modules[] = [
         'sectionnum' => $module['sectionnum'],
         'number' => $module['number'],
-        'name' => $module['name'],
+        'name' => programme::module_title($module),
         'itemcount' => count($module['items']),
         'selected' => $section == $module['sectionnum'],
     ];

@@ -40,6 +40,7 @@ if ($programme) {
         foreach ($month['modules'] as $module) {
             $modules[] = [
                 'number' => $module['number'],
+                'label' => $module['label'],
                 'name' => $module['name'],
                 'url' => $module['url'],
                 'meta' => get_string('modulemeta', 'local_alphatrade',

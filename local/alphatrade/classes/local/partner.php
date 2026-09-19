@@ -170,7 +170,7 @@ class partner {
             foreach ($programme->get_modules() as $module) {
                 $key = $module['sectionnum'];
                 if (!isset($totals[$key])) {
-                    $totals[$key] = ['number' => $module['number'], 'name' => $module['name'],
+                    $totals[$key] = ['number' => $module['number'], 'name' => programme::module_title($module),
                         'done' => 0, 'sum' => 0, 'count' => 0];
                 }
                 $totals[$key]['done'] += $module['isdone'] ? 1 : 0;

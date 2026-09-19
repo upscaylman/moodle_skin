@@ -42,12 +42,12 @@
                 <div class="at-month-list">
                     {{#modules}}
                         {{#islocked}}
-                            <div class="at-module-line"><i class="ph ph-lock-simple" aria-hidden="true"></i> {{number}} {{name}}</div>
+                            <div class="at-module-line"><i class="ph ph-lock-simple" aria-hidden="true"></i> {{label}} - {{name}}</div>
                         {{/islocked}}
                         {{^islocked}}
                             <a class="at-card at-elev-sm at-module-card" href="{{url}}">
                                 <div>
-                                    <div class="at-module-card-title"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{number}} {{name}}</div>
+                                    <div class="at-module-card-title"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{label}} - {{name}}</div>
                                     <div class="at-module-card-meta">{{meta}}</div>
                                 </div>
                                 {{#iscurrent}}<span class="btn btn-primary">{{#str}}continue, local_alphatrade{{/str}} &rarr;</span>{{/iscurrent}}

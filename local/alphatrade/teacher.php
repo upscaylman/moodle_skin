@@ -169,7 +169,7 @@ foreach ($students as $student) {
         'name' => $name,
         'url' => $profileurl,
         'percent' => $summary['percent'],
-        'module' => $current ? get_string('modulelabel', 'local_alphatrade', $current['number']) . ' - ' . $current['name']
+        'module' => $current ? programme::module_title($current)
             : ($summary['iscomplete'] ? get_string('programmedone', 'local_alphatrade') : '-'),
         'lastaccess' => $access ? page::ago($access) : get_string('never'),
         'isblocked' => $isblocked,

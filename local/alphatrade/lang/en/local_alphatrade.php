@@ -664,7 +664,7 @@ $string['res_percent'] = 'Percentage';
 $string['res_empty'] = 'No grade yet. Your first graded activities will appear here.';
 
 // Partner space, Create screen and the new admin views.
-$string['partner_home'] = 'Dashboard';
+$string['partner_home'] = 'Home';
 $string['sub_partnerhome'] = 'Who are my students, where are they, who needs attention.';
 $string['partner_students'] = 'My students';
 $string['sub_partnerstudents'] = 'The students you follow and their progress.';

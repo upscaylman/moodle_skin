@@ -139,6 +139,12 @@ body.alpha-public {
     gap: 6px;
     padding: 10px 8px 6px;
 
+    .at-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
     .at-tag i {
         font-size: 12px;
     }

@@ -189,6 +189,19 @@ require(['core_courseformat/courseeditor'], function(CourseEditor) {
         if (collapse.length) {
             editor.dispatch('sectionIndexCollapsed', collapse, true);
         }
+        // Le composant de section ne relit pas l'etat au montage : il ne synchronise le pli
+        // qu'au clic. L'etat vient d'etre pose, on aligne le DOM servi par le serveur dessus.
+        index.querySelectorAll('.courseindex-section').forEach(function(section) {
+            var body = section.querySelector('.courseindex-item-content');
+            var chevron = section.querySelector('.courseindex-chevron');
+            if (!body || !chevron) {
+                return;
+            }
+            var isopen = section === opened;
+            body.classList.toggle('show', isopen);
+            chevron.setAttribute('aria-expanded', isopen ? 'true' : 'false');
+            section.setAttribute('aria-expanded', isopen ? 'true' : 'false');
+        });
         return true;
     }).catch(function() {
         return false;

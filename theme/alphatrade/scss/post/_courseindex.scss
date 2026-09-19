@@ -415,12 +415,15 @@ body.alpha-app .drawer-toggles {
         letter-spacing: .04em;
     }
 
+    // Pas de classe .at-card ici : sa regle display: flex battrait le display: none de
+    // .dropdown-menu et le menu resterait ouvert en permanence.
     .at-langlist {
         min-width: 170px;
         padding: 6px;
         border: 0;
         border-radius: $at-radius-md;
         background: $at-surface;
+        box-shadow: $at-shadow-md;
     }
 
     .at-langitem {
@@ -460,9 +463,15 @@ body.alpha-app .drawer-toggles {
 }
 
 .at-login-lang {
-    display: flex;
-    justify-content: flex-end;
-    padding: 14px 18px 0;
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    z-index: 3;
+}
+
+// Moodle propose son propre selecteur de langue au pied du formulaire : un seul suffit.
+.at-login-card .langmenu {
+    display: none;
 }
 
 .at-pub-header .at-langmenu .at-langbtn {

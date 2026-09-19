@@ -340,6 +340,8 @@
 }
 
 .at-module-card {
+    // .at-card empile ses enfants ; ces cartes sont une ligne : titre a gauche, action a droite.
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 14px;
@@ -815,6 +817,8 @@
 
 .at-list-card {
     flex-wrap: wrap;
+    // .at-card empile ses enfants ; ces cartes sont une ligne : titre a gauche, action a droite.
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 14px;

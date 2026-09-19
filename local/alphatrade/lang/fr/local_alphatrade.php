@@ -744,4 +744,4 @@ $string['sub_admincontents'] = 'Tout ce qui est publié dans le programme, modul
 $string['sub_adminassessments'] = 'Quiz et devoirs notés, avec la participation et les moyennes.';
 $string['sub_admincertifications'] = 'Qui est éligible au certificat, et qui est encore en cours.';
 $string['role_partner'] = 'Partenaire';
-$string['role_partner_desc'] = 'Suit un groupe d'élèves en lecture seule : progression, résultats et activité, sans modification ni correction.';
+$string['role_partner_desc'] = 'Suit un groupe d\'élèves en lecture seule : progression, résultats et activité, sans modification ni correction.';

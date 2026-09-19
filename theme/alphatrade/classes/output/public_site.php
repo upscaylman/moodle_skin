@@ -29,7 +29,7 @@ use moodle_url;
 class public_site {
 
     /** @var string[] Views of the public site. */
-    const VIEWS = ['accueil', 'programme', 'methode', 'formateurs', 'faq', 'candidater'];
+    const VIEWS = ['accueil', 'programme', 'methode', 'formateurs', 'faq', 'candidater', 'cours'];
 
     /** @var string Programme brochure served from theme/alphatrade/files (download buttons). */
     const PROGRAMME_PDF = 'Alpha-Trade-Programme-de-Formation-Trading-et-Finance.pdf';
@@ -109,17 +109,104 @@ class public_site {
      * @return array
      */
     public static function team(): array {
+        global $OUTPUT;
+
         $team = [];
         foreach (['nesrine' => 'NM', 'julien' => 'JB'] as $key => $initials) {
+            // pix/team-<key>.jpg|png : la vraie photo remplace les initiales partout où elle existe.
+            $photo = glob(__DIR__ . "/../../pix/team-$key.{jpg,png}", GLOB_BRACE);
             $team[] = [
                 'key' => $key,
                 'initials' => $initials,
+                'hasphoto' => !empty($photo),
+                'photo' => $photo ? $OUTPUT->image_url("team-$key", 'theme_alphatrade')->out(false) : '',
                 'name' => get_string('pub_team_' . $key, 'theme_alphatrade'),
                 'role' => get_string('pub_team_' . $key . '_role', 'theme_alphatrade'),
                 'bio' => get_string('pub_team_' . $key . '_bio', 'theme_alphatrade'),
+                'approach' => get_string('pub_team_' . $key . '_approach', 'theme_alphatrade'),
             ];
         }
         return $team;
+    }
+
+    /**
+     * Les trois vignettes de cours ouvertes depuis les cartes « Un programme en 3 mois » :
+     * une par mois, avec le module qui la représente, ses chiffres et son formateur.
+     *
+     * @return array
+     */
+    public static function courses(): array {
+        $team = [];
+        foreach (self::team() as $trainer) {
+            $team[$trainer['key']] = $trainer;
+        }
+        $months = self::months();
+        $courses = [];
+        foreach ([1 => 'nesrine', 2 => 'julien', 3 => 'julien'] as $number => $trainerkey) {
+            $month = $months[$number - 1] ?? null;
+            $courses[] = [
+                'number' => $number,
+                'id' => (string) $number,
+                'kicker' => get_string('pub_course' . $number . '_kicker', 'theme_alphatrade'),
+                'title' => get_string('pub_course' . $number . '_title', 'theme_alphatrade'),
+                'desc' => get_string('pub_course' . $number . '_desc', 'theme_alphatrade'),
+                'level' => get_string('pub_level' . $number, 'theme_alphatrade'),
+                'icon' => ['ph-book-open', 'ph-magnifying-glass', 'ph-chart-bar'][$number - 1],
+                'stats' => [
+                    ['label' => get_string('pub_course_duration', 'theme_alphatrade'),
+                        'value' => get_string('pub_course' . $number . '_hours', 'theme_alphatrade')],
+                    ['label' => get_string('pub_course_level', 'theme_alphatrade'),
+                        'value' => get_string('pub_level' . $number, 'theme_alphatrade')],
+                    ['label' => get_string('pub_course_month', 'theme_alphatrade'),
+                        'value' => get_string('pub_month', 'theme_alphatrade', $number)],
+                ],
+                'modules' => $month ? $month['modules'] : [],
+                'trainer' => $team[$trainerkey] ?? null,
+                'url' => self::url('cours') . '&course=' . $number,
+            ];
+        }
+        return $courses;
+    }
+
+    /**
+     * Les trois cartes « Un programme en 3 mois » de l'accueil : le mois, son icône, son niveau
+     * et le bouton qui ouvre sa vignette de cours.
+     *
+     * @return array
+     */
+    public static function monthcards(): array {
+        $cards = [];
+        foreach (self::courses() as $course) {
+            $month = self::months()[$course['number'] - 1] ?? null;
+            $cards[] = [
+                'number' => $course['number'],
+                'label' => $month ? $month['label'] : $course['title'],
+                'summary' => $month ? $month['summary'] : $course['desc'],
+                'icon' => $course['icon'],
+                'level' => $course['level'],
+                'url' => $course['url'],
+            ];
+        }
+        return $cards;
+    }
+
+    /**
+     * Bande de chiffres sous le hero : modules, leçons, mois. Les modules viennent du programme,
+     * le reste des chaînes de langue pour rester ajustable sans toucher au code.
+     *
+     * @return array
+     */
+    public static function stats(): array {
+        $modules = 0;
+        foreach (self::months() as $month) {
+            $modules += count($month['modules']);
+        }
+        return [
+            ['value' => $modules, 'label' => get_string('pub_stat_modules', 'theme_alphatrade')],
+            ['value' => (int) get_string('pub_stat_lessons_value', 'theme_alphatrade'),
+                'label' => get_string('pub_stat_lessons', 'theme_alphatrade')],
+            ['value' => count(self::months()), 'label' => get_string('pub_stat_months', 'theme_alphatrade')],
+        ];
     }
 
     /**
@@ -273,6 +360,13 @@ class public_site {
         foreach (['accueil', 'programme', 'methode', 'formateurs', 'faq'] as $view) {
             $nav[] = ['label' => $str('pub_nav_' . $view), 'url' => self::url($view), 'active' => $view === $this->view];
         }
+        // Communauté : le serveur Discord, seul lien externe de la nav et seule couleur de marque
+        // tierce du site (violet Discord), assumée telle quelle.
+        $discordurl = get_config('theme_alphatrade', 'discordurl');
+        if ($discordurl) {
+            $nav[] = ['label' => $str('pub_nav_communaute'), 'url' => $discordurl, 'active' => false,
+                'external' => true, 'discord' => true, 'icon' => 'ph-discord-logo'];
+        }
 
         $pipeline = [];
         $steps = ['understand' => 'ph-book-open', 'analyse' => 'ph-magnifying-glass', 'test' => 'ph-flask',
@@ -298,6 +392,7 @@ class public_site {
             'candidaterurl' => $hasform || !$applyurl ? self::url('candidater') : $applyurl,
             'pipeline' => $pipeline,
             'months' => self::months(),
+            'monthcards' => self::monthcards(),
             'method' => self::method(),
             'team' => self::team(),
             'faq' => self::faq(),
@@ -311,7 +406,32 @@ class public_site {
             'sesskey' => sesskey(),
             'applied' => optional_param('applied', 0, PARAM_BOOL),
             'programmepdfurl' => (new moodle_url('/theme/alphatrade/files/' . self::PROGRAMME_PDF))->out(false),
+            'stats' => self::stats(),
+            'courses' => self::courses(),
+            'discordurl' => $discordurl,
+            'hasdiscord' => !empty($discordurl),
+            'instagramurl' => get_config('theme_alphatrade', 'instagramurl'),
+            'hasinstagram' => (bool) get_config('theme_alphatrade', 'instagramurl'),
+            'contactemail' => $contactemail,
+            'hascontactemail' => !empty($contactemail),
+            'contactphone' => get_config('theme_alphatrade', 'contactphone'),
+            'hascontactphone' => (bool) get_config('theme_alphatrade', 'contactphone'),
+            'methodeurl' => self::url('methode'),
+            'faqurl' => self::url('faq'),
         ];
+
+        // Hello bar : bandeau d'offre au-dessus de l'en-tête, refermable par le visiteur.
+        if (get_config('theme_alphatrade', 'hellobar')) {
+            $hellourl = get_config('theme_alphatrade', 'hellobarurl') ?: $data['candidaterurl'];
+            $data['hellobar'] = ['text' => $str('pub_hellobar'), 'cta' => $str('pub_hellobar_cta'), 'url' => $hellourl];
+        }
+
+        // Vignette de cours ouverte (écran « cours ») : le numéro vient de l'URL.
+        if ($this->view === 'cours') {
+            $number = optional_param('course', 1, PARAM_INT);
+            $courses = $data['courses'];
+            $data['course'] = $courses[max(0, min(count($courses) - 1, $number - 1))];
+        }
 
         // Hero headline: two variants (kicker, title, subtitle) alternating every 5 s in the browser.
         $headlines = [];

@@ -86,6 +86,19 @@
                 </div>
             </section>
 
+            {{! Chiffres du programme : comptent de 0 a leur valeur au chargement, ligne de tendance en filigrane. }}
+            <section class="at-pub-stats" data-region="at-pub-stats">
+                <svg class="at-pub-stats-line" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true">
+                    <path d="M0 104 L120 88 L240 92 L360 52 L480 44 L600 12" fill="none" stroke="currentColor" stroke-width="3"></path>
+                </svg>
+                {{#stats}}
+                    <div class="at-pub-stat">
+                        <div class="at-pub-stat-n" data-count="{{value}}">0</div>
+                        <div class="at-pub-stat-label">{{label}}</div>
+                    </div>
+                {{/stats}}
+            </section>
+
             <section class="at-pub-band">
                 <div class="at-pub-pipeline">
                     {{#pipeline}}
@@ -103,13 +116,42 @@
                     <a href="{{programmeurl}}">{{#str}}pub_programme_link, theme_alphatrade{{/str}} &rarr;</a>
                 </div>
                 <div class="at-pub-grid">
-                    {{#months}}
-                        <div class="at-card at-elev-sm at-pad-22">
-                            <span class="at-card-kicker">{{#str}}pub_month, theme_alphatrade, {{number}}{{/str}}</span>
-                            <h3 class="at-card-title at-mt-2">{{label}}</h3>
+                    {{#monthcards}}
+                        <div class="at-card at-elev-sm at-pub-monthcard">
+                            <span class="at-pub-monthicon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
+                            <div class="at-pub-monthhead">
+                                <span class="at-card-kicker">{{#str}}pub_month, theme_alphatrade, {{number}}{{/str}}</span>
+                                <span class="at-tag at-tag-neutral">{{level}}</span>
+                            </div>
+                            <h3 class="at-card-title">{{label}}</h3>
                             <p class="at-card-body">{{summary}}</p>
+                            <a class="btn btn-secondary at-pub-monthbtn" href="{{url}}">{{#str}}pub_seecourse, theme_alphatrade{{/str}} &rarr;</a>
                         </div>
-                    {{/months}}
+                    {{/monthcards}}
+                </div>
+            </section>
+
+            <section class="at-pub-section at-pub-invest">
+                <div class="at-pub-invest-text">
+                    <span class="at-pub-chip">{{#str}}pub_invest_kicker, theme_alphatrade{{/str}}</span>
+                    <h2>{{#str}}pub_invest_title, theme_alphatrade{{/str}}</h2>
+                    <div class="at-pub-investlist">
+                        <div class="at-pub-investline">
+                            <i class="ph ph-file-text" aria-hidden="true"></i>
+                            <div><div class="at-pub-investtitle">{{#str}}pub_invest_1, theme_alphatrade{{/str}}</div><div class="at-pub-investdesc">{{#str}}pub_invest_1_desc, theme_alphatrade{{/str}}</div></div>
+                        </div>
+                        <div class="at-pub-investline">
+                            <i class="ph ph-tree-structure" aria-hidden="true"></i>
+                            <div><div class="at-pub-investtitle">{{#str}}pub_invest_2, theme_alphatrade{{/str}}</div><div class="at-pub-investdesc">{{#str}}pub_invest_2_desc, theme_alphatrade{{/str}}</div></div>
+                        </div>
+                        <div class="at-pub-investline">
+                            <i class="ph ph-target" aria-hidden="true"></i>
+                            <div><div class="at-pub-investtitle">{{#str}}pub_invest_3, theme_alphatrade{{/str}}</div><div class="at-pub-investdesc">{{#str}}pub_invest_3_desc, theme_alphatrade{{/str}}</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="at-pub-invest-img">
+                    <img src="{{heroimageurl}}" alt="{{#str}}pub_hero_alt, theme_alphatrade{{/str}}" loading="lazy" decoding="async">
                 </div>
             </section>
 
@@ -120,8 +162,9 @@
                 </div>
                 <div class="at-pub-grid">
                     {{#team}}
-                        <div class="at-card at-elev-sm at-pad-22 at-pub-person">
-                            <span class="at-pub-initials" aria-hidden="true">{{initials}}</span>
+                        <div class="at-card at-elev-sm at-pub-person">
+                            {{#hasphoto}}<img class="at-pub-avatar" src="{{photo}}" alt="{{name}}" loading="lazy" decoding="async">{{/hasphoto}}
+                            {{^hasphoto}}<span class="at-pub-initials" aria-hidden="true">{{initials}}</span>{{/hasphoto}}
                             <div><h3 class="at-card-title">{{name}}</h3><div class="at-card-meta">{{role}}</div></div>
                         </div>
                     {{/team}}
@@ -199,7 +242,8 @@
                 <div class="at-pub-grid is-320">
                     {{#team}}
                         <div class="at-card at-elev-sm at-pub-trainer">
-                            <span class="at-pub-photo" aria-hidden="true">{{initials}}</span>
+                            {{#hasphoto}}<img class="at-pub-photo" src="{{photo}}" alt="{{name}}" loading="lazy" decoding="async">{{/hasphoto}}
+                            {{^hasphoto}}<span class="at-pub-photo" aria-hidden="true">{{initials}}</span>{{/hasphoto}}
                             <h3 class="at-card-title">{{name}}</h3>
                             <div class="at-card-meta at-mb-10">{{role}}</div>
                             <p class="at-card-body">{{bio}}</p>
@@ -208,6 +252,52 @@
                 </div>
             </section>
         {{/isformateurs}}
+
+        {{#iscours}}
+            {{#course}}
+                <section class="at-pub-page is-900 at-pub-course">
+                    <a class="at-pub-back" href="{{programmeurl}}">&larr; {{#str}}pub_course_back, theme_alphatrade{{/str}}</a>
+                    <div class="at-pub-coursehead">
+                        <div class="at-pub-coursemedia">
+                            {{#trainer}}{{#hasphoto}}<img src="{{photo}}" alt="{{name}}" loading="lazy" decoding="async">{{/hasphoto}}{{/trainer}}
+                            <span class="at-pub-courseicon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
+                        </div>
+                        <dl class="at-pub-coursestats">
+                            {{#stats}}
+                                <div class="at-card at-elev-sm at-pub-coursestat"><dt>{{label}}</dt><dd>{{value}}</dd></div>
+                            {{/stats}}
+                        </dl>
+                    </div>
+                    <span class="at-pub-chip">{{kicker}}</span>
+                    <h1>{{title}}</h1>
+                    <p class="at-pub-lead">{{desc}}</p>
+                    <div class="at-pub-center at-pub-coursecta">
+                        <a class="btn btn-primary" href="{{candidaterurl}}">{{#str}}pub_apply, theme_alphatrade{{/str}} &rarr;</a>
+                    </div>
+                    <h2 class="at-pub-coursesub">{{#str}}pub_course_included, theme_alphatrade{{/str}}</h2>
+                    <div class="at-stack-8">
+                        {{#modules}}
+                            <div class="at-card at-elev-sm at-pub-module">
+                                <span class="at-pub-module-n">{{number}}</span>
+                                <div><div class="at-pub-module-title">{{title}}</div><div class="at-pub-module-desc">{{desc}}</div></div>
+                            </div>
+                        {{/modules}}
+                    </div>
+                    {{#trainer}}
+                        <h2 class="at-pub-coursesub">{{#str}}pub_course_trainer, theme_alphatrade{{/str}}</h2>
+                        <div class="at-card at-elev-sm at-pub-trainercard">
+                            {{#hasphoto}}<img class="at-pub-avatar" src="{{photo}}" alt="{{name}}" loading="lazy" decoding="async">{{/hasphoto}}
+                            {{^hasphoto}}<span class="at-pub-initials" aria-hidden="true">{{initials}}</span>{{/hasphoto}}
+                            <div>
+                                <h3 class="at-card-title">{{name}}</h3>
+                                <div class="at-card-meta at-mb-10">{{role}}</div>
+                                <p class="at-card-body">{{approach}}</p>
+                            </div>
+                        </div>
+                    {{/trainer}}
+                </section>
+            {{/course}}
+        {{/iscours}}
 
         {{#isfaq}}
             <section class="at-pub-page is-760">
@@ -266,8 +356,31 @@
     </main>
 
     <footer id="page-footer" class="at-pub-footer">
-        <img src="{{logourl}}" alt="{{sitename}}" loading="lazy" decoding="async">
-        <span>{{#str}}pub_tagline, theme_alphatrade{{/str}}</span>
+        <div class="at-pub-footer-cols">
+            <div class="at-pub-footer-brand">
+                <img src="{{logourl}}" alt="{{sitename}}" loading="lazy" decoding="async">
+                <span>{{#str}}pub_tagline, theme_alphatrade{{/str}}</span>
+            </div>
+            <div class="at-pub-footer-col">
+                <div class="at-pub-footer-title">{{#str}}pub_footer_links, theme_alphatrade{{/str}}</div>
+                <a href="{{programmeurl}}">{{#str}}pub_nav_programme, theme_alphatrade{{/str}}</a>
+                <a href="{{methodeurl}}">{{#str}}pub_nav_methode, theme_alphatrade{{/str}}</a>
+                <a href="{{teamurl}}">{{#str}}pub_nav_formateurs, theme_alphatrade{{/str}}</a>
+                <a href="{{faqurl}}">{{#str}}pub_nav_faq, theme_alphatrade{{/str}}</a>
+                {{#hasdiscord}}<a class="at-pub-discord" href="{{discordurl}}" target="_blank" rel="noopener"><i class="ph ph-discord-logo" aria-hidden="true"></i>{{#str}}pub_nav_communaute, theme_alphatrade{{/str}}</a>{{/hasdiscord}}
+            </div>
+            {{#hasinstagram}}
+                <div class="at-pub-footer-col">
+                    <div class="at-pub-footer-title">{{#str}}pub_footer_follow, theme_alphatrade{{/str}}</div>
+                    <a href="{{instagramurl}}" target="_blank" rel="noopener"><i class="ph ph-instagram-logo" aria-hidden="true"></i>Instagram</a>
+                </div>
+            {{/hasinstagram}}
+            <div class="at-pub-footer-col">
+                <div class="at-pub-footer-title">{{#str}}pub_footer_contact, theme_alphatrade{{/str}}</div>
+                {{#hascontactemail}}<a href="mailto:{{contactemail}}"><i class="ph ph-envelope-simple" aria-hidden="true"></i>{{contactemail}}</a>{{/hascontactemail}}
+                {{#hascontactphone}}<a href="tel:{{contactphone}}"><i class="ph ph-phone" aria-hidden="true"></i>{{contactphone}}</a>{{/hascontactphone}}
+            </div>
+        </div>
         <div class="at-pub-footer-standard">
             {{{ output.standard_footer_html }}}
             {{{ output.standard_end_of_body_html }}}
@@ -281,6 +394,36 @@ M.util.js_pending('theme_boost/loader');
 require(['theme_boost/loader'], function() {
     M.util.js_complete('theme_boost/loader');
 });
+
+(function() {
+    // Chiffres du programme : comptage de 0 a la valeur finale (easing cubic-out, 1.1 s).
+    // Mouvement reduit : la valeur finale est posee directement.
+    var counters = document.querySelectorAll('.at-pub-stat-n[data-count]');
+    if (!counters.length) {
+        return;
+    }
+    var slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    counters.forEach(function(counter) {
+        var target = parseInt(counter.getAttribute('data-count'), 10) || 0;
+        if (slow || !window.requestAnimationFrame) {
+            counter.textContent = target;
+            return;
+        }
+        var start = null;
+        var step = function(now) {
+            if (start === null) {
+                start = now;
+            }
+            var progress = Math.min(1, (now - start) / 1100);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            counter.textContent = Math.round(target * eased);
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    });
+})();
 
 (function() {
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

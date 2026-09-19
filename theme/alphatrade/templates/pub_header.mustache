@@ -30,6 +30,16 @@
         "pubnav": [{"label": "Messages", "url": "#", "active": true, "icon": "ph-chat-circle-text", "badge": ""}]
     }
 }}
+{{#hellobar}}
+    {{! Hello bar: offer banner above the header, closed by the visitor for the session. }}
+    <div class="at-pub-hello d-print-none" data-region="at-pub-hello">
+        <p class="at-pub-hello-text"><i class="ph-fill ph-gift" aria-hidden="true"></i>{{text}}</p>
+        <a class="at-pub-hello-cta" href="{{url}}">{{cta}} &rarr;</a>
+        <button type="button" class="at-pub-hello-close" data-action="at-pub-hello-close" aria-label="{{#str}}pub_hellobar_close, theme_alphatrade{{/str}}">
+            <i class="ph ph-x" aria-hidden="true"></i>
+        </button>
+    </div>
+{{/hellobar}}
 {{! Decorative gradient: a page layer behind the floating header, never inside it. }}
 <div class="at-pub-glow" aria-hidden="true"></div>
 
@@ -41,17 +51,43 @@
     {{/haspubnav}}
     <a class="at-pub-mark" href="{{homeurl}}"><img src="{{markurl}}" alt="{{sitename}}"></a>
     <nav class="at-pub-nav" aria-label="{{sitename}}">
-        {{#pubnav}}<a href="{{url}}"{{#active}} aria-current="page"{{/active}}>{{#icon}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/icon}}{{label}}{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}</a>{{/pubnav}}
+        {{#pubnav}}<a href="{{url}}" class="{{#discord}}at-pub-discord{{/discord}}"{{#external}} target="_blank" rel="noopener"{{/external}}{{#active}} aria-current="page"{{/active}}>{{#icon}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/icon}}{{label}}{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}</a>{{/pubnav}}
     </nav>
     {{> theme_alphatrade/langmenu }}
     {{$actions}}{{/actions}}
 </header>
 {{#haspubnav}}
     <nav class="at-card at-elev-md at-pub-menu d-print-none" id="at-pub-menu" aria-label="{{sitename}}" hidden>
-        {{#pubnav}}<a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}" data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>{{#icon}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/icon}}{{label}}{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}</a>{{/pubnav}}
+        {{#pubnav}}<a href="{{url}}" class="at-navbtn{{#active}} is-active{{/active}}{{#discord}} at-pub-discord{{/discord}}"{{#external}} target="_blank" rel="noopener"{{/external}} data-hoverable="{{#active}}false{{/active}}{{^active}}true{{/active}}"{{#active}} aria-current="page"{{/active}}>{{#icon}}<i class="ph {{icon}}" aria-hidden="true"></i>{{/icon}}{{label}}{{#badge}}<span class="at-tag at-tag-accent">{{badge}}</span>{{/badge}}</a>{{/pubnav}}
     </nav>
 {{/haspubnav}}
 {{#js}}
+(function() {
+    // Hello bar: closed for the session only, never a persistent cookie.
+    var hello = document.querySelector('[data-region="at-pub-hello"]');
+    if (hello) {
+        try {
+            if (window.sessionStorage && sessionStorage.getItem('at-hello-closed') === '1') {
+                hello.hidden = true;
+            }
+        } catch (e) {
+            hello.hidden = false;
+        }
+        var close = hello.querySelector('[data-action="at-pub-hello-close"]');
+        if (close) {
+            close.addEventListener('click', function() {
+                hello.hidden = true;
+                try {
+                    if (window.sessionStorage) {
+                        sessionStorage.setItem('at-hello-closed', '1');
+                    }
+                } catch (e) {
+                    return;
+                }
+            });
+        }
+    }
+})();
 (function() {
     // Mobile burger menu (< 860px): the links open in a panel under the header, the actions stay in the header.
     var burger = document.querySelector('[data-action="at-pub-menu"]');

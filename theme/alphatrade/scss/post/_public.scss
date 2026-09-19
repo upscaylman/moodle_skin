@@ -353,8 +353,27 @@ body.alpha-public {
 }
 
 .at-pub-person {
+    flex-direction: row;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
+    padding: 32px;
+    transition: transform .25s ease, box-shadow .25s ease, outline-color .25s ease;
+    outline: 1px solid transparent;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: $at-shadow-md;
+        outline-color: $at-accent;
+    }
+}
+
+.at-pub-avatar {
+    width: 72px;
+    height: 72px;
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
 }
 
 .at-pub-initials {
@@ -546,12 +565,25 @@ body.alpha-public {
 }
 
 .at-pub-trainer {
-    padding: 24px;
+    padding: 32px;
+    transition: transform .25s ease, box-shadow .25s ease, outline-color .25s ease;
+    outline: 1px solid transparent;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: $at-shadow-md;
+        outline-color: $at-accent;
+    }
+}
+
+img.at-pub-photo {
+    object-fit: cover;
+    object-position: center top;
 }
 
 .at-pub-photo {
-    width: 84px;
-    height: 84px;
+    width: 104px;
+    height: 104px;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -635,23 +667,69 @@ body.alpha-public {
 
 .at-pub-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 28px 40px;
-    border-top: 1px solid $at-divider;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px;
+    border-top: 0;
+    background: $at-surface;
 
     img {
-        height: 22px;
+        height: 26px;
         width: auto;
         object-fit: contain;
     }
+}
 
-    > span {
+.at-pub-footer-cols {
+    display: grid;
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.at-pub-footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    span {
         font-size: 12px;
+        line-height: 1.5;
         color: $at-text-50;
     }
+}
+
+.at-pub-footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        color: $at-text-60;
+        text-decoration: none;
+
+        &:hover {
+            color: $at-text;
+        }
+
+        i {
+            font-size: 15px;
+        }
+    }
+}
+
+.at-pub-footer-title {
+    margin-bottom: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: $at-text-45;
 }
 
 .at-pub-footer-standard {
@@ -664,7 +742,8 @@ body.alpha-public {
     }
 }
 
-@media (max-width: 860px) {
+// Six liens + logo + deux boutons ne tiennent plus sur une ligne sous 1100px : le burger prend le relais.
+@media (max-width: 1100px) {
     .at-pub-nav {
         display: none;
     }
@@ -672,6 +751,9 @@ body.alpha-public {
     .at-pub-burger {
         display: flex;
     }
+}
+
+@media (max-width: 860px) {
 
     .at-pub-hero {
         grid-template-columns: minmax(0, 1fr);
@@ -719,5 +801,396 @@ body.alpha-public {
             padding: 6px 9px;
             font-size: 13px;
         }
+    }
+}
+
+// ---------------------------------------------------------------- Bandeau d'offre (hello bar).
+// Au-dessus de l'en-tête flottant, fermable pour la session. Fond noir et texte or : c'est le
+// seul bloc de la page qui sort du fond #181a1e, pour qu'on le remarque sans crier.
+.at-pub-hello {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 12px 52px;
+    background: #000000;
+    color: $at-accent-300;
+}
+
+.at-pub-hello-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+
+    i {
+        flex: none;
+        font-size: 16px;
+    }
+}
+
+.at-pub-hello-cta {
+    flex: none;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #000000;
+    background: #ffffff;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: #000000;
+        background: $at-accent-200;
+        text-decoration: none;
+    }
+}
+
+.at-pub-hello-close {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: $at-radius-sm;
+    font-size: 15px;
+    color: $at-text-55;
+    background: transparent;
+
+    &:hover {
+        color: $at-text;
+    }
+}
+
+// ---------------------------------------------------------------- Chiffres du programme.
+.at-pub-stats {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 34px 40px 40px;
+    overflow: hidden;
+}
+
+.at-pub-stats-line {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .06;
+    color: $at-accent;
+    pointer-events: none;
+}
+
+.at-pub-stat {
+    position: relative;
+    text-align: center;
+}
+
+.at-pub-stat-n {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+    color: $at-text;
+}
+
+.at-pub-stat-label {
+    margin-top: 4px;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: $at-text-50;
+}
+
+// ---------------------------------------------------------------- Cartes des trois mois.
+.at-pub-monthcard {
+    gap: 12px;
+    padding: 32px;
+    transition: transform .25s ease, box-shadow .25s ease, outline-color .25s ease;
+    outline: 1px solid transparent;
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: $at-shadow-md;
+        outline-color: $at-accent;
+    }
+}
+
+.at-pub-monthicon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: $at-radius-md;
+    font-size: 27px;
+    color: $at-accent-300;
+    background: $at-bg;
+}
+
+.at-pub-monthhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.at-pub-monthbtn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+// ---------------------------------------------------------------- Investissez dans votre avenir.
+.at-pub-invest {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: 40px;
+    align-items: center;
+}
+
+.at-pub-invest-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+
+    h2 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: $at-heading-weight;
+        line-height: 1.2;
+    }
+}
+
+.at-pub-investlist {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.at-pub-investline {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    > i {
+        flex: none;
+        margin-top: 2px;
+        font-size: 22px;
+        color: $at-accent-300;
+    }
+}
+
+.at-pub-investtitle {
+    font-size: 15px;
+    font-weight: 500;
+    color: $at-text;
+}
+
+.at-pub-investdesc {
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: $at-text-55;
+}
+
+.at-pub-invest-img {
+    overflow: hidden;
+    border-radius: $at-radius-lg;
+    aspect-ratio: 4 / 3;
+    max-width: 100%;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+// ---------------------------------------------------------------- Vignette de cours.
+.at-pub-back {
+    align-self: flex-start;
+    font-size: 13px;
+    color: $at-text-55;
+    text-decoration: none;
+
+    &:hover {
+        color: $at-accent;
+    }
+}
+
+.at-pub-coursehead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 24px;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.at-pub-coursemedia {
+    position: relative;
+    overflow: hidden;
+    border-radius: $at-radius-lg;
+    background: $at-surface;
+    aspect-ratio: 16 / 10;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+}
+
+.at-pub-courseicon {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: $at-radius-md;
+    font-size: 22px;
+    color: $at-accent-100;
+    background: $at-accent-800;
+}
+
+.at-pub-coursestats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+}
+
+.at-pub-coursestat {
+    flex: 1;
+    justify-content: center;
+    padding: 16px 20px;
+
+    dt {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: $at-accent;
+    }
+
+    dd {
+        margin: 2px 0 0;
+        font-size: 22px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: $at-text;
+    }
+}
+
+.at-pub-coursesub {
+    margin: 32px 0 14px;
+    font-size: 20px;
+    font-weight: $at-heading-weight;
+}
+
+.at-pub-coursecta {
+    margin: 4px 0 8px;
+}
+
+.at-pub-trainercard {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px;
+}
+
+// ---------------------------------------------------------------- Communauté Discord.
+// Seule couleur de marque tierce du site, assumée : le lien doit être reconnaissable.
+.at-pub-discord {
+    color: #5865f2 !important; // stylelint-disable-line declaration-no-important
+
+    &:hover,
+    &:focus-visible {
+        color: #7984f5 !important; // stylelint-disable-line declaration-no-important
+    }
+}
+
+// ---------------------------------------------------------------- CTA principaux agrandis.
+.at-pub-buttons .btn,
+.at-pub-center .btn,
+.at-pub-cta .btn,
+.at-pub-coursecta .btn,
+.at-pub-form .btn-primary {
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+    .at-pub-invest {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+    }
+
+    .at-pub-invest-img {
+        order: -1;
+    }
+}
+
+@media (max-width: 860px) {
+    .at-pub-stats {
+        padding: 28px 20px 32px;
+        gap: 14px;
+    }
+
+    .at-pub-stat-n {
+        font-size: 34px;
+    }
+
+    .at-pub-coursehead {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .at-pub-footer {
+        padding: 32px 20px;
+    }
+}
+
+@media (max-width: 760px) {
+    .at-pub-footer-cols {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+    }
+}
+
+// Sous 640px le bandeau d'offre s'empile : le bouton fermer se cale en haut à droite pour ne
+// jamais passer sur le texte qui revient à la ligne.
+@media (max-width: 640px) {
+    .at-pub-hello {
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px 44px;
+        text-align: center;
+    }
+
+    .at-pub-hello-text {
+        justify-content: center;
+    }
+
+    .at-pub-hello-close {
+        top: 14px;
+        transform: none;
     }
 }

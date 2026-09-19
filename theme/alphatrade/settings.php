@@ -76,6 +76,23 @@ if ($ADMIN->fulltree) {
         get_string('country', 'theme_alphatrade'), get_string('country_desc', 'theme_alphatrade'), '', PARAM_ALPHA, 4);
     $page->add($setting);
 
+    $setting = new admin_setting_configtext('theme_alphatrade/discordurl',
+        get_string('discordurl', 'theme_alphatrade'), get_string('discordurl_desc', 'theme_alphatrade'),
+        'https://discord.gg/hYUxjtkt7', PARAM_URL);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/instagramurl',
+        get_string('instagramurl', 'theme_alphatrade'), get_string('instagramurl_desc', 'theme_alphatrade'), '', PARAM_URL);
+    $page->add($setting);
+
+    $setting = new admin_setting_configtext('theme_alphatrade/hellobarurl',
+        get_string('hellobarurl', 'theme_alphatrade'), get_string('hellobarurl_desc', 'theme_alphatrade'), '', PARAM_URL);
+    $page->add($setting);
+
+    $setting = new admin_setting_configcheckbox('theme_alphatrade/hellobar',
+        get_string('hellobar', 'theme_alphatrade'), get_string('hellobar_desc', 'theme_alphatrade'), 1);
+    $page->add($setting);
+
     $setting = new admin_setting_configtextarea('theme_alphatrade/sameas',
         get_string('sameas', 'theme_alphatrade'), get_string('sameas_desc', 'theme_alphatrade'), '', PARAM_RAW);
     $page->add($setting);

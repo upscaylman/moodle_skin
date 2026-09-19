@@ -58,6 +58,13 @@ class navigation {
     /** @var string[] Navigation keys of the partner space. */
     const PARTNER_KEYS = ['partner', 'partnerstudents', 'partnercourses', 'partnerprogress'];
 
+    /**
+     * @var string[] Keys shared by several spaces: Vidéos, Live, Communauté and Mon profil exist
+     * in the four trees. They never change the space by themselves; the last space the user was
+     * in wins, so a trainer who opens Vidéos stays in the trainer space.
+     */
+    const SHARED_KEYS = ['videos', 'live', 'community', 'profile'];
+
     /** @var string[] Navigation keys of the admin space. */
     const ADMIN_KEYS = ['adminhome', 'admincourses', 'admincategories', 'adminusers', 'admincontents',
         'adminassessments', 'admincertifications', 'adminstats', 'adminlog', 'adminsettings'];
@@ -125,6 +132,11 @@ class navigation {
             $variant = 'partner';
         } else if ((in_array($active, self::ADMIN_KEYS) || $this->page->pagelayout === 'admin') && $this->is_admin()) {
             $variant = 'admin';
+        } else if (in_array($active, self::SHARED_KEYS)) {
+            $variant = $this->remembered_space();
+        }
+        if (!in_array($active, self::SHARED_KEYS)) {
+            $this->remember_space($variant);
         }
 
         $labels = [
@@ -256,6 +268,9 @@ class navigation {
      * @return array
      */
     protected function get_teacher_items(string $active): array {
+        if ($active === 'community') {
+            $active = 'teachercommunity';
+        }
         $programmeid = (int) get_config('local_alphatrade', 'programmecourse');
         return [
             $this->item('teacher', 'ph-house', new moodle_url('/local/alphatrade/teacher.php'), $active),
@@ -399,6 +414,40 @@ class navigation {
     }
 
     /**
+     * The space the user was in last, if they still hold it. Pages shared by several spaces
+     * (Vidéos, Live, Communauté, Mon profil) keep that space instead of falling back to élève.
+     *
+     * @return string student|teacher|partner|admin
+     */
+    protected function remembered_space(): string {
+        $space = isloggedin() && !isguestuser() ? get_user_preferences('theme_alphatrade_space', 'student') : 'student';
+        $holds = [
+            'teacher' => function() {
+                return $this->can_teach();
+            },
+            'partner' => function() {
+                return $this->can_follow();
+            },
+            'admin' => function() {
+                return $this->is_admin();
+            },
+        ];
+        return isset($holds[$space]) && $holds[$space]() ? $space : 'student';
+    }
+
+    /**
+     * Remember the space of the current page, so the shared pages stay in it.
+     *
+     * @param string $variant
+     */
+    protected function remember_space(string $variant): void {
+        if (!isloggedin() || isguestuser() || $variant === get_user_preferences('theme_alphatrade_space', 'student')) {
+            return;
+        }
+        set_user_preference('theme_alphatrade_space', $variant);
+    }
+
+    /**
      * Site administrator?
      *
      * @return bool
@@ -435,7 +484,7 @@ class navigation {
         if (strpos($pagetype, 'course-index') === 0 || strpos($pagetype, 'course-management') === 0) {
             return 'admincategories';
         }
-        if (strpos($pagetype, 'report-log') === 0) {
+        if (strpos($pagetype, 'report-log') !== false || strpos($path, '/report/log/') === 0) {
             return 'adminlog';
         }
         if (strpos($pagetype, 'cohort-') === 0) {

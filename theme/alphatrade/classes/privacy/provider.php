@@ -16,21 +16,43 @@
 
 namespace theme_alphatrade\privacy;
 
+use core_privacy\local\metadata\collection;
+use core_privacy\local\request\writer;
+
 /**
- * The theme stores no personal data.
+ * The theme stores one user preference: the space (élève, enseignant, partenaire, admin)
+ * the user was in last, so the pages shared by several spaces keep the right navigation.
  *
  * @package   theme_alphatrade
  * @copyright 2026 Alpha Trade
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class provider implements
+        \core_privacy\local\metadata\provider,
+        \core_privacy\local\request\user_preference_provider {
 
     /**
-     * Reason string identifier.
+     * Preferences stored by the theme.
      *
-     * @return string
+     * @param collection $collection
+     * @return collection
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    public static function get_metadata(collection $collection): collection {
+        $collection->add_user_preference('theme_alphatrade_space', 'privacy:metadata:space');
+        return $collection;
+    }
+
+    /**
+     * Export the preference of one user.
+     *
+     * @param int $userid
+     */
+    public static function export_user_preferences(int $userid) {
+        $space = get_user_preferences('theme_alphatrade_space', null, $userid);
+        if ($space === null) {
+            return;
+        }
+        writer::export_user_preference('theme_alphatrade', 'theme_alphatrade_space', $space,
+            get_string('privacy:metadata:space', 'theme_alphatrade'));
     }
 }

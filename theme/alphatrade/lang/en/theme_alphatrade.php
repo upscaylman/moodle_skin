@@ -284,3 +284,4 @@ $string['nav_admincertifications'] = 'Certifications';
 $string['nav_adminstats'] = 'Statistics';
 $string['nav_adminlog'] = 'Activity log';
 $string['space_partner'] = 'Partner space';
+$string['privacy:metadata:space'] = 'The space (student, trainer, partner, administration) you were in last, so that the pages shared by several spaces keep the right navigation.';

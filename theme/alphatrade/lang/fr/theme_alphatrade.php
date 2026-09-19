@@ -284,3 +284,4 @@ $string['nav_admincertifications'] = 'Certifications';
 $string['nav_adminstats'] = 'Statistiques';
 $string['nav_adminlog'] = 'Journal';
 $string['space_partner'] = 'Espace partenaire';
+$string['privacy:metadata:space'] = 'L\'espace (élève, enseignant, partenaire, administration) où vous étiez en dernier, pour que les pages communes à plusieurs espaces gardent la bonne navigation.';

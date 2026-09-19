@@ -74,6 +74,11 @@ body.alpha-app .drawer-toggles {
         margin-bottom: 6px;
     }
 
+    // Moodle masque le bouton quand le tiroir est ouvert : ici il sert a replier le panneau.
+    .drawer-left-toggle.open-nav {
+        display: block;
+    }
+
     .drawer-left-toggle button,
     .drawer-right-toggle button {
         display: inline-flex;
@@ -169,8 +174,8 @@ body.alpha-app .drawer-toggles {
     }
 
     // Libellé : deux lignes puis ellipsis, jamais une seule ligne tronquée net.
-    .courseindex-link.text-truncate,
-    .courseindex-item .courseindex-link {
+    .courseindex-item:not(.courseindex-section-title) .courseindex-link.text-truncate,
+    .courseindex-item:not(.courseindex-section-title) .courseindex-link {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -186,7 +191,31 @@ body.alpha-app .drawer-toggles {
         }
     }
 
-    // Pastilles d'état : terminé en vert, en cours en or, verrouillé en gris.
+    // Pastilles d'état en Phosphor (le sommaire natif sert des icônes Font Awesome) :
+    // terminé en vert, à faire en or, verrouillé en gris.
+    .completioninfo .icon,
+    .courseindex-locked .icon {
+        display: none;
+    }
+
+    .completioninfo.completion_complete::before {
+        font-family: "Phosphor-Fill";
+        content: "\e184";
+        color: $at-success;
+    }
+
+    .completioninfo.completion_incomplete::before,
+    .completioninfo.completion_fail::before {
+        font-family: "Phosphor";
+        content: "\e18a";
+        color: $at-accent;
+    }
+
+    .courseindex-locked::before {
+        font-family: "Phosphor";
+        content: "\e308";
+    }
+
     .completioninfo {
         display: inline-flex;
         align-items: center;
@@ -195,30 +224,16 @@ body.alpha-app .drawer-toggles {
         width: 15px;
         margin-top: 1px;
 
-        .icon {
-            width: auto;
-            height: auto;
-            margin: 0;
-            font-size: 13px;
-            color: $at-accent;
-        }
-
-        &.completion_complete .icon {
-            color: $at-success;
-        }
+        font-size: 13px;
+        line-height: 1;
     }
 
     .courseindex-locked {
         flex: none;
-        margin-top: 1px;
+        margin-top: 2px;
+        font-size: 12px;
+        line-height: 1;
         color: $at-text-45;
-
-        .icon {
-            width: auto;
-            height: auto;
-            margin: 0;
-            font-size: 12px;
-        }
     }
 
     // Repères natifs qui n'ont pas leur place dans le panneau carte.

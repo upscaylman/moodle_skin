@@ -162,28 +162,37 @@ require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
     M.util.js_complete('theme_boost/loader');
 });
 {{#courseindex}}
-// Sommaire de cours : un seul groupe ouvert au chargement, celui de la lecon en cours. Le tiroir
-// natif les deplie tous, ce qui donne une liste a plat de plusieurs ecrans de haut. L'etat est
-// change dans le DOM seulement : le clic de l'etudiant reprend la main et Moodle le memorise.
-(function() {
+// Sommaire de cours : un seul groupe ouvert, celui de la lecon en cours. Le tiroir natif les
+// deplie tous, ce qui donne une liste a plat de plusieurs ecrans de haut. L'etat passe par la
+// mutation Moodle (comme un clic sur un chevron) : le composant reactif et la preference de
+// l'utilisateur restent la source de verite.
+require(['core_courseformat/courseeditor'], function(CourseEditor) {
     var index = document.getElementById('courseindex');
-    if (!index) {
+    var editor = index ? CourseEditor.getCurrentCourseEditor() : null;
+    if (!editor || !editor.getInitialStatePromise) {
         return;
     }
-    var sections = index.querySelectorAll('.courseindex-section');
-    var current = index.querySelector('.courseindex-item.pageitem');
-    var open = current ? current.closest('.courseindex-section') : sections[0];
-    sections.forEach(function(section) {
-        var body = section.querySelector('.courseindex-sectioncontent') || section.querySelector('.collapse');
-        var chevron = section.querySelector('.courseindex-chevron');
-        if (!body || !chevron) {
-            return;
+    editor.getInitialStatePromise().then(function() {
+        var current = index.querySelector('.courseindex-item.pageitem');
+        var opened = current ? current.closest('.courseindex-section') : index.querySelector('.courseindex-section');
+        var expand = [];
+        var collapse = [];
+        index.querySelectorAll('.courseindex-section').forEach(function(section) {
+            if (!section.dataset.id) {
+                return;
+            }
+            (section === opened ? expand : collapse).push(section.dataset.id);
+        });
+        if (expand.length) {
+            editor.dispatch('sectionIndexCollapsed', expand, false);
         }
-        var expanded = section === open;
-        body.classList.toggle('show', expanded);
-        chevron.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-        section.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        if (collapse.length) {
+            editor.dispatch('sectionIndexCollapsed', collapse, true);
+        }
+        return true;
+    }).catch(function() {
+        return false;
     });
-})();
+});
 {{/courseindex}}
 {{/js}}

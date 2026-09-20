@@ -761,3 +761,6 @@ $string['nodeadline'] = 'Aucune activité ne requiert d\'action.';
 $string['due_today'] = 'Aujourd\'hui';
 $string['due_tomorrow'] = 'Demain';
 $string['due_days'] = 'Dans {$a} jours';
+$string['month1theme'] = 'Comprendre';
+$string['month2theme'] = 'Analyser';
+$string['month3theme'] = 'Mesurer';

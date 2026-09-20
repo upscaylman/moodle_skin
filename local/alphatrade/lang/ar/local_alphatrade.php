@@ -775,3 +775,6 @@ $string['nodeadline'] = 'لا نشاط يتطلب إجراء.';
 $string['due_today'] = 'اليوم';
 $string['due_tomorrow'] = 'غدا';
 $string['due_days'] = 'بعد {$a} أيام';
+$string['month1theme'] = 'الفهم';
+$string['month2theme'] = 'التحليل';
+$string['month3theme'] = 'القياس';

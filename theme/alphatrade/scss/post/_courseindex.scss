@@ -480,3 +480,92 @@ body.alpha-app .drawer-toggles {
     border-radius: $at-radius-md;
     background: transparent;
 }
+
+// ---------------------------------------------------------------- Parrainage.
+// Écrans du plugin local_alphatrade_referral, habillés comme le reste de l'application.
+.at-ref-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 10px;
+
+    .at-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .btn {
+        flex: none;
+    }
+}
+
+.at-ref-pending {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    border-left: 3px solid $at-warning;
+
+    > i {
+        flex: none;
+        font-size: 20px;
+        color: $at-warning;
+    }
+
+    > span {
+        font-size: 13.5px;
+        color: $at-text-70;
+    }
+}
+
+.at-ref-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+.at-ref-discord {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.at-ref-discordbtn i {
+    margin-right: 7px;
+    color: #5865f2;
+}
+
+.at-ref-decide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+
+    .at-ref-reason {
+        width: 190px;
+        min-width: 0;
+    }
+
+    .btn {
+        flex: none;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: $at-mobile-break) {
+    .at-ref-link {
+        flex-wrap: wrap;
+    }
+
+    .at-ref-decide {
+        flex-wrap: wrap;
+
+        .at-ref-reason {
+            width: 100%;
+        }
+    }
+}

@@ -338,3 +338,4 @@ $string['pub_footer_follow'] = 'Suivez-nous';
 $string['pub_footer_contact'] = 'Nous contacter';
 $string['seo_title_cours'] = 'Aperçu de cours : les trois mois du programme';
 $string['seo_desc_cours'] = 'Ce que contient chaque mois du programme Alpha Trade : modules, durée, niveau et le formateur qui l\'anime.';
+$string['nav_referral'] = 'Parrainage';

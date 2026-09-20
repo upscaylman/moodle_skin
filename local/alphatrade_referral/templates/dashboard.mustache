@@ -1,0 +1,132 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade_referral/dashboard
+
+    Tableau de bord du parrain : lien de partage, chiffres, filleuls, récompenses, liaison Discord.
+
+    Example context (json):
+    {
+        "link": "https://exemple.test/r/AMINE742", "code": "AMINE742",
+        "kpis": [{"label": "Clics", "value": 12}],
+        "haspending": true, "pending": "10,00 EUR", "validationdays": 14,
+        "hasreferrals": true, "referrals": [{"name": "Sarah B.", "statuslabel": "Converti", "date": "12/09/26"}],
+        "hasrewards": true, "rewards": [{"amount": "10,00", "currency": "EUR", "statuslabel": "En attente", "available": "26/09/26", "ispending": true}],
+        "hasdiscord": true, "islinked": false, "linkurl": "#", "unlinkurl": "#", "discordname": ""
+    }
+}}
+<div class="at-screen at-referral">
+    <div class="at-card at-elev-sm at-pad-22 at-mb-18">
+        <span class="at-card-kicker">{{#str}}yourlink, local_alphatrade_referral{{/str}}</span>
+        <div class="at-ref-link">
+            <input class="at-input" id="at-ref-link" type="text" value="{{link}}" readonly
+                aria-label="{{#str}}yourlink, local_alphatrade_referral{{/str}}">
+            <button type="button" class="btn btn-primary" data-action="at-ref-copy"
+                data-copied="{{#str}}copied, local_alphatrade_referral{{/str}}">{{#str}}copy, local_alphatrade_referral{{/str}}</button>
+        </div>
+        <p class="at-card-body at-m-0">{{#str}}yourlink_help, local_alphatrade_referral{{/str}}</p>
+    </div>
+
+    <div class="at-kpis at-mb-18">
+        {{#kpis}}
+            <div class="at-card at-elev-sm at-kpi">
+                <span class="at-card-kicker">{{label}}</span>
+                <div class="at-kpi-value is-sm">{{value}}</div>
+            </div>
+        {{/kpis}}
+    </div>
+
+    {{#haspending}}
+        <div class="at-card at-elev-sm at-pad-22 at-mb-18 at-ref-pending">
+            <i class="ph ph-clock" aria-hidden="true"></i>
+            <span>{{#str}}pending_note, local_alphatrade_referral, {"amount": "{{pending}}", "days": "{{validationdays}}"}{{/str}}</span>
+        </div>
+    {{/haspending}}
+
+    <div class="at-ref-cols">
+        <div class="at-card at-elev-sm at-panel">
+            <div class="at-panel-head"><h4>{{#str}}myreferrals, local_alphatrade_referral{{/str}}</h4></div>
+            <div class="at-table-scroll">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}referral, local_alphatrade_referral{{/str}}</th><th>{{#str}}status, local_alphatrade_referral{{/str}}</th><th>{{#str}}since, local_alphatrade_referral{{/str}}</th></tr></thead>
+                <tbody>
+                    {{#referrals}}<tr><td>{{name}}</td><td>{{statuslabel}}</td><td>{{date}}</td></tr>{{/referrals}}
+                    {{^hasreferrals}}<tr><td colspan="3" class="at-muted">{{#str}}noreferrals, local_alphatrade_referral{{/str}}</td></tr>{{/hasreferrals}}
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="at-card at-elev-sm at-panel">
+            <div class="at-panel-head"><h4>{{#str}}myrewards, local_alphatrade_referral{{/str}}</h4></div>
+            <div class="at-table-scroll">
+            <table class="at-table">
+                <thead><tr><th>{{#str}}amount, local_alphatrade_referral{{/str}}</th><th>{{#str}}status, local_alphatrade_referral{{/str}}</th><th>{{#str}}availableon, local_alphatrade_referral{{/str}}</th></tr></thead>
+                <tbody>
+                    {{#rewards}}<tr><td>{{amount}} {{currency}}</td><td>{{statuslabel}}</td><td>{{#ispending}}{{available}}{{/ispending}}{{^ispending}}-{{/ispending}}</td></tr>{{/rewards}}
+                    {{^hasrewards}}<tr><td colspan="3" class="at-muted">{{#str}}norewards, local_alphatrade_referral{{/str}}</td></tr>{{/hasrewards}}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    {{#hasdiscord}}
+        <div class="at-card at-elev-sm at-pad-22 at-mt-18 at-ref-discord">
+            <div>
+                <h4 class="at-card-title at-m-0">{{#str}}discord, local_alphatrade_referral{{/str}}</h4>
+                {{#islinked}}<p class="at-card-body at-m-0">{{#str}}discord_linked, local_alphatrade_referral, {{discordname}}{{/str}}</p>{{/islinked}}
+                {{^islinked}}<p class="at-card-body at-m-0">{{#str}}discord_help, local_alphatrade_referral{{/str}}</p>{{/islinked}}
+            </div>
+            {{#islinked}}<a class="btn btn-ghost" href="{{unlinkurl}}">{{#str}}discord_unlink, local_alphatrade_referral{{/str}}</a>{{/islinked}}
+            {{^islinked}}<a class="btn btn-secondary at-ref-discordbtn" href="{{linkurl}}"><i class="ph ph-discord-logo" aria-hidden="true"></i>{{#str}}discord_link, local_alphatrade_referral{{/str}}</a>{{/islinked}}
+        </div>
+    {{/hasdiscord}}
+</div>
+{{#js}}
+(function() {
+    // Copie du lien de parrainage, avec repli sur la selection du champ quand le presse-papier
+    // n'est pas accessible (navigateur ancien, page non securisee).
+    var button = document.querySelector('[data-action="at-ref-copy"]');
+    var field = document.getElementById('at-ref-link');
+    if (!button || !field) {
+        return;
+    }
+    var label = button.textContent;
+    button.addEventListener('click', function() {
+        var done = function() {
+            button.textContent = button.getAttribute('data-copied');
+            window.setTimeout(function() {
+                button.textContent = label;
+            }, 1800);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(field.value).then(done).catch(function() {
+                field.select();
+            });
+            return;
+        }
+        field.select();
+        try {
+            document.execCommand('copy');
+            done();
+        } catch (e) {
+            return;
+        }
+    });
+})();
+{{/js}}

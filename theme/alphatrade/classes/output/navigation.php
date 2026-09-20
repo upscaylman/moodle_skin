@@ -46,10 +46,11 @@ class navigation {
     const TABBAR = ['home', 'parcours', 'videos', 'exercices', 'profile'];
 
     /** @var string[] Student items that go to the mobile drawer. */
-    const DRAWER = ['live', 'community', 'resultats', 'practice', 'backtest', 'journal', 'tools', 'resources'];
+    const DRAWER = ['live', 'community', 'resultats', 'practice', 'backtest', 'journal', 'tools', 'resources',
+        'referral'];
 
     /** @var string[] Student practice tools, shown under the six piliers. */
-    const STUDENT_TOOLS = ['practice', 'backtest', 'journal', 'tools', 'resources'];
+    const STUDENT_TOOLS = ['practice', 'backtest', 'journal', 'tools', 'resources', 'referral'];
 
     /** @var string[] Navigation keys of the trainer space. */
     const TEACHER_KEYS = ['teacher', 'teachercourses', 'teacherstudents', 'create', 'reviews', 'studentbacktests',
@@ -85,6 +86,7 @@ class navigation {
         'journal' => '<rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 3v18"></path>',
         'tools' => '<circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path>',
         'resources' => '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>',
+        'referral' => '<circle cx="9" cy="8" r="3.2"></circle><path d="M3 20c0-3.3 2.7-5.5 6-5.5"></path><path d="M16 13.5l2.2 2.2L22 12"></path><path d="M14.5 8.5h5"></path>',
         'community' => '<circle cx="8.5" cy="8" r="3"></circle><path d="M2 20c0-3.3 2.9-5.5 6.5-5.5S15 16.7 15 20"></path><circle cx="17" cy="9" r="2.3"></circle><path d="M15.8 14.7c2.6.5 4.2 2.3 4.2 5.3"></path>',
         'profile' => '<circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"></path>',
     ];
@@ -103,6 +105,7 @@ class navigation {
         'journal' => 'ph-notebook',
         'tools' => 'ph-wrench',
         'resources' => 'ph-books',
+        'referral' => 'ph-handshake',
         'profile' => 'ph-user',
     ];
 
@@ -245,12 +248,17 @@ class navigation {
             'journal' => '/local/alphatrade/journal.php',
             'tools' => '/local/alphatrade/tools.php',
             'resources' => '/local/alphatrade/resources.php',
+            'referral' => '/local/alphatrade_referral/index.php',
             'profile' => '/local/alphatrade/profile.php',
         ] : [
             'home' => '/my/',
             'parcours' => '/my/courses.php',
             'profile' => '/user/profile.php',
         ];
+        // Le parrainage n'apparait que si son plugin est installe.
+        if (!class_exists('\local_alphatrade_referral\local\engine')) {
+            unset($urls['referral']);
+        }
         $items = [];
         foreach ($urls as $key => $path) {
             $item = $this->item($key, self::ICONS[$key] ?? '', new moodle_url($path), $active);

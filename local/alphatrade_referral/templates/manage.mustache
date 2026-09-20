@@ -1,0 +1,116 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_alphatrade_referral/manage
+
+    Administration du parrainage : chiffres, file de revue manuelle, derniers parrainages.
+
+    Example context (json):
+    {
+        "kpis": [{"label": "Codes actifs", "value": 12}],
+        "hasreview": true,
+        "review": [{"id": 3, "referrer": "Amine K.", "referred": "Sarah B.", "amount": "10,00 EUR",
+                    "signals": "SAME_IP_HASH", "score": 35, "date": "20/09/26 14:12"}],
+        "hasrelations": true,
+        "relations": [{"referrer": "Amine K.", "referred": "Sarah B.", "status": "Converti", "conversions": 1, "date": "20/09/26"}],
+        "action": "#", "sesskey": "abc", "canvalidate": true, "queuefailed": 0, "queuepending": 0
+    }
+}}
+<div class="at-screen at-staff at-referral-admin">
+    <div class="at-kpis at-mb-18">
+        {{#kpis}}
+            <div class="at-card at-elev-sm at-kpi">
+                <span class="at-card-kicker">{{label}}</span>
+                <div class="at-kpi-value is-sm">{{value}}</div>
+            </div>
+        {{/kpis}}
+    </div>
+
+    <div class="at-card at-elev-sm at-panel at-mb-18">
+        <div class="at-panel-head"><h4>{{#str}}reviewqueue, local_alphatrade_referral{{/str}}</h4></div>
+        <div class="at-table-scroll">
+            <table class="at-table">
+                <thead>
+                    <tr>
+                        <th>{{#str}}referrer, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}referral, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}amount, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}signals, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}score, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}since, local_alphatrade_referral{{/str}}</th>
+                        {{#canvalidate}}<th>{{#str}}decision, local_alphatrade_referral{{/str}}</th>{{/canvalidate}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#review}}
+                        <tr>
+                            <td>{{referrer}}</td>
+                            <td>{{referred}}</td>
+                            <td>{{amount}}</td>
+                            <td class="at-small at-muted">{{signals}}</td>
+                            <td>{{score}}</td>
+                            <td>{{date}}</td>
+                            {{#canvalidate}}
+                                <td>
+                                    <form method="post" action="{{action}}" class="at-ref-decide">
+                                        <input type="hidden" name="sesskey" value="{{sesskey}}">
+                                        <input type="hidden" name="decide" value="{{id}}">
+                                        <input class="at-input at-ref-reason" type="text" name="reason"
+                                            placeholder="{{#str}}reason, local_alphatrade_referral{{/str}}" required>
+                                        <button class="btn btn-primary" type="submit" name="action" value="approve">{{#str}}approve, local_alphatrade_referral{{/str}}</button>
+                                        <button class="btn btn-ghost" type="submit" name="action" value="block">{{#str}}block, local_alphatrade_referral{{/str}}</button>
+                                    </form>
+                                </td>
+                            {{/canvalidate}}
+                        </tr>
+                    {{/review}}
+                    {{^hasreview}}
+                        <tr><td colspan="7" class="at-muted">{{#str}}noreview, local_alphatrade_referral{{/str}}</td></tr>
+                    {{/hasreview}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="at-card at-elev-sm at-panel">
+        <div class="at-panel-head">
+            <h4>{{#str}}lastreferrals, local_alphatrade_referral{{/str}}</h4>
+            <span class="at-small at-muted">{{#str}}queuestate, local_alphatrade_referral, {"pending": "{{queuepending}}", "failed": "{{queuefailed}}"}{{/str}}</span>
+        </div>
+        <div class="at-table-scroll">
+            <table class="at-table">
+                <thead>
+                    <tr>
+                        <th>{{#str}}referrer, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}referral, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}status, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}conversions, local_alphatrade_referral{{/str}}</th>
+                        <th>{{#str}}since, local_alphatrade_referral{{/str}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#relations}}
+                        <tr><td>{{referrer}}</td><td>{{referred}}</td><td>{{status}}</td><td>{{conversions}}</td><td>{{date}}</td></tr>
+                    {{/relations}}
+                    {{^hasrelations}}
+                        <tr><td colspan="5" class="at-muted">{{#str}}norelations, local_alphatrade_referral{{/str}}</td></tr>
+                    {{/hasrelations}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

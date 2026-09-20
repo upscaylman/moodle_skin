@@ -338,3 +338,4 @@ $string['pub_footer_follow'] = 'Follow us';
 $string['pub_footer_contact'] = 'Contact us';
 $string['seo_title_cours'] = 'Course preview: the three months of the programme';
 $string['seo_desc_cours'] = 'What each month of the Alpha Trade programme contains: modules, duration, level and the trainer who teaches it.';
+$string['nav_referral'] = 'Referral';

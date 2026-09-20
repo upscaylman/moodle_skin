@@ -340,3 +340,4 @@ $string['pub_footer_follow'] = 'تابعنا';
 $string['pub_footer_contact'] = 'اتصل بنا';
 $string['seo_title_cours'] = 'نظرة على الدروس: أشهر البرنامج الثلاثة';
 $string['seo_desc_cours'] = 'ما يحتويه كل شهر من برنامج ألفا تريد: الوحدات والمدة والمستوى والمكون الذي ينشطه.';
+$string['nav_referral'] = 'الإحالة';

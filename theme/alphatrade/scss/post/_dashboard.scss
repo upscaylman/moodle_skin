@@ -1,7 +1,14 @@
 // Single dashboard /my/ (Home link): Alpha Trade dashboard, then the Timeline and Calendar blocks
 // (maquette Espace Admin, Dashboard). Mobile first: blocks in one column, two columns on wide screens.
 
+// La maquette v4 remplace les blocs Chronologie et Calendrier par la carte Echeances du
+// tableau de bord Alpha Trade : les blocs ne restent visibles qu'en mode edition, pour que
+// l'administrateur puisse encore les gerer.
 body.alpha-dashboard:not(.editing) #block-region-content {
+    display: none;
+}
+
+body.alpha-dashboard.editing #block-region-content {
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr);

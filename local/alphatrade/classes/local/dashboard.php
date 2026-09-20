@@ -29,7 +29,73 @@ use moodle_url;
  */
 class dashboard {
 
+    /** @var float Périmètre de l'anneau de progression : 2 x pi x 30, arrondi comme dans la maquette. */
+    const RING_LENGTH = 188.5;
+
     /**
+     * Les échéances qui attendent l'étudiant, depuis les événements d'action de Moodle :
+     * les mêmes données que le bloc Chronologie, rendues dans la carte de la maquette.
+     *
+     * @param \stdClass $user
+     * @param int $limit
+     * @return array
+     */
+    public static function deadlines(\stdClass $user, int $limit = 6): array {
+        global $USER;
+
+        if ((int) $user->id !== (int) $USER->id) {
+            // Les événements d'action ne se lisent que pour l'utilisateur courant.
+            return [];
+        }
+        $icons = ['quiz' => 'ph-exam', 'assign' => 'ph-file-text', 'page' => 'ph-article',
+            'forum' => 'ph-chats-circle', 'url' => 'ph-play-circle', 'resource' => 'ph-file-text',
+            'choice' => 'ph-list-checks', 'feedback' => 'ph-chat-circle-text'];
+        $rows = [];
+        try {
+            $events = \core_calendar\localpi::get_action_events_by_timesort(time(), null, null, $limit, true);
+        } catch (\Throwable $e) {
+            return [];
+        }
+        foreach ($events as $event) {
+            $cm = $event->get_course_module();
+            $modname = $cm ? $cm->get('modname') : '';
+            $course = $event->get_course();
+            $rows[] = [
+                'title' => format_string($event->get_name()),
+                'module' => $course ? format_string($course->get('fullname')) : '',
+                'due' => self::due_label((int) $event->get_times()->get_sort_time()->getTimestamp()),
+                'icon' => $icons[$modname] ?? 'ph-calendar-blank',
+                'url' => $event->get_action() ? $event->get_action()->get_url()->out(false) : '',
+            ];
+        }
+        return $rows;
+    }
+
+    /**
+     * L'échéance en clair : aujourd'hui, demain, dans N jours, sinon la date.
+     *
+     * @param int $time
+     * @return string
+     */
+    protected static function due_label(int $time): string {
+        $days = (int) floor(($time - time()) / DAYSECS);
+        if ($days <= 0) {
+            return get_string('due_today', 'local_alphatrade');
+        }
+        if ($days === 1) {
+            return get_string('due_tomorrow', 'local_alphatrade');
+        }
+        if ($days <= 7) {
+            return get_string('due_days', 'local_alphatrade', $days);
+        }
+        return userdate($time, get_string('strftimedatefullshort', 'core_langconfig'));
+    }
+
+    /**
+     * Is the Alpha Trade dashboard shown on /my/ (setting "redirectdashboard")?
+     *
+     * @return bool
+     */    /**
      * Is the Alpha Trade dashboard shown on /my/ (setting "redirectdashboard")?
      *
      * @return bool
@@ -54,7 +120,9 @@ class dashboard {
             'streak' => get_string('streakdays', 'local_alphatrade', $streak),
             'trades' => activity::count_backtested_trades($user->id),
             'badges' => activity::count_badges($user->id),
+            'deadlines' => self::deadlines($user),
         ];
+        $data['hasdeadlines'] = !empty($data['deadlines']);
 
         $programme = programme::for_user($user->id);
         if (!$programme) {
@@ -67,6 +135,11 @@ class dashboard {
         $data['hasprogramme'] = true;
         $data['percent'] = $summary['percent'];
         $data['week'] = get_string('weekcounter', 'local_alphatrade', ['week' => $summary['week'], 'weeks' => $summary['weeks']]);
+        // Anneau de progression : périmètre d'un cercle de rayon 30, entamé d'autant que le pourcentage.
+        $data['ringdash'] = self::RING_LENGTH;
+        $data['ringoffset'] = round(self::RING_LENGTH * (1 - $summary['percent'] / 100), 1);
+        $current = $programme->get_current_module();
+        $data['currentmodule'] = $current ? programme::module_title($current) : '';
 
         if ($next) {
             $module = $next['module'];

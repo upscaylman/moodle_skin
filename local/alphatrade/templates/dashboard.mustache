@@ -42,21 +42,31 @@
     {{/hasprogramme}}
 
     {{#hasprogramme}}
-        <div class="at-card at-elev-sm at-pad-20 at-mb-16">
-            <span class="at-card-kicker">{{#str}}yourprogress, local_alphatrade{{/str}}</span>
-            <div class="at-dash-percent">{{percent}} %</div>
-            <div class="at-progress at-mb-8" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"><span style="width: {{percent}}%"></span></div>
-            <div class="at-dash-week">{{week}}</div>
-        </div>
-
-        {{#continue}}
-            <div class="at-card at-elev-sm at-pad-20 at-mb-20">
-                <span class="at-card-kicker at-kicker-icon"><i class="ph-fill ph-play-circle" aria-hidden="true"></i>{{#str}}continue, local_alphatrade{{/str}}</span>
-                <h3 class="at-card-title at-mt-2">{{title}}</h3>
-                <p class="at-card-body">{{item}}</p>
-                <a class="btn btn-primary" href="{{url}}">{{cta}} &rarr;</a>
+        {{! Deux cartes cote a cote : ce qu'il faut reprendre, puis ou on en est. }}
+        <div class="at-dash-top">
+            {{#continue}}
+                <div class="at-card at-elev-sm at-dash-continue">
+                    <span class="at-card-kicker at-kicker-icon"><i class="ph-fill ph-play-circle" aria-hidden="true"></i>{{#str}}continue, local_alphatrade{{/str}}</span>
+                    <h3 class="at-card-title at-mt-2">{{title}}</h3>
+                    <p class="at-card-body">{{item}}</p>
+                    <a class="btn btn-primary" href="{{url}}">{{cta}} &rarr;</a>
+                </div>
+            {{/continue}}
+            <div class="at-card at-elev-sm at-dash-progress">
+                <span class="at-card-kicker">{{#str}}yourprogress, local_alphatrade{{/str}}</span>
+                <div class="at-dash-ring">
+                    <svg width="72" height="72" viewBox="0 0 72 72" role="img" aria-label="{{percent}} %">
+                        <circle cx="36" cy="36" r="30" fill="none" stroke="var(--at-ring-track)" stroke-width="7"></circle>
+                        <circle cx="36" cy="36" r="30" fill="none" stroke="var(--at-ring-value)" stroke-width="7" stroke-linecap="round" stroke-dasharray="{{ringdash}}" stroke-dashoffset="{{ringoffset}}" transform="rotate(-90 36 36)"></circle>
+                        <text x="36" y="41" text-anchor="middle" font-size="16" font-weight="600" fill="var(--at-ring-text)">{{percent}}%</text>
+                    </svg>
+                    <div>
+                        <div class="at-dash-week">{{week}}</div>
+                        <div class="at-dash-current">{{currentmodule}}</div>
+                    </div>
+                </div>
             </div>
-        {{/continue}}
+        </div>
 
         <h4 class="at-dash-h4">{{#str}}yourparcours, local_alphatrade{{/str}}</h4>
         <div class="at-dash-tiles">
@@ -86,4 +96,43 @@
             <div class="at-stat-label">{{#str}}badges, local_alphatrade{{/str}}</div>
         </div>
     </div>
+
+    <h4 class="at-dash-h4 at-dash-h4-deadlines">{{#str}}deadlines, local_alphatrade{{/str}}</h4>
+    <div class="at-card at-elev-sm at-dash-deadlines">
+        <input class="at-input at-dash-search" type="search" data-action="at-deadline-filter"
+            placeholder="{{#str}}searchdeadline, local_alphatrade{{/str}}"
+            aria-label="{{#str}}searchdeadline, local_alphatrade{{/str}}">
+        <div class="at-dash-duelist">
+            {{#deadlines}}
+                <a class="at-dash-due" href="{{url}}" data-name="{{title}} {{module}}">
+                    <span class="at-dash-due-icon" aria-hidden="true"><i class="ph {{icon}}"></i></span>
+                    <span class="at-dash-due-body">
+                        <span class="at-dash-due-title">{{title}}</span>
+                        <span class="at-dash-due-module">{{module}}</span>
+                    </span>
+                    <span class="at-dash-due-when">{{due}}</span>
+                </a>
+            {{/deadlines}}
+            {{^hasdeadlines}}
+                <div class="at-dash-due-empty">{{#str}}nodeadline, local_alphatrade{{/str}}</div>
+            {{/hasdeadlines}}
+        </div>
+    </div>
 </div>
+{{#js}}
+(function() {
+    // Le champ filtre reellement la liste des echeances, sans rechargement.
+    var field = document.querySelector('[data-action="at-deadline-filter"]');
+    var list = document.querySelector('.at-dash-duelist');
+    if (!field || !list) {
+        return;
+    }
+    field.addEventListener('input', function() {
+        var needle = field.value.trim().toLowerCase();
+        list.querySelectorAll('.at-dash-due').forEach(function(row) {
+            var hay = (row.getAttribute('data-name') || '').toLowerCase();
+            row.hidden = needle !== '' && hay.indexOf(needle) === -1;
+        });
+    });
+})();
+{{/js}}

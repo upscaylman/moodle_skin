@@ -431,61 +431,98 @@
     margin-bottom: 24px;
 }
 
+.at-month-card {
+    padding: 20px;
+}
+
 .at-month-theme {
+    margin-bottom: 12px;
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 12px;
-    text-transform: uppercase;
 }
 
 .at-month-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 2px;
 }
 
-.at-module-line {
+// Une ligne de module dans la carte du mois : pastille, titre, puis action ou statut.
+.at-modrow {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 4px;
-    font-size: 13px;
-    color: $at-text-45;
-}
-
-.at-module-card {
-    // .at-card empile ses enfants ; ces cartes sont une ligne : titre a gauche, action a droite.
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     gap: 14px;
-    padding: 16px;
-    text-decoration: none;
+    padding: 10px 6px;
+    border-radius: 8px;
     color: $at-text;
+    text-decoration: none;
 
     &:hover {
         color: $at-text;
         text-decoration: none;
-        box-shadow: 0 0 0 1px $at-neutral-700;
+        background: $at-bg;
     }
 
-    .btn {
-        flex: none;
+    &.is-locked {
+        color: $at-text-45;
+
+        &:hover {
+            background: transparent;
+        }
     }
 }
 
-.at-module-card-title {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.at-modrow-dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $at-accent;
+
+    &.is-done {
+        background: $at-success;
+    }
+
+    &.is-locked {
+        background: $at-neutral-700;
+    }
+}
+
+.at-modrow-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.at-modrow-title {
+    display: block;
     font-size: 13px;
     font-weight: 500;
 }
 
-.at-module-card-meta {
-    font-size: 12px;
+.at-modrow-meta {
+    display: block;
     margin-top: 2px;
+    font-size: 12px;
     color: $at-text-55;
+}
+
+.at-modrow-cta {
+    flex: none;
+}
+
+.at-modrow-status {
+    flex: none;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    white-space: nowrap;
+    color: $at-text-45;
+
+    &.is-done {
+        color: $at-success-tint;
+        background: rgba($at-success, .2);
+    }
 }
 
 // ---------------------------------------------------------------- Module.

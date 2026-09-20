@@ -35,25 +35,37 @@
     {{#hasprogramme}}
         <div class="at-parcours-label">{{#str}}programmetitle, local_alphatrade{{/str}}</div>
         <div class="at-progress at-mb-26"><span style="width: {{percent}}%"></span></div>
+        {{! Une seule carte par mois : les modules sont des lignes a l'interieur, jamais des cartes. }}
         {{#months}}
             <div class="at-month">
                 <div class="at-eyebrow at-mb-2">{{label}}</div>
-                <div class="at-month-theme">{{theme}}</div>
-                <div class="at-month-list">
-                    {{#modules}}
-                        {{#islocked}}
-                            <div class="at-module-line"><i class="ph ph-lock-simple" aria-hidden="true"></i> {{label}} - {{name}}</div>
-                        {{/islocked}}
-                        {{^islocked}}
-                            <a class="at-card at-elev-sm at-module-card" href="{{url}}">
-                                <div>
-                                    <div class="at-module-card-title"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i>{{label}} - {{name}}</div>
-                                    <div class="at-module-card-meta">{{meta}}</div>
+                <div class="at-card at-elev-sm at-month-card">
+                    <div class="at-month-theme">{{theme}}</div>
+                    <div class="at-month-list">
+                        {{#modules}}
+                            {{#islocked}}
+                                <div class="at-modrow is-locked">
+                                    <span class="at-modrow-dot is-locked" aria-hidden="true"></span>
+                                    <span class="at-modrow-body">
+                                        <span class="at-modrow-title">{{number}} - {{name}}</span>
+                                        <span class="at-modrow-meta">{{meta}}</span>
+                                    </span>
+                                    <span class="at-modrow-status is-locked">{{#str}}status_locked, local_alphatrade{{/str}}</span>
                                 </div>
-                                {{#iscurrent}}<span class="btn btn-primary">{{#str}}continue, local_alphatrade{{/str}} &rarr;</span>{{/iscurrent}}
-                            </a>
-                        {{/islocked}}
-                    {{/modules}}
+                            {{/islocked}}
+                            {{^islocked}}
+                                <a class="at-modrow" href="{{url}}">
+                                    <span class="at-modrow-dot{{#isdone}} is-done{{/isdone}}" aria-hidden="true"></span>
+                                    <span class="at-modrow-body">
+                                        <span class="at-modrow-title">{{number}} - {{name}}</span>
+                                        <span class="at-modrow-meta">{{meta}}</span>
+                                    </span>
+                                    {{#iscurrent}}<span class="btn btn-primary at-modrow-cta">{{#str}}continue, local_alphatrade{{/str}} &rarr;</span>{{/iscurrent}}
+                                    {{^iscurrent}}{{#isdone}}<span class="at-modrow-status is-done">{{#str}}status_done, local_alphatrade{{/str}}</span>{{/isdone}}{{/iscurrent}}
+                                </a>
+                            {{/islocked}}
+                        {{/modules}}
+                    </div>
                 </div>
             </div>
         {{/months}}

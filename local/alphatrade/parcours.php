@@ -47,6 +47,7 @@ if ($programme) {
                     ['lessons' => $module['lessoncount'], 'percent' => $module['percent']]),
                 'islocked' => $module['islocked'],
                 'iscurrent' => $module['iscurrent'],
+                'isdone' => $module['isdone'],
                 'iconclass' => programme::maquette_icon($module['status']),
                 'statusclass' => programme::maquette_status_class($module['status']),
             ];

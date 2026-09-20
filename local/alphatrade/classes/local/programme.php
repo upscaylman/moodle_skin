@@ -512,7 +512,8 @@ class programme {
         return [
             'id' => $section->id,
             'sectionnum' => $section->section,
-            'number' => $label === '' ? sprintf('%02d', $number) : $number,
+            // Toujours sur deux chiffres : les pastilles de l'accueil et du parcours s'alignent.
+            'number' => sprintf('%02d', (int) $number),
             'label' => $label === '' ? get_string('modulelabel', 'local_alphatrade', sprintf('%02d', $number)) : $label,
             'name' => $name,
             'description' => $description,

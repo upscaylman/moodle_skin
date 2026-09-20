@@ -259,7 +259,8 @@
 }
 
 // ---------------------------------------------------------------- Echeances.
-.at-dash-h4-deadlines {
+// Plus specifique que .at-dash-h4, qui remet la marge haute a zero.
+.at-dash-h4.at-dash-h4-deadlines {
     margin: 22px 0 12px !important;
 }
 

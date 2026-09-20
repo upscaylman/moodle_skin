@@ -417,6 +417,19 @@ class programme {
             'modulename' => $module['name'],
             'modulenumber' => $module['number'],
             'modulelabel' => get_string('modulelabel', 'local_alphatrade', $module['number']),
+            // Rail de la lecon : la liste plate des items du module, comme dans la maquette v4.
+            'raillabel' => self::module_title($module),
+            'rail' => array_map(function($item, $index) use ($cm) {
+                return [
+                    'number' => sprintf('%02d', $index + 1),
+                    'title' => $item['name'],
+                    'url' => $item['url'],
+                    'iconclass' => self::maquette_icon($item['status']),
+                    'statusclass' => self::maquette_status_class($item['status']),
+                    'iscurrent' => $item['cmid'] == $cm->id,
+                    'islocked' => $item['status'] === 'locked',
+                ];
+            }, $module['items'], array_keys($module['items'])),
             'counter' => get_string('lessoncounter', 'local_alphatrade', [
                 'index' => sprintf('%02d', max(1, $lessonindex)),
                 'count' => sprintf('%02d', $module['lessoncount']),

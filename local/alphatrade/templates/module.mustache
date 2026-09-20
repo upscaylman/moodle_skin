@@ -58,7 +58,8 @@
         <h5 class="at-mb-10">{{#str}}objectives_upper, local_alphatrade{{/str}}</h5>
         <div class="at-checklist">
             {{#objectives}}
-                <div>{{#objectivesdone}}<i class="ph-fill ph-check-circle at-status-done" aria-hidden="true"></i>{{/objectivesdone}}{{^objectivesdone}}<i class="ph ph-check-circle at-status-locked" aria-hidden="true"></i>{{/objectivesdone}}{{text}}</div>
+                {{! Les objectifs decrivent ce que couvre le module : la maquette les coche toujours. }}
+                <div><i class="ph-fill ph-check-circle at-status-done" aria-hidden="true"></i>{{text}}</div>
             {{/objectives}}
         </div>
     {{/hasobjectives}}

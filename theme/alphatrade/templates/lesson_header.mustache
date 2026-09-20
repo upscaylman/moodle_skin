@@ -34,6 +34,20 @@
         <a href="{{lesson.moduleurl}}">&larr; {{lesson.modulename}}</a>
         <span>{{lesson.counter}}</span>
     </div>
+    {{! Rail des lecons du module : liste plate, pas de sommaire imbrique ni de selecteur. }}
+    <aside class="at-card at-elev-sm at-lesson-rail">
+        <h5 class="at-lesson-rail-title">{{lesson.raillabel}}</h5>
+        <div class="at-lesson-rail-list">
+            {{#lesson.rail}}
+                {{#islocked}}
+                    <span class="at-lesson-railrow is-locked"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i><span>{{number}} - {{title}}</span></span>
+                {{/islocked}}
+                {{^islocked}}
+                    <a class="at-lesson-railrow{{#iscurrent}} is-current{{/iscurrent}}" href="{{url}}"{{#iscurrent}} aria-current="page"{{/iscurrent}}><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i><span>{{number}} - {{title}}</span></a>
+                {{/islocked}}
+            {{/lesson.rail}}
+        </div>
+    </aside>
 {{/lesson.isquiz}}
 {{#lesson.isquiz}}
     <div class="at-quiz-head">

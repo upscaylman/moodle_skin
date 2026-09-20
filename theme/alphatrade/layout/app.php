@@ -111,6 +111,13 @@ if (theme_alphatrade_has_app() && $PAGE->cm && $inprogramme && !($caneditcourse 
     }
 }
 
+// Maquette v4 : "Lecon" garde son rail plat dans la colonne de droite, "Evaluation" n'a aucun rail.
+// Le tiroir de blocs de Moodle (navigation du test, etc.) reste donc ferme sur ces deux ecrans.
+if ($lesson && !$PAGE->user_is_editing()) {
+    $hasblocks = false;
+    $blockdraweropen = false;
+}
+
 $navigation = new \theme_alphatrade\output\navigation($PAGE);
 $nav = $navigation->export();
 if (!$nav['isstudent']) {

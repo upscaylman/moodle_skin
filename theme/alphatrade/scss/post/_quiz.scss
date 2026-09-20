@@ -170,7 +170,7 @@ body.alpha-lesson {
 
 .at-quiz-result {
     max-width: 420px;
-    margin: 20px auto 24px;
+    margin: 20px auto 0;
     padding: 32px;
     text-align: center;
     align-items: center;
@@ -202,7 +202,9 @@ body.alpha-lesson {
 }
 
 body.alpha-quiz {
-    .activity-header {
+    // Pas de fil d'Ariane ni de bouton "Retour" : la maquette v4 n'en a pas sur cet ecran.
+    .activity-header,
+    .tertiary-navigation {
         display: none;
     }
 

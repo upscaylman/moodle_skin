@@ -52,7 +52,7 @@ class dashboard {
             'choice' => 'ph-list-checks', 'feedback' => 'ph-chat-circle-text'];
         $rows = [];
         try {
-            $events = \core_calendar\localpi::get_action_events_by_timesort(time(), null, null, $limit, true);
+            $events = \core_calendar\local\api::get_action_events_by_timesort(time(), null, null, $limit, true);
         } catch (\Throwable $e) {
             return [];
         }

@@ -58,9 +58,10 @@ if ($isdashboard) {
     $extraclasses[] = 'alpha-dashboard';
 }
 
-// Students of the programme navigate with Alpha Trade, not with Moodle's course index.
+// The Alpha Trade sidebar is the only navigation of the app shell: Moodle's course index drawer is dropped
+// everywhere, and kept only for a teacher who turned editing on and moves activities with it.
 $courseindex = core_course_drawer();
-if ($courseindex && !$caneditcourse && $inprogramme) {
+if ($courseindex && !($caneditcourse && $PAGE->user_is_editing())) {
     $courseindex = '';
 }
 if (!$courseindex) {

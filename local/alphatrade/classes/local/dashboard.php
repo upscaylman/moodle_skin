@@ -178,6 +178,7 @@ class dashboard {
                 'name' => $module['name'],
                 'url' => $module['url'],
                 'islocked' => $module['islocked'],
+                'status' => $module['status'],
                 'iconclass' => programme::maquette_icon($module['status']),
                 'statusclass' => programme::maquette_status_class($module['status']),
                 'statuslabel' => $module['statuslabel'],

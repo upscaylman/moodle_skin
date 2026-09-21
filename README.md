@@ -50,6 +50,13 @@ Le plugin lit la structure Moodle, il n'y a rien à dupliquer.
 
 **Cours Pratique** : section 1 = cas pratiques, section 2 = challenges. **Cours Ressources** : activités Fichier / URL / Page. **Communauté** : forum Annonces du programme + forums Q&R et Analyses choisis dans les réglages.
 
+**Rédiger une leçon dense** : une notion par bloc, et les points clés en encart. Dans l'éditeur,
+passer en mode HTML et entourer chaque sous-partie d'un `<div class="at-lesson-block">`, avec son
+numéro dans un `<div class="at-lesson-num">1.1.4</div>` suivi d'un `<h4>`. Pour un point à retenir,
+le bouton citation de l'éditeur suffit : tout `<blockquote>` d'une leçon devient l'encart or à
+l'ampoule (`<div class="at-retenir">` fait la même chose). Le thème pose la carte, la teinte et
+l'icône ; il n'y a rien à styler à la main, et la couleur n'est jamais le seul indice.
+
 Les exercices d'**analyse de graphique** se créent dans Pratique > Graphiques. Les formateurs corrigent dans "Devoirs à corriger" (analyses + devoirs Moodle du programme et du cours Pratique).
 
 ## Correspondance écrans

@@ -71,7 +71,7 @@
         <h4 class="at-dash-h4">{{#str}}yourparcours, local_alphatrade{{/str}}</h4>
         <div class="at-dash-tiles">
             {{#modules}}
-                <a class="at-dash-tile{{#islocked}} is-locked{{/islocked}}" href="{{url}}">
+                <a class="at-dash-tile is-{{status}}{{#islocked}} is-locked{{/islocked}}" href="{{url}}">
                     <div class="at-dash-tile-n">{{number}}</div>
                     <div class="at-dash-tile-title"><i class="{{iconclass}} {{statusclass}}" aria-hidden="true"></i><span>{{name}}</span><span class="sr-only"> ({{statuslabel}})</span></div>
                 </a>

@@ -361,6 +361,8 @@
     background: $at-surface;
     color: $at-text;
     text-decoration: none;
+    // Le statut se lit sur la bordure autant que sur l'icone : la couleur n'est jamais seule.
+    border: 1.5px solid $at-neutral-700;
 
     &:hover {
         color: $at-text;
@@ -368,7 +370,16 @@
         box-shadow: $at-shadow-sm;
     }
 
+    &.is-done {
+        border-color: $at-success;
+    }
+
+    &.is-current {
+        border-color: $at-accent;
+    }
+
     &.is-locked {
+        border-color: $at-neutral-700;
         cursor: default;
     }
 }

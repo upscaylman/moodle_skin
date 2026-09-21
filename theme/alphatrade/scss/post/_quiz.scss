@@ -98,6 +98,74 @@ body.alpha-lesson {
             }
         }
 
+        // ---- Contenu riche, maquette v4 du 20/09 : une carte par sous-partie de lecon,
+        // et un encart teinte pour chaque point "a retenir". L'auteur ouvre simplement
+        // <div class="at-lesson-block"> autour d'une notion, et <blockquote> (bouton citation
+        // de l'editeur) ou <div class="at-retenir"> pour un point cle : le theme pose la carte,
+        // l'ampoule et la teinte.
+        .at-lesson-block {
+            padding: 22px;
+            margin: 0 0 16px;
+            border-radius: $at-radius-md;
+            background: $at-surface;
+            box-shadow: $at-shadow-sm;
+
+            > :last-child {
+                margin-bottom: 0;
+            }
+
+            h4,
+            h5 {
+                margin: 0 0 14px;
+                text-transform: none;
+            }
+
+            p {
+                max-width: none;
+            }
+        }
+
+        // Numero de sous-partie, en tete de carte ("1.1.4").
+        .at-lesson-num {
+            font-size: 12px;
+            letter-spacing: .04em;
+            margin-bottom: 6px;
+            color: $at-text-50;
+        }
+
+        .at-retenir,
+        blockquote {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 16px;
+            margin: 0 0 14px;
+            border: 0;
+            border-radius: $at-radius-md;
+            background: rgba($at-accent, .14);
+            font-size: 13px;
+            font-weight: 500;
+
+            // Ampoule Phosphor posee par le theme : rien a ecrire cote contenu.
+            &::before {
+                content: "\e2dc";
+                flex: none;
+                margin-top: 1px;
+                font-family: "Phosphor-Fill";
+                font-size: 16px;
+                line-height: 1;
+                color: $at-accent;
+            }
+
+            p {
+                max-width: none;
+                margin: 0;
+                font-size: 13px;
+                font-weight: 500;
+                opacity: 1;
+            }
+        }
+
         // Resource line: "Fiche de cours", "Exemple graphique".
         .alpha-resources {
             flex-direction: row;

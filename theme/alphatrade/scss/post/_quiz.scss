@@ -114,13 +114,29 @@ body.alpha-lesson {
                 margin-bottom: 0;
             }
 
-            h4,
-            h5 {
+            // Titre de la carte.
+            h4 {
                 margin: 0 0 14px;
+                font-size: 16px;
                 text-transform: none;
             }
 
-            p {
+            // Sous-titre a l'interieur d'une carte : plus petit, pour ne pas concurrencer le titre.
+            h5 {
+                margin: 18px 0 8px;
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                color: $at-text-60;
+            }
+
+            > h5:first-of-type {
+                margin-top: 0;
+            }
+
+            p,
+            table {
                 max-width: none;
             }
         }

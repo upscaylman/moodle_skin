@@ -1,6 +1,60 @@
 // Shared header actions and the notifications centre (maquettes Portail Etudiant / Espace Enseignant / Espace Admin):
 // dropdown card 360px, header with mark all read / preferences / close, rows with icon, title, time and link, "See all".
 
+// ---------------------------------------------------------------- Cluster droit de l'en-tete.
+// Spec §3.20 : langue, recherche, notifications, avatar + prenom, bascule du mode edition, dans cet
+// ordre et identiques sur les trois espaces applicatifs. Les trois boutons d'icone sont
+// indissociables : meme boite, meme rayon, meme bordure, seul le glyphe change.
+.at-header-actions {
+    .at-langbtn,
+    .at-header-search,
+    .popover-region-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        gap: 0;
+        width: 36px;
+        height: 36px;
+        min-width: 0;
+        padding: 0;
+        border: 1px solid $at-divider;
+        border-radius: $at-radius-md;
+        background: transparent;
+        color: $at-text;
+        font-size: 17px;
+        line-height: 1;
+    }
+
+    // Dans l'application le glyphe suffit : le code de langue reste au site public.
+    .at-langbtn-code {
+        display: none;
+    }
+
+    .at-langbtn i,
+    .at-header-search i {
+        font-size: 17px;
+    }
+
+    // La cloche de Moodle arrive en Font Awesome : on lui rend le glyphe Phosphor de la maquette.
+    .popover-region-toggle .icon.fa-bell {
+        width: auto;
+        height: auto;
+        margin: 0;
+        font-family: "Phosphor" !important;
+        font-size: 17px;
+
+        &::before {
+            content: "\e0ce";
+        }
+    }
+
+    // Trait vertical insere par Moodle devant la bascule : absent de la maquette.
+    .divider {
+        display: none;
+    }
+}
+
 // ---------------------------------------------------------------- Header icon buttons (search, bell): hover on the card surface.
 .at-header-actions {
     .at-header-search:hover,

@@ -410,12 +410,6 @@ body.alpha-app {
             justify-content: center;
             font-size: 12px;
             font-weight: 600;
-
-            .alpha-staff & {
-                width: 36px;
-                height: 36px;
-                font-size: 13px;
-            }
         }
 
         .userpicture {
@@ -454,9 +448,87 @@ body.alpha-app {
         display: none;
     }
 
+    // Bascule "Mode edition" : rail 36x20, bouton 16x16, or quand elle est active (spec §3.20).
     .editmode-switch-form {
-        font-size: 12px;
-        color: $at-text-55;
+        gap: 0;
+        font-size: 13px;
+        color: $at-text-65;
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            width: auto;
+        }
+
+        label {
+            margin: 0 8px 0 0 !important;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .custom-switch {
+            display: block;
+            width: 36px;
+            height: 20px;
+            min-height: 0;
+            padding: 0;
+        }
+
+        .custom-control-input {
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 20px;
+            margin: 0;
+            opacity: 0;
+        }
+
+        .custom-control-label {
+            display: block;
+            width: 36px;
+            height: 20px;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+
+            &::before {
+                top: 0;
+                left: 0;
+                width: 36px;
+                height: 20px;
+                border: 0;
+                border-radius: 999px;
+                background: $at-neutral-700;
+                box-shadow: none;
+                transition: background .15s ease;
+            }
+
+            &::after {
+                top: 2px;
+                left: 2px;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: $at-bg;
+                transform: none;
+                transition: transform .15s ease;
+            }
+        }
+
+        .custom-control-input:checked ~ .custom-control-label {
+            &::before {
+                background: $at-accent;
+            }
+
+            &::after {
+                transform: translateX(16px);
+            }
+        }
+
+        .custom-control-input:focus-visible ~ .custom-control-label::before {
+            outline: 2px solid $at-accent;
+            outline-offset: 2px;
+        }
     }
 }
 

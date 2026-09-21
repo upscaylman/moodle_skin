@@ -135,9 +135,19 @@ body.alpha-lesson {
                 margin-top: 0;
             }
 
-            p,
+            p {
+                max-width: none;
+                margin: 0 0 14px;
+            }
+
             table {
                 max-width: none;
+                margin-bottom: 14px;
+            }
+
+            ul,
+            ol {
+                margin-bottom: 14px;
             }
         }
 

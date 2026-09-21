@@ -31,9 +31,13 @@ de lecture du parrainage.
 
 ## Prérequis côté Discord
 
-1. Créer une application sur <https://discord.com/developers/applications>.
+1. Créer une application sur <https://discord.com/developers/applications>. L'onglet « General
+   Information » donne l'**identifiant d'application** (`DISCORD_CLIENT_ID`, à reporter aussi dans
+   les réglages Moodle du plugin) et la **clé publique** (`DISCORD_PUBLIC_KEY`, inutile au bot
+   actuel : elle ne sert qu'à vérifier la signature d'un point d'entrée HTTP « Interactions »).
 2. Onglet OAuth2 : ajouter l'URL de retour affichée dans les réglages Moodle du plugin
-   (`/local/alphatrade_referral/discord.php?action=callback`), portée `identify`.
+   (`/local/alphatrade_referral/discord.php?action=callback`), portée `identify`. Le **secret
+   client** de cet onglet va dans les réglages Moodle, pas dans le `.env` du bot.
 3. Onglet Bot : créer le bot, copier son jeton. **Aucune permission `Administrator`.**
    Portées d'invitation : `bot` + `applications.commands`.
 4. Si les rôles communautaires sont utilisés, placer le rôle du bot **au-dessus** des rôles
@@ -42,11 +46,15 @@ de lecture du parrainage.
 ## Démarrage
 
 ```bash
-cp .env.example .env     # puis renseigner les cinq variables
+cp .env.example .env     # puis renseigner les variables
 npm install
 npm run register         # une fois, et à chaque changement de commande
 npm start
 ```
+
+Les deux scripts lisent `.env` avec le `--env-file` natif de Node (d'où `node >= 20.6`) : aucune
+dépendance de chargement à installer. Le fichier doit donc exister, même vide, pour lancer le bot
+en local.
 
 En production, lancer `npm start` sous un superviseur (systemd, pm2) qui redémarre le processus.
 

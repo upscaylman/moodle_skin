@@ -4,6 +4,8 @@ tools/node_modules/
 *.pem
 .env
 .env.*
+# Le fichier d'exemple ne porte aucun secret : il documente les variables attendues.
+!.env.example
 *.log
 .DS_Store
 Thumbs.db

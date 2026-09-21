@@ -445,7 +445,8 @@ $at-alerts: (
 
     td,
     th {
-        border-color: $at-text-8;
+        border: 0;
+        border-bottom: 1px solid $at-text-8;
     }
 }
 

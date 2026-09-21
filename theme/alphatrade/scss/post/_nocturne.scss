@@ -462,6 +462,8 @@ a.at-tag:hover {
     font-size: 14px;
     color: $at-text;
 
+    // Moodle pose un filet noir sur chaque cote des cellules : ici, des separateurs
+    // horizontaux seulement, comme la maquette.
     th {
         text-align: left;
         font-size: 11px;
@@ -470,11 +472,13 @@ a.at-tag:hover {
         text-transform: uppercase;
         color: $at-text-60;
         padding: $at-space-2;
+        border: 0;
         border-bottom: 1px solid transparent;
     }
 
     td {
         padding: $at-space-2;
+        border: 0;
         border-bottom: 1px solid transparent;
     }
 

@@ -464,7 +464,9 @@ $at-alerts: (
     background-color: transparent;
 }
 
-.generaltable tbody tr:nth-of-type(odd) {
+// Boost raye une ligne sur deux en clair : pas de zebrures dans la maquette.
+.generaltable tbody tr:nth-of-type(odd),
+.generaltable tbody tr:nth-of-type(even) {
     background: transparent;
 }
 

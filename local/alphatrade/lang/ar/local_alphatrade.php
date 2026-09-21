@@ -357,7 +357,7 @@ $string['cond_quizzes'] = 'الاختبارات ناجحة';
 $string['continueproject'] = 'متابعة مشروعي';
 $string['downloadcertificate'] = 'تحميل شهادتي';
 $string['finalproject'] = 'المشروع النهائي';
-$string['profile'] = 'الملف الشخصي والتقدم';
+$string['profile'] = 'الملف الشخصي';
 $string['tradesof'] = '{$a->done} / {$a->min} صفقات';
 $string['yourresults'] = 'نتائجك';
 

@@ -359,7 +359,7 @@ $string['cond_quizzes'] = 'Quizzes passed';
 $string['continueproject'] = 'Continue my project';
 $string['downloadcertificate'] = 'Download my certificate';
 $string['finalproject'] = 'Final project';
-$string['profile'] = 'Profile and progress';
+$string['profile'] = 'Profile';
 $string['tradesof'] = '{$a->done} / {$a->min} trades';
 $string['yourresults'] = 'Your results';
 

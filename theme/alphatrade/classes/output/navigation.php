@@ -46,7 +46,7 @@ class navigation {
     const TABBAR = ['home', 'parcours', 'videos', 'exercices', 'profile'];
 
     /** @var string[] Student items that go to the mobile drawer. */
-    const DRAWER = ['live', 'community', 'resultats', 'practice', 'backtest', 'journal', 'tools', 'resources',
+    const DRAWER = ['live', 'community', 'practice', 'backtest', 'journal', 'tools', 'resources',
         'referral'];
 
     /** @var string[] Student practice tools, shown under the six piliers. */
@@ -80,7 +80,6 @@ class navigation {
         'videos' => '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M10 9.2l5 2.8-5 2.8z"></path>',
         'live' => '<circle cx="12" cy="12" r="2.6"></circle><path d="M7.4 7.4a6.5 6.5 0 0 0 0 9.2"></path><path d="M16.6 7.4a6.5 6.5 0 0 1 0 9.2"></path><path d="M4.6 4.6a10.5 10.5 0 0 0 0 14.8"></path><path d="M19.4 4.6a10.5 10.5 0 0 1 0 14.8"></path>',
         'exercices' => '<path d="M10 6h10M10 12h10M10 18h10"></path><path d="M3.5 6l1.3 1.3L7.3 4.8"></path><path d="M3.5 12l1.3 1.3L7.3 10.8"></path><path d="M3.5 18l1.3 1.3L7.3 16.8"></path>',
-        'resultats' => '<path d="M4 4v16h16"></path><path d="M8 16V10M13 16V6M18 16v-4"></path>',
         'practice' => '<circle cx="12" cy="12" r="9"></circle><path d="M10 8l6 4-6 4z"></path>',
         'backtest' => '<path d="M2 20h20"></path><path d="M6 20V11"></path><path d="M12 20V5"></path><path d="M18 20v-8"></path>',
         'journal' => '<rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 3v18"></path>',
@@ -99,7 +98,6 @@ class navigation {
         'live' => 'ph-broadcast',
         'community' => 'ph-users-three',
         'exercices' => 'ph-clipboard-text',
-        'resultats' => 'ph-chart-bar',
         'practice' => 'ph-flask',
         'backtest' => 'ph-chart-line',
         'journal' => 'ph-notebook',
@@ -242,7 +240,6 @@ class navigation {
             'live' => '/local/alphatrade/live.php',
             'community' => '/local/alphatrade/community.php',
             'exercices' => '/local/alphatrade/exercices.php',
-            'resultats' => '/local/alphatrade/resultats.php',
             'practice' => '/local/alphatrade/practice.php',
             'backtest' => '/local/alphatrade/backtesting.php',
             'journal' => '/local/alphatrade/journal.php',

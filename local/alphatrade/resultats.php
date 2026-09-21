@@ -15,8 +15,8 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Mes résultats : progression par module et notes du programme, telles que Moodle les
- * enregistre (completion + carnet de notes).
+ * Ancienne page "Mes résultats". Son contenu a rejoint le profil : la page ne fait plus que
+ * rediriger, pour que les liens et les favoris déjà partagés continuent de fonctionner.
  *
  * @package   local_alphatrade
  * @copyright 2026 Alpha Trade
@@ -25,15 +25,5 @@
 
 require(__DIR__ . '/../../config.php');
 
-use local_alphatrade\local\page;
-use local_alphatrade\local\pillars;
-
-page::setup('/local/alphatrade/resultats.php', 'resultats', get_string('resultats', 'local_alphatrade'), [],
-    get_string('sub_resultats', 'local_alphatrade'));
-
-$data = pillars::results($USER->id);
-$data['parcoursurl'] = (new moodle_url('/local/alphatrade/parcours.php'))->out(false);
-
-echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_alphatrade/resultats', $data);
-echo $OUTPUT->footer();
+require_login();
+redirect(new moodle_url('/local/alphatrade/profile.php'));

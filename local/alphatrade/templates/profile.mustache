@@ -51,6 +51,59 @@
         <a class="btn btn-secondary" href="{{certificateurl}}">{{#str}}viewcertification, local_alphatrade{{/str}}</a>
         <a class="btn btn-ghost" href="{{projecturl}}">{{#str}}finalproject, local_alphatrade{{/str}}</a>
     </div>
+    {{#hasmodules}}
+        <h5 class="at-h5-icon at-mt-22"><i class="ph ph-list-checks" aria-hidden="true"></i>{{#str}}res_progress, local_alphatrade{{/str}}</h5>
+        <div class="at-stack-14 at-mb-18">
+            {{#modules}}
+                <div class="at-card at-elev-sm at-pad-22 at-resmod{{#iscurrent}} is-current{{/iscurrent}}">
+                    <div class="at-row-between at-wrap at-gap-10">
+                        <div class="at-resmod-head">
+                            {{#islocked}}<span class="at-resmod-name">{{name}}</span>{{/islocked}}
+                            {{^islocked}}<a class="at-resmod-name" href="{{url}}">{{name}}</a>{{/islocked}}
+                            <span class="at-resmod-meta">{{trackeddone}} / {{trackedcount}} {{#str}}res_activities, local_alphatrade{{/str}}</span>
+                        </div>
+                        <div class="at-row-gap-10">
+                            {{#isdone}}<span class="at-tag at-tag-success"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>{{#str}}res_done, local_alphatrade{{/str}}</span>{{/isdone}}
+                            {{#iscurrent}}<span class="at-tag at-tag-accent">{{#str}}res_current, local_alphatrade{{/str}}</span>{{/iscurrent}}
+                            {{#islocked}}<span class="at-tag at-tag-neutral"><i class="ph ph-lock-simple" aria-hidden="true"></i>{{#str}}locked, local_alphatrade{{/str}}</span>{{/islocked}}
+                            <span class="at-resmod-percent">{{percent}} %</span>
+                        </div>
+                    </div>
+                    <div class="at-progress at-mt-4"><span style="width: {{percent}}%"></span></div>
+                </div>
+            {{/modules}}
+        </div>
+    {{/hasmodules}}
+    {{#hasgrades}}
+        <h5 class="at-h5-icon"><i class="ph ph-exam" aria-hidden="true"></i>{{#str}}res_grades, local_alphatrade{{/str}}</h5>
+        <div class="at-card at-elev-sm at-table-card at-mb-18">
+            <table class="at-table">
+                <thead><tr>
+                    <th>{{#str}}res_activity, local_alphatrade{{/str}}</th>
+                    <th>{{#str}}res_grade, local_alphatrade{{/str}}</th>
+                    <th>{{#str}}res_percent, local_alphatrade{{/str}}</th>
+                </tr></thead>
+                <tbody>
+                    {{#grades}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{#hasgrade}}{{grade}} / {{max}}{{/hasgrade}}{{^hasgrade}}<span class="at-muted">-</span>{{/hasgrade}}</td>
+                            <td>{{#hasgrade}}{{percent}} %{{/hasgrade}}{{^hasgrade}}<span class="at-muted">-</span>{{/hasgrade}}</td>
+                        </tr>
+                    {{/grades}}
+                    {{#hastotal}}
+                        {{#total}}
+                            <tr class="at-table-total">
+                                <td><b>{{name}}</b></td>
+                                <td><b>{{#hasgrade}}{{grade}} / {{max}}{{/hasgrade}}{{^hasgrade}}-{{/hasgrade}}</b></td>
+                                <td><b>{{#hasgrade}}{{percent}} %{{/hasgrade}}{{^hasgrade}}-{{/hasgrade}}</b></td>
+                            </tr>
+                        {{/total}}
+                    {{/hastotal}}
+                </tbody>
+            </table>
+        </div>
+    {{/hasgrades}}
     <hr class="at-hr">
     <div class="at-profile-links">
         {{#links}}<a href="{{url}}"><i class="ph {{icon}}" aria-hidden="true"></i>{{label}}</a>{{/links}}

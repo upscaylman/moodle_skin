@@ -27,6 +27,7 @@ require_once($CFG->libdir . '/completionlib.php');
 
 use local_alphatrade\local\activity;
 use local_alphatrade\local\page;
+use local_alphatrade\local\pillars;
 use local_alphatrade\local\programme;
 
 page::setup('/local/alphatrade/profile.php', 'profile', get_string('profile', 'local_alphatrade'), [],
@@ -120,6 +121,10 @@ if ($programme) {
     }
     $data['hasbadges'] = !empty($data['badges']);
 }
+
+// "Mes resultats" vit ici : progression module par module et carnet de notes, sous le profil.
+// L'operateur + garde les cles deja posees plus haut (percent, figures).
+$data += pillars::results($USER->id);
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_alphatrade/profile', $data);

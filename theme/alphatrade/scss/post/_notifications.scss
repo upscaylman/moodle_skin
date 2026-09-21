@@ -55,6 +55,14 @@
     }
 }
 
+// La barre mobile de la maquette ne porte que langue, cloche et avatar : la regle de boite
+// ci-dessus vient apres celle du shell, il faut donc y remasquer la recherche.
+@media (max-width: $at-mobile-break) {
+    .at-header-actions .at-header-search {
+        display: none;
+    }
+}
+
 // ---------------------------------------------------------------- Header icon buttons (search, bell): hover on the card surface.
 .at-header-actions {
     .at-header-search:hover,

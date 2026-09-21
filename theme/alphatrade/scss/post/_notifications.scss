@@ -6,7 +6,7 @@
 // ordre et identiques sur les trois espaces applicatifs. Les trois boutons d'icone sont
 // indissociables : meme boite, meme rayon, meme bordure, seul le glyphe change.
 .at-header-actions {
-    .at-langbtn,
+    .at-langmenu .at-langbtn,
     .at-header-search,
     .popover-region-toggle {
         display: inline-flex;
@@ -27,11 +27,11 @@
     }
 
     // Dans l'application le glyphe suffit : le code de langue reste au site public.
-    .at-langbtn-code {
+    .at-langmenu .at-langbtn-code {
         display: none;
     }
 
-    .at-langbtn i,
+    .at-langmenu .at-langbtn i,
     .at-header-search i {
         font-size: 17px;
     }

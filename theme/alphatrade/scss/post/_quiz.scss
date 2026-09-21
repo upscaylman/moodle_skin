@@ -202,9 +202,13 @@ body.alpha-lesson {
 }
 
 body.alpha-quiz {
-    // Pas de fil d'Ariane ni de bouton "Retour" : la maquette v4 n'en a pas sur cet ecran.
-    .activity-header,
-    .tertiary-navigation {
+    .activity-header {
+        display: none;
+    }
+
+    // Pas de bouton "Retour" pendant la tentative : la maquette v4 n'en a pas. Ailleurs la navigation
+    // tertiaire porte le bouton qui lance le test, elle reste donc en place.
+    &#page-mod-quiz-attempt .tertiary-navigation {
         display: none;
     }
 

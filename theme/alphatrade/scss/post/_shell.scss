@@ -589,14 +589,29 @@ body.alpha-app {
         z-index: 1030;
     }
 
+    // Le logo se reduit plutot que de passer sous le cluster d'actions, qui est en position fixe.
+    .at-mob-logo {
+        display: flex;
+        flex: 0 1 auto;
+        min-width: 0;
+    }
+
     .at-mob-logo img {
-        height: 22px;
         width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 22px;
         object-fit: contain;
     }
 
     .at-mob-top-spacer {
         width: 72px;
+    }
+
+    // A droite, la place reservee vaut celle du cluster d'actions.
+    .at-mob-top-actions-slot {
+        width: 164px;
+        flex: none;
     }
 
     .at-mob-bottom {

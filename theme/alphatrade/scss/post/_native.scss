@@ -449,6 +449,21 @@ $at-alerts: (
     }
 }
 
+// Boost peint les cellules en clair ($table-bg) : on rend le fond au theme sombre. Le selecteur
+// reprend celui de Bootstrap 5 pour peser autant que lui, et passe apres dans la cascade.
+.generaltable > :not(caption) > * > *,
+.table > :not(caption) > * > * {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.generaltable th,
+.generaltable td,
+.table th,
+.table td {
+    background-color: transparent;
+}
+
 .generaltable tbody tr:nth-of-type(odd) {
     background: transparent;
 }

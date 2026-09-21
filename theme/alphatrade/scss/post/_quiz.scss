@@ -337,9 +337,34 @@ body.alpha-quiz {
         margin: 0;
     }
 
-    .quizreviewsummary,
     .quizsummaryofattempt {
         font-size: 13px;
+    }
+
+    // Recapitulatif de la tentative : deux colonnes sobres sous la carte de resultat.
+    .quizreviewsummary {
+        max-width: 420px;
+        margin: 0 auto 28px;
+        font-size: 13px;
+
+        th,
+        td {
+            padding: 7px 0;
+            border: 0;
+            border-top: 1px solid $at-text-8;
+            background: transparent;
+            vertical-align: top;
+        }
+
+        th {
+            width: 40%;
+            color: $at-text-60;
+            font-weight: 400;
+            text-align: left;
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 13px;
+        }
     }
 
     #region-main .generaltable th,

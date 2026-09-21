@@ -515,9 +515,7 @@ class programme {
 
         // Nos sections s'appellent « Module 1 - Fondamentaux » : le numero pedagogique du nom
         // fait foi (le Module 0 est la premiere section), sinon la position sert de numero.
-        $label = '';
         if (preg_match('/^(module\s*(\d+))\s*[-\x{2013}\x{2014}:.]?\s*(.+)$/iu', trim($name), $matches)) {
-            $label = trim($matches[1]);
             $number = $matches[2];
             $name = trim($matches[3]);
         }
@@ -527,7 +525,9 @@ class programme {
             'sectionnum' => $section->section,
             // Toujours sur deux chiffres : les pastilles de l'accueil et du parcours s'alignent.
             'number' => sprintf('%02d', (int) $number),
-            'label' => $label === '' ? get_string('modulelabel', 'local_alphatrade', sprintf('%02d', $number)) : $label,
+            // Le libelle suit le numero sur deux chiffres, meme quand la section s'appelle
+            // « Module 0 » : l'accueil, le parcours, le rail et l'evaluation s'alignent.
+            'label' => get_string('modulelabel', 'local_alphatrade', sprintf('%02d', (int) $number)),
             'name' => $name,
             'description' => $description,
             'objectives' => $objectives,

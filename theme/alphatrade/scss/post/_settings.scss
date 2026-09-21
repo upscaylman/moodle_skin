@@ -15,6 +15,12 @@ $at-search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     max-width: 100%;
 }
 
+// Ressources : le champ de recherche de la maquette y est plus large qu'ailleurs.
+.at-search-400 {
+    flex-basis: 400px !important;
+    width: 400px !important;
+}
+
 .at-search .at-input,
 .simplesearchform .input-group > input.form-control,
 .searchbar.input-group > input.form-control {
